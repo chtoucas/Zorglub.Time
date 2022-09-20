@@ -19,8 +19,8 @@ using Zorglub.Time.Core;
 //
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/enums#186-enum-values-and-operations
 
-/// <summary>Specifies the unique identifier of a calendar.</summary>
-/// <remarks>An identifier may be transient.</remarks>
+/// <summary>Specifies the unique identifier of a calendar.
+/// <para>An identifier may be transient.</para></summary>
 internal enum Cuid : byte
 {
     /// <summary>The identifier of the proleptic Gregorian calendar.</summary>
@@ -50,7 +50,7 @@ internal enum Cuid : byte
     // WARNING: whenever we add an entry, we MUST update MaxSystem below.
 
     //
-    // Sentinel and special values.
+    // Sentinels and special values.
     //
     // Reserved IDs for system calendars: 0-63.
     // Available IDs for user-defined calendars: 64-127.
@@ -70,12 +70,12 @@ internal enum Cuid : byte
     Invalid = Byte.MaxValue, // 255
 }
 
-/// <summary>Provides extension methods for <see cref="Cuid"/>.</summary>
-/// <remarks>This class cannot be inherited.</remarks>
+/// <summary>Provides extension methods for <see cref="Cuid"/>.
+/// <para>This class cannot be inherited.</para></summary>
 internal static class CuidExtensions
 {
-    /// <summary>Returns true if the specified ID is fixed; otherwise returns false.</summary>
-    /// <remarks>An ID is fixed iff it's the ID of a system calendar.</remarks>
+    /// <summary>Returns true if the specified ID is fixed; otherwise returns false.
+    /// <para>An ID is fixed iff it's the ID of a system calendar.</para></summary>
     [Pure]
     public static bool IsFixed(this Cuid @this) => @this <= Cuid.MaxSystem;
 }

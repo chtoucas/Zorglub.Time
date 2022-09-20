@@ -1,325 +1,279 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple
+namespace Zorglub.Time.Simple;
+
+using Zorglub.Time.Core;
+using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Horology;
+
+/// <summary>Represents the Armenian calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class ArmenianSimpleCalendar : SimpleCalendar
 {
-    using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Schemas;
-    using Zorglub.Time.Horology;
-
-    /// <summary>
-    /// Represents the Armenian calendar.
-    /// <para>This class cannot be inherited.</para>
+    /// <summary>Initializes a new instance of the <see cref="ArmenianSimpleCalendar"/> class.
     /// </summary>
-    internal sealed class ArmenianSimpleCalendar : SimpleCalendar
+    private ArmenianSimpleCalendar() : this(new Egyptian12Schema()) { }
+
+    private ArmenianSimpleCalendar(Egyptian12Schema schema)
+        : base(
+              CalendarId.Armenian,
+              schema,
+              DayZero.Armenian,
+              proleptic: false)
+    { }
+
+    /// <summary>Gets a singleton instance of the Armenian calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static ArmenianSimpleCalendar Instance { get; } = new ArmenianSimpleCalendar();
+
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+}
+
+/// <summary>Represents the Civil calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class CivilSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="CivilSimpleCalendar"/> class.
+    /// </summary>
+    private CivilSimpleCalendar()
+        : base(
+              CalendarId.Civil,
+              new CivilSchema(),
+              DayZero.NewStyle,
+              proleptic: false)
+    { }
+
+    /// <summary>Gets a singleton instance of the Civil calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static CivilSimpleCalendar Instance { get; } = new CivilSimpleCalendar();
+
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(CalendarDate date)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArmenianSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private ArmenianSimpleCalendar() : this(new Egyptian12Schema()) { }
+        // Faster than the base method which relies on CountDaysSinceEpoch().
+        // Furthermore, it only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
 
-        private ArmenianSimpleCalendar(Egyptian12Schema schema)
-            : base(
-                  CalendarId.Armenian,
-                  schema,
-                  DayZero.Armenian,
-                  proleptic: false)
-        { }
-
-        /// <summary>
-        /// Gets a singleton instance of the Armenian calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static ArmenianSimpleCalendar Instance { get; } = new ArmenianSimpleCalendar();
-
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+        date.Parts.Unpack(out int y, out int m, out int d);
+        int doomsday = DoomsdayRule.GetGregorianDoomsday(y, m);
+        return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
     }
 
-    /// <summary>
-    /// Represents the Civil calendar.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal sealed class CivilSimpleCalendar : SimpleCalendar
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CivilSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private CivilSimpleCalendar()
-            : base(
-                  CalendarId.Civil,
-                  new CivilSchema(),
-                  DayZero.NewStyle,
-                  proleptic: false)
-        { }
+        // The base method only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
 
-        /// <summary>
-        /// Gets a singleton instance of the Civil calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static CivilSimpleCalendar Instance { get; } = new CivilSimpleCalendar();
+        date.Parts.Unpack(out int y, out int doy);
+        // The Gregorian epoch is a Monday.
+        int days = (int)DayOfWeek.Monday + Schema.CountDaysSinceEpoch(y, doy);
+        return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
+    }
+}
 
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+/// <summary>Represents the Coptic calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class CopticSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="CopticSimpleCalendar"/> class.
+    /// </summary>
+    private CopticSimpleCalendar() : this(new Coptic12Schema()) { }
 
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(CalendarDate date)
-        {
-            // Faster than the base method which relies on CountDaysSinceEpoch().
-            // Furthermore, it only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
+    private CopticSimpleCalendar(Coptic12Schema schema)
+        : base(
+              CalendarId.Coptic,
+              schema,
+              DayZero.Coptic,
+              proleptic: false)
+    { }
 
-            date.Parts.Unpack(out int y, out int m, out int d);
-            int doomsday = DoomsdayRule.GetGregorianDoomsday(y, m);
-            return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
-        }
+    /// <summary>Gets a singleton instance of the Coptic calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static CopticSimpleCalendar Instance { get; } = new CopticSimpleCalendar();
 
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
-        {
-            // The base method only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+}
 
-            date.Parts.Unpack(out int y, out int doy);
-            // The Gregorian epoch is a Monday.
-            int days = (int)DayOfWeek.Monday + Schema.CountDaysSinceEpoch(y, doy);
-            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
-        }
+/// <summary>Represents the Ethiopic calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class EthiopicSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="EthiopicSimpleCalendar"/> class.
+    /// </summary>
+    private EthiopicSimpleCalendar() : this(new Coptic12Schema()) { }
+
+    private EthiopicSimpleCalendar(Coptic12Schema schema)
+        : base(
+              CalendarId.Ethiopic,
+              schema,
+              DayZero.Ethiopic,
+              proleptic: false)
+    { }
+
+    /// <summary>Gets a singleton instance of the Ethiopic calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static EthiopicSimpleCalendar Instance { get; } = new EthiopicSimpleCalendar();
+
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+}
+
+/// <summary>Represents the proleptic Gregorian calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class GregorianSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="GregorianSimpleCalendar"/> class.
+    /// </summary>
+    private GregorianSimpleCalendar()
+        : base(
+              CalendarId.Gregorian,
+              new GregorianSchema(),
+              DayZero.NewStyle,
+              proleptic: true)
+    { }
+
+    /// <summary>Gets a singleton instance of the proleptic Gregorian calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static GregorianSimpleCalendar Instance { get; } = new GregorianSimpleCalendar();
+
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(CalendarDate date)
+    {
+        // Faster than the base method which relies on CountDaysSinceEpoch().
+        // Furthermore, it only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
+
+        date.Parts.Unpack(out int y, out int m, out int d);
+        int doomsday = DoomsdayRule.GetGregorianDoomsday(y, m);
+        return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
     }
 
-    /// <summary>
-    /// Represents the Coptic calendar.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal sealed class CopticSimpleCalendar : SimpleCalendar
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CopticSimpleCalendar"/> class.
-        /// </summary>
-        private CopticSimpleCalendar() : this(new Coptic12Schema()) { }
+        // The base method only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
 
-        private CopticSimpleCalendar(Coptic12Schema schema)
-            : base(
-                  CalendarId.Coptic,
-                  schema,
-                  DayZero.Coptic,
-                  proleptic: false)
-        { }
+        date.Parts.Unpack(out int y, out int doy);
+        // The Gregorian epoch is a Monday.
+        int days = (int)DayOfWeek.Monday + Schema.CountDaysSinceEpoch(y, doy);
+        return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
+    }
+}
 
-        /// <summary>
-        /// Gets a singleton instance of the Coptic calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static CopticSimpleCalendar Instance { get; } = new CopticSimpleCalendar();
+/// <summary>Represents the proleptic Julian calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class JulianSimpleCalendar : SimpleCalendar
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JulianSimpleCalendar"/> class.
+    /// </summary>
+    private JulianSimpleCalendar()
+        : base(
+              CalendarId.Julian,
+              new JulianSchema(),
+              DayZero.OldStyle,
+              proleptic: true)
+    { }
 
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+    /// <summary>Gets a singleton instance of the proleptic Julian calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static JulianSimpleCalendar Instance { get; } = new JulianSimpleCalendar();
+
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(CalendarDate date)
+    {
+        // Faster than the base method which relies on CountDaysSinceEpoch().
+        // Furthermore, it only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
+
+        date.Parts.Unpack(out int y, out int m, out int d);
+        int doomsday = DoomsdayRule.GetJulianDoomsday(y, m);
+        return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
     }
 
-    /// <summary>
-    /// Represents the Ethiopic calendar.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal sealed class EthiopicSimpleCalendar : SimpleCalendar
+    /// <inheritdoc />
+    [Pure]
+    internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EthiopicSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private EthiopicSimpleCalendar() : this(new Coptic12Schema()) { }
+        // The base method only works with non-proleptic calendars.
+        Debug.Assert(date.Cuid == Id);
 
-        private EthiopicSimpleCalendar(Coptic12Schema schema)
-            : base(
-                  CalendarId.Ethiopic,
-                  schema,
-                  DayZero.Ethiopic,
-                  proleptic: false)
-        { }
-
-        /// <summary>
-        /// Gets a singleton instance of the Ethiopic calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static EthiopicSimpleCalendar Instance { get; } = new EthiopicSimpleCalendar();
-
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+        date.Parts.Unpack(out int y, out int doy);
+        // The Julian epoch is a Saturday.
+        int days = (int)DayOfWeek.Saturday + Schema.CountDaysSinceEpoch(y, doy);
+        return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
     }
+}
 
-    /// <summary>
-    /// Represents the proleptic Gregorian calendar.
-    /// <para>This class cannot be inherited.</para>
+/// <summary>Represents the Tabular Islamic calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class TabularIslamicSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="TabularIslamicSimpleCalendar"/> class.
     /// </summary>
-    internal sealed class GregorianSimpleCalendar : SimpleCalendar
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private GregorianSimpleCalendar()
-            : base(
-                  CalendarId.Gregorian,
-                  new GregorianSchema(),
-                  DayZero.NewStyle,
-                  proleptic: true)
-        { }
+    private TabularIslamicSimpleCalendar()
+        : base(
+              CalendarId.TabularIslamic,
+              new TabularIslamicSchema(),
+              DayZero.TabularIslamic,
+              proleptic: false)
+    { }
 
-        /// <summary>
-        /// Gets a singleton instance of the proleptic Gregorian calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static GregorianSimpleCalendar Instance { get; } = new GregorianSimpleCalendar();
+    /// <summary>Gets a singleton instance of the Tabular Islamic calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static TabularIslamicSimpleCalendar Instance { get; } = new TabularIslamicSimpleCalendar();
 
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+}
 
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(CalendarDate date)
-        {
-            // Faster than the base method which relies on CountDaysSinceEpoch().
-            // Furthermore, it only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            int doomsday = DoomsdayRule.GetGregorianDoomsday(y, m);
-            return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
-        {
-            // The base method only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int doy);
-            // The Gregorian epoch is a Monday.
-            int days = (int)DayOfWeek.Monday + Schema.CountDaysSinceEpoch(y, doy);
-            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
-        }
-    }
-
-    /// <summary>
-    /// Represents the proleptic Julian calendar.
-    /// <para>This class cannot be inherited.</para>
+/// <summary>Represents the Zoroastrian calendar.
+/// <para>This class cannot be inherited.</para></summary>
+internal sealed class ZoroastrianSimpleCalendar : SimpleCalendar
+{
+    /// <summary>Initializes a new instance of the <see cref="ZoroastrianSimpleCalendar"/> class.
     /// </summary>
-    internal sealed class JulianSimpleCalendar : SimpleCalendar
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JulianSimpleCalendar"/> class.
-        /// </summary>
-        private JulianSimpleCalendar()
-            : base(
-                  CalendarId.Julian,
-                  new JulianSchema(),
-                  DayZero.OldStyle,
-                  proleptic: true)
-        { }
+    private ZoroastrianSimpleCalendar() : this(new Egyptian12Schema()) { }
 
-        /// <summary>
-        /// Gets a singleton instance of the proleptic Julian calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static JulianSimpleCalendar Instance { get; } = new JulianSimpleCalendar();
+    private ZoroastrianSimpleCalendar(Egyptian12Schema schema)
+        : base(
+              CalendarId.Zoroastrian,
+              schema,
+              DayZero.Zoroastrian,
+              proleptic: false)
+    { }
 
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
+    /// <summary>Gets a singleton instance of the Zoroastrian calendar.
+    /// <para>This static property is thread-safe.</para></summary>
+    public static ZoroastrianSimpleCalendar Instance { get; } = new ZoroastrianSimpleCalendar();
 
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(CalendarDate date)
-        {
-            // Faster than the base method which relies on CountDaysSinceEpoch().
-            // Furthermore, it only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            int doomsday = DoomsdayRule.GetJulianDoomsday(y, m);
-            return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
-        {
-            // The base method only works with non-proleptic calendars.
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int doy);
-            // The Julian epoch is a Saturday.
-            int days = (int)DayOfWeek.Saturday + Schema.CountDaysSinceEpoch(y, doy);
-            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
-        }
-    }
-
-    /// <summary>
-    /// Represents the Tabular Islamic calendar.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal sealed class TabularIslamicSimpleCalendar : SimpleCalendar
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TabularIslamicSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private TabularIslamicSimpleCalendar()
-            : base(
-                  CalendarId.TabularIslamic,
-                  new TabularIslamicSchema(),
-                  DayZero.TabularIslamic,
-                  proleptic: false)
-        { }
-
-        /// <summary>
-        /// Gets a singleton instance of the Tabular Islamic calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static TabularIslamicSimpleCalendar Instance { get; } = new TabularIslamicSimpleCalendar();
-
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
-    }
-
-    /// <summary>
-    /// Represents the Zoroastrian calendar.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal sealed class ZoroastrianSimpleCalendar : SimpleCalendar
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ZoroastrianSimpleCalendar"/>
-        /// class.
-        /// </summary>
-        private ZoroastrianSimpleCalendar() : this(new Egyptian12Schema()) { }
-
-        private ZoroastrianSimpleCalendar(Egyptian12Schema schema)
-            : base(
-                  CalendarId.Zoroastrian,
-                  schema,
-                  DayZero.Zoroastrian,
-                  proleptic: false)
-        { }
-
-        /// <summary>
-        /// Gets a singleton instance of the Zoroastrian calendar.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static ZoroastrianSimpleCalendar Instance { get; } = new ZoroastrianSimpleCalendar();
-
-        /// <inheritdoc/>
-        [Pure]
-        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
-    }
+    /// <inheritdoc/>
+    [Pure]
+    public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
 }

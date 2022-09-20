@@ -356,12 +356,7 @@ public partial struct DayNumber // Adjust the day of the week
 {
     private static readonly DayNumber s_ThreeDaysBeforeMaxValue = MaxValue - 3;
 
-    /// <summary>Obtains the day number before the current instance that falls on the specified day
-    /// of the week.</summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
-    /// </exception>
-    /// <exception cref="OverflowException">The operation would overflow the capacity of
-    /// <see cref="Int32"/>.</exception>
+    /// <inheritdoc/>
     [Pure]
     public DayNumber Previous(DayOfWeek dayOfWeek)
     {
@@ -371,14 +366,7 @@ public partial struct DayNumber // Adjust the day of the week
         return this + (δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>Obtains the day number on or before the current instance that falls on the
-    /// specified day of the week.
-    /// <para>If the day number already falls on the given day of the week, returns the current
-    /// instance.</para></summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
-    /// </exception>
-    /// <exception cref="OverflowException">The operation would overflow the capacity of
-    /// <see cref="Int32"/>.</exception>
+    /// <inheritdoc/>
     [Pure]
     public DayNumber PreviousOrSame(DayOfWeek dayOfWeek)
     {
@@ -388,12 +376,7 @@ public partial struct DayNumber // Adjust the day of the week
         return δ == 0 ? this : this + (δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>Obtains the nearest day number that falls on the specified day of the week.
-    /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
-    /// </exception>
-    /// <exception cref="OverflowException">The operation would overflow the range of supported
-    /// values.</exception>
+    /// <inheritdoc/>
     [Pure]
     public DayNumber Nearest(DayOfWeek dayOfWeek) =>
         // WARNING:
@@ -403,14 +386,7 @@ public partial struct DayNumber // Adjust the day of the week
         ? NextOrSameCore(this, dayOfWeek, -3, 0)
         : PreviousOrSameCore(this, dayOfWeek, 3, 0);
 
-    /// <summary>Obtains the day number on or after the current instance that falls on the specified
-    /// day of the week.
-    /// <para>If the day number already falls on the given day of the week, returns the current
-    /// instance.</para></summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
-    /// </exception>
-    /// <exception cref="OverflowException">The operation would overflow the capacity of
-    /// <see cref="Int32"/>.</exception>
+    /// <inheritdoc/>
     [Pure]
     public DayNumber NextOrSame(DayOfWeek dayOfWeek)
     {
@@ -420,12 +396,7 @@ public partial struct DayNumber // Adjust the day of the week
         return δ == 0 ? this : this + (δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>Obtains the day number after the current instance that falls on the specified day
-    /// of the week.</summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
-    /// </exception>
-    /// <exception cref="OverflowException">The operation would overflow the capacity of
-    /// <see cref="Int32"/>.</exception>
+    /// <inheritdoc/>
     [Pure]
     public DayNumber Next(DayOfWeek dayOfWeek)
     {

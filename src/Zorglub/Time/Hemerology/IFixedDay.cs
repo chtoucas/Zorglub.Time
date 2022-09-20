@@ -136,9 +136,9 @@ namespace Zorglub.Time.Hemerology;
 
 #endregion
 
-/// <summary>Defines a fixed day.</summary>
-/// <remarks>A day is said to be <i>fixed</i> if it's attached to a timeline. In this project, it
-/// means that it has a day number.</remarks>
+/// <summary>Defines a fixed day.
+/// <para>A day is said to be <i>fixed</i> if it's attached to a timeline. In this project, it means
+/// that it has a day number.</para></summary>
 public interface IFixedDay
 {
     /// <summary>Gets the day number.</summary>
@@ -170,18 +170,18 @@ public interface IFixedDay<TSelf> : IFixedDay
     [Pure] TSelf Previous(DayOfWeek dayOfWeek);
 
     /// <summary>Obtains the day on or before the current instance that falls on the specified day
-    /// of the week.</summary>
-    /// <remarks>If the day already falls on the given day of the week, returns the current instance.
-    /// </remarks>
+    /// of the week.
+    /// <para>If the day already falls on the given day of the week, returns the current instance.
+    /// </para></summary>
     /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
     /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the range of supported days.
     /// </exception>
     [Pure] TSelf PreviousOrSame(DayOfWeek dayOfWeek);
 
-    /// <summary>Obtains the nearest day that falls on the specified day of the week.</summary>
-    /// <remarks>If the day already falls on the given day of the week, returns the current instance.
-    /// </remarks>
+    /// <summary>Obtains the nearest day that falls on the specified day of the week.
+    /// <para>If the day already falls on the given day of the week, returns the current instance.
+    /// </para></summary>
     /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
     /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the range of supported days.
@@ -189,9 +189,9 @@ public interface IFixedDay<TSelf> : IFixedDay
     [Pure] TSelf Nearest(DayOfWeek dayOfWeek);
 
     /// <summary>Obtains the day on or after the current instance that falls on the specified day of
-    /// the week.</summary>
-    /// <remarks>If the day already falls on the given day of the week, returns the current instance.
-    /// </remarks>
+    /// the week.
+    /// <para>If the day already falls on the given day of the week, returns the current instance.
+    /// </para></summary>
     /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
     /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the range of supported days.
