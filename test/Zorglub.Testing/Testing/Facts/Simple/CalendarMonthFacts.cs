@@ -507,7 +507,7 @@ public partial class CalendarMonthFacts<TDataSet> // IComparable
         Assert.False(left < right);
 
         Assert.Equal(0, left.CompareTo(right));
-        Assert.Equal(0, left.CompareTo((object)right));
+        Assert.Equal(0, ((IComparable)left).CompareTo(right));
     }
 
     [Theory]
@@ -524,7 +524,7 @@ public partial class CalendarMonthFacts<TDataSet> // IComparable
         Assert.True(left < right);
 
         Assert.True(left.CompareTo(right) < 0);
-        Assert.True(left.CompareTo((object)right) < 0);
+        Assert.True(((IComparable)left).CompareTo(right) < 0);
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]

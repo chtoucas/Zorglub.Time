@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.PartsTests
 
+open System
+
 open Zorglub.Testing
 
 open Zorglub.Time
@@ -141,23 +143,23 @@ module DateParts =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: DateParts) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: DateParts) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: DateParts) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
 module MonthParts =
     /// Arbitrary for (x, y) where x and y are MonthParts instances such that x <> y.
@@ -270,23 +272,23 @@ module MonthParts =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: MonthParts) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: MonthParts) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: MonthParts) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
 module OrdinalParts =
     /// Arbitrary for (x, y) where x and y are OrdinalParts instances such that x <> y.
@@ -399,20 +401,20 @@ module OrdinalParts =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: OrdinalParts) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: OrdinalParts) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: OrdinalParts) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))

@@ -482,23 +482,23 @@ module Yemoda =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: Yemoda) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: Yemoda) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: Yemoda) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
 [<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Yemo =
@@ -761,23 +761,23 @@ module Yemo =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: Yemo) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: Yemo) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: Yemo) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
 [<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Yedoy =
@@ -976,23 +976,23 @@ module Yedoy =
         [<Property>]
         let ``CompareTo() returns 0 when both operands are identical`` (x: Yedoy) =
             (x.CompareTo(x) = 0)
-            .&. (x.CompareTo(x :> obj) = 0)
+            .&. ((x :> IComparable).CompareTo(x) = 0)
 
         [<Property>]
         let ``CompareTo() when both operands are distinct`` () = xyArbitrary @@@@ fun (x, y) ->
             (x.CompareTo(y) <= 0)
-            .&. (x.CompareTo(y :> obj) <= 0)
+            .&. ((x :> IComparable).CompareTo(y) <= 0)
             // Flipped
             .&. (y.CompareTo(x) >= 0)
-            .&. (y.CompareTo(x :> obj) >= 0)
+            .&. ((y :> IComparable).CompareTo(x) >= 0)
 
         [<Property>]
         let ``CompareTo(obj) returns 1 when "obj" is null`` (x: Yedoy) =
-             x.CompareTo(null) = 1
+             (x :> IComparable).CompareTo(null) = 1
 
         [<Property>]
         let ``CompareTo(obj) throws when "obj" is a plain object`` (x: Yedoy) =
-            argExn "obj" (fun () -> x.CompareTo(new obj()))
+            argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
 [<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Yemodax =

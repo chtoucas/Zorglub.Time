@@ -475,7 +475,7 @@ public partial class CalendarYearFacts<TDataSet> // IComparable
         Assert.False(left < right);
 
         Assert.Equal(0, left.CompareTo(right));
-        Assert.Equal(0, left.CompareTo((object)right));
+        Assert.Equal(0, ((IComparable)left).CompareTo(right));
     }
 
     [Fact]
@@ -490,7 +490,7 @@ public partial class CalendarYearFacts<TDataSet> // IComparable
         Assert.True(left < right);
 
         Assert.True(left.CompareTo(right) < 0);
-        Assert.True(left.CompareTo((object)right) < 0);
+        Assert.True(((IComparable)left).CompareTo(right) < 0);
     }
 
     [Fact]

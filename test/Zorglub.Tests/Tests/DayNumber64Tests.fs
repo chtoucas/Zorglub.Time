@@ -465,23 +465,23 @@ module Comparison =
     [<Property>]
     let ``CompareTo() returns 0 when both objects are identical`` (x: DayNumber64) =
         (x.CompareTo(x) = 0)
-        .&. (x.CompareTo(x :> obj) = 0)
+        .&. ((x :> IComparable).CompareTo(x) = 0)
 
     [<Property>]
     let ``CompareTo() when both objects are distinct`` () = xynArbitrary @@@@ fun (x, y, _) ->
         (x.CompareTo(y) <= 0)
-        .&. (x.CompareTo(y :> obj) <= 0)
+        .&. ((x :> IComparable).CompareTo(y) <= 0)
         // Flipped
         .&. (y.CompareTo(x) >= 0)
-        .&. (y.CompareTo(x :> obj) >= 0)
+        .&. ((y :> IComparable).CompareTo(x) >= 0)
 
     [<Property>]
     let ``CompareTo(obj) returns 1 when "obj" is null`` (x: DayNumber64) =
-         x.CompareTo(null) = 1
+         (x :> IComparable).CompareTo(null) = 1
 
     [<Property>]
     let ``CompareTo(obj) throws when "obj" is a plain object`` (x: DayNumber64) =
-        argExn "obj" (fun () -> x.CompareTo(new obj()))
+        argExn "obj" (fun () -> (x :> IComparable).CompareTo(new obj()))
 
     //
     // Min() and Max()
