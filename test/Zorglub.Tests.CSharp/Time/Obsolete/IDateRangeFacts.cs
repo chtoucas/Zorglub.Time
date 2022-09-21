@@ -415,11 +415,11 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // The order of statements is important otherwise Equals(null)
         // will fool the compiler, it will believe that "range" is null.
         // Simpler: disable nullables.
-//#nullable disable
+        //#nullable disable
         Assert.True(range.Equals((object)range));
         Assert.False(range.Equals(null!)); // TRange
         Assert.False(range.Equals((object)null!));
         Assert.False(range.Equals(new object()));
-//#nullable restore
+        //#nullable restore
     }
 }
