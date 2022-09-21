@@ -172,7 +172,7 @@ public partial class XCivilDateTests // PlusYears(), CountYearsSince()
         var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
-        Assert.Overflows(() => XCivilDate.AddYears((XCivilDate)date, Int32.MaxValue, out _));
+        Assert.Overflows(() => XCivilDate.AddYears(date, Int32.MaxValue, out _));
     }
 
     [Fact]
@@ -277,8 +277,8 @@ public partial class XCivilDateTests // PlusMonths(), CountMonthsSince()
     public static void PlusMonths_WithLimitValues()
     {
         var date = new XCivilDate(3, 4, 5);
-        int minMonths = XCivilDate.MinValue.CountMonthsSince((XCivilDate)date);
-        int maxMonths = XCivilDate.MaxValue.CountMonthsSince((XCivilDate)date);
+        int minMonths = XCivilDate.MinValue.CountMonthsSince(date);
+        int maxMonths = XCivilDate.MaxValue.CountMonthsSince(date);
         var earliest = new XCivilDate(XCivilDate.MinYear, 1, 5);
         var latest = new XCivilDate(XCivilDate.MaxYear, 12, 5);
         // Act & Assert
@@ -383,7 +383,7 @@ public partial class XCivilDateTests // PlusMonths(), CountMonthsSince()
         var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
-        Assert.Overflows(() => XCivilDate.AddMonths((XCivilDate)date, Int32.MaxValue, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths(date, Int32.MaxValue, out _));
     }
 
     [Fact]
@@ -488,7 +488,7 @@ public partial class XCivilDateTests // Subtract()
         var (y, m, d) = info.Yemoda;
         var date = new XCivilDate(y, m, d);
         // Act
-        var (y0, m0, d0) = XCivilDate.Subtract((XCivilDate)date, (XCivilDate)date);
+        var (y0, m0, d0) = XCivilDate.Subtract(date, date);
         // Assert
         Assert.Equal(0, y0);
         Assert.Equal(0, m0);
