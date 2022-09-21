@@ -7,9 +7,6 @@ namespace Zorglub.Time.Hemerology;
 
 // TL;DR: Despite its flaws we'll use the CRTP.
 //
-// Because of the operators, the problems discussed below do not exist with
-// IAffineDate<T> when FEATURE_STATIC_ABSTRACT is turned on.
-//
 // Problems
 // ========
 //
