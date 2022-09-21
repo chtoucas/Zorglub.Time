@@ -20,8 +20,6 @@
     <DebugSymbols>true</DebugSymbols>
     <TieredCompilation>false</TieredCompilation>
 
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-
     <!--
       CA1303    Do not pass literals as localized parameters (Globalization)
       CA1707    Identifiers should not contain underscores (Naming)

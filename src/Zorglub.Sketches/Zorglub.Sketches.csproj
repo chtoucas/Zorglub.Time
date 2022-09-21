@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
 
-    <WarningsAsErrors>$(WarningsAsErrors);IDE0004</WarningsAsErrors>
-
     <!--
+      In Release builds, we generate the document file to spot any error, but
+      we don't care about missing doc.
       CS1591  Missing XML comment for publicly visible type or member 'Type_or_Member'
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>

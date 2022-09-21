@@ -7,11 +7,10 @@
     <WarningLevel>5</WarningLevel>
     <!--
       FS0052  Implicit copies of structs (warning level 5)
-      FS1182  Unused variables
-      See https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/compiler-options
+      We enable most opt-in warnings; see
+      https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/compiler-options
     -->
-    <!--<WarnOn>3390;$(WarnOn)</WarnOn>-->
-    <WarnOn>$(WarnOn);FS1182</WarnOn>
+    <WarnOn>$(WarnOn);FS1182;FS3366;FS3517;FS3389;FS3390</WarnOn>
     <NoWarn>$(NoWarn);FS0052</NoWarn>
 
     <!-- Silent a warning from Microsoft.NET.Test.Sdk -->
@@ -19,7 +18,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LISEZMOI.md" />
     <None Include="Zorglub.Tests.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

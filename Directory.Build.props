@@ -21,12 +21,10 @@
     <!-- Should be "latest" or "preview" -->
     <LangVersion>preview</LangVersion>
 
-    <!--
-      To simplify things, when we enable preview features we do it at the
-      assembly level via "GenerateRequiresPreviewFeaturesAttribute" (this is the
-      default behaviour, but I prefer to be explicit about this), and for all
-      projects.
-    -->
+    <!-- To simplify things, when we enable preview features we do it at the
+         assembly level via "GenerateRequiresPreviewFeaturesAttribute" (this is
+         the default behaviour, but I prefer to be explicit about this), and for
+         all projects. -->
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
   </PropertyGroup>
@@ -100,7 +98,8 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <TreatSpecificWarningsAsErrors />
+        <!-- IDE0004 Remove unnecessary cast -->
+        <WarningsAsErrors>IDE0004</WarningsAsErrors>
         <NoWarn />
       </PropertyGroup>
     </Otherwise>
