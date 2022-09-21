@@ -548,14 +548,14 @@ module Extensions =
         let v = Range.Create(1, 4)
 
         v.Count() === 4
-        v.LongCount() === 4
+        v.LongCount() === 4L
 
     [<Fact>]
     let ``Range<int>.Count() and LongCount() for a singleton`` () =
         let v = Range.Singleton(1)
 
         v.Count() === 1
-        v.LongCount() === 1
+        v.LongCount() === 1L
 
     [<Fact>]
     let ``Range.Maximal32.Count() overflows`` () =
@@ -599,14 +599,14 @@ module Extensions =
         let v = Range.Create(DayZero.OldStyle, DayZero.OldStyle + 3)
 
         v.Count() === 4
-        v.LongCount() === 4
+        v.LongCount() === 4L
 
     [<Fact>]
     let ``Range<DayNumber>.Count() and LongCount() for a singleton`` () =
         let v = Range.Create(DayZero.OldStyle, DayZero.OldStyle)
 
         v.Count() === 1
-        v.LongCount() === 1
+        v.LongCount() === 1L
 
     [<Fact>]
     let ``Range.Maximum<DayNumber>().Count() overflows`` () =

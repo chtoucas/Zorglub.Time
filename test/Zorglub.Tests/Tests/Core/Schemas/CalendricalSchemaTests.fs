@@ -180,10 +180,10 @@ module GregorianCase =
 
         let daysIn4YearCycle = GJSchema.DaysIn4YearCycle
         daysIn4YearCycle.Length === 4
-        int(daysIn4YearCycle.[0]) === daysInYear0
-        int(daysIn4YearCycle.[1]) === daysInYear1
-        int(daysIn4YearCycle.[2]) === daysInYear2
-        int(daysIn4YearCycle.[3]) === daysInYear3
+        int(daysIn4YearCycle[0]) === daysInYear0
+        int(daysIn4YearCycle[1]) === daysInYear1
+        int(daysIn4YearCycle[2]) === daysInYear2
+        int(daysIn4YearCycle[3]) === daysInYear3
 
         daysInYear0 === GJSchema.DaysInLeapYear // Year 0 is leap
         daysInYear1 === GJSchema.DaysInCommonYear
@@ -204,10 +204,10 @@ module GregorianCase =
 
         let daysIn4CenturyCycle = GregorianSchema.DaysIn4CenturyCycle
         daysIn4CenturyCycle.Length === 4
-        int(daysIn4CenturyCycle.[0]) === daysInCentury0
-        int(daysIn4CenturyCycle.[1]) === daysInCentury1
-        int(daysIn4CenturyCycle.[2]) === daysInCentury2
-        int(daysIn4CenturyCycle.[3]) === daysInCentury3
+        int(daysIn4CenturyCycle[0]) === daysInCentury0
+        int(daysIn4CenturyCycle[1]) === daysInCentury1
+        int(daysIn4CenturyCycle[2]) === daysInCentury2
+        int(daysIn4CenturyCycle[3]) === daysInCentury3
 
         daysInCentury0 === GregorianSchema.DaysPer100YearSubcycle + 1 // Long century
         daysInCentury1 === GregorianSchema.DaysPer100YearSubcycle

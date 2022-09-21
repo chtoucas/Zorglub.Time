@@ -157,7 +157,7 @@ let ``CountDaysSinceEpoch(int32)`` (x: DaysSinceEpochInfo) =
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``CountDaysSinceEpoch(int64)`` (x: DaysSinceEpochInfo) =
     let daysSinceEpoch, y, m, d = x.Deconstruct()
-    GregorianFormulae.CountDaysSinceEpoch(int64(y), m, d) === daysSinceEpoch
+    GregorianFormulae.CountDaysSinceEpoch(int64(y), m, d) === int64 daysSinceEpoch
 
 [<Fact>]
 let ``CountDaysSinceEpoch(int32) does not overflow at Min/MaxYear`` () =
@@ -205,7 +205,7 @@ let ``GetDateParts(int32)`` (x: DaysSinceEpochInfo) =
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``GetDateParts(int64)`` (x: DaysSinceEpochInfo) =
     let daysSinceEpoch, y, m, d = x.Deconstruct()
-    GregorianFormulae.GetDateParts(int64(daysSinceEpoch)) === (y, m, d)
+    GregorianFormulae.GetDateParts(int64(daysSinceEpoch)) === (int64 y, m, d)
 
 [<Fact>]
 let ``GetDateParts(int32) does not overflow at Min/MaxDaysSinceEpoch`` () =
@@ -278,7 +278,7 @@ let ``GetYear(int32)`` (x: DaysSinceEpochInfo) =
 
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``GetYear(int64)`` (x: DaysSinceEpochInfo) =
-    GregorianFormulae.GetYear(int64(x.DaysSinceEpoch)) === x.Yemoda.Year
+    GregorianFormulae.GetYear(int64(x.DaysSinceEpoch)) === int64 x.Yemoda.Year
 
 [<Fact>]
 let ``GetYear(int32) does not overflow at Min/MaxDaysSinceEpoch`` () =
@@ -324,7 +324,7 @@ let ``GetStartOfYear(int32)`` (x: YearDaysSinceEpoch) =
 
 [<Theory; MemberData(nameof(startOfYearDaysSinceEpochData))>]
 let ``GetStartOfYear(int64)`` (x: YearDaysSinceEpoch) =
-    GregorianFormulae.GetStartOfYear(int64(x.Year)) === x.DaysSinceEpoch
+    GregorianFormulae.GetStartOfYear(int64(x.Year)) === int64 x.DaysSinceEpoch
 
 [<Fact>]
 let ``GetStartOfYear(int32) does not overflow`` () =

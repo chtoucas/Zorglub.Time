@@ -23,9 +23,9 @@ module Prelude =
     let ``Static property Zero`` () =
         GregorianInstant.Zero.DayNumber === DayNumber.Zero
         GregorianInstant.Zero.InstantOfDay === InstantOfDay.Midnight
-        GregorianInstant.Zero.SecondsSinceZero === 0
-        GregorianInstant.Zero.MillisecondsSinceZero === 0
-        GregorianInstant.Zero.NanosecondsSinceZero === 0
+        GregorianInstant.Zero.SecondsSinceZero === 0L
+        GregorianInstant.Zero.MillisecondsSinceZero === 0L
+        GregorianInstant.Zero.NanosecondsSinceZero === 0L
 
     [<Fact>]
     let ``Static property MinValue`` () =

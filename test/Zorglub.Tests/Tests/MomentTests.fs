@@ -22,8 +22,8 @@ module Prelude =
     let ``Static property Zero`` () =
         Moment.Zero.DayNumber === DayNumber.Zero
         Moment.Zero.TimeOfDay === TimeOfDay.Midnight
-        Moment.Zero.SecondsSinceZero === 0
-        Moment.Zero.MillisecondsSinceZero === 0
+        Moment.Zero.SecondsSinceZero === 0L
+        Moment.Zero.MillisecondsSinceZero === 0L
 
     [<Fact>]
     let ``Static property MinValue`` () =

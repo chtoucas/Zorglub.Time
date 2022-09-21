@@ -17,8 +17,8 @@ module Equality =
     let private xynArbitrary =
         Arb.fromGen <| gen {
             let! i, j, n = IntGenerators.orderedPair
-            let v = new Duration64(i)
-            let w = new Duration64(j)
+            let v = new Duration64(int64 i)
+            let w = new Duration64(int64 j)
             return v, w, n
         }
 

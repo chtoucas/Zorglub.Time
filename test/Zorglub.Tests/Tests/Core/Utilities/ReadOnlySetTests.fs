@@ -52,7 +52,7 @@ module Enumeration =
 
         let mutable i = 0
         for n in set do
-            n === values.[i]
+            n === values[i]
             i <- i + 1
 
     [<Property>]

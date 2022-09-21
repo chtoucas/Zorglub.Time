@@ -132,14 +132,14 @@ module Snapshots =
         let dict = SimpleCatalog.TakeSnapshot()
         let chr = SimpleCatalog.GetSystemCalendar(ident)
 
-        dict.[key] ==& chr
+        dict[key] ==& chr
 
     [<Fact(Skip = "Échecs intermittants")>]
     let ``TakeSnapshot() contains the user-defined calendars`` () =
         let dict = SimpleCatalog.TakeSnapshot()
 
-        dict.[userGregorian.Key] ==& userGregorian
-        dict.[userJulian.Key]    ==& userJulian
+        dict[userGregorian.Key] ==& userGregorian
+        dict[userJulian.Key]    ==& userJulian
 
 module Lookup =
     let calendarIdData = EnumDataSet.CalendarIdData

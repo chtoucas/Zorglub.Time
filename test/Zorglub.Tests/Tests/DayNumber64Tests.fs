@@ -65,7 +65,7 @@ module Prelude =
 
     [<Fact>]
     let ``Static property Zero`` () =
-        DayNumber64.Zero.DaysSinceZero === 0
+        DayNumber64.Zero.DaysSinceZero === 0L
         DayNumber64.Zero.Ordinal === Ord64.First
         DayNumber64.Zero.DayOfWeek === DayOfWeek.Monday
 
@@ -221,28 +221,28 @@ module GregorianConversion =
         let dayNumber32, y, m, d = x.Deconstruct()
         let dayNumber = DayNumber64.FromDayNumber(dayNumber32)
 
-        DayNumber64.FromGregorianParts(y, m, d) === dayNumber
+        DayNumber64.FromGregorianParts(int64 y, m, d) === dayNumber
 
     [<Theory; MemberData(nameof(dayNumberInfoData))>]
     let ``GetGregorianParts()`` (x: DayNumberInfo) =
         let dayNumber32, y, m, d = x.Deconstruct()
         let dayNumber = DayNumber64.FromDayNumber(dayNumber32)
 
-        dayNumber.GetGregorianParts() === (y, m, d)
+        dayNumber.GetGregorianParts() === (int64 y, m, d)
 
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``FromGregorianOrdinalParts()`` (x: DateInfo) =
         let y, m, d, doy = x.Deconstruct()
-        let dayNumber = DayNumber64.FromGregorianParts(y, m, d)
+        let dayNumber = DayNumber64.FromGregorianParts(int64 y, m, d)
 
-        DayNumber64.FromGregorianOrdinalParts(y, doy) === dayNumber
+        DayNumber64.FromGregorianOrdinalParts(int64 y, doy) === dayNumber
 
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``GetGregorianOrdinalParts()`` (x: DateInfo) =
         let y, m, d, doy = x.Deconstruct()
-        let dayNumber = DayNumber64.FromGregorianParts(y, m, d)
+        let dayNumber = DayNumber64.FromGregorianParts(int64 y, m, d)
 
-        dayNumber.GetGregorianOrdinalParts() === (y, doy)
+        dayNumber.GetGregorianOrdinalParts() === (int64 y, doy)
 
 module JulianConversion =
     let private dataSet = JulianDataSet.Instance
@@ -304,14 +304,14 @@ module JulianConversion =
         let dayNumber = DayNumber64.Zero - 2L
 
         let ymd = dayNumber.GetJulianParts()
-        ymd.Deconstruct() === (1, 1, 1)
+        ymd.Deconstruct() === (1L, 1, 1)
 
     [<Fact>]
     let ``Ordinal parts for DayNumber64.Zero - 2`` () =
         let dayNumber = DayNumber64.Zero - 2L
 
         let ymd = dayNumber.GetJulianOrdinalParts()
-        ymd.Deconstruct() === (1, 1)
+        ymd.Deconstruct() === (1L, 1)
 
     [<Fact>]
     let ``Date parts for DayNumber64.MinSupportedYear`` () =
@@ -364,28 +364,28 @@ module JulianConversion =
         let dayNumber32, y, m, d = x.Deconstruct()
         let dayNumber = DayNumber64.FromDayNumber(dayNumber32)
 
-        DayNumber64.FromJulianParts(y, m, d) === dayNumber
+        DayNumber64.FromJulianParts(int64 y, m, d) === dayNumber
 
     [<Theory; MemberData(nameof(dayNumberInfoData))>]
     let ``GetJulianParts()`` (x: DayNumberInfo) =
         let dayNumber32, y, m, d = x.Deconstruct()
         let dayNumber = DayNumber64.FromDayNumber(dayNumber32)
 
-        dayNumber.GetJulianParts() === (y, m, d)
+        dayNumber.GetJulianParts() === (int64 y, m, d)
 
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``FromJulianOrdinalParts()`` (x: DateInfo) =
         let y, m, d, doy = x.Deconstruct()
-        let dayNumber = DayNumber64.FromJulianParts(y, m, d)
+        let dayNumber = DayNumber64.FromJulianParts(int64 y, m, d)
 
-        DayNumber64.FromJulianOrdinalParts(y, doy) === dayNumber
+        DayNumber64.FromJulianOrdinalParts(int64 y, doy) === dayNumber
 
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``GetJulianOrdinalParts()`` (x: DateInfo) =
         let y, m, d, doy = x.Deconstruct()
-        let dayNumber = DayNumber64.FromJulianParts(y, m, d)
+        let dayNumber = DayNumber64.FromJulianParts(int64 y, m, d)
 
-        dayNumber.GetJulianOrdinalParts() === (y, doy)
+        dayNumber.GetJulianOrdinalParts() === (int64 y, doy)
 
 [<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Equality =
@@ -550,7 +550,7 @@ module Math =
     let ``DayNumber64.MinValue - 1 overflows`` () =
         (fun () -> DayNumber64.MinValue - 1L)          |> overflows
         (fun () -> DayNumber64.MinValue + (-1))        |> overflows
-        (fun () -> DayNumber64.MinValue.PlusDays(-1))  |> overflows
+        (fun () -> DayNumber64.MinValue.PlusDays(-1L))  |> overflows
         (fun () -> DayNumber64.MinValue.PreviousDay()) |> overflows
 
     [<Fact>]
@@ -566,7 +566,7 @@ module Math =
     let ``DayNumber64.MaxValue + 1 overflows`` () =
         (fun () -> DayNumber64.MaxValue + 1)         |> overflows
         (fun () -> DayNumber64.MaxValue - (-1L))     |> overflows
-        (fun () -> DayNumber64.MaxValue.PlusDays(1)) |> overflows
+        (fun () -> DayNumber64.MaxValue.PlusDays(1L)) |> overflows
         (fun () -> DayNumber64.MaxValue.NextDay())   |> overflows
 
     [<Fact>]
@@ -591,13 +591,13 @@ module Math =
     let ``0 is a neutral element (operators)`` (x: DayNumber64) =
         (x + 0 = x)
         .&. (x - 0L = x)
-        .&. (x - x = 0)
+        .&. (x - x = 0L)
     // fsharplint:enable
 
     [<Property>]
     let ``0 is a neutral element (methods)`` (x: DayNumber64) =
-        (x.PlusDays(0) = x)
-        .&. (x.CountDaysSince(x) = 0)
+        (x.PlusDays(0L) = x)
+        .&. (x.CountDaysSince(x) = 0L)
 
     [<Property>]
     let ``Addition and subtraction operators`` () = xynArbitrary @@@@ fun (x, y, n) ->

@@ -197,8 +197,8 @@ module Snapshot =
 
         let dict = reg.TakeSnapshot()
 
-        dict.[sys.Key] ==& sys
-        dict.[usr.Key] ==& usr
+        dict[sys.Key] ==& sys
+        dict[usr.Key] ==& usr
 
     [<Fact>]
     let ``TakeSnapshot() when the registry contains a dirty key`` () =
@@ -213,8 +213,8 @@ module Snapshot =
 
         dict.ContainsKey(dirty.Key) |> nok
 
-        dict.[sys.Key] ==& sys
-        dict.[usr.Key] ==& usr
+        dict[sys.Key] ==& sys
+        dict[usr.Key] ==& usr
 
 module Lookup =
     let private newRegistry  =

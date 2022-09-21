@@ -62,7 +62,7 @@ let ``Divide(long) rounds towards minus infinity`` m q =
 [<InlineData(-3, -1, 0)>]
 [<InlineData(-4, -2, 2)>]
 let ``Divide(long) with remainder`` m q r =
-    let mutable rA: int64 = 0
+    let mutable rA: int64 = 0L
     let qA = MathZ.Divide(m, 3L, &rA)
 
     (qA, rA) === (q, r)

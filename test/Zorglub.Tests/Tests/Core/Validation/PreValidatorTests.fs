@@ -77,7 +77,7 @@ module GregorianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``ValidateMonthDay() does not throw when the input is valid`` (x: DateInfo) =
         let y, m, d = x.Yemoda.Deconstruct()
-        GregorianPreValidator.ValidateMonthDay(y, m, d)
+        GregorianPreValidator.ValidateMonthDay(int64 y, m, d)
 
     // ValidateDayOfYear()
 
@@ -101,7 +101,7 @@ module GregorianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``ValidateDayOfYear() does not throw when the input is valid`` (x: DateInfo) =
         let y, doy = x.Yedoy.Deconstruct()
-        GregorianPreValidator.ValidateDayOfYear(y, doy)
+        GregorianPreValidator.ValidateDayOfYear(int64 y, doy)
 
 module JulianCase =
     let private dataSet = JulianDataSet.Instance
@@ -134,7 +134,7 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``ValidateMonthDay() does not throw when the input is valid`` (x: DateInfo) =
         let y, m, d = x.Yemoda.Deconstruct()
-        JulianPreValidator.ValidateMonthDay(y, m, d)
+        JulianPreValidator.ValidateMonthDay(int64 y, m, d)
 
     // ValidateDayOfYear()
 
@@ -158,4 +158,4 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``ValidateDayOfYear() does not throw when the input is valid`` (x: DateInfo) =
         let y, doy = x.Yedoy.Deconstruct()
-        JulianPreValidator.ValidateDayOfYear(y, doy)
+        JulianPreValidator.ValidateDayOfYear(int64 y, doy)
