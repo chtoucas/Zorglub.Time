@@ -85,6 +85,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
         <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
         <NoWarn />
@@ -98,8 +99,9 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <!-- IDE0004 Remove unnecessary cast -->
-        <WarningsAsErrors>IDE0004</WarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+        <!-- See .editorconfig for CodeStyle-related settings -->
+        <!--<WarningsAsErrors></WarningsAsErrors>-->
         <NoWarn />
       </PropertyGroup>
     </Otherwise>
