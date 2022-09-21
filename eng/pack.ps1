@@ -50,14 +50,15 @@ try {
     # - Delete project.assets.json (--force)
     & dotnet build $ZorglubTimeExtras $args --force
 
-    say "`nPackaging Zorglub.Time..." -Foreground Magenta
     # Pack Zorglub.Time
+    say "`nPackaging Zorglub.Time..." -Foreground Magenta
     & dotnet pack $ZorglubTime $args --no-build --output $PackagesDir `
         || die "Failed to pack '$ZorglubTime'."
 
-    say "`nPackaging Zorglub.Time.Extras..." -Foreground Magenta
     # Pack Zorglub.Time.Extras
     if (-not $NoExtras) {
+        say "`nPackaging Zorglub.Time.Extras..." -Foreground Magenta
+
         & dotnet pack $ZorglubTimeExtras $args --no-build --output $PackagesDir `
             || die "Failed to pack '$ZorglubTimeExtras'."
     }

@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{082AED17-C2C
 	ProjectSection(SolutionItems) = preProject
 		src\AssemblyInfo.Common.cs = src\AssemblyInfo.Common.cs
 		src\Directory.Build.targets = src\Directory.Build.targets
-		src\GlobalSuppressions.cs = src\GlobalSuppressions.cs
+		src\Packable.targets = src\Packable.targets
+		src\PreviewFeatures.cs = src\PreviewFeatures.cs
 		src\Usings.cs = src\Usings.cs
 	EndProjectSection
 EndProject

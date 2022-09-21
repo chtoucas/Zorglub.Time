@@ -1,34 +1,18 @@
 <Project>
 
-  <!-- Common settings -->
   <PropertyGroup>
     <AssemblyTitle>$(AssemblyName) [$(TargetFramework)]</AssemblyTitle>
-  </PropertyGroup>
 
-  <!-- Compiler symbols -->
-  <PropertyGroup>
+    <!-- Compiler symbols -->
     <DefineConstants Condition=" '$(DefineConstants)' != '' ">$(DefineConstants);CONTRACTS_FULL</DefineConstants>
     <DefineConstants Condition=" '$(DefineConstants)' == '' ">CONTRACTS_FULL</DefineConstants>
 
     <DefineConstants Condition=" '$(SignAssembly)' == 'true' ">$(DefineConstants);SIGNED_ASSEMBLY</DefineConstants>
+    <DefineConstants Condition=" '$(EnablePreviewFeatures)' == 'true' ">$(DefineConstants);ENABLE_PREVIEW_FEATURES</DefineConstants>
 
     <!-- Temporary symbols -->
     <DefineConstants>$(DefineConstants);PATCH_DIVREM</DefineConstants>
   </PropertyGroup>
-
-  <!-- Preview features
-       To simplify things, we enable preview features at the assembly level via
-       "GenerateRequiresPreviewFeaturesAttribute=true" (this is the default
-       behaviour), and for all projects.
-  -->
-  <PropertyGroup Condition=" '$(Language)' == 'C#' ">
-    <EnablePreviewFeatures>true</EnablePreviewFeatures>
-    <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
-    <DefineConstants>$(DefineConstants);ENABLE_PREVIEW_FEATURES</DefineConstants>
-  </PropertyGroup>
-  <!--<ItemGroup Condition=" '$(EnablePreviewFeatures)' == 'true' ">
-    <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
-  </ItemGroup>-->
 
   <!-- Target for verbose settings -->
   <Target Name="PrintSettingsBeforeCompile" BeforeTargets="Compile"

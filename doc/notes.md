@@ -35,4 +35,8 @@ https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-pr
 <ItemGroup Condition=" '$(EnablePreviewFeatures)' == 'true' ">
   <Using Include="System.Runtime.Versioning" />
 </ItemGroup>
+
+<ItemGroup Condition=" '$(EnablePreviewFeatures)' == 'true' ">
+  <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
+</ItemGroup>
 ```

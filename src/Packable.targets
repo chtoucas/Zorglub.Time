@@ -1,0 +1,71 @@
+<Project>
+
+  <!-- Source Link -->
+  <PropertyGroup>
+    <!--
+      We enable Source Link when ContinuousIntegrationBuild = true which, for us,
+      means that we request the build to be deterministic.
+      When one sets EnableSourceLink to true manually while, at the same time,
+      ContinuousIntegrationBuild = false, we ensure that the local build is
+      deterministic too; see DeterministicSourcePaths below.
+      This differs from the usual workflow where one always references Source
+      Link, then sets ContinuousIntegrationBuild to true in order to ensure a
+      deterministic build.
+    -->
+    <EnableSourceLink>false</EnableSourceLink>
+    <!-- For CI builds, the default behaviour is to have Source Link on -->
+    <EnableSourceLink Condition=" '$(ContinuousIntegrationBuild)' == 'true' ">true</EnableSourceLink>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+    <!--
+      DO NOT REMOVE, it ensures deterministic outputs when building locally.
+      This fixes the case where ContinuousIntegrationBuild = false and
+      EnableSourceLink = true. For instance,
+      > dotnet.exe build /p:EnableSourceLink=true
+      then the PDB files still use local paths for the generated files.
+      IMPORTANT: this is a rather unusual situation. It should only happen when
+      using a build script and certainly not when using VS, otherwise the debugger
+      wouldn't be able to locate the source files.
+      This is not necessary when ContinuousIntegrationBuild = true. Indeed,
+      Deterministic = true (default) and ContinuousIntegrationBuild = true
+      imply DeterministicSourcePaths = true; see
+      https://github.com/dotnet/roslyn/blob/master/src/Compilers/Core/MSBuildTask/Microsoft.Managed.Core.targets#L131
+    -->
+    <DeterministicSourcePaths Condition=" '$(EnableSourceLink)' == 'true' ">true</DeterministicSourcePaths>
+  </PropertyGroup>
+
+  <!-- Public API -->
+  <PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
+    <!--
+      RS0016  Symbol XXX is not part of the declared API
+      RS0017  Symbol XXX is part of the declared API, but is either not public
+              or could not be found
+      RS0036  Symbol XXX is missing nullability annotations in the declared API
+    -->
+    <NoWarn>$(NoWarn);RS0016;RS0017;RS0036</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include=".\PublicAPI\$(TargetFramework)\PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include=".\PublicAPI\$(TargetFramework)\PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+  <!-- Preview features -->
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)PreviewFeatures.cs">
+      <Visible>true</Visible>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

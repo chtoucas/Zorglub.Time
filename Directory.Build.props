@@ -16,12 +16,25 @@
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
   </PropertyGroup>
 
+  <!-- Preview -->
+  <PropertyGroup>
+    <!-- Should be "latest" or "preview" -->
+    <LangVersion>preview</LangVersion>
+
+    <!--
+      To simplify things, when we enable preview features we do it at the
+      assembly level via "GenerateRequiresPreviewFeaturesAttribute" (this is the
+      default behaviour, but I prefer to be explicit about this), and for all
+      projects.
+    -->
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
+  </PropertyGroup>
+
   <!-- Common properties -->
   <PropertyGroup>
     <RootNamespace>Zorglub</RootNamespace>
 
-    <!-- LangVersion = latest or preview -->
-    <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
 
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)eng\Narvalo.snk</AssemblyOriginatorKeyFile>
@@ -60,7 +73,7 @@
     <!-- For CI builds, do not update the lock file -->
     <RestoreLockedMode Condition=" '$(ContinuousIntegrationBuild)' == 'true' ">true</RestoreLockedMode>
     <!-- Fix error NU1403, and not just for CI builds... It seems that dotnet
-         tweaks the packages before putting them in the fallback folder.
+         tweaks the packages before putting them within the fallback folder.
          > dotnet nuget locals all -c -->
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
