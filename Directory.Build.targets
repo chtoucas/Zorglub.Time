@@ -3,15 +3,13 @@
   <PropertyGroup>
     <AssemblyTitle>$(AssemblyName) [$(TargetFramework)]</AssemblyTitle>
 
-    <!-- Compiler symbols -->
     <DefineConstants Condition=" '$(DefineConstants)' != '' ">$(DefineConstants);CONTRACTS_FULL</DefineConstants>
     <DefineConstants Condition=" '$(DefineConstants)' == '' ">CONTRACTS_FULL</DefineConstants>
 
-    <DefineConstants Condition=" '$(SignAssembly)' == 'true' ">$(DefineConstants);SIGNED_ASSEMBLY</DefineConstants>
-    <DefineConstants Condition=" '$(EnablePreviewFeatures)' == 'true' ">$(DefineConstants);ENABLE_PREVIEW_FEATURES</DefineConstants>
-
-    <!-- Temporary symbols -->
-    <DefineConstants>$(DefineConstants);PATCH_DIVREM</DefineConstants>
+    <!-- Conditional symbols -->
+    <DefineConstants Condition=" '$(SignAssembly)' == 'true' ">$(DefineConstants);__SIGNED_ASSEMBLY__</DefineConstants>
+    <DefineConstants Condition=" '$(EnablePreviewFeatures)' == 'true' ">$(DefineConstants);__ENABLE_PREVIEW_FEATURES__</DefineConstants>
+    <DefineConstants>$(DefineConstants);__PATCH_DIVREM__</DefineConstants>
   </PropertyGroup>
 
   <!-- Target for verbose settings -->

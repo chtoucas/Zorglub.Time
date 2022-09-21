@@ -30,7 +30,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |     'Div Mul' | 4.434 ns | 0.0068 ns | 0.0064 ns |  2.00 |  III |      75 B |
 |     'Div Mod' | 6.108 ns | 0.0084 ns | 0.0074 ns |  2.76 |   IV |      74 B |
 
-With PATCH_DIVREM disabled.
+With __PATCH_DIVREM__ disabled.
 
 |        Method |     Mean |     Error |    StdDev | Ratio | Rank | Code Size |
 |-------------- |---------:|----------:|----------:|------:|-----:|----------:|

@@ -3,7 +3,7 @@
 
 // This file should be referenced by packable projects.
 
-#if ENABLE_PREVIEW_FEATURES
+#if __ENABLE_PREVIEW_FEATURES__
 
 //[assembly: SuppressMessage("Usage", "CA2252:This API requires opting into preview features")]
 

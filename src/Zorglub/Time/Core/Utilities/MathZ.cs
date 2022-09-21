@@ -22,7 +22,7 @@ namespace Zorglub.Time.Core.Utilities;
 /// <remarks>This class cannot be inherited.</remarks>
 internal static partial class MathZ { }
 
-// CIL code sizes are given for when PATCH_DIVREM is set.
+// CIL code sizes are given for when __PATCH_DIVREM__ is set.
 // Euclidian division: methods in this class should only be used when the
 // dividend could be a negative integer (the divisor is always > 0).
 
@@ -98,7 +98,7 @@ internal partial class MathZ // Divide
     {
         Debug.Assert(n > 0);
 
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         int q = m / n;
         int r = m - q * n;
         return m >= 0 || r == 0 ? q : q - 1;
@@ -122,7 +122,7 @@ internal partial class MathZ // Divide
         Debug.Assert(n > 0);
 
         int q = m / n;
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         r = m - q * n;
 #else
         r = m % n;
@@ -151,7 +151,7 @@ internal partial class MathZ // Divide (long)
     {
         Debug.Assert(n > 0);
 
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         long q = m / n;
         long r = m - q * n;
         return m >= 0L || r == 0L ? q : q - 1L;
@@ -175,7 +175,7 @@ internal partial class MathZ // Divide (long)
         Debug.Assert(n > 0);
 
         long q = m / n;
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         r = m - q * n;
 #else
         r = m % n;
@@ -228,7 +228,7 @@ internal partial class MathZ // Modulo
         Debug.Assert(n > 0);
 
         q = i / n;
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         int r = i - q * n;
 #else
         int r = i % n;
@@ -275,7 +275,7 @@ internal partial class MathZ // AdjustedDivide
     {
         Debug.Assert(n > 0);
 
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         int q = m / n;
         int r = m - q * n;
         return m < 0 || r == 0 ? q : q + 1;
@@ -300,7 +300,7 @@ internal partial class MathZ // AdjustedDivide
         Debug.Assert(n > 0);
 
         int q = m / n;
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         r = m - q * n;
 #else
         r = m % n;
@@ -376,7 +376,7 @@ internal partial class MathZ // AugmentedDivide
     {
         Debug.Assert(n > 0);
 
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         int q = m / n;
         int r = m - q * n;
         return m >= 0 || r == 0 ? q + 1 : q;
@@ -401,7 +401,7 @@ internal partial class MathZ // AugmentedDivide
         Debug.Assert(n > 0);
 
         int q = m / n;
-#if PATCH_DIVREM
+#if __PATCH_DIVREM__
         r = 1 + m - q * n;
 #else
         r = 1 + m % n;

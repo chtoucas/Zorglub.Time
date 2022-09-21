@@ -49,6 +49,7 @@
     <NoWarn>$(NoWarn);RS0016;RS0017;RS0036</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Paths are relative to the project -->
     <AdditionalFiles Include=".\PublicAPI\$(TargetFramework)\PublicAPI.Shipped.txt" />
     <AdditionalFiles Include=".\PublicAPI\$(TargetFramework)\PublicAPI.Unshipped.txt" />
   </ItemGroup>

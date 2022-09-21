@@ -4,8 +4,8 @@
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time</AssemblyName>
 
-    <DefineConstants Condition=" '$(HideInternals)' != 'true' ">$(DefineConstants);VISIBLE_INTERNALS</DefineConstants>
-    <VersionSuffix Condition=" '$(EnablePreviewFeatures)' == 'true' ">preview</VersionSuffix>
+    <DefineConstants Condition=" '$(HideInternals)' != 'true' ">$(DefineConstants);__VISIBLE_INTERNALS__</DefineConstants>
+    <VersionSuffix Condition=" '$(EnablePreviewFeatures)' == 'true' or '$(LangVersion)' == 'preview' ">PREVIEW</VersionSuffix>
 
     <!-- IDE0004  Remove unnecessary cast -->
     <WarningsAsErrors>$(WarningsAsErrors);IDE0004</WarningsAsErrors>

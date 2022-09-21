@@ -6,7 +6,7 @@
     <RootNamespace>Benchmarks</RootNamespace>
 
     <!--<BenchmarkHarness Condition=" '$(BenchmarkHarness)' != 'true' ">false</BenchmarkHarness>-->
-    <DefineConstants Condition=" '$(BenchmarkHarness)' == 'true' ">$(DefineConstants);BENCHMARK_HARNESS</DefineConstants>
+    <DefineConstants Condition=" '$(BenchmarkHarness)' == 'true' ">$(DefineConstants);__BENCHMARK_HARNESS__</DefineConstants>
 
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>

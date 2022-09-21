@@ -19,7 +19,7 @@ using BenchmarkDotNet.Validators;
 //[MemoryDiagnoser(displayGenColumns: false)]
 public static class Program
 {
-#if BENCHMARK_HARNESS
+#if __BENCHMARK_HARNESS__
     public static void Main(string[] args)
     {
         BenchmarkSwitcher
