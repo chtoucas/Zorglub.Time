@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time;
 
-using System.Runtime.Serialization;
-
 // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
 // should use equivalent schemas and scopes.
 

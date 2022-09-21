@@ -5,8 +5,6 @@ namespace Zorglub.Time.Horology.Astronomy
 {
     using System.Runtime.InteropServices;
 
-    using Zorglub.Time.Core;
-
     using static Zorglub.Time.Extensions.JulianDateVersionExtensions;
     using static Zorglub.Time.Extensions.TimescaleExtensions;
 

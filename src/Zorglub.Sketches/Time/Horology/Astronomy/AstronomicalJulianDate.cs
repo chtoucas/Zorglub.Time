@@ -7,7 +7,6 @@ namespace Zorglub.Time.Horology.Astronomy
 
     using Zorglub.Time.Core;
 
-    using static Zorglub.Time.Core.TemporalConstants;
     using static Zorglub.Time.Extensions.TimescaleExtensions;
 
     // Julian date: the interval of time in days and fractions of a day since

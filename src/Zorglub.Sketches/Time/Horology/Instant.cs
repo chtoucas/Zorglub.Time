@@ -3,10 +3,6 @@
 
 namespace Zorglub.Time.Horology
 {
-    using Zorglub.Time.Core;
-
-    using static Zorglub.Time.Core.TemporalConstants;
-
     // TODO(doc): describe the time scale in use here, it should match the BCL
     // time scale.
     // Advantages: a day is exactly 86.400 seconds long.

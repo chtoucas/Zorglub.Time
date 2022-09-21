@@ -6,7 +6,6 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core.Validation;
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Horology;
 

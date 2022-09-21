@@ -5,8 +5,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Core;
-
 // TODO(api): remove FromDayNumber() from IDate<TSelf, out TCalendar>?
 // Almost done, we still have to decide whether to keep it or not in simple
 // date types.

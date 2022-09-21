@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Horology.Astronomy
 {
-    using Zorglub.Time.Core;
-
     using static Zorglub.Time.Core.TemporalConstants;
 
     // Terrestrial Time (TT): a coordinate time whose mean rate is close to the

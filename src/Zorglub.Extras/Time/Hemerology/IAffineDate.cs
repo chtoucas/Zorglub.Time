@@ -5,8 +5,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Core;
-
 // NB: an affine date can only be linked to a single calendar system,
 // therefore we can provide unambigiously a factory method FromDaysSinceEpoch().
 

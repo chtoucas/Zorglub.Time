@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Extensions
 {
-    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Simple;
 

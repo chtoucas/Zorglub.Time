@@ -6,8 +6,6 @@ namespace Zorglub.Time
     using System.ComponentModel;
     using System.Globalization;
 
-    using Zorglub.Time.Core;
-
     /// <summary>
     /// Represents a 64-bit "signed" ordinal numeral.
     /// <para><see cref="Ord64"/> is an immutable struct.</para>

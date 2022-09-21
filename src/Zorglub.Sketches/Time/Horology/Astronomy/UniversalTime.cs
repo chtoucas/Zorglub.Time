@@ -5,8 +5,6 @@
 
 namespace Zorglub.Time.Horology.Astronomy
 {
-    using Zorglub.Time.Core;
-
     using static Zorglub.Time.Core.TemporalConstants;
 
     // Universal Time (UT): a measure of time that conforms, within a close

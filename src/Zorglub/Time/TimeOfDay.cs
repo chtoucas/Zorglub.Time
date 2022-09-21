@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time;
 
-using Zorglub.Time.Core;
-
 using static Zorglub.Time.Core.TemporalConstants;
 
 // TODO(api): binary data or millisecondOfDay? math ops, adjustments, etc.

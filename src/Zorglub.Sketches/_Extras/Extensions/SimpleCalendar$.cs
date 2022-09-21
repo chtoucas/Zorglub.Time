@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Extensions
 {
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Simple;
 
     // REVIEW(code): use DayNumber.Utc/Today().
