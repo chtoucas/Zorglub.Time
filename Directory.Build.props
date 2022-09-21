@@ -76,12 +76,7 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
-        <!--
-          IDE0190	 Null check can be simplified (Style)
-                   Temporary suppression: related to the cancellation of the
-                   parameter null-checking feature.
-        -->
-        <NoWarn>IDE0190</NoWarn>
+        <NoWarn />
       </PropertyGroup>
     </When>
 
@@ -93,14 +88,7 @@
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <TreatSpecificWarningsAsErrors />
-        <!--
-          IDE0079  Remove unnecessary suppression (Style)
-                   I don't think that we need to suppress it anymore.
-          IDE0190	 Null check can be simplified (Style)
-                   Temporary suppression: related to the cancellation of the
-                   parameter null-checking feature.
-        -->
-        <NoWarn>IDE0190</NoWarn>
+        <NoWarn />
       </PropertyGroup>
     </Otherwise>
   </Choose>

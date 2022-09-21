@@ -16,48 +16,27 @@
     <DefineConstants>$(DefineConstants);PATCH_DIVREM</DefineConstants>
   </PropertyGroup>
 
-  <!-- Preview features -->
+  <!-- Preview features
+       To simplify things, we enable preview features at the assembly level via
+       "GenerateRequiresPreviewFeaturesAttribute=true" (this is the default
+       behaviour), and for all projects.
+  -->
   <PropertyGroup Condition=" '$(Language)' == 'C#' ">
-    <EnablePreviewFeatures>True</EnablePreviewFeatures>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
     <DefineConstants>$(DefineConstants);ENABLE_PREVIEW_FEATURES</DefineConstants>
-    <!--<DefineConstants>$(DefineConstants);FEATURE_STATIC_ABSTRACT</DefineConstants>-->
   </PropertyGroup>
-  <!--<ItemGroup Condition=" '$(Language)' == 'C#' ">
+  <!--<ItemGroup Condition=" '$(EnablePreviewFeatures)' == 'true' ">
     <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
   </ItemGroup>-->
-  <!--
-    We do not want System.Runtime.Experimental to be used by the normal packages.lock.json.
-    Does not work with a simple "Condition" but it's OK w/ "<When>" -and- $(Configuration) not
-    $(MyEnablePreviewFeatures).
-    Main drawback: we cannot use different configurations at the same time, for instance
-    Debug w/ the command line and Release w/ VS; "dotnet restore" depends on the configuration.
-    https://github.com/NuGet/Home/issues/5895
-    https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files#lock-file-extensibility
-  <PropertyGroup Condition=" '$(MyEnablePreviewFeatures)' == '' ">
-    <MyEnablePreviewFeatures>False</MyEnablePreviewFeatures>
-    <MyEnablePreviewFeatures Condition=" '$(Configuration)' == 'Debug' And '$(Language)' == 'C#' ">True</MyEnablePreviewFeatures>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(MyEnablePreviewFeatures)' == 'True' ">
-    <EnablePreviewFeatures>True</EnablePreviewFeatures>
-    <DefineConstants>$(DefineConstants);FEATURE_STATIC_ABSTRACT</DefineConstants>
-  </PropertyGroup>
-  <Choose>
-    <When Condition=" '$(Configuration)' == 'Debug' ">
-      <PropertyGroup>
-        <NuGetLockFilePath>packages.SRE.lock.json</NuGetLockFilePath>
-      </PropertyGroup>
-    </When>
-  </Choose>
-  <ItemGroup Condition=" '$(MyEnablePreviewFeatures)' == 'True' ">
-    <PackageReference Include="System.Runtime.Experimental" Version="6.0.2-mauipre.1.22102.15" />
-  </ItemGroup>
-  -->
 
   <!-- Target for verbose settings -->
   <Target Name="PrintSettingsBeforeCompile" BeforeTargets="Compile"
           Condition=" '$(PrintSettings)' == 'true' and '$(TargetFramework)' != '' ">
     <PropertyGroup>
       <MyMessage>| %24(SignAssembly)               = "$(SignAssembly)"</MyMessage>
+      <MyMessage>$(MyMessage)%0A| %24(LangVersion)                = "$(LangVersion)"</MyMessage>
+      <MyMessage>$(MyMessage)%0A| %24(EnablePreviewFeatures)      = "$(EnablePreviewFeatures)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(ContinuousIntegrationBuild) = "$(ContinuousIntegrationBuild)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(EnableSourceLink)           = "$(EnableSourceLink)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(DeterministicSourcePaths)   = "$(DeterministicSourcePaths)"</MyMessage>

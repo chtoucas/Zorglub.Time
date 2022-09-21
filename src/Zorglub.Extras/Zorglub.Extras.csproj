@@ -20,6 +20,12 @@
     <PackageTags>Calendar;Date;NTP</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\GlobalSuppressions.cs">
+      <Visible>true</Visible>
+    </Compile>
+  </ItemGroup>
+
   <!-- Public API -->
   <PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
     <!--
