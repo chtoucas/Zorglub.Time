@@ -87,8 +87,7 @@ using Zorglub.Time.Core.Intervals;
 
 #endregion
 
-/// <summary>Defines a calendrical schema.</summary>
-/// <remarks>
+/// <summary>Defines a calendrical schema.
 /// A calendrical schema is a "pure" calendar:
 /// <list type="bullet">
 /// <item>It has only one era. Dates are either in the main era or in the "era" before.</item>
@@ -100,8 +99,7 @@ using Zorglub.Time.Core.Intervals;
 /// <item>A schema is <i>lenient</i>, its methods assume that their parameters are valid from a
 /// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
 /// when the previous condition is met.</item>
-/// </list>
-/// </remarks>
+/// </list></summary>
 public partial interface ICalendricalSchema : ICalendricalKernel
 {
     // ICalendricalKernel is shared between calendars and schemas, otherwise
@@ -142,28 +140,25 @@ public partial interface ICalendricalSchema // Counting months and days within a
 public partial interface ICalendricalSchema // Conversions
 {
     /// <summary>Counts the number of consecutive months from the epoch to the specified month.
-    /// </summary>
-    /// <remarks>Conversion year/month -&gt; monthsSinceEpoch.</remarks>
+    /// <para>Conversion year/month -&gt; monthsSinceEpoch.</para></summary>
     [Pure] int CountMonthsSinceEpoch(int y, int m);
 
     /// <summary>Counts the number of consecutive days from the epoch to the specified date.
-    /// </summary>
-    /// <remarks>Conversion year/month/day -&gt; daysSinceEpoch.</remarks>
+    /// <para>Conversion year/month/day -&gt; daysSinceEpoch.</para></summary>
     [Pure] int CountDaysSinceEpoch(int y, int m, int d);
 
     /// <summary>Counts the number of consecutive days from the epoch to the specified ordinal date.
-    /// </summary>
-    /// <remarks>Conversion year/dayOfYear -&gt; daysSinceEpoch.</remarks>
+    /// <para>Conversion year/dayOfYear -&gt; daysSinceEpoch.</para></summary>
     [Pure] int CountDaysSinceEpoch(int y, int doy);
 
     /// <summary>Obtains the month parts for the specified month count (the number of consecutive
-    /// months from the epoch to a month); the month parts are given in output parameters.</summary>
-    /// <remarks>Conversion <paramref name="monthsSinceEpoch"/> -&gt; year/month.</remarks>
+    /// months from the epoch to a month); the month parts are given in output parameters.
+    /// <para>Conversion <paramref name="monthsSinceEpoch"/> -&gt; year/month.</para></summary>
     void GetMonthParts(int monthsSinceEpoch, out int y, out int m);
 
     /// <summary>Obtains the date parts for the specified day count (the number of consecutive days
-    /// from the epoch to a date); the date parts are given in output parameters.</summary>
-    /// <remarks>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/month/day.</remarks>
+    /// from the epoch to a date); the date parts are given in output parameters.
+    /// <para>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/month/day.</para></summary>
     void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d);
 
     // Initially GetYear() was defined as
@@ -173,17 +168,17 @@ public partial interface ICalendricalSchema // Conversions
 
     /// <summary>Obtains the ordinal date parts for the specified day count (the number of
     /// consecutive days from the epoch to a date); the day of the year is given in an output
-    /// parameter.</summary>
-    /// <remarks>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/dayOfYear.</remarks>
+    /// parameter.
+    /// <para>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/dayOfYear.</para></summary>
     [Pure] int GetYear(int daysSinceEpoch, out int doy);
 
     /// <summary>Obtains the month and day of the month for the specified ordinal date; the day of
-    /// the month is given in an output parameter.</summary>
-    /// <remarks>Conversion year/dayOfYear -&gt; year/month/day.</remarks>
+    /// the month is given in an output parameter.
+    /// <para>Conversion year/dayOfYear -&gt; year/month/day.</para></summary>
     [Pure] int GetMonth(int y, int doy, out int d);
 
-    /// <summary>Obtains the day of the year for the specified date.</summary>
-    /// <remarks>Conversion year/month/day -&gt; year/dayOfYear.</remarks>
+    /// <summary>Obtains the day of the year for the specified date.
+    /// <para>Conversion year/month/day -&gt; year/dayOfYear.</para></summary>
     [Pure] int GetDayOfYear(int y, int m, int d);
 }
 

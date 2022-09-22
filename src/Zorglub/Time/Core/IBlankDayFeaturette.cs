@@ -13,15 +13,13 @@ namespace Zorglub.Time.Core;
 // community"; see the wikipedia page
 // https://en.wikipedia.org/wiki/Hugh_Jones_(professor)
 
-/// <summary>Defines methods specific to calendrical schemas featuring blank days.</summary>
-/// <remarks>
+/// <summary>Defines methods specific to calendrical schemas featuring blank days.
 /// <para>A blank-day schema is a solar schema that adds one extra blank day on common years and two
 /// on leap years. A blank day does not belong to any month and is kept outside the weekday cycle.
 /// </para>
 /// <para>For technical reasons, we pretend that a blank day is the last day of the preceding month.
 /// </para>
-/// <para>Blank-day calendars belong to the larger family of perennial calendars.</para>
-/// </remarks>
+/// <para>Blank-day calendars belong to the larger family of perennial calendars.</para></summary>
 public interface IBlankDayFeaturette : ICalendricalKernel
 {
     /// <summary>Determines whether the specified date is a blank day or not.</summary>

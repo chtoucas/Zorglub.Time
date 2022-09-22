@@ -5,16 +5,16 @@ namespace Zorglub.Time.Core;
 
 using Zorglub.Time.Core.Intervals;
 
-/// <summary>Provides informations on a range of days for a given schema.</summary>
-/// <remarks>This class cannot be inherited.</remarks>
+/// <summary>Provides informations on a range of days for a given schema.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class CalendricalSegment : ISchemaBound
 {
-    /// <summary>Represents the underlying schema.</summary>
-    /// <remarks>This field is read-only.</remarks>
+    /// <summary>Represents the underlying schema.
+    /// <para>This field is read-only.</para></summary>
     private readonly ICalendricalSchema _schema;
 
-    /// <summary>Initializes a new instance of the <see cref="CalendricalSegment"/> class.</summary>
-    /// <remarks>This constructor does NOT validate its parameters.</remarks>
+    /// <summary>Initializes a new instance of the <see cref="CalendricalSegment"/> class.
+    /// <para>This constructor does NOT validate its parameters.</para></summary>
     internal CalendricalSegment(ICalendricalSchema schema, Endpoint min, Endpoint max)
     {
         _schema = schema;
@@ -36,9 +36,9 @@ public sealed class CalendricalSegment : ISchemaBound
     /// false.</summary>
     public bool MaxIsEndOfYear { get; internal init; }
 
-    /// <summary>Returns true if this segment is complete; otherwise returns false.</summary>
-    /// <remarks>A segment is said to be <i>complete</i> if it spans all days of a range of years.
-    /// </remarks>
+    /// <summary>Returns true if this segment is complete; otherwise returns false.
+    /// <para>A segment is said to be <i>complete</i> if it spans all days of a range of years.
+    /// </para></summary>
     public bool IsComplete => MinIsStartOfYear && MaxIsEndOfYear;
 
     /// <summary>Gets the range of supported days, that is the range of supported numbers of
@@ -131,8 +131,8 @@ public sealed class CalendricalSegment : ISchemaBound
         public MonthParts MonthParts => DateParts.MonthParts;
         public int Year => DateParts.Year;
 
-        /// <summary><c>left &gt; right</c></summary>
-        /// <remarks><c>(null &gt; null)</c> evaluates to false</remarks>
+        /// <summary><c>left &gt; right</c>
+        /// <para><c>(null &gt; null)</c> evaluates to false</para></summary>
         public static bool IsGreaterThan(Endpoint? left, Endpoint? right) =>
             left is not null
             && right is not null

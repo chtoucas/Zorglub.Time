@@ -34,8 +34,8 @@ using Zorglub.Time.Core.Validation;
 /// <summary>Provides methods to check the well-formedness of calendrical data.</summary>
 public interface ICalendricalPreValidator
 {
-    /// <summary>Validates the well-formedness of the specified month of the year.</summary>
-    /// <remarks>This method does NOT validate <paramref name="y"/>.</remarks>
+    /// <summary>Validates the well-formedness of the specified month of the year.
+    /// <para>This method does NOT validate <paramref name="y"/>.</para></summary>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     /// <exception cref="AoorException">The validation failed.</exception>
@@ -48,8 +48,8 @@ public interface ICalendricalPreValidator
     /// <exception cref="AoorException">The validation failed.</exception>
     void ValidateMonthDay(int y, int month, int day, string? paramName = null);
 
-    /// <summary>Validates the well-formedness of the specified day of the year.</summary>
-    /// <remarks>This method does NOT validate <paramref name="y"/>.</remarks>
+    /// <summary>Validates the well-formedness of the specified day of the year.
+    /// <para>This method does NOT validate <paramref name="y"/>.</para></summary>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     /// <exception cref="AoorException">The validation failed.</exception>
