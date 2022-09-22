@@ -7,6 +7,10 @@ root = true
 # Default severity
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
+# Severity gotchas
+# The second part of the rule specifies the severity level for the rule. When
+# specified in this way, the severity setting is only respected inside development
+# IDEs, such as Visual Studio. It is not respected during build.
 # To enforce code style rules at build time, set the severity by using the rule
 # ID-based severity configuration syntax for analyzers instead.
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/language-rules#option-format
