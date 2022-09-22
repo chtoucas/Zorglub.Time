@@ -86,7 +86,6 @@ namespace Zorglub.Time.Core.Arithmetic
                 ? new RegularArithmetic(seg)
                 : new BasicArithmetic(seg);
         }
-
     }
 
     public partial class PartsArithmetic // Operations on DateParts

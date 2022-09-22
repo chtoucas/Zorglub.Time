@@ -43,5 +43,4 @@ namespace Zorglub.Time.Core.Utilities
             return (firstSelector(tuple.Item1), secondSelector(tuple.Item2));
         }
     }
-
 }

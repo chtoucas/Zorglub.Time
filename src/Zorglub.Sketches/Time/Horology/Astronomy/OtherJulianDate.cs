@@ -176,5 +176,4 @@ namespace Zorglub.Time.Horology.Astronomy
         /// </summary>
         public override int GetHashCode() => HashCode.Combine(_timescale, _value, _version);
     }
-
 }

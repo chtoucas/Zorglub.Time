@@ -1,6 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
-//
+
 // Adapted from SOFA source code.
 
 namespace Zorglub.Time.Horology.Astronomy
