@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core.Intervals
         [Pure]
         public static LowerRay<DayNumber> Complement(this UpperRay<DayNumber> ray)
         {
-            DayNumber min = ray.Min;
+            var min = ray.Min;
             return min == DayNumber.MinValue ? throw new InvalidOperationException() : new(min - 1);
         }
     }

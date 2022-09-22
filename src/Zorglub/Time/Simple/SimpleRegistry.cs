@@ -380,7 +380,7 @@ namespace Zorglub.Time.Simple
                     // (DisableFailFast is not set to true), this will happen
                     // only once --- because when the registry is full we exit
                     // the method right away.
-                    _calendarsByKey.TryRemove(key, out _);
+                    _ = _calendarsByKey.TryRemove(key, out _);
                 }
 
                 Throw.CatalogOverflow();
@@ -411,7 +411,7 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up. Be sure to read the comments in GetOrAdd().
-                _calendarsByKey.TryRemove(key, out _);
+                _ = _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
             }
@@ -447,7 +447,7 @@ namespace Zorglub.Time.Simple
                 if (chr.Id == Cuid.Invalid)
                 {
                     // Clean up. Be sure to read the comments in GetOrAdd().
-                    _calendarsByKey.TryRemove(key, out _);
+                    _ = _calendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;
                 }

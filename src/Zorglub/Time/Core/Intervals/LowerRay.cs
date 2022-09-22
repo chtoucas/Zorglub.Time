@@ -52,7 +52,7 @@ namespace Zorglub.Time.Core.Intervals
         [Pure]
         public static UpperRay<DayNumber> Complement(this LowerRay<DayNumber> ray)
         {
-            DayNumber max = ray.Max;
+            var max = ray.Max;
             return max == DayNumber.MaxValue ? throw new InvalidOperationException() : new(max + 1);
         }
     }
