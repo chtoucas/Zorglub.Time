@@ -7,20 +7,19 @@
 // REVIEW: add this and NewYearStyle to Calendar? use a record to hold both?
 // Only informational? since a date object does not contain a time part...
 
-namespace Zorglub.Time
+namespace Zorglub.Time;
+
+// Suivant le calendrier, le jour peut commencer à un instant différent :
+// minuit, midi, lever ou coucher du soleil (Sunrise ou Sunset).
+public enum NewDayStyle
 {
-    // Suivant le calendrier, le jour peut commencer à un instant différent :
-    // minuit, midi, lever ou coucher du soleil (Sunrise ou Sunset).
-    public enum NewDayStyle
-    {
-        Default = 0,
+    Default = 0,
 
-        Sunrise,
+    Sunrise,
 
-        Noon,
+    Noon,
 
-        Sunset,
+    Sunset,
 
-        Midnight = Default,
-    }
+    Midnight = Default,
 }

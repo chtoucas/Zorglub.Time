@@ -34,6 +34,7 @@
 namespace Zorglub.Bulgroz;
 
 using System.ComponentModel;
+using System.Numerics;
 
 using Zorglub.Time;
 using Zorglub.Time.Core.Intervals;

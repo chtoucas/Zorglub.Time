@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time;
 
+using System.Numerics;
+
 using static Zorglub.Time.Core.TemporalConstants;
 
 // REVIEW(api): implement IFixedDay? Math ops? etc.

@@ -5,6 +5,7 @@ namespace Zorglub.Time;
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Numerics;
 
 // As with DayNumber, one can initialize an Ord as follows
 // > ord = Ord.Zeroth + i

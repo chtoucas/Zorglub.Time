@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Horology.Ntp;
 
 using System.Buffers.Binary;
+using System.Numerics;
 
 using static Zorglub.Time.Core.TemporalConstants;
 

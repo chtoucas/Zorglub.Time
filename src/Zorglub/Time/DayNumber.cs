@@ -4,6 +4,7 @@
 namespace Zorglub.Time;
 
 using System.Globalization;
+using System.Numerics;
 
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;

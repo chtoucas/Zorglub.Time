@@ -1,205 +1,204 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Hemerology;
+
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+
+using Zorglub.Time.Hemerology.Scopes;
+
+internal sealed class ZRegistry
 {
-    using System.Collections.Concurrent;
-    using System.Linq;
-    using System.Threading;
+    /// <summary>
+    /// Represents an invalid ID.
+    /// <para>This field is a constant equal to 2_147_483_647.</para>
+    /// </summary>
+    private const int InvalidId = Int32.MaxValue;
 
-    using Zorglub.Time.Hemerology.Scopes;
+    /// <summary>
+    /// Represents the array of fully constructed calendars, indexed by their internal IDs.
+    /// <para>This field is read-only.</para>
+    /// </summary>
+    private readonly ZCalendar?[] _calendarsById;
 
-    internal sealed class ZRegistry
+    /// <summary>
+    /// Represents the dictionary of (lazy) calendars, indexed by their keys.
+    /// <para>This field is read-only.</para>
+    /// </summary>
+    private readonly ConcurrentDictionary<string, Lazy<ZCalendar>> _calendarsByKey;
+
+    private int _lastId;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZRegistry"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
+    public ZRegistry(
+        ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
+        ZCalendar?[] calendarsById,
+        int minUserId)
     {
-        /// <summary>
-        /// Represents an invalid ID.
-        /// <para>This field is a constant equal to 2_147_483_647.</para>
-        /// </summary>
-        private const int InvalidId = Int32.MaxValue;
+        Requires.NotNull(calendarsByKey);
+        Requires.NotNull(calendarsById);
 
-        /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ZCalendar?[] _calendarsById;
+        MaxId = calendarsById.Length - 1;
+        // We could have used an equality (InvalidId = Int32.MaxValue), but
+        // an inequality is better because it will continue to work even if
+        // we change the value of InvalidId.
+        if (MaxId >= InvalidId) Throw.Argument(nameof(calendarsById));
+        if (minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
 
-        /// <summary>
-        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ConcurrentDictionary<string, Lazy<ZCalendar>> _calendarsByKey;
+        _calendarsByKey = calendarsByKey;
+        _calendarsById = calendarsById;
 
-        private int _lastId;
+        MinUserId = minUserId;
+        _lastId = minUserId - 1;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ZRegistry"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
-        public ZRegistry(
-            ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
-            ZCalendar?[] calendarsById,
-            int minUserId)
+    /// <summary>
+    /// Gets the minimum value for the ID of a user-defined calendar.
+    /// </summary>
+    public int MinUserId { get; }
+
+    /// <summary>
+    /// Gets the maximum value for the ID of a calendar.
+    /// </summary>
+    public int MaxId { get; }
+
+    // Only for testing.
+    public ICollection<string> Keys => _calendarsByKey.Keys;
+
+    // Only for testing.
+    [Pure]
+    public IEnumerable<ZCalendar> GetCurrentCalendars() =>
+        from chr in _calendarsById where chr is not null select chr;
+
+    /// <summary>
+    /// Counts the number of user-defined calendars at the time of the request.
+    /// </summary>
+    // We use Math.Min() because CreateCalendar() might increment _lastId
+    // one step too far.
+    [Pure]
+    public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
+
+    [Pure]
+    public ZCalendar GetOrAdd(string key, MinMaxYearScope scope)
+    {
+        if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
         {
-            Requires.NotNull(calendarsByKey);
-            Requires.NotNull(calendarsById);
-
-            MaxId = calendarsById.Length - 1;
-            // We could have used an equality (InvalidId = Int32.MaxValue), but
-            // an inequality is better because it will continue to work even if
-            // we change the value of InvalidId.
-            if (MaxId >= InvalidId) Throw.Argument(nameof(calendarsById));
-            if (minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
-
-            _calendarsByKey = calendarsByKey;
-            _calendarsById = calendarsById;
-
-            MinUserId = minUserId;
-            _lastId = minUserId - 1;
+            Throw.CatalogOverflow();
         }
 
-        /// <summary>
-        /// Gets the minimum value for the ID of a user-defined calendar.
-        /// </summary>
-        public int MinUserId { get; }
+        var tmp = new TmpCalendar(key, scope);
 
-        /// <summary>
-        /// Gets the maximum value for the ID of a calendar.
-        /// </summary>
-        public int MaxId { get; }
+        var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
+        var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
 
-        // Only for testing.
-        public ICollection<string> Keys => _calendarsByKey.Keys;
-
-        // Only for testing.
-        [Pure]
-        public IEnumerable<ZCalendar> GetCurrentCalendars() =>
-            from chr in _calendarsById where chr is not null select chr;
-
-        /// <summary>
-        /// Counts the number of user-defined calendars at the time of the request.
-        /// </summary>
-        // We use Math.Min() because CreateCalendar() might increment _lastId
-        // one step too far.
-        [Pure]
-        public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
-
-        [Pure]
-        public ZCalendar GetOrAdd(string key, MinMaxYearScope scope)
+        var chr = lazy1.Value;
+        if (chr is TmpCalendar)
         {
-            if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
+            if (ReferenceEquals(lazy1, lazy))
             {
-                Throw.CatalogOverflow();
+                _calendarsByKey.TryRemove(key, out _);
             }
 
-            var tmp = new TmpCalendar(key, scope);
-
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-            var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
-
-            var chr = lazy1.Value;
-            if (chr is TmpCalendar)
-            {
-                if (ReferenceEquals(lazy1, lazy))
-                {
-                    _calendarsByKey.TryRemove(key, out _);
-                }
-
-                Throw.CatalogOverflow();
-            }
-
-            return chr;
+            Throw.CatalogOverflow();
         }
 
-        [Pure]
-        public ZCalendar Add(string key, MinMaxYearScope scope)
+        return chr;
+    }
+
+    [Pure]
+    public ZCalendar Add(string key, MinMaxYearScope scope)
+    {
+        if (_lastId >= MaxId) Throw.CatalogOverflow();
+
+        var tmp = new TmpCalendar(key, scope);
+
+        var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
+
+        if (_calendarsByKey.TryAdd(key, lazy) == false)
         {
-            if (_lastId >= MaxId) Throw.CatalogOverflow();
+            Throw.KeyAlreadyExists(nameof(key), key);
+        }
 
-            var tmp = new TmpCalendar(key, scope);
+        var chr = lazy.Value;
+        if (chr is TmpCalendar)
+        {
+            _calendarsByKey.TryRemove(key, out _);
 
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
+            Throw.CatalogOverflow();
+        }
 
-            if (_calendarsByKey.TryAdd(key, lazy) == false)
-            {
-                Throw.KeyAlreadyExists(nameof(key), key);
-            }
+        return chr;
+    }
 
+    [Pure]
+    public bool TryAdd(
+        string key, MinMaxYearScope scope,
+        [NotNullWhen(true)] out ZCalendar? calendar)
+    {
+        if (_lastId >= MaxId) { goto FAILED; }
+
+        Requires.NotNull(key);
+        Requires.NotNull(scope);
+
+        TmpCalendar tmp;
+        try { tmp = new TmpCalendar(key, scope); }
+        catch (ArgumentException) { goto FAILED; }
+
+        var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
+
+        if (_calendarsByKey.TryAdd(key, lazy))
+        {
             var chr = lazy.Value;
             if (chr is TmpCalendar)
             {
                 _calendarsByKey.TryRemove(key, out _);
-
-                Throw.CatalogOverflow();
+                goto FAILED;
             }
-
-            return chr;
-        }
-
-        [Pure]
-        public bool TryAdd(
-            string key, MinMaxYearScope scope,
-            [NotNullWhen(true)] out ZCalendar? calendar)
-        {
-            if (_lastId >= MaxId) { goto FAILED; }
-
-            Requires.NotNull(key);
-            Requires.NotNull(scope);
-
-            TmpCalendar tmp;
-            try { tmp = new TmpCalendar(key, scope); }
-            catch (ArgumentException) { goto FAILED; }
-
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-
-            if (_calendarsByKey.TryAdd(key, lazy))
+            else
             {
-                var chr = lazy.Value;
-                if (chr is TmpCalendar)
-                {
-                    _calendarsByKey.TryRemove(key, out _);
-                    goto FAILED;
-                }
-                else
-                {
-                    calendar = chr;
-                    return true;
-                }
+                calendar = chr;
+                return true;
             }
-
-        FAILED:
-            calendar = null;
-            return false;
         }
 
-        //
-        // Helpers
-        //
+    FAILED:
+        calendar = null;
+        return false;
+    }
 
-        [Pure]
-        private ZCalendar CreateCalendar(TmpCalendar tmpCalendar)
-        {
-            Debug.Assert(tmpCalendar != null);
+    //
+    // Helpers
+    //
 
-            int id = Interlocked.Increment(ref _lastId);
-            if (id > MaxId) { return tmpCalendar; }
+    [Pure]
+    private ZCalendar CreateCalendar(TmpCalendar tmpCalendar)
+    {
+        Debug.Assert(tmpCalendar != null);
 
-            var chr = new ZCalendar(
-                id,
-                tmpCalendar.Key,
-                tmpCalendar.Scope,
-                userDefined: true);
+        int id = Interlocked.Increment(ref _lastId);
+        if (id > MaxId) { return tmpCalendar; }
 
-            return _calendarsById[id] = chr;
-        }
+        var chr = new ZCalendar(
+            id,
+            tmpCalendar.Key,
+            tmpCalendar.Scope,
+            userDefined: true);
 
-        internal sealed class TmpCalendar : ZCalendar
-        {
-            public TmpCalendar(string key, MinMaxYearScope scope)
-                : base(InvalidId, key, scope, userDefined: true) { }
+        return _calendarsById[id] = chr;
+    }
 
-            [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]
-            internal new int Id => Throw.InvalidOperation<int>();
-        }
+    internal sealed class TmpCalendar : ZCalendar
+    {
+        public TmpCalendar(string key, MinMaxYearScope scope)
+            : base(InvalidId, key, scope, userDefined: true) { }
+
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]
+        internal new int Id => Throw.InvalidOperation<int>();
     }
 }

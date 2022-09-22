@@ -3,168 +3,167 @@
 
 //#define TROESCH_MAP_SYMMETRY_THEN_TRANSLATION
 
-namespace Zorglub.Time.Geometry.Discrete
+namespace Zorglub.Time.Geometry.Discrete;
+
+// TODO: Shear, Translate > 0. Inverse Translate params.
+// Complement could be optional and only depend on the form.
+
+public sealed partial record TroeschMap(int Shear, bool Complement, int Translate);
+
+// Transform/Apply.
+public partial record TroeschMap
 {
-    // TODO: Shear, Translate > 0. Inverse Translate params.
-    // Complement could be optional and only depend on the form.
-
-    public sealed partial record TroeschMap(int Shear, bool Complement, int Translate);
-
-    // Transform/Apply.
-    public partial record TroeschMap
+    [Pure]
+    public QuasiAffineForm Apply(QuasiAffineForm form)
     {
-        [Pure]
-        public QuasiAffineForm Apply(QuasiAffineForm form)
+        Requires.NotNull(form);
+
+        var (a, b, r) = form;
+
+        if (Complement)
         {
-            Requires.NotNull(form);
-
-            var (a, b, r) = form;
-
-            if (Complement)
-            {
-                var B = (Shear + 1) * b - a;
+            var B = (Shear + 1) * b - a;
 #if TROESCH_MAP_SYMMETRY_THEN_TRANSLATION
-                // Orthogonal symmetry then translation.
-                return new(b, B, MathZ.Modulo(r - b + Translate * b, B));
+            // Orthogonal symmetry then translation.
+            return new(b, B, MathZ.Modulo(r - b + Translate * b, B));
 #else
-                // Translation then orthogonal symmetry.
-                return new(b, B, B - 1 - MathZ.Modulo(-1 - r - Translate * a, b));
+            // Translation then orthogonal symmetry.
+            return new(b, B, B - 1 - MathZ.Modulo(-1 - r - Translate * a, b));
 #endif
-            }
-            else
-            {
-                var B = a - Shear * b;
+        }
+        else
+        {
+            var B = a - Shear * b;
 #if TROESCH_MAP_SYMMETRY_THEN_TRANSLATION
-                // Orthogonal symmetry then translation.
-                return new(b, B, MathZ.Modulo(a - 1 - r, B));
+            // Orthogonal symmetry then translation.
+            return new(b, B, MathZ.Modulo(a - 1 - r, B));
 #else
-                // Translation then orthogonal symmetry.
-                return new(b, B, B - 1 - MathZ.Modulo(r + Translate * a, b));
+            // Translation then orthogonal symmetry.
+            return new(b, B, B - 1 - MathZ.Modulo(r + Translate * a, b));
 #endif
-            }
-        }
-
-        // Geometric Apply().
-        [Pure]
-        internal QuasiAffineForm Transform(QuasiAffineForm form)
-        {
-            Debug.Assert(form != null);
-
-            return Complement ? Transform4() : Transform3();
-
-            QuasiAffineForm Transform3() =>
-                form.ApplyVerticalShear(-Shear)
-                    .ApplyTranslation(-Translate)
-                    .ApplyOrthogonalSymmetry();
-
-            QuasiAffineForm Transform4() =>
-                form.ApplyVerticalShear(-Shear)
-                    .ApplyObliqueSymmetry()
-                    .ApplyTranslation(-Translate)
-                    .ApplyOrthogonalSymmetry();
-        }
-
-        // Transform() detailed.
-        [Pure]
-        internal QuasiAffineForm[] TransformWalkthru(QuasiAffineForm form)
-        {
-            Debug.Assert(form != null);
-
-            return Complement ? Transform4() : Transform3();
-
-            QuasiAffineForm[] Transform3()
-            {
-                var form1 = form.ApplyVerticalShear(-Shear);
-
-                return new QuasiAffineForm[2]
-                {
-                    form1,
-                    form1.ApplyTranslation(-Translate).ApplyOrthogonalSymmetry()
-                };
-            }
-
-            QuasiAffineForm[] Transform4()
-            {
-                var form1 = form.ApplyVerticalShear(-Shear);
-                var form2 = form1.ApplyObliqueSymmetry();
-
-                return new QuasiAffineForm[3]
-                {
-                    form1,
-                    form2,
-                    form2.ApplyTranslation(-Translate).ApplyOrthogonalSymmetry()
-                };
-            }
         }
     }
 
-    // Inverse transformation.
-    public partial record TroeschMap
+    // Geometric Apply().
+    [Pure]
+    internal QuasiAffineForm Transform(QuasiAffineForm form)
     {
-        [Pure]
-        public QuasiAffineForm ApplyBack(QuasiAffineForm form)
+        Debug.Assert(form != null);
+
+        return Complement ? Transform4() : Transform3();
+
+        QuasiAffineForm Transform3() =>
+            form.ApplyVerticalShear(-Shear)
+                .ApplyTranslation(-Translate)
+                .ApplyOrthogonalSymmetry();
+
+        QuasiAffineForm Transform4() =>
+            form.ApplyVerticalShear(-Shear)
+                .ApplyObliqueSymmetry()
+                .ApplyTranslation(-Translate)
+                .ApplyOrthogonalSymmetry();
+    }
+
+    // Transform() detailed.
+    [Pure]
+    internal QuasiAffineForm[] TransformWalkthru(QuasiAffineForm form)
+    {
+        Debug.Assert(form != null);
+
+        return Complement ? Transform4() : Transform3();
+
+        QuasiAffineForm[] Transform3()
         {
-            Requires.NotNull(form);
+            var form1 = form.ApplyVerticalShear(-Shear);
 
-            var (a, b, r) = form;
-
-            var rem = MathZ.Modulo(b - 1 - r - Translate * b, a);
-
-            return Complement ? new(Shear * a + a - b, a, a - 1 - rem)
-                : new(Shear * a + b, a, rem);
+            return new QuasiAffineForm[2]
+            {
+                form1,
+                form1.ApplyTranslation(-Translate).ApplyOrthogonalSymmetry()
+            };
         }
 
-        // Geometric ApplyBack().
-        [Pure]
-        internal QuasiAffineForm TransformBack(QuasiAffineForm form)
+        QuasiAffineForm[] Transform4()
         {
-            Debug.Assert(form != null);
+            var form1 = form.ApplyVerticalShear(-Shear);
+            var form2 = form1.ApplyObliqueSymmetry();
 
-            return Complement ? TransformBack4() : TransformBack3();
+            return new QuasiAffineForm[3]
+            {
+                form1,
+                form2,
+                form2.ApplyTranslation(-Translate).ApplyOrthogonalSymmetry()
+            };
+        }
+    }
+}
 
-            QuasiAffineForm TransformBack3() =>
-                form.ApplyBackOrthogonalSymmetry()
-                    .ApplyTranslation(Translate)
-                    .ApplyVerticalShear(Shear);
+// Inverse transformation.
+public partial record TroeschMap
+{
+    [Pure]
+    public QuasiAffineForm ApplyBack(QuasiAffineForm form)
+    {
+        Requires.NotNull(form);
 
-            QuasiAffineForm TransformBack4() =>
-                 form.ApplyBackOrthogonalSymmetry()
-                    .ApplyTranslation(Translate)
-                    .ApplyObliqueSymmetry()
-                    .ApplyVerticalShear(Shear);
+        var (a, b, r) = form;
+
+        var rem = MathZ.Modulo(b - 1 - r - Translate * b, a);
+
+        return Complement ? new(Shear * a + a - b, a, a - 1 - rem)
+            : new(Shear * a + b, a, rem);
+    }
+
+    // Geometric ApplyBack().
+    [Pure]
+    internal QuasiAffineForm TransformBack(QuasiAffineForm form)
+    {
+        Debug.Assert(form != null);
+
+        return Complement ? TransformBack4() : TransformBack3();
+
+        QuasiAffineForm TransformBack3() =>
+            form.ApplyBackOrthogonalSymmetry()
+                .ApplyTranslation(Translate)
+                .ApplyVerticalShear(Shear);
+
+        QuasiAffineForm TransformBack4() =>
+             form.ApplyBackOrthogonalSymmetry()
+                .ApplyTranslation(Translate)
+                .ApplyObliqueSymmetry()
+                .ApplyVerticalShear(Shear);
+    }
+
+    // TransformBack() detailed.
+    [Pure]
+    internal QuasiAffineForm[] TransformBackWalkthru(QuasiAffineForm form)
+    {
+        Debug.Assert(form != null);
+
+        return Complement ? TransformBack4() : TransformBack3();
+
+        QuasiAffineForm[] TransformBack3()
+        {
+            var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
+
+            return new QuasiAffineForm[2]
+            {
+                form1,
+                form1.ApplyVerticalShear(Shear)
+            };
         }
 
-        // TransformBack() detailed.
-        [Pure]
-        internal QuasiAffineForm[] TransformBackWalkthru(QuasiAffineForm form)
+        QuasiAffineForm[] TransformBack4()
         {
-            Debug.Assert(form != null);
+            var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
+            var form2 = form1.ApplyObliqueSymmetry();
 
-            return Complement ? TransformBack4() : TransformBack3();
-
-            QuasiAffineForm[] TransformBack3()
+            return new QuasiAffineForm[3]
             {
-                var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
-
-                return new QuasiAffineForm[2]
-                {
-                    form1,
-                    form1.ApplyVerticalShear(Shear)
-                };
-            }
-
-            QuasiAffineForm[] TransformBack4()
-            {
-                var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
-                var form2 = form1.ApplyObliqueSymmetry();
-
-                return new QuasiAffineForm[3]
-                {
-                    form1,
-                    form2,
-                    form2.ApplyVerticalShear(Shear)
-                };
-            }
+                form1,
+                form2,
+                form2.ApplyVerticalShear(Shear)
+            };
         }
     }
 }
