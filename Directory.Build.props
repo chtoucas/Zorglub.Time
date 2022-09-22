@@ -98,7 +98,7 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <!-- See .editorconfig for CodeStyle-related settings -->
+        <!-- See .editorconfig for Style-related settings -->
         <!--<WarningsAsErrors></WarningsAsErrors>-->
         <NoWarn />
       </PropertyGroup>

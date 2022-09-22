@@ -35,7 +35,6 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) 👈 PreviewFeatures
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 👈 PreviewFeatures
 
 #if !NET7_0_OR_GREATER
 

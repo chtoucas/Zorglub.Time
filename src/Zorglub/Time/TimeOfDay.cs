@@ -40,13 +40,9 @@ public readonly partial struct TimeOfDay :
 {
     #region Bit settings
 
-    /// <summary><see cref="Hour"/> is a 5-bit unsigned integer.</summary>
     private const int HourBits = 5;
-    /// <summary><see cref="Minute"/> is a 6-bit unsigned integer.</summary>
     private const int MinuteBits = 6;
-    /// <summary><see cref="Second"/> is a 6-bit unsigned integer.</summary>
     private const int SecondBits = 6;
-    /// <summary><see cref="Millisecond"/> is a 6-bit unsigned integer.</summary>
     private const int MillisecondBits = 10;
 
     /// <summary>This field is a constant equal to 10.</summary>
