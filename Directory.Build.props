@@ -1,30 +1,24 @@
 <Project>
 
-  <!-- Global context -->
   <PropertyGroup>
+    <!-- Global context -->
     <ContinuousIntegrationBuild Condition=" '$(ContinuousIntegrationBuild)' == '' ">false</ContinuousIntegrationBuild>
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
     <ContinuousIntegrationBuild Condition=" '$(TF_BUILD)' == 'true' ">true</ContinuousIntegrationBuild>
-  </PropertyGroup>
 
-  <!-- Target frameworks -->
-  <PropertyGroup>
     <!-- WARNING: keep "MyDefaultFramework" in sync with "global.json" -->
     <MyDefaultFramework>net6.0</MyDefaultFramework>
 
     <MyLibraryFrameworks>$(MyDefaultFramework)</MyLibraryFrameworks>
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
-  </PropertyGroup>
 
-  <!-- Preview or not? -->
-  <PropertyGroup>
     <!-- Should be "latest" or "preview" -->
     <LangVersion>preview</LangVersion>
 
-    <!-- To simplify things, when we enable preview features we do it at the
-         assembly level via "GenerateRequiresPreviewFeaturesAttribute" (this is
-         the default behaviour, but I prefer to be explicit about this), and for
-         all projects. -->
+    <!-- Preview Features
+      When we enable preview features we do it at the assembly level via
+      "GenerateRequiresPreviewFeaturesAttribute" (this is the default behaviour,
+      but I prefer to be explicit about this), and for all projects. -->
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
   </PropertyGroup>
@@ -54,9 +48,8 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
 
-    <!-- Code/Style Analysis -->
-    <!--
-      NB: if we need a more recent version of Microsoft.CodeAnalysis.NetAnalyzers,
+    <!-- Code/Style Analysis
+      If we need a more recent version of Microsoft.CodeAnalysis.NetAnalyzers,
       add a package reference in D.B.targets.
       https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
       https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysismode
@@ -66,17 +59,20 @@
     <AnalysisMode>All</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
-    <!-- Reproducible build -->
+    <!-- Reproducible Build
+      RestoreLockedMode:
+        For CI builds, do not update the lock file.
+      DisableImplicitNuGetFallbackFolder:
+        Fix error NU1403, and not just for CI builds... It seems that dotnet
+        tweaks the packages before putting them within the fallback folder.
+        > dotnet nuget locals all -c
+    -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <!-- For CI builds, do not update the lock file -->
     <RestoreLockedMode Condition=" '$(ContinuousIntegrationBuild)' == 'true' ">true</RestoreLockedMode>
-    <!-- Fix error NU1403, and not just for CI builds... It seems that dotnet
-         tweaks the packages before putting them within the fallback folder.
-         > dotnet nuget locals all -c -->
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
 
-  <!-- Release configuration versus the other ones (Debug) -->
+  <!-- Release vs Debug -->
   <Choose>
     <When Condition=" '$(Configuration)' == 'Release' ">
       <PropertyGroup>
@@ -98,8 +94,7 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <!-- See .editorconfig for Style-related settings -->
-        <!--<WarningsAsErrors></WarningsAsErrors>-->
+        <WarningsAsErrors />
         <NoWarn />
       </PropertyGroup>
     </Otherwise>
