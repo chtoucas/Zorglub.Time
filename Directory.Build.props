@@ -16,7 +16,7 @@
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
   </PropertyGroup>
 
-  <!-- Preview -->
+  <!-- Preview or not? -->
   <PropertyGroup>
     <!-- Should be "latest" or "preview" -->
     <LangVersion>preview</LangVersion>
@@ -85,7 +85,6 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
         <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
         <NoWarn />
@@ -99,7 +98,6 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
         <!-- See .editorconfig for CodeStyle-related settings -->
         <!--<WarningsAsErrors></WarningsAsErrors>-->
         <NoWarn />

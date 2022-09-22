@@ -6,10 +6,10 @@
     <DefineConstants Condition=" '$(DefineConstants)' != '' ">$(DefineConstants);CONTRACTS_FULL</DefineConstants>
     <DefineConstants Condition=" '$(DefineConstants)' == '' ">CONTRACTS_FULL</DefineConstants>
 
-    <!-- Conditional symbols -->
     <DefineConstants Condition=" '$(SignAssembly)' == 'true' ">$(DefineConstants);__SIGNED_ASSEMBLY__</DefineConstants>
     <DefineConstants Condition=" '$(HideInternals)' != 'true' ">$(DefineConstants);__VISIBLE_INTERNALS__</DefineConstants>
     <DefineConstants Condition=" '$(EnablePreviewFeatures)' == 'true' ">$(DefineConstants);__ENABLE_PREVIEW_FEATURES__</DefineConstants>
+
     <DefineConstants>$(DefineConstants);__PATCH_DIVREM__</DefineConstants>
   </PropertyGroup>
 
