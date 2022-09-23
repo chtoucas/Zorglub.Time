@@ -168,9 +168,12 @@ public abstract partial class SystemArithmetic
                 // perf for regular schemas except for month ops. Not convinced?
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
-                _ => sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
+                CalendricalProfile.Other =>
+                    sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
                     ? new RegularSystemArithmetic(segment)
-                    : new PlainSystemArithmetic(segment)
+                    : new PlainSystemArithmetic(segment),
+
+                _ => Throw.Unreachable<SystemArithmetic>()
             };
     }
 }

@@ -72,7 +72,8 @@ public interface ICalendricalPreValidator
             CalendricalProfile.Solar13 => new Solar13PreValidator(schema),
             CalendricalProfile.Lunar => new LunarPreValidator(schema),
             CalendricalProfile.Lunisolar => new LunisolarPreValidator(schema),
-            _ => new PlainPreValidator(schema)
+            CalendricalProfile.Other => new PlainPreValidator(schema),
+            _ => Throw.Unreachable<ICalendricalPreValidator>()
         };
     }
 }

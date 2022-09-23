@@ -54,7 +54,8 @@ public static class GeometricSchemaExtensions
                 MonthFormNumbering.Algebraic => new TransposedSchema(schema, new TrivialRegularizer_()),
                 // Rien à faire : la forme des mois est déjà dans sa bonne version.
                 MonthFormNumbering.Ordinal => schema,
-                _ => Throw.NotSupported<IGeometricSchema>()
+                MonthFormNumbering.Other => Throw.NotSupported<IGeometricSchema>(),
+                _ => Throw.Unreachable<IGeometricSchema>()
             };
         }
 

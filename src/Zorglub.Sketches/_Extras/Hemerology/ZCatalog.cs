@@ -329,6 +329,7 @@ public partial class ZCatalog // Lookup
         {
             CalendarId.Gregorian => Gregorian,
             CalendarId.Julian => JulianZCalendar.Instance,
+            CalendarId.Civil => CivilZCalendar.Instance,
             CalendarId.Armenian => ArmenianZCalendar.Instance,
             CalendarId.Coptic => CopticZCalendar.Instance,
             CalendarId.Ethiopic => EthiopicZCalendar.Instance,

@@ -31,6 +31,7 @@ public sealed class Gregorianizer
         ? SimpleCalendar.Julian.GetDate(dayNumber).ToCalendarDate()
         : SimpleCalendar.Gregorian.GetDate(dayNumber).ToCalendarDate();
 
+    [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "<Pending>")]
     public CalendarDay Gregorianize(CalendarDay date) =>
         date.Cuid switch
         {
@@ -45,6 +46,7 @@ public sealed class Gregorianizer
             _ => Throw.Argument<CalendarDay>(nameof(date)),
         };
 
+    [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "<Pending>")]
     public CalendarDate Gregorianize(CalendarDate date) =>
         date.Cuid switch
         {
@@ -59,6 +61,7 @@ public sealed class Gregorianizer
             _ => Throw.Argument<CalendarDate>(nameof(date)),
         };
 
+    [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "<Pending>")]
     public OrdinalDate Gregorianize(OrdinalDate date) =>
         date.Cuid switch
         {
