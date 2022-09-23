@@ -38,7 +38,7 @@ indent_size = 2
 # - csharp_style_expression_bodied_methods = when_on_single_line
 
 # Default severity for code style rules
-# Core projects override this and use "warning"
+# NB: core projects override this and use "warning".
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
 # Rules with no associated code-style options
