@@ -133,7 +133,12 @@ public partial struct ReferenceId
             StratumFamily.Unspecified => ReadKissCode(bytes),
             StratumFamily.PrimaryReference => ReadCode(bytes),
             StratumFamily.SecondaryReference => ReadSecondaryReference(bytes),
-            _ => new NtpCode(NtpCodeType.Unknown, ToHexString()),
+
+            StratumFamily.Unknown
+            or StratumFamily.Unsynchronized
+            or StratumFamily.Reserved => new NtpCode(NtpCodeType.Unknown, ToHexString()),
+
+            _ => Throw.Unreachable<NtpCode>(),
         };
     }
 
