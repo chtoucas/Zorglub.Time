@@ -10,11 +10,10 @@
       CA1711    Identifiers should not have incorrect suffix (Naming)
       CA1716    Identifiers should not match keywords (Naming)
       xUnit1026 Theory methods should use all of their parameters
-      IDE0002   Simplify member access
 
-      NB: CA1801 & xUnit1026 are replaced by IDE0060 (see .editorconfig).
+      NB: CA1801 & xUnit1026 are "replaced" by IDE0060 (see .editorconfig).
     -->
-    <NoWarn>$(NoWarn);CA1000;CA1034;CA1707;CA1711;CA1716;xUnit1026;IDE0002</NoWarn>
+    <NoWarn>$(NoWarn);CA1000;CA1034;CA1707;CA1711;CA1716;xUnit1026</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
