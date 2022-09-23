@@ -12,8 +12,8 @@ using System.Numerics;
 // where "i" is the algebraic value of the Ord, except that using "i" is
 // error-prone here. Better to use FromRank().
 
-/// <summary>Represents a 32-bit "signed" ordinal numeral.</summary>
-/// <remarks><see cref="Ord"/> is an immutable struct.</remarks>
+/// <summary>Represents a 32-bit "signed" ordinal numeral.
+/// <para><see cref="Ord"/> is an immutable struct.</para></summary>
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public readonly partial struct Ord :
     // Comparison
@@ -27,22 +27,22 @@ public readonly partial struct Ord :
     IDecrementOperators<Ord>,
     IUnaryNegationOperators<Ord, Ord>
 {
-    /// <summary>Represents the smallest possible algebraic value.</summary>
-    /// <remarks>This field is a constant equal to -2_147_483_646.</remarks>
+    /// <summary>Represents the smallest possible algebraic value.
+    /// <para>This field is a constant equal to -2_147_483_646.</para></summary>
     public const int MinAlgebraicValue = Int32.MinValue + 2;
 
-    /// <summary>Represents the largest possible algebraic value.</summary>
-    /// <remarks>This field is a constant equal to 2_147_483_647.</remarks>
+    /// <summary>Represents the largest possible algebraic value.
+    /// <para>This field is a constant equal to 2_147_483_647.</para></summary>
     public const int MaxAlgebraicValue = Int32.MaxValue;
 
-    /// <summary>Represents the algebraic value of the current instance.</summary>
-    /// <remarks>This field is in the range from <see cref="MinAlgebraicValue"/>
-    /// to <see cref="MaxAlgebraicValue"/>.</remarks>
+    /// <summary>Represents the algebraic value of the current instance.
+    /// <para>This field is in the range from <see cref="MinAlgebraicValue"/> to
+    /// <see cref="MaxAlgebraicValue"/>.</para></summary>
     private readonly int _value;
 
     /// <summary>Initializes a new instance of the <see cref="Ord"/> struct from the specified
-    /// <i>algebraic</i> value.</summary>
-    /// <remarks>This constructor does NOT validate its parameter.</remarks>
+    /// <i>algebraic</i> value.
+    /// <para>This constructor does NOT validate its parameter.</para></summary>
     private Ord(int value)
     {
         Debug.Assert(value >= MinAlgebraicValue);
@@ -50,12 +50,12 @@ public readonly partial struct Ord :
         _value = value;
     }
 
-    /// <summary>Gets the ordinal numeral zeroth.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the ordinal numeral zeroth.
+    /// <para>This static property is thread-safe.</para></summary>
     public static Ord Zeroth { get; }
 
-    /// <summary>Gets the ordinal numeral first.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the ordinal numeral first.
+    /// <para>This static property is thread-safe.</para></summary>
     public static Ord First { get; } = new(1);
 
     /// <inheritdoc />
@@ -66,9 +66,9 @@ public readonly partial struct Ord :
     /// <remarks>This static property is thread-safe.</remarks>
     public static Ord MaxValue { get; } = new(MaxAlgebraicValue);
 
-    /// <summary>Gets the (signed) rank of the current instance.</summary>
-    /// <remarks>The result is never equal to zero and is in the range from
-    /// -<see cref="Int32.MaxValue"/> to <see cref="Int32.MaxValue"/>.</remarks>
+    /// <summary>Gets the (signed) rank of the current instance.
+    /// <para>The result is never equal to zero and is in the range from
+    /// -<see cref="Int32.MaxValue"/> to <see cref="Int32.MaxValue"/>.</para></summary>
     public int Rank => _value > 0 ? _value : _value - 1;
 
     /// <summary>Gets the string to display in the debugger watch window.</summary>
@@ -98,9 +98,9 @@ public readonly partial struct Ord :
         }
     }
 
-    /// <summary>Converts the current instance to a 32-bit signed integer.</summary>
-    /// <remarks>The result is in the range from <see cref="MinAlgebraicValue"/> to
-    /// <see cref="MaxAlgebraicValue"/>.</remarks>
+    /// <summary>Converts the current instance to a 32-bit signed integer.
+    /// <para>The result is in the range from <see cref="MinAlgebraicValue"/> to
+    /// <see cref="MaxAlgebraicValue"/>.</para></summary>
     public static explicit operator int(Ord ord) => ord._value;
 }
 
@@ -125,9 +125,9 @@ public partial struct Ord // Factories, conversions
         : new Ord(value);
 
     /// <summary>Converts the current instance to its equivalent algebraic value, a 32-bit signed
-    /// integer.</summary>
-    /// <remarks>The result is in the range from <see cref="MinAlgebraicValue"/> to
-    /// <see cref="MaxAlgebraicValue"/>.</remarks>
+    /// integer.
+    /// <para>The result is in the range from <see cref="MinAlgebraicValue"/> to
+    /// <see cref="MaxAlgebraicValue"/>.</para></summary>
     public int ToInt32() => _value;
 }
 
