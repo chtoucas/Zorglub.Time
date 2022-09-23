@@ -126,7 +126,7 @@ internal partial struct SplitJD
     {
         if (jd < MinValue || jd >= FirstInvalidValue)
         {
-            throw new ArgumentOutOfRangeException(nameof(jd));
+            throw new AoorException(nameof(jd));
         }
 
         return new SplitJD(jd, 0);
@@ -141,7 +141,7 @@ internal partial struct SplitJD
     {
         if (mjd < MinModifiedValue || mjd >= FirstInvalidModifiedValue)
         {
-            throw new ArgumentOutOfRangeException(nameof(mjd));
+            throw new AoorException(nameof(mjd));
         }
 
         return new SplitJD(JulianDateEpoch.Modified, mjd);

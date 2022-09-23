@@ -13,7 +13,7 @@ public static class Tropicalia3031Formulae
 {
     [Pure]
     // We remove the unused param "y".
-    public static int CountDaysInYearBeforeMonth(int m) => 30 * (--m) + (m >> 1);
+    public static int CountDaysInYearBeforeMonth(int m) => 30 * --m + (m >> 1);
 
     [Pure]
     public static int CountDaysInMonth(int y, int m) =>

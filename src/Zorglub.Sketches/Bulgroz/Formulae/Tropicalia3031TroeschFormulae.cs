@@ -44,7 +44,7 @@ public sealed class Tropicalia3031TroeschFormulae : ICalendricalFormulae
 
         return DaysPer128YearCycle * C
             // YearForm
-            + (DaysPer4YearSubcycle * Y / 4)
+            + DaysPer4YearSubcycle * Y / 4
             // MonthForm
 #if COMMON_YEAR_FORM
             + (335 * m - 330) / 11
@@ -61,7 +61,7 @@ public sealed class Tropicalia3031TroeschFormulae : ICalendricalFormulae
 
         // Inverse of YearForm.
         int Y = (4 * D + 3) / DaysPer4YearSubcycle;
-        int d0y = D - (DaysPer4YearSubcycle * Y / 4);
+        int d0y = D - DaysPer4YearSubcycle * Y / 4;
 
         // Inverse of MonthForm & DayForm.
 #if COMMON_YEAR_FORM
@@ -132,6 +132,6 @@ public sealed class Tropicalia3031TroeschFormulae : ICalendricalFormulae
     {
         y--;
         int C = MathZ.Divide(y, 128, out int Y);
-        return DaysPer128YearCycle * C + (DaysPer4YearSubcycle * Y / 4);
+        return DaysPer128YearCycle * C + DaysPer4YearSubcycle * Y / 4;
     }
 }

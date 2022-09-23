@@ -103,7 +103,7 @@ internal partial struct QuasiJD
     {
         if (jd < MinValue || jd >= FirstInvalidValue)
         {
-            throw new ArgumentOutOfRangeException(nameof(jd));
+            throw new AoorException(nameof(jd));
         }
 
         return new QuasiJD(jd, 0);
@@ -118,7 +118,7 @@ internal partial struct QuasiJD
     {
         if (mjd < MinModifiedValue || mjd >= FirstInvalidModifiedValue)
         {
-            throw new ArgumentOutOfRangeException(nameof(mjd));
+            throw new AoorException(nameof(mjd));
         }
 
         return new QuasiJD(JulianDateEpoch.Modified, mjd);
