@@ -20,11 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\opt\code-github\Zorglub.Time\src\Zorglub.Extras\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\opt\code-github\Zorglub.Time\src\Zorglub.Extras\.editorconfig" />
+    <None Include="$(MSBuildThisFileDirectory).editorconfig" />
   </ItemGroup>
 
 </Project>
