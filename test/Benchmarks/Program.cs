@@ -165,6 +165,7 @@ public static class Program
                 case 1: Console.Write("\\"); break;
                 case 2: Console.Write("|"); break;
                 case 3: Console.Write("/"); break;
+                default: throw new InvalidOperationException();
             }
 
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);

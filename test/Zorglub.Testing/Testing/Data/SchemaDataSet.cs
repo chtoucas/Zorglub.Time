@@ -571,5 +571,4 @@ public partial class SchemaDataSet // Math helpers
         }
         return data;
     }
-
 }

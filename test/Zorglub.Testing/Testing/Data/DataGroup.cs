@@ -102,7 +102,6 @@ public static class DataGroup
         var q = from x in source select x.ToDayNumberYewedaInfo(epoch);
         return Create(q);
     }
-
 }
 
 /// <summary>

@@ -105,7 +105,7 @@ public abstract class SimpleClock
     // without the validation part for system calendars as we know for sure
     // that today is always admissible.
 
-#pragma warning disable CA1024 // Use properties where appropriate (Design)
+#pragma warning disable CA1024 // Use properties where appropriate (Design) ✓
     // These methods SHOULD NOT be properties.
     // Let's not repeat the mistake of DateTime.Now.
 

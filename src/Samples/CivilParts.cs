@@ -4,6 +4,7 @@
 namespace Samples;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Numerics;
@@ -81,9 +82,10 @@ public readonly partial record struct CivilParts :
 
     private DateParts DateParts => new(Year, Month, Day);
 
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
     private bool PrintMembers(StringBuilder builder)
     {
-        builder.Append(CultureInfo.InvariantCulture, $"Year = {Year}, Month = {Month}, Day = {Day}");
+        _ = builder.Append(CultureInfo.InvariantCulture, $"Year = {Year}, Month = {Month}, Day = {Day}");
         return true;
     }
 

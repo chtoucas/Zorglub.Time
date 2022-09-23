@@ -95,5 +95,4 @@ public partial interface ICalendricalDataSet // Math
     DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData { get; }
     /// <summary>Start month, end date, difference in years.</summary>
     DataGroup<YemoPairAnd<int>> CountYearsBetweenMonthData { get; }
-
 }
