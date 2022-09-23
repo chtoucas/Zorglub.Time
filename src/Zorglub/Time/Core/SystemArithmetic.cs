@@ -154,27 +154,24 @@ public abstract partial class SystemArithmetic
 
         var sch = segment.Schema;
 
-        if (sch is GregorianSchema)
-        {
-            return new GregorianSystemArithmetic(segment);
-        }
+        return sch is GregorianSchema
+            ? new GregorianSystemArithmetic(segment)
+            : sch.Profile switch
+            {
+                CalendricalProfile.Solar12 => new Solar12SystemArithmetic(segment),
+                CalendricalProfile.Solar13 => new Solar13SystemArithmetic(segment),
+                CalendricalProfile.Lunar => new LunarSystemArithmetic(segment),
+                CalendricalProfile.Lunisolar => new LunisolarSystemArithmetic(segment),
 
-        return sch.Profile switch
-        {
-            CalendricalProfile.Solar12 => new Solar12SystemArithmetic(segment),
-            CalendricalProfile.Solar13 => new Solar13SystemArithmetic(segment),
-            CalendricalProfile.Lunar => new LunarSystemArithmetic(segment),
-            CalendricalProfile.Lunisolar => new LunisolarSystemArithmetic(segment),
-
-            // (no longer true)
-            // NB: there is no real gain to expect in trying to improve the
-            // perf for regular schemas except for month ops. Not convinced?
-            // Check the code, we only call CountMonthsInYear() in two
-            // corner cases.
-            _ => sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
-                ? new RegularSystemArithmetic(segment)
-                : new PlainSystemArithmetic(segment)
-        };
+                // (no longer true)
+                // NB: there is no real gain to expect in trying to improve the
+                // perf for regular schemas except for month ops. Not convinced?
+                // Check the code, we only call CountMonthsInYear() in two
+                // corner cases.
+                _ => sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
+                    ? new RegularSystemArithmetic(segment)
+                    : new PlainSystemArithmetic(segment)
+            };
     }
 }
 

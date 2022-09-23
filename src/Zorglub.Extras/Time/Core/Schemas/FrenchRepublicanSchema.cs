@@ -48,7 +48,7 @@ public partial class FrenchRepublicanSchema // Year, month or day infos
         // Revolutionary calendar, the first leap year is the year III.
         (y & 3) == 0
         && (y % 100 != 0 || y % 400 == 0)
-        && (y % 4000 != 0);
+        && y % 4000 != 0;
 }
 
 public partial class FrenchRepublicanSchema // Conversions

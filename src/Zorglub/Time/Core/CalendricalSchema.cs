@@ -14,7 +14,7 @@ using static Zorglub.Time.Core.CalendricalConstants;
 // - GetOrdinalPartsAtStartOfMonth(int y, int m)
 // - GetOrdinalPartsAtEndOfMonth(int y, int m)
 
-// WARNING: A schema should avoid public static methods, otherwise it would
+// WARNING: a schema should avoid public static methods, otherwise it would
 // defeat our "box principle"; see below.
 
 #region Developer Notes

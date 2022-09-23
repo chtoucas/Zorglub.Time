@@ -44,7 +44,7 @@ public partial class Tropicalia3031Schema // Counting months and days within a y
 {
     /// <inheritdoc />
     [Pure]
-    public sealed override int CountDaysInYearBeforeMonth(int y, int m) => 30 * (--m) + (m >> 1);
+    public sealed override int CountDaysInYearBeforeMonth(int y, int m) => 30 * --m + (m >> 1);
 
     /// <inheritdoc />
     [Pure]

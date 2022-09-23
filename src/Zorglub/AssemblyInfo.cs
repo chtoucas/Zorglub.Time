@@ -1,6 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure 👈 PreviewFeatures
+
 [assembly: InternalsVisibleTo("Zorglub.Time.Extras" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 
 #if !__HIDE_INTERNALS__

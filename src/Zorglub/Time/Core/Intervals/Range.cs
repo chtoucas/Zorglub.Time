@@ -180,7 +180,7 @@ public partial class Range // Range<int>
     /// Obtains the number of elements in the specified range.
     /// </summary>
     [Pure]
-    public static long LongCount(this Range<int> range) => ((long)range.Max) - range.Min + 1;
+    public static long LongCount(this Range<int> range) => (long)range.Max - range.Min + 1;
 
     /// <summary>
     /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -211,7 +211,7 @@ public partial class Range // Range<DayNumber>
     /// </summary>
     [Pure]
     public static long LongCount(this Range<DayNumber> range) =>
-        ((long)range.Max.DaysSinceZero) - range.Min.DaysSinceZero + 1;
+        (long)range.Max.DaysSinceZero - range.Min.DaysSinceZero + 1;
 
     /// <summary>
     /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.

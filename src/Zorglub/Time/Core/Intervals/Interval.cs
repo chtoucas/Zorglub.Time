@@ -24,8 +24,8 @@ public partial class Interval // Intersection
         // [a, b] ⋂ [m, n] = [max(a, m), min(b, n)]
         // [a, b] ⋂ [m, n] = empty if a > n or m > b
 
-        T min = MathT.Max(x.Min, y.Min);
-        T max = MathT.Min(x.Max, y.Max);
+        var min = MathT.Max(x.Min, y.Min);
+        var max = MathT.Min(x.Max, y.Max);
 
         return min.CompareTo(max) > 0 ? RangeSet<T>.Empty : RangeSet.CreateLeniently(min, max);
     }
@@ -122,8 +122,8 @@ public partial class Interval // Convex hull
     {
         // hull([a, b] ⋃ [m, n]) = [min(a, m), max(b, n)]
 
-        T min = MathT.Min(x.Min, y.Min);
-        T max = MathT.Max(x.Max, y.Max);
+        var min = MathT.Min(x.Min, y.Min);
+        var max = MathT.Max(x.Max, y.Max);
 
         return Range.CreateLeniently(min, max);
     }
