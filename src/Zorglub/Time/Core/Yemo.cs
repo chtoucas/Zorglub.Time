@@ -103,7 +103,7 @@ public readonly partial struct Yemo :
     /// </summary>
     internal Yemo(int bin)
     {
-        DebugCheckBinaryData(bin);
+        CheckBinaryData__(bin);
 
         _bin = bin;
     }
@@ -275,7 +275,7 @@ public partial struct Yemo // Binary data helpers
 
     [Conditional("DEBUG")]
     [ExcludeFromCodeCoverage]
-    private static void DebugCheckBinaryData(int bin) => ValidateBinaryData(bin);
+    private static void CheckBinaryData__(int bin) => ValidateBinaryData(bin);
 }
 
 public partial struct Yemo // IEquatable
