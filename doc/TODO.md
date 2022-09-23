@@ -129,9 +129,12 @@ https://blog.joda.org/2009/11/why-jsr-310-isn-joda-time_4941.html
 https://stackoverflow.com/questions/32437550/whats-the-difference-between-instant-and-localdatetime
 
 ### Other libraries
-https://day.js.org/
 https://docs.python.org/3/library/calendar.html
 https://github.com/chronotope/chrono
+https://day.js.org/
+https://tc39.es/proposal-temporal/
+https://tc39.es/proposal-temporal/docs/
+https://www.infoq.com/news/2022/09/luxon-date-management/
 
 C# Features
 -----------
