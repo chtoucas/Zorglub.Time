@@ -7,6 +7,15 @@
 #   To enforce code style rules at build time, set the severity by using the
 #   rule ID-based severity configuration syntax for analyzers instead.
 #   https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/language-rules#option-format
+#
+# We disable 3 rules (:none):
+# - csharp_style_var_elsewhere
+# - csharp_style_expression_bodied_local_functions = when_on_single_line
+# - csharp_style_expression_bodied_methods = when_on_single_line
+# Core projects use "severity = warning" instead of "suggestion".
+#
+# REVIEW
+# csharp_style_unused_value_expression_statement_preference
 
 # Top-most EditorConfig file
 root = true
@@ -45,11 +54,31 @@ indent_size = 2
 # Default severity for code style rules
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
-# Rules enforced at __build time__
-# Remove unnecessary cast
+# Rules with no associated code-style options
+# We enforce them at __build time__.
+# See https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
+dotnet_diagnostic.IDE0001.severity = warning
+dotnet_diagnostic.IDE0002.severity = warning
 dotnet_diagnostic.IDE0004.severity = warning
-# Remove unnecessary suppression operator
+dotnet_diagnostic.IDE0005.severity = warning
+dotnet_diagnostic.IDE0010.severity = warning
+dotnet_diagnostic.IDE0035.severity = warning
+dotnet_diagnostic.IDE0050.severity = warning
+dotnet_diagnostic.IDE0051.severity = warning
+dotnet_diagnostic.IDE0052.severity = warning
+dotnet_diagnostic.IDE0064.severity = warning
+dotnet_diagnostic.IDE0070.severity = warning
+# Add missing cases to switch expression
+dotnet_diagnostic.IDE0072.severity = suggestion
+dotnet_diagnostic.IDE0076.severity = warning
+dotnet_diagnostic.IDE0077.severity = warning
 dotnet_diagnostic.IDE0080.severity = warning
+# IDE0081: VB-only rule
+dotnet_diagnostic.IDE0082.severity = warning
+dotnet_diagnostic.IDE0100.severity = warning
+dotnet_diagnostic.IDE0110.severity = warning
+# Naming styles
+dotnet_diagnostic.IDE1006.severity = suggestion
 
 ###############################
 # Core EditorConfig Options   #
@@ -146,19 +175,19 @@ csharp_style_prefer_null_check_over_type_check = true
 csharp_style_throw_expression = true
 
 #### var preferences ####
-csharp_style_var_elsewhere = true:silent
+csharp_style_var_elsewhere = true:none
 csharp_style_var_for_built_in_types = false
 csharp_style_var_when_type_is_apparent = true
 
 #### Expression-bodied members ####
-csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_accessors = true
 csharp_style_expression_bodied_constructors = false
-csharp_style_expression_bodied_indexers = true:silent
-csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_indexers = true
+csharp_style_expression_bodied_lambdas = true
 csharp_style_expression_bodied_local_functions = when_on_single_line:none
 csharp_style_expression_bodied_methods = when_on_single_line:none
-csharp_style_expression_bodied_operators = true:silent
-csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_operators = true
+csharp_style_expression_bodied_properties = true
 
 #### Pattern matching preferences ####
 csharp_style_pattern_matching_over_as_with_null_check = true
