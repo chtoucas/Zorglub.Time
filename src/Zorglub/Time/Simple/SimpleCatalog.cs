@@ -318,7 +318,7 @@ public partial class SimpleCatalog // Lookup
         // WARNING: it removes array variance checks.
         // See https://github.com/CommunityToolkit/dotnet/blob/main/CommunityToolkit.HighPerformance/Extensions/ArrayExtensions.1D.cs
         // and https://tooslowexception.com/getting-rid-of-array-bound-checks-ref-returns-and-net-5/
-        ref SimpleCalendar chr = ref MemoryMarshal.GetArrayDataReference(s_Calendars);
+        ref var chr = ref MemoryMarshal.GetArrayDataReference(s_Calendars);
         return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
     }
 

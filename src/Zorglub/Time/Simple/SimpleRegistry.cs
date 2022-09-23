@@ -242,7 +242,7 @@ internal sealed partial class SimpleRegistry // Snapshots & Lookup
     [Pure]
     public SimpleCalendar GetCalendar(string key)
     {
-        if (_calendarsByKey.TryGetValue(key, out Lazy<SimpleCalendar>? calendar))
+        if (_calendarsByKey.TryGetValue(key, out var calendar))
         {
             var chr = calendar.Value;
             // Filter out dirty calendars.
@@ -255,7 +255,7 @@ internal sealed partial class SimpleRegistry // Snapshots & Lookup
     [Pure]
     public bool TryGetCalendar(string key, [NotNullWhen(true)] out SimpleCalendar? calendar)
     {
-        if (_calendarsByKey.TryGetValue(key, out Lazy<SimpleCalendar>? chr))
+        if (_calendarsByKey.TryGetValue(key, out var chr))
         {
             var tmp = chr.Value;
             // Filter out dirty calendars.
@@ -309,7 +309,7 @@ internal sealed partial class SimpleRegistry // Add
         // Reason: the params might be different and we wish to apply strict
         // validation rules. This being said, fail fast takes precedence and
         // we overflow before any validation happens.
-        SimpleCalendar tmp = ValidateParameters(key, schema, epoch, proleptic);
+        var tmp = ValidateParameters(key, schema, epoch, proleptic);
 
         // The callback won't be executed until we query Value.
         var lazy = new Lazy<SimpleCalendar>(() => CreateCalendar(tmp));
@@ -358,7 +358,7 @@ internal sealed partial class SimpleRegistry // Add
         // Fail fast.
         if (DisableFailFast == false && IsFull) Throw.CatalogOverflow();
 
-        SimpleCalendar tmp = ValidateParameters(key, schema, epoch, proleptic);
+        var tmp = ValidateParameters(key, schema, epoch, proleptic);
 
         // The callback won't be executed until we query Value.
         var lazy = new Lazy<SimpleCalendar>(() => CreateCalendar(tmp));
