@@ -335,7 +335,7 @@ public partial class CodeArray // Conversions, manips
         var arr = new bool[_codes.Length];
         for (int i = 0; i < _codes.Length; i++)
         {
-            arr[i] = (_codes[i] - min) == 1;
+            arr[i] = _codes[i] - min == 1;
         }
 
         return new BoolArray(arr);

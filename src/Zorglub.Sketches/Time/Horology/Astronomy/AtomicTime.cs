@@ -41,7 +41,10 @@ public readonly partial struct AtomicTime :
     /// Initializes a new instance of the <see cref="AtomicTime"/> struct from the
     /// specified two-part Julian date.
     /// </summary>
-    internal AtomicTime(SplitJD splitJD) => _splitJD = splitJD;
+    internal AtomicTime(SplitJD splitJD)
+    {
+        _splitJD = splitJD;
+    }
 }
 
 // Fabriques.

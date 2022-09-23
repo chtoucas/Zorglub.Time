@@ -179,8 +179,8 @@ public sealed class SntpClient
                 .RandomizeSubMilliseconds(RandomNumberGenerator);
         requestTimestamp.WriteTo(buf, NtpPacket.TransmitTimestampOffset);
 
-        sock.Send(buf);
-        sock.Receive(buf);
+        _ = sock.Send(buf);
+        _ = sock.Receive(buf);
 
         long endTicks = stopwatch.ElapsedTicks;
 

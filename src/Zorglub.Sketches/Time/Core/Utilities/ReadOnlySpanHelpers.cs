@@ -19,7 +19,7 @@ internal static class ReadOnlySpanHelpers
         // satisfy this condition too.
         Debug.Assert(start < span.Length);
 
-        var len = span.Length;
+        int len = span.Length;
         var arr = new int[len];
         for (int i = 0; i < len; i++)
         {

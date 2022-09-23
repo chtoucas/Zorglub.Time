@@ -22,7 +22,7 @@ public static class ZDateAdjusters
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
         int y = sch.GetYear(date.DaysSinceEpoch, out _);
-        var startOfYear = sch.GetStartOfYear(y);
+        int startOfYear = sch.GetStartOfYear(y);
         return new ZDate(startOfYear, date.Cuid);
     }
 
@@ -35,7 +35,7 @@ public static class ZDateAdjusters
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
         int y = sch.GetYear(date.DaysSinceEpoch, out _);
-        var endOfYear = sch.GetEndOfYear(y);
+        int endOfYear = sch.GetEndOfYear(y);
         return new ZDate(endOfYear, date.Cuid);
     }
 
@@ -48,7 +48,7 @@ public static class ZDateAdjusters
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
         sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-        var startOfMonth = sch.GetStartOfMonth(y, m);
+        int startOfMonth = sch.GetStartOfMonth(y, m);
         return new ZDate(startOfMonth, date.Cuid);
     }
 
@@ -61,7 +61,7 @@ public static class ZDateAdjusters
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
         sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-        var endOfMonth = sch.GetEndOfMonth(y, m);
+        int endOfMonth = sch.GetEndOfMonth(y, m);
         return new ZDate(endOfMonth, date.Cuid);
     }
 
@@ -89,7 +89,7 @@ public static class ZDateAdjusters
     {
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
-        sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out int d);
+        sch.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
         sch.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
         int daysSinceEpoch = sch.CountDaysSinceEpoch(y, newMonth, d);
         return new ZDate(daysSinceEpoch, date.Cuid);

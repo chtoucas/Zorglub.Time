@@ -28,7 +28,7 @@ internal static class ArrayHelpers
         // satisfy this condition too.
         Debug.Assert(start < array.Length);
 
-        var len = array.Length;
+        int len = array.Length;
         var arr = new T[len];
         for (int i = 0; i < len; i++)
         {
@@ -42,7 +42,7 @@ internal static class ArrayHelpers
     {
         Debug.Assert(array != null);
 
-        var len = array.Length;
+        int len = array.Length;
         int[] arr = new int[len + 1];
 
         arr[0] = 0;

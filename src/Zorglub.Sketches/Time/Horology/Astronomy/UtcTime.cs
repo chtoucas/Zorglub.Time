@@ -39,7 +39,10 @@ public readonly partial struct UtcTime :
     /// Initializes a new instance of the <see cref="UtcTime"/> struct from the
     /// specified quasi Julian date.
     /// </summary>
-    internal UtcTime(QuasiJD quasiJD) => _quasiJD = quasiJD;
+    internal UtcTime(QuasiJD quasiJD)
+    {
+        _quasiJD = quasiJD;
+    }
 }
 
 // Fabriques.
@@ -78,8 +81,8 @@ public partial struct UtcTime
     /// clock time.
     /// </summary>
     [Pure]
-    public static UtcTime FromClockTime(ClockTime0 clockTime)
-        => new UtcTime(QuasiJD.FromClockTime(clockTime));
+    public static UtcTime FromClockTime(ClockTime0 clockTime) =>
+        new(QuasiJD.FromClockTime(clockTime));
 }
 
 // Conversions.

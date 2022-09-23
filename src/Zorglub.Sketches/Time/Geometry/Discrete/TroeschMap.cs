@@ -22,7 +22,7 @@ public partial record TroeschMap
 
         if (Complement)
         {
-            var B = (Shear + 1) * b - a;
+            int B = (Shear + 1) * b - a;
 #if TROESCH_MAP_SYMMETRY_THEN_TRANSLATION
             // Orthogonal symmetry then translation.
             return new(b, B, MathZ.Modulo(r - b + Translate * b, B));
@@ -33,7 +33,7 @@ public partial record TroeschMap
         }
         else
         {
-            var B = a - Shear * b;
+            int B = a - Shear * b;
 #if TROESCH_MAP_SYMMETRY_THEN_TRANSLATION
             // Orthogonal symmetry then translation.
             return new(b, B, MathZ.Modulo(a - 1 - r, B));
@@ -108,7 +108,7 @@ public partial record TroeschMap
 
         var (a, b, r) = form;
 
-        var rem = MathZ.Modulo(b - 1 - r - Translate * b, a);
+        int rem = MathZ.Modulo(b - 1 - r - Translate * b, a);
 
         return Complement ? new(Shear * a + a - b, a, a - 1 - rem)
             : new(Shear * a + b, a, rem);

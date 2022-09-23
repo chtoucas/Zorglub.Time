@@ -102,7 +102,7 @@ internal sealed class ZRegistry
         {
             if (ReferenceEquals(lazy1, lazy))
             {
-                _calendarsByKey.TryRemove(key, out _);
+                _ = _calendarsByKey.TryRemove(key, out _);
             }
 
             Throw.CatalogOverflow();
@@ -128,7 +128,7 @@ internal sealed class ZRegistry
         var chr = lazy.Value;
         if (chr is TmpCalendar)
         {
-            _calendarsByKey.TryRemove(key, out _);
+            _ = _calendarsByKey.TryRemove(key, out _);
 
             Throw.CatalogOverflow();
         }
@@ -157,7 +157,7 @@ internal sealed class ZRegistry
             var chr = lazy.Value;
             if (chr is TmpCalendar)
             {
-                _calendarsByKey.TryRemove(key, out _);
+                _ = _calendarsByKey.TryRemove(key, out _);
                 goto FAILED;
             }
             else

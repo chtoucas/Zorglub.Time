@@ -48,7 +48,10 @@ public readonly partial struct TerrestrialTime :
     /// Initializes a new instance of the <see cref="TerrestrialTime"/> struct from the
     /// specified two-part Julian date.
     /// </summary>
-    internal TerrestrialTime(SplitJD splitJD) => _splitJD = splitJD;
+    internal TerrestrialTime(SplitJD splitJD)
+    {
+        _splitJD = splitJD;
+    }
 }
 
 // Fabriques.

@@ -41,10 +41,7 @@ internal static class Jdn
         // On s'assure que |hi| >= |lo|.
         if (Math.Abs(hi) < Math.Abs(lo))
         {
-            // (hi, lo) = (lo, hi);
-            double tmp = lo;
-            lo = hi;
-            hi = tmp;
+            (hi, lo) = (lo, hi);
         }
         // On s'aligne avec minuit (0h) car fod = fraction du jour et
         // l'échelle julienne démarre à midi.

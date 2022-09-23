@@ -47,7 +47,10 @@ public readonly partial struct UniversalTime :
     /// Initializes a new instance of the <see cref="UniversalTime"/> struct from the
     /// specified two-part Julian date.
     /// </summary>
-    internal UniversalTime(SplitJD splitJD) => _splitJD = splitJD;
+    internal UniversalTime(SplitJD splitJD)
+    {
+        _splitJD = splitJD;
+    }
 }
 
 // Fabriques.

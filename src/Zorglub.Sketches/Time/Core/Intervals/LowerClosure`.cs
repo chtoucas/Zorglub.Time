@@ -101,7 +101,7 @@ public sealed class LowerClosure<T> : IRay<T>
     [Pure]
     public override string ToString()
     {
-        var r = IsRightOpen ? IntervalFormat.RightOpen : IntervalFormat.RightClosed;
+        string r = IsRightOpen ? IntervalFormat.RightOpen : IntervalFormat.RightClosed;
 
         return FormattableString.Invariant(
             $"{IntervalFormat.LeftUnbounded}{IntervalFormat.Sep}{UpperEnd}{r}");

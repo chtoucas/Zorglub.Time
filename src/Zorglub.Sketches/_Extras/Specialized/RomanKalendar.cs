@@ -144,7 +144,7 @@ public partial class RomanKalendar // Comput ecclésiastique
     {
         Debug.Assert(year >= 0);
 
-        int century = 1 + (year / 100);
+        int century = 1 + year / 100;
 
         // Épacte = nombre de jours entre la dernière nouvelle lune de
         // l'année précédente et le 1er janvier de l'année.
@@ -152,7 +152,7 @@ public partial class RomanKalendar // Comput ecclésiastique
         int epact = epact30 % 30;
 
         // Épacte corrigée.
-        if (epact == 0 || (epact == 1 && (year % 19) > 10))
+        if (epact == 0 || (epact == 1 && year % 19 > 10))
         {
             epact++;
         }

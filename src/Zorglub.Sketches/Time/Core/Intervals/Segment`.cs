@@ -165,8 +165,8 @@ public sealed class Segment<T> : ISegment<T>
     [Pure]
     public override string ToString()
     {
-        var l = IsLeftOpen ? IntervalFormat.LeftOpen : IntervalFormat.LeftClosed;
-        var r = IsRightOpen ? IntervalFormat.RightOpen : IntervalFormat.RightClosed;
+        string l = IsLeftOpen ? IntervalFormat.LeftOpen : IntervalFormat.LeftClosed;
+        string r = IsRightOpen ? IntervalFormat.RightOpen : IntervalFormat.RightClosed;
         return FormattableString.Invariant($"{l}{LowerEnd}{IntervalFormat.Sep}{UpperEnd}{r}");
     }
 
