@@ -46,10 +46,12 @@ indent_size = 2
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
 # Rules enforced at __build time__
-# Remove unnecessary cast
+# Remove unnecessary cast (no matching option)
 dotnet_diagnostic.IDE0004.severity = warning
 # Fix formatting
-#dotnet_diagnostic.IDE0004.severity = warning
+dotnet_diagnostic.IDE0055.severity = warning
+# Remove unnecessary suppression operator (no matching option)
+dotnet_diagnostic.IDE0080.severity = warning
 
 ###############################
 # Core EditorConfig Options   #
@@ -78,13 +80,6 @@ dotnet_style_allow_statement_immediately_after_block_experimental = true
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
 csharp_style_allow_embedded_statements_on_same_line_experimental = true
-
-###############################
-# Code Quality                #
-###############################
-
-# CA1801
-dotnet_code_quality_unused_parameters = all
 
 ###############################
 # Language (Style)            #
@@ -162,8 +157,8 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_constructors = false
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_local_functions = when_on_single_line:none
+csharp_style_expression_bodied_methods = when_on_single_line:none
 csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent
 
@@ -189,6 +184,8 @@ file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) 2020
 # Unnecessary Code (Style)    #
 ###############################
 
+# Replacement for CA1801 & xUnit1026
+dotnet_code_quality_unused_parameters = all:warning
 dotnet_remove_unnecessary_suppression_exclusions = none
 
 ###############################
