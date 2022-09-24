@@ -13,6 +13,7 @@
     ]]></PackageDescription>
     -->
     <PackageTags>Calendar;Date;NTP</PackageTags>
+    <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

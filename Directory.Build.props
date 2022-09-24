@@ -46,7 +46,6 @@
     <IsPackable>false</IsPackable>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-    <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
 
     <!-- Code/Style Analysis
       If we need a more recent version of Microsoft.CodeAnalysis.NetAnalyzers,
