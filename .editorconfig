@@ -28,26 +28,13 @@ indent_size = 2
 indent_size = 2
 
 ################################################################################
-# CSharp Rules                                                                 #
+# CSharp Settings                                                              #
 ################################################################################
 # We discard 2 rules (:none):
 # - csharp_style_expression_bodied_local_functions = when_on_single_line
 # - csharp_style_expression_bodied_methods = when_on_single_line
 
-[src/{Zorglub,Zorglub.Extras}/**/*.cs]
-# For core projects, we enforce style rules.
-dotnet_analyzer_diagnostic.category-Style.severity = warning
-
-[src/{Zorglub.Sketches._Extras}/**/*.cs]
-# Does not seem to work, therefore we set IDE0130 instead
-#dotnet_style_namespace_match_folder = false
-dotnet_diagnostic.IDE0130.severity = none
-
 [*.cs]
-
-###############################
-# Core EditorConfig Options   #
-###############################
 
 indent_size = 4
 indent_style = space
@@ -97,7 +84,8 @@ dotnet_diagnostic.IDE0110.severity = warning
 dotnet_diagnostic.IDE1006.severity = warning
 
 ###############################
-# Experimental or New Rules   #
+# Experimental Rules          #
+# Undocumented Rules          #
 ###############################
 
 csharp_style_prefer_method_group_conversion = true
@@ -112,7 +100,7 @@ csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
 csharp_style_allow_embedded_statements_on_same_line_experimental = true
 
 ###############################
-# Language                    #
+# Language Rules              #
 ###############################
 
 #### this. and Me. preferences ####
@@ -211,7 +199,7 @@ csharp_using_directive_placement = inside_namespace
 file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) 2020 Narvalo.Org. All rights reserved.
 
 ###############################
-# Unnecessary Code            #
+# Unnecessary Code Rules      #
 ###############################
 
 # Replacement for CA1801 & xUnit1026
@@ -273,7 +261,7 @@ csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
 ###############################
-# Naming                      #
+# Naming Rules                #
 ###############################
 # Adapted from Roslyn
 
@@ -383,3 +371,26 @@ dotnet_naming_rule.NonPrivateNonFieldMemberRule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_kinds = property, event, method
 dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
+
+################################################################################
+# Special CSharp Settings                                                      #
+################################################################################
+# NB: Release builds transform warnings into errors!
+
+[src/{Zorglub,Zorglub.Extras}/**/*.cs]
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+
+#[src/Zorglub.Sketches/_Extras/**/*.cs]
+#dotnet_style_namespace_match_folder = true
+#dotnet_diagnostic.IDE0130.severity = none
+
+[test/Benchmarks/**/*.cs]
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+# IDE0007: Use var instead of explicit type
+dotnet_diagnostic.IDE0007.severity = none
+# IDE0130:
+dotnet_diagnostic.IDE0130.severity = none
+
+[test/{Zorglub.Testing,Zorglub.Tests.CSharp}/**/*.cs]
+# IDE0002: Simplify member access
+dotnet_diagnostic.IDE0002.severity = none
