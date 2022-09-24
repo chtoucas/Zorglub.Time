@@ -1,6 +1,0 @@
-
-[*.cs]
-
-#dotnet_style_namespace_match_folder = false
-# does not work, therefore we use instead
-dotnet_diagnostic.IDE0130.severity = none

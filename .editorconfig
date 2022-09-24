@@ -30,26 +30,51 @@ indent_size = 2
 ################################################################################
 # CSharp Rules                                                                 #
 ################################################################################
-
-[*.cs]
-
 # We discard 2 rules (:none):
 # - csharp_style_expression_bodied_local_functions = when_on_single_line
 # - csharp_style_expression_bodied_methods = when_on_single_line
 
-# Default severity for code style rules
-# NB: core projects override this and use "warning".
+[src/{Zorglub,Zorglub.Extras}/**/*.cs]
+# For core projects, we enforce style rules.
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+
+[src/{Zorglub.Sketches._Extras}/**/*.cs]
+# Does not seem to work, therefore we set IDE0130 instead
+#dotnet_style_namespace_match_folder = false
+dotnet_diagnostic.IDE0130.severity = none
+
+[*.cs]
+
+###############################
+# Core EditorConfig Options   #
+###############################
+
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+end_of_line = crlf
+insert_final_newline = true
+
+###############################
+# Severity                    #
+###############################
+
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
-# Rules with no associated code-style options
-# See https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
-# These rules are enforced at __build time__
+# Rules enforced at __build time__
 #   The second part of the rule specifies the severity level for the rule. When
 #   specified in this way, the severity setting is only respected inside
 #   development IDEs, such as Visual Studio. It is not respected during build.
 #   To enforce code style rules at build time, set the severity by using the
 #   rule ID-based severity configuration syntax for analyzers instead.
 # See https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/language-rules#option-format
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = warning
+
+# Rules with no associated code-style options
+# See https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 dotnet_diagnostic.IDE0001.severity = warning
 dotnet_diagnostic.IDE0002.severity = warning
 dotnet_diagnostic.IDE0004.severity = warning
@@ -65,22 +90,11 @@ dotnet_diagnostic.IDE0072.severity = warning
 dotnet_diagnostic.IDE0076.severity = warning
 dotnet_diagnostic.IDE0077.severity = warning
 dotnet_diagnostic.IDE0080.severity = warning
-# IDE0081: VB-only rule
+# IDE0081: Remove ByVal (VB-only rule)
 dotnet_diagnostic.IDE0082.severity = warning
 dotnet_diagnostic.IDE0100.severity = warning
 dotnet_diagnostic.IDE0110.severity = warning
 dotnet_diagnostic.IDE1006.severity = warning
-
-###############################
-# Core EditorConfig Options   #
-###############################
-
-indent_size = 4
-indent_style = space
-tab_width = 4
-
-end_of_line = crlf
-insert_final_newline = true
 
 ###############################
 # Experimental or New Rules   #
@@ -259,9 +273,9 @@ csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
 ###############################
-# Naming Rules                #
+# Naming                      #
 ###############################
-# Adapted from Roslyn config
+# Adapted from Roslyn
 
 # Options: required_prefix, required_suffix, word_separator, capitalization
 

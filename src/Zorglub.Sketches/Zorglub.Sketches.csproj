@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)_Extras\.editorconfig" />
-  </ItemGroup>
-
 </Project>

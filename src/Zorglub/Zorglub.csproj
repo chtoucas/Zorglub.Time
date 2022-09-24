@@ -15,8 +15,4 @@
     <PackageTags>Calendar;Date;Gregorian;Julian</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory).editorconfig" />
-  </ItemGroup>
-
 </Project>
