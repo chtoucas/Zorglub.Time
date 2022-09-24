@@ -117,8 +117,8 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
         Requires.NotNull(source);
 
         var epoch = Epoch;
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        YearDayNumber Selector(YearDaysSinceEpoch x) => x.ToYearDayNumber(epoch);
+        YearDayNumber selector(YearDaysSinceEpoch x) => x.ToYearDayNumber(epoch);
     }
 }

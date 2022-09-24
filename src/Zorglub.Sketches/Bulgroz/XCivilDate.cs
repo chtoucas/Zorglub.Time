@@ -876,9 +876,9 @@ public partial struct XCivilDate // Enumerate days in a month or a year
         // Check arg eagerly.
         if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<XCivilDate> Iterator()
+        IEnumerable<XCivilDate> iterator()
         {
             int bY = (year - 1) << 9;
 
@@ -909,9 +909,9 @@ public partial struct XCivilDate // Enumerate days in a month or a year
         if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
         if (month < 1 || month > 12) Throw.ArgumentOutOfRange(nameof(month));
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<XCivilDate> Iterator()
+        IEnumerable<XCivilDate> iterator()
         {
             int bYM = ((year - 1) << 9) | ((month - 1) << 5);
 
@@ -1299,7 +1299,7 @@ public partial struct XCivilDate // More math ops
 
         if (years > 0)
         {
-            Patch(ref bMD0, y, bMD);
+            patch(ref bMD0, y, bMD);
             // Trick: given "n" an Int32, if n >= 0 then n >> 31 = 0;
             // otherwise n >> 31 = -1. Instead of writing
             //   return years + (bMD < bMD0 ? -1 : 0);
@@ -1308,13 +1308,13 @@ public partial struct XCivilDate // More math ops
         }
         else
         {
-            Patch(ref bMD, y0, bMD0);
+            patch(ref bMD, y0, bMD0);
             // Same as above,
             //   return years + (bMD0 < bMD ? 1 : 0);
             return years - ((bMD0 - bMD) >> 31);
         }
 
-        static void Patch(ref int md0, int y, int md)
+        static void patch(ref int md0, int y, int md)
         {
             if (md0 == __IntercalaryDay
                 && md == __EndOfFebruary
@@ -1414,20 +1414,20 @@ public partial struct XCivilDate // More math ops
 
         if (this >= other)
         {
-            Patch(ref d0, y, m, d);
+            patch(ref d0, y, m, d);
             // See CountYearsSince() for an explanation.
             //   return months + (d < d0 ? -1 : 0);
             return months + ((d - d0) >> 31);
         }
         else
         {
-            Patch(ref d, y0, m0, d0);
+            patch(ref d, y0, m0, d0);
             // See CountYearsSince() for an explanation.
             //   return months + (d0 < d ? 1 : 0);
             return months - ((d0 - d) >> 31);
         }
 
-        static void Patch(ref int d0, int y, int m, int d)
+        static void patch(ref int d0, int y, int m, int d)
         {
             if (d0 > d && d == GregorianFormulae.CountDaysInMonth(y, m))
             {

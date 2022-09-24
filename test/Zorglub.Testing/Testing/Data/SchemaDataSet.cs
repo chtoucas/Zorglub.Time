@@ -141,9 +141,9 @@ public partial class SchemaDataSet // Helpers
     {
         Requires.NotNull(source);
 
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        static Yemoda Selector(Yemoda x) => new(x.Year, 1, 1);
+        static Yemoda selector(Yemoda x) => new(x.Year, 1, 1);
     }
 
     [Pure]
@@ -151,9 +151,9 @@ public partial class SchemaDataSet // Helpers
     {
         Requires.NotNull(source);
 
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        static YearMonthsSinceEpoch Selector(YearMonthsSinceEpoch x)
+        static YearMonthsSinceEpoch selector(YearMonthsSinceEpoch x)
         {
             var (y, monthsSinceEpoch) = x;
             return new YearMonthsSinceEpoch(y - 1, monthsSinceEpoch - 1);
@@ -165,9 +165,9 @@ public partial class SchemaDataSet // Helpers
     {
         Requires.NotNull(source);
 
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        static YearDaysSinceEpoch Selector(YearDaysSinceEpoch x)
+        static YearDaysSinceEpoch selector(YearDaysSinceEpoch x)
         {
             var (y, daysSinceEpoch) = x;
             return new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1);
@@ -180,9 +180,9 @@ public partial class SchemaDataSet // Helpers
         Requires.NotNull(source);
 
         var sch = _schema;
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        YemodaAnd<int> Selector(DateInfo x)
+        YemodaAnd<int> selector(DateInfo x)
         {
             var (y, m, d, doy) = x;
             // Assumption: CountDaysInYear() is correct.
@@ -197,9 +197,9 @@ public partial class SchemaDataSet // Helpers
         Requires.NotNull(source);
 
         var sch = _schema;
-        return source.SelectT(Selector);
+        return source.SelectT(selector);
 
-        YemodaAnd<int> Selector(DateInfo x)
+        YemodaAnd<int> selector(DateInfo x)
         {
             var (y, m, d) = x.Yemoda;
             // Assumption: CountDaysInMonth() is correct.

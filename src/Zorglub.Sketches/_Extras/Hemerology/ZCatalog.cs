@@ -217,18 +217,18 @@ public partial class ZCatalog // ZCalendar <-> Calendar
     {
         Requires.NotNull(calendar);
 
-        return calendar.IsUserDefined ? GetOrAddUserCalendar(calendar)
+        return calendar.IsUserDefined ? getOrAddUserCalendar(calendar)
             : GetSystemCalendar(calendar.PermanentId);
 
         // TODO(code): use GetOrAdd().
         [Pure]
-        static ZCalendar GetOrAddUserCalendar(SimpleCalendar calendar)
+        static ZCalendar getOrAddUserCalendar(SimpleCalendar calendar)
         {
             Debug.Assert(calendar.IsUserDefined);
 
             var chr = s_CalendarsByKey.GetOrAdd(
                 calendar.Key,
-                new Lazy<ZCalendar>(() => CreateUserCalendar(calendar))
+                new Lazy<ZCalendar>(() => createUserCalendar(calendar))
             ).Value;
 
             // The only reliable way to verify that the result is the
@@ -243,7 +243,7 @@ public partial class ZCatalog // ZCalendar <-> Calendar
         }
 
         [Pure]
-        static ZCalendar CreateUserCalendar(SimpleCalendar calendar)
+        static ZCalendar createUserCalendar(SimpleCalendar calendar)
         {
             int cuid = (int)calendar.Id;
             var chr = new ZCalendar(cuid, calendar.Key, calendar.Scope, userDefined: true);

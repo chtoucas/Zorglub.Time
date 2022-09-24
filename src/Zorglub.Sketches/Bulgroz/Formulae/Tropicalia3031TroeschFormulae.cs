@@ -95,11 +95,11 @@ public sealed class Tropicalia3031TroeschFormulae : ICalendricalFormulae
     public static int CountDaysInMonth(int y, int m)
     {
         return TropicalistaSchema.IsLeapYearImpl(y)
-            ? CountDaysInLeapYearBeforeMonth(m + 1) - CountDaysInLeapYearBeforeMonth(m)
-            : CountDaysInCommonYearBeforeMonth(m + 1) - CountDaysInCommonYearBeforeMonth(m);
+            ? countDaysInLeapYearBeforeMonth(m + 1) - countDaysInLeapYearBeforeMonth(m)
+            : countDaysInCommonYearBeforeMonth(m + 1) - countDaysInCommonYearBeforeMonth(m);
 
-        static int CountDaysInCommonYearBeforeMonth(int m) => (335 * m - 330) / 11;
-        static int CountDaysInLeapYearBeforeMonth(int m) => 61 * (m - 1) / 2;
+        static int countDaysInCommonYearBeforeMonth(int m) => (335 * m - 330) / 11;
+        static int countDaysInLeapYearBeforeMonth(int m) => 61 * (m - 1) / 2;
     }
 
     // We remove the unused param "y".

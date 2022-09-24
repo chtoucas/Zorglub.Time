@@ -162,9 +162,9 @@ public partial class MinMaxYearCalendar // Parts providers
             // Check arg eagerly.
             _this.YearsValidator.Validate(year);
 
-            return Iterator();
+            return iterator();
 
-            IEnumerable<DateParts> Iterator()
+            IEnumerable<DateParts> iterator()
             {
                 int monthsInYear = _this.Schema.CountMonthsInYear(year);
 
@@ -186,9 +186,9 @@ public partial class MinMaxYearCalendar // Parts providers
             // Check arg eagerly.
             _this.Scope.ValidateYearMonth(year, month);
 
-            return Iterator();
+            return iterator();
 
-            IEnumerable<DateParts> Iterator()
+            IEnumerable<DateParts> iterator()
             {
                 int daysInMonth = _this.Schema.CountDaysInMonth(year, month);
 
@@ -245,9 +245,9 @@ public partial class MinMaxYearCalendar // Parts providers
             // Check arg eagerly.
             _this.YearsValidator.Validate(year);
 
-            return Iterator();
+            return iterator();
 
-            IEnumerable<OrdinalParts> Iterator()
+            IEnumerable<OrdinalParts> iterator()
             {
                 int daysInYear = _this.Schema.CountDaysInYear(year);
 
@@ -264,9 +264,9 @@ public partial class MinMaxYearCalendar // Parts providers
             // Check arg eagerly.
             _this.Scope.ValidateYearMonth(year, month);
 
-            return Iterator();
+            return iterator();
 
-            IEnumerable<OrdinalParts> Iterator()
+            IEnumerable<OrdinalParts> iterator()
             {
                 int startOfMonth = _this.Schema.CountDaysInYearBeforeMonth(year, month);
                 int daysInMonth = _this.Schema.CountDaysInMonth(year, month);

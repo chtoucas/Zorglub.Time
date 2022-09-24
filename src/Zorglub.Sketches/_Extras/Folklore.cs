@@ -78,9 +78,9 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
             return Enumerable.Empty<CalendarDate>();
         }
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<CalendarDate> Iterator()
+        IEnumerable<CalendarDate> iterator()
         {
             foreach (var month in year.GetAllMonths())
             {
@@ -104,9 +104,9 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
             return Enumerable.Empty<CalendarDate>();
         }
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<CalendarDate> Iterator()
+        IEnumerable<CalendarDate> iterator()
         {
             foreach (var date in range.ToEnumerable())
             {

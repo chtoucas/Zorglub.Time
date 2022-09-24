@@ -164,7 +164,7 @@ public partial class CodeArray // Conversions, manips
             newCode = new CodeArray(this[0]);
             return true;
         }
-        else if (TryFindIndexOfExceptionalCode(out int index))
+        else if (tryFindIndexOfExceptionalCode(out int index))
         {
             start = (index + 1) % Count;
             newCode = start == 0 ? this[0..^1] : Rotate(start)[0..^1];
@@ -189,7 +189,7 @@ public partial class CodeArray // Conversions, manips
         //   in the code.
 #if true
         [Pure]
-        bool TryFindIndexOfExceptionalCode(out int index)
+        bool tryFindIndexOfExceptionalCode(out int index)
         {
             // Cache the props before entering the loop.
             int min = Min;

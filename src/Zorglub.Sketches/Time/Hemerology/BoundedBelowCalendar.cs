@@ -87,9 +87,9 @@ public partial class BoundedBelowCalendar // IDateProvider<DayNumber>
             daysInYear = Schema.CountDaysInYear(year);
         }
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<DayNumber> Iterator()
+        IEnumerable<DayNumber> iterator()
         {
             return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
@@ -114,9 +114,9 @@ public partial class BoundedBelowCalendar // IDateProvider<DayNumber>
             daysInMonth = Schema.CountDaysInMonth(year, month);
         }
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<DayNumber> Iterator()
+        IEnumerable<DayNumber> iterator()
         {
             return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)

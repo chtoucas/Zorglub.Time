@@ -50,14 +50,16 @@ public partial record TroeschMap
     {
         Debug.Assert(form != null);
 
-        return Complement ? Transform4() : Transform3();
+        return Complement ? transform4() : transform3();
 
-        QuasiAffineForm Transform3() =>
+        [Pure]
+        QuasiAffineForm transform3() =>
             form.ApplyVerticalShear(-Shear)
                 .ApplyTranslation(-Translate)
                 .ApplyOrthogonalSymmetry();
 
-        QuasiAffineForm Transform4() =>
+        [Pure]
+        QuasiAffineForm transform4() =>
             form.ApplyVerticalShear(-Shear)
                 .ApplyObliqueSymmetry()
                 .ApplyTranslation(-Translate)
@@ -70,9 +72,10 @@ public partial record TroeschMap
     {
         Debug.Assert(form != null);
 
-        return Complement ? Transform4() : Transform3();
+        return Complement ? transform4() : transform3();
 
-        QuasiAffineForm[] Transform3()
+        [Pure]
+        QuasiAffineForm[] transform3()
         {
             var form1 = form.ApplyVerticalShear(-Shear);
 
@@ -83,7 +86,8 @@ public partial record TroeschMap
             };
         }
 
-        QuasiAffineForm[] Transform4()
+        [Pure]
+        QuasiAffineForm[] transform4()
         {
             var form1 = form.ApplyVerticalShear(-Shear);
             var form2 = form1.ApplyObliqueSymmetry();
@@ -120,14 +124,16 @@ public partial record TroeschMap
     {
         Debug.Assert(form != null);
 
-        return Complement ? TransformBack4() : TransformBack3();
+        return Complement ? transformBack4() : transformBack3();
 
-        QuasiAffineForm TransformBack3() =>
+        [Pure]
+        QuasiAffineForm transformBack3() =>
             form.ApplyBackOrthogonalSymmetry()
                 .ApplyTranslation(Translate)
                 .ApplyVerticalShear(Shear);
 
-        QuasiAffineForm TransformBack4() =>
+        [Pure]
+        QuasiAffineForm transformBack4() =>
              form.ApplyBackOrthogonalSymmetry()
                 .ApplyTranslation(Translate)
                 .ApplyObliqueSymmetry()
@@ -140,9 +146,10 @@ public partial record TroeschMap
     {
         Debug.Assert(form != null);
 
-        return Complement ? TransformBack4() : TransformBack3();
+        return Complement ? transformBack4() : transformBack3();
 
-        QuasiAffineForm[] TransformBack3()
+        [Pure]
+        QuasiAffineForm[] transformBack3()
         {
             var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
 
@@ -153,7 +160,8 @@ public partial record TroeschMap
             };
         }
 
-        QuasiAffineForm[] TransformBack4()
+        [Pure]
+        QuasiAffineForm[] transformBack4()
         {
             var form1 = form.ApplyBackOrthogonalSymmetry().ApplyTranslation(Translate);
             var form2 = form1.ApplyObliqueSymmetry();

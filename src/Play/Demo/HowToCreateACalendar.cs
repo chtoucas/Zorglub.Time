@@ -38,9 +38,9 @@ public static class HowToCreateACalendar
     // Hand-written version.
     public static SimpleCalendar TryCreateSimpleCalendar_Plain()
     {
-        return GregorianSchema.GetInstance().Select(TryAdd).Unbox();
+        return GregorianSchema.GetInstance().Select(tryAdd).Unbox();
 
-        static SimpleCalendar? TryAdd(GregorianSchema schema)
+        static SimpleCalendar? tryAdd(GregorianSchema schema)
         {
             _ = SimpleCatalog.TryAdd(
                 "TryCreateCalendar_HWV", schema, DayZero.NewStyle, proleptic: true, out var chr);

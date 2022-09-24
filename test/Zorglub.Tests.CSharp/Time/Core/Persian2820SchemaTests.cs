@@ -33,18 +33,18 @@ public static class Persian2820SchemaTests
         // Twenty-one 128-year cycles.
         for (int i = 0; i < 21; i++)
         {
-            TestCycle(ref y, 29);
-            TestCycle(ref y, 33);
-            TestCycle(ref y, 33);
-            TestCycle(ref y, 33);
+            testCycle(ref y, 29);
+            testCycle(ref y, 33);
+            testCycle(ref y, 33);
+            testCycle(ref y, 33);
         }
         // One 132-year cycle.
-        TestCycle(ref y, 29);
-        TestCycle(ref y, 33);
-        TestCycle(ref y, 33);
-        TestCycle(ref y, 37);
+        testCycle(ref y, 29);
+        testCycle(ref y, 33);
+        testCycle(ref y, 33);
+        testCycle(ref y, 37);
 
-        static void TestCycle(ref int y, int length)
+        static void testCycle(ref int y, int length)
         {
             for (int Y = 1; Y <= length; Y++)
             {

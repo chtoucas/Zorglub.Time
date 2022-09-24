@@ -283,18 +283,18 @@ public partial class CodeArrayTests
     public static void IsAlmostReducible_KO()
     {
         // Reducible
-        Test(new[] { 2 });
-        Test(new[] { 2, 2 });
-        Test(new[] { 2, 3 });
-        Test(new[] { 2, 2, 2, 2, 2, 2 });
-        Test(new[] { 2, 3, 3, 2, 2, 3 });
+        test(new[] { 2 });
+        test(new[] { 2, 2 });
+        test(new[] { 2, 3 });
+        test(new[] { 2, 2, 2, 2, 2, 2 });
+        test(new[] { 2, 3, 3, 2, 2, 3 });
 
         // Other non-reducible codes.
-        Test(new[] { 1, 3, 5 });
-        Test(new[] { 1, 2, 3, 4 });
-        Test(new[] { 2, 3, 5, 3, 2, 6 });
+        test(new[] { 1, 3, 5 });
+        test(new[] { 1, 2, 3, 4 });
+        test(new[] { 2, 3, 5, 3, 2, 6 });
 
-        static void Test(int[] arr)
+        static void test(int[] arr)
         {
             var code = new CodeArray(arr);
             // Act

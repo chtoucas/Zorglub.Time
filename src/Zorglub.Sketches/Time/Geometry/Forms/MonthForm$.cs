@@ -55,17 +55,17 @@ public static class MonthFormExtensions
         return form switch
         {
             MonthForm { Numbering: MonthFormNumbering.Algebraic } =>
-                WithTroeschNumbering(form, exceptionalMonth + 1, exceptionalMonth),
+                withTroeschNumbering(form, exceptionalMonth + 1, exceptionalMonth),
 
             MonthForm { Numbering: MonthFormNumbering.Ordinal } =>
-                WithTroeschNumbering(form, exceptionalMonth, exceptionalMonth),
+                withTroeschNumbering(form, exceptionalMonth, exceptionalMonth),
 
             TroeschMonthForm t => t,
 
             _ => Throw.NotSupported<TroeschMonthForm>()
         };
 
-        static TroeschMonthForm WithTroeschNumbering(
+        static TroeschMonthForm withTroeschNumbering(
             MonthForm form, int offset, int exceptionalMonth)
         {
             Debug.Assert(form != null);

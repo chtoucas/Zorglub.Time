@@ -82,11 +82,11 @@ public partial class BoxTests
         var obj = new object();
         object? result = null;
         // Act
-        _ = from x in Box.Create(obj) select Unbox(x);
+        _ = from x in Box.Create(obj) select unbox(x);
         // Assert
         Assert.Same(obj, result);
 
-        string Unbox(object input)
+        string unbox(object input)
         {
             result = input;
             return "whatever";
@@ -144,17 +144,17 @@ public partial class BoxTests // Monad + QEP
     [Fact]
     public static void Select_WhenSome_WhenTrySelectorSucceeds()
     {
-        Assert.Some(MyUri.Value.AbsoluteUri, MyUri.Some.Select(TrySelector));
+        Assert.Some(MyUri.Value.AbsoluteUri, MyUri.Some.Select(trySelector));
 
-        static string? TrySelector(Uri uri) => uri.AbsoluteUri;
+        static string? trySelector(Uri uri) => uri.AbsoluteUri;
     }
 
     [Fact]
     public static void Select_WhenSome_WhenTrySelectorFails()
     {
-        Assert.Empty(MyUri.Some.Select(TrySelector));
+        Assert.Empty(MyUri.Some.Select(trySelector));
 
-        static string? TrySelector(Uri uri) => null;
+        static string? trySelector(Uri uri) => null;
     }
 
     #endregion

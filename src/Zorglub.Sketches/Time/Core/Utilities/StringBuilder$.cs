@@ -298,7 +298,7 @@ internal partial class StringBuilderExtensions // Méthodes spécifiques aux cal
         Debug.Assert(buf != null);
         Debug.Assert(year > 1 + Int32.MinValue);
 
-        int yearOfEra = ToYearOfEra(year);
+        int yearOfEra = toYearOfEra(year);
         unchecked
         {
             if (yearOfEra < 10_000)
@@ -322,7 +322,7 @@ internal partial class StringBuilderExtensions // Méthodes spécifiques aux cal
             return buf;
         }
 
-        static int ToYearOfEra(int year) => year > 0 ? year : checked(1 - year);
+        static int toYearOfEra(int year) => year > 0 ? year : checked(1 - year);
     }
 
     /// <summary>

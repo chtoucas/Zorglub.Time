@@ -355,10 +355,10 @@ dotnet_naming_rule.ParamRule.style = CamelCaseStyle
 # Symbol specification
 dotnet_naming_symbols.ParamSym.applicable_kinds = parameter
 
-#### Local functions are PascalCase
+#### Local functions are camelCase
 dotnet_naming_rule.LocalFunRule.severity = warning
 dotnet_naming_rule.LocalFunRule.symbols = LocalFunSym
-dotnet_naming_rule.LocalFunRule.style = PascalCaseStyle
+dotnet_naming_rule.LocalFunRule.style = CamelCaseStyle
 # Symbol specification
 dotnet_naming_symbols.LocalFunSym.applicable_kinds = local_function
 

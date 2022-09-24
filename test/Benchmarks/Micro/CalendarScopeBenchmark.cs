@@ -61,19 +61,19 @@ public class CalendarScopeBenchmark : GJBenchmarkBase
     [Benchmark(Baseline = true)]
     public void Lenient()
     {
-        var ymd = Core(Year, Month, Day);
+        var ymd = core(Year, Month, Day);
         Consume(in ymd);
 
-        static Yemoda Core(int y, int m, int d) => new(y, m, d);
+        static Yemoda core(int y, int m, int d) => new(y, m, d);
     }
 
     [Benchmark]
     public void GregorianProleptic()
     {
-        var ymd = Core(Year, Month, Day);
+        var ymd = core(Year, Month, Day);
         Consume(in ymd);
 
-        static Yemoda Core(int y, int m, int d)
+        static Yemoda core(int y, int m, int d)
         {
             GregorianProlepticScope.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
@@ -83,10 +83,10 @@ public class CalendarScopeBenchmark : GJBenchmarkBase
     [Benchmark]
     public void Proleptic()
     {
-        var ymd = Core(Year, Month, Day);
+        var ymd = core(Year, Month, Day);
         Consume(in ymd);
 
-        static Yemoda Core(int y, int m, int d)
+        static Yemoda core(int y, int m, int d)
         {
             s_ProlepticScope.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
@@ -96,10 +96,10 @@ public class CalendarScopeBenchmark : GJBenchmarkBase
     [Benchmark]
     public void Standard()
     {
-        var ymd = Core(Year, Month, Day);
+        var ymd = core(Year, Month, Day);
         Consume(in ymd);
 
-        static Yemoda Core(int y, int m, int d)
+        static Yemoda core(int y, int m, int d)
         {
             s_StandardScope.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
@@ -109,10 +109,10 @@ public class CalendarScopeBenchmark : GJBenchmarkBase
     [Benchmark]
     public void MinMaxYear()
     {
-        var ymd = Core(Year, Month, Day);
+        var ymd = core(Year, Month, Day);
         Consume(in ymd);
 
-        static Yemoda Core(int y, int m, int d)
+        static Yemoda core(int y, int m, int d)
         {
             s_MinMaxYearScope.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);

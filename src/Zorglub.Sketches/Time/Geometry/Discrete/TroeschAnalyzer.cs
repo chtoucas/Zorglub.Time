@@ -66,10 +66,10 @@ public partial class TroeschAnalyzer // Analysis
     [Pure]
     private AnalyzeResult AnalyzeCore()
     {
-        return AnalyzeRecursively(Input, new AnalyzeResult(Input));
+        return analyzeRecursively(Input, new AnalyzeResult(Input));
 
         [Pure]
-        static AnalyzeResult AnalyzeRecursively(CodeArray code, AnalyzeResult result)
+        static AnalyzeResult analyzeRecursively(CodeArray code, AnalyzeResult result)
         {
             if (code.StrictlyReducible == false) { return result; }
 
@@ -86,7 +86,7 @@ public partial class TroeschAnalyzer // Analysis
 
             result.Append(newCode, new TroeschMap(code.Min, negated, g));
 
-            return AnalyzeRecursively(newCode, result);
+            return analyzeRecursively(newCode, result);
         }
     }
 

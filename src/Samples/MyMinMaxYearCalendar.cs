@@ -58,9 +58,9 @@ public class MyMinMaxYearCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<Da
         // Check arg eagerly.
         YearsValidator.Validate(year);
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<DateParts> Iterator()
+        IEnumerable<DateParts> iterator()
         {
             int monthsInYear = Schema.CountMonthsInYear(year);
 
@@ -82,9 +82,9 @@ public class MyMinMaxYearCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<Da
         // Check arg eagerly.
         Scope.ValidateYearMonth(year, month);
 
-        return Iterator();
+        return iterator();
 
-        IEnumerable<DateParts> Iterator()
+        IEnumerable<DateParts> iterator()
         {
             int daysInMonth = Schema.CountDaysInMonth(year, month);
 

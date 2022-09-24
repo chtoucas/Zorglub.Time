@@ -140,18 +140,18 @@ public static partial class SimpleCatalog
     {
         var arr = new SimpleCalendar[1 + (int)Cuid.MaxSystem];
 
-        Add(GregorianSimpleCalendar.Instance);
-        Add(JulianSimpleCalendar.Instance);
-        Add(CivilSimpleCalendar.Instance);
-        Add(ArmenianSimpleCalendar.Instance);
-        Add(CopticSimpleCalendar.Instance);
-        Add(EthiopicSimpleCalendar.Instance);
-        Add(TabularIslamicSimpleCalendar.Instance);
-        Add(ZoroastrianSimpleCalendar.Instance);
+        add(GregorianSimpleCalendar.Instance);
+        add(JulianSimpleCalendar.Instance);
+        add(CivilSimpleCalendar.Instance);
+        add(ArmenianSimpleCalendar.Instance);
+        add(CopticSimpleCalendar.Instance);
+        add(EthiopicSimpleCalendar.Instance);
+        add(TabularIslamicSimpleCalendar.Instance);
+        add(ZoroastrianSimpleCalendar.Instance);
 
         return arr;
 
-        void Add(SimpleCalendar chr) => arr[(int)chr.PermanentId] = chr;
+        void add(SimpleCalendar chr) => arr[(int)chr.PermanentId] = chr;
     }
 
     [Pure]

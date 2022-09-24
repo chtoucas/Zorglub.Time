@@ -284,9 +284,9 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEnumerable
             select GetDate(3, i);
         TRange actual = CreateRange(GetDate(3, 1, 30), 4);
         // Act & Assert
-        Assert.Equal(list, ToEnumerable(actual));
+        Assert.Equal(list, toEnumerable(actual));
 
-        static IEnumerable ToEnumerable(IEnumerable source)
+        static IEnumerable toEnumerable(IEnumerable source)
         {
             foreach (object? item in source)
             {

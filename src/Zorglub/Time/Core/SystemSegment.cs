@@ -109,13 +109,13 @@ public sealed class SystemSegment : ISchemaBound
         }
 
         var (minYear, maxYear) = supportedYears.Endpoints;
-        var min = FixEndpoint(new Endpoint
+        var min = fixEndpoint(new Endpoint
         {
             DaysSinceEpoch = schema.GetStartOfYear(minYear),
             DateParts = Yemoda.AtStartOfYear(minYear),
             OrdinalParts = Yedoy.AtStartOfYear(minYear),
         });
-        var max = FixEndpoint(new Endpoint
+        var max = fixEndpoint(new Endpoint
         {
             DaysSinceEpoch = schema.GetEndOfYear(maxYear),
             DateParts = schema.GetDatePartsAtEndOfYear(maxYear),
@@ -125,7 +125,7 @@ public sealed class SystemSegment : ISchemaBound
         return new SystemSegment(schema, min, max);
 
         [Pure]
-        Endpoint FixEndpoint(Endpoint ep)
+        Endpoint fixEndpoint(Endpoint ep)
         {
             ep.DateParts.Unpack(out int y, out int m);
             ep.MonthsSinceEpoch = schema.CountMonthsSinceEpoch(y, m);
