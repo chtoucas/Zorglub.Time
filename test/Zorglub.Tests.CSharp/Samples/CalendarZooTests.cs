@@ -11,8 +11,8 @@ using Zorglub.Time.Hemerology.Scopes;
 
 public static partial class CalendarZooTests
 {
-    private static readonly int DefaultMinYear = SystemSchema.DefaultSupportedYears.Min;
-    private static readonly int DefaultMaxYear = SystemSchema.DefaultSupportedYears.Max;
+    private static readonly int s_DefaultMinYear = SystemSchema.DefaultSupportedYears.Min;
+    private static readonly int s_DefaultMaxYear = SystemSchema.DefaultSupportedYears.Max;
 }
 
 // More historically accurate calendars.
@@ -27,7 +27,7 @@ public partial class CalendarZooTests
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(new DateParts(1582, 10, 15), parts);
-        Assert.Equal(DefaultMaxYear, chr.Scope.MaxYear);
+        Assert.Equal(s_DefaultMaxYear, chr.Scope.MaxYear);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public partial class CalendarZooTests
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(8, chr.Scope.MinYear);
-        Assert.Equal(DefaultMaxYear, chr.Scope.MaxYear);
+        Assert.Equal(s_DefaultMaxYear, chr.Scope.MaxYear);
     }
 
     [Fact]
@@ -92,8 +92,8 @@ public partial class CalendarZooTests
         var (minYear, maxYear) = chr.MinMaxDate.Select(x => x.Year);
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(DefaultMinYear, minYear);
-        Assert.Equal(DefaultMaxYear, maxYear);
+        Assert.Equal(s_DefaultMinYear, minYear);
+        Assert.Equal(s_DefaultMaxYear, maxYear);
     }
 
     [Fact]
@@ -108,8 +108,8 @@ public partial class CalendarZooTests
         var (minYear, maxYear) = chr.MinMaxDate.Select(x => x.Year);
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(DefaultMinYear, minYear);
-        Assert.Equal(DefaultMaxYear, maxYear);
+        Assert.Equal(s_DefaultMinYear, minYear);
+        Assert.Equal(s_DefaultMaxYear, maxYear);
     }
 
     [Fact]
@@ -245,7 +245,7 @@ public partial class CalendarZooTests
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(1, chr.Scope.MinYear);
-        Assert.Equal(DefaultMaxYear, maxYear);
+        Assert.Equal(s_DefaultMaxYear, maxYear);
     }
 
     [Fact]
@@ -261,7 +261,7 @@ public partial class CalendarZooTests
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(1, minYear);
-        Assert.Equal(DefaultMaxYear, maxYear);
+        Assert.Equal(s_DefaultMaxYear, maxYear);
     }
 
     [Fact]
@@ -277,7 +277,7 @@ public partial class CalendarZooTests
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(1, minYear);
-        Assert.Equal(DefaultMaxYear, maxYear);
+        Assert.Equal(s_DefaultMaxYear, maxYear);
     }
 
     [Fact]

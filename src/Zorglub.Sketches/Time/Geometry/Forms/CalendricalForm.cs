@@ -20,6 +20,7 @@ public record CalendricalForm
     /// Initializes a new instance of the <see cref="CalendricalForm"/>
     /// record.
     /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
     public CalendricalForm(int A, int B, int Remainder)
     {
         if (A <= 0) Throw.ArgumentOutOfRange(nameof(A));
@@ -29,6 +30,7 @@ public record CalendricalForm
         this.B = B;
         this.Remainder = Remainder;
     }
+#pragma warning restore IDE1006
 
     /// <summary>
     /// Gets the remainder of the current form instance.

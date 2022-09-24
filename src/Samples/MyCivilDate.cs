@@ -49,8 +49,8 @@ public readonly partial struct MyCivilDate :
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
-    public static readonly MyCivilDate s_MinValue = new(s_Domain.Min - s_Epoch);
-    public static readonly MyCivilDate s_MaxValue = new(s_Domain.Max - s_Epoch);
+    private static readonly MyCivilDate s_MinValue = new(s_Domain.Min - s_Epoch);
+    private static readonly MyCivilDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
     private readonly int _daysSinceEpoch;
 

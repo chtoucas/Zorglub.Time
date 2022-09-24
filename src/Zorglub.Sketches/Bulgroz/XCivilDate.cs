@@ -421,12 +421,14 @@ public partial struct XCivilDate // Binary data helpers
     private const int MonthMask = (1 << 4) - 1;
     private const int DayMask = (1 << 5) - 1;
 
+#pragma warning disable IDE1006 // Naming Styles
     // Sentinels: binary data for selected values of (month, day).
     private const int __EndOfFebruary = ((2 - 1) << 5) | (28 - 1);
     private const int __IntercalaryDay = ((2 - 1) << 5) | (29 - 1);
     private const int __StartOfMarch = ((3 - 1) << 5) | (1 - 1);
     private const int __StartOfYear = ((1 - 1) << 5) | (1 - 1);
     private const int __EndOfYear = ((12 - 1) << 5) | (31 - 1);
+#pragma warning restore IDE1006
 
     /// <summary>
     /// Deserializes a 32-bit binary value and recreates the original

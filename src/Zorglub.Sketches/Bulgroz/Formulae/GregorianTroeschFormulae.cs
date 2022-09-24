@@ -16,6 +16,7 @@ using static Zorglub.Bulgroz.GregorianConstants;
 /// </summary>
 public sealed class GregorianTroeschFormulae : ICalendricalFormulae
 {
+#pragma warning disable IDE1006 // Naming Styles
 #if TROESCH_JD
     /// <summary>Constant = 1_721_426; JDN = 1_721_425.5</summary>
     private const int EpochJD = 1_721_426;
@@ -24,6 +25,7 @@ public sealed class GregorianTroeschFormulae : ICalendricalFormulae
 #else
     private const int __1224 = 4 * DaysInYearAfterFebruary;
 #endif
+#pragma warning restore IDE1006
 
     // Version utilisée dans GregorianSchema.
     [Pure]

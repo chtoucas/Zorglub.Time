@@ -37,16 +37,16 @@ public partial class GJYearFormTests
     private const int DaysInYear2 = DaysInCommonYear;
     private const int DaysInYear2And3 = 2 * DaysInCommonYear;
 
-    private static readonly YearForm YearForm0 = GJGeometry.YearForm0;
-    private static readonly YearForm YearForm1 = GJGeometry.YearForm1;
-    private static readonly YearForm YearForm2 = GJGeometry.YearForm2;
-    private static readonly YearForm YearForm3 = GJGeometry.YearForm3;
+    private static readonly YearForm s_YearForm0 = GJGeometry.YearForm0;
+    private static readonly YearForm s_YearForm1 = GJGeometry.YearForm1;
+    private static readonly YearForm s_YearForm2 = GJGeometry.YearForm2;
+    private static readonly YearForm s_YearForm3 = GJGeometry.YearForm3;
 
     // WARNING: keep this after the initialization of YearForm0/1/2/3.
-    private static readonly YearForm NormalYearForm0 = YearForm0.Normalize();
-    private static readonly YearForm NormalYearForm1 = YearForm1.Normalize();
-    private static readonly YearForm NormalYearForm2 = YearForm2.Normalize();
-    private static readonly YearForm NormalYearForm3 = YearForm3.Normalize();
+    private static readonly YearForm s_NormalYearForm0 = s_YearForm0.Normalize();
+    private static readonly YearForm s_NormalYearForm1 = s_YearForm1.Normalize();
+    private static readonly YearForm s_NormalYearForm2 = s_YearForm2.Normalize();
+    private static readonly YearForm s_NormalYearForm3 = s_YearForm3.Normalize();
 
     private static readonly JulianSchema s_JulianSchema = new();
     private static readonly GregorianSchema s_GregorianSchema = new();
@@ -247,10 +247,10 @@ public partial class GJYearFormTests
         for (int y = -2000; y <= 2000; y++)
         {
             // Act
-            int diff0 = YearForm0.GetStartOfYear(y + 4) - YearForm0.GetStartOfYear(y);
-            int diff1 = YearForm1.GetStartOfYear(y + 4) - YearForm1.GetStartOfYear(y);
-            int diff2 = YearForm2.GetStartOfYear(y + 4) - YearForm2.GetStartOfYear(y);
-            int diff3 = YearForm3.GetStartOfYear(y + 4) - YearForm3.GetStartOfYear(y);
+            int diff0 = s_YearForm0.GetStartOfYear(y + 4) - s_YearForm0.GetStartOfYear(y);
+            int diff1 = s_YearForm1.GetStartOfYear(y + 4) - s_YearForm1.GetStartOfYear(y);
+            int diff2 = s_YearForm2.GetStartOfYear(y + 4) - s_YearForm2.GetStartOfYear(y);
+            int diff3 = s_YearForm3.GetStartOfYear(y + 4) - s_YearForm3.GetStartOfYear(y);
             // Assert
             Assert.Equal(DaysPer4YearSubcycle, diff0);
             Assert.Equal(DaysPer4YearSubcycle, diff1);
@@ -266,10 +266,10 @@ public partial class GJYearFormTests
     [Fact]
     public static void YearForm0123_CountDaysFromEpochToStartOfYear()
     {
-        Assert.Equal(-DaysInYear0, YearForm0.CountDaysFromEpochToStartOfYear(0));
-        Assert.Equal(0, YearForm1.CountDaysFromEpochToStartOfYear(1));
-        Assert.Equal(DaysInYear2, YearForm2.CountDaysFromEpochToStartOfYear(2));
-        Assert.Equal(DaysInYear2And3, YearForm3.CountDaysFromEpochToStartOfYear(3));
+        Assert.Equal(-DaysInYear0, s_YearForm0.CountDaysFromEpochToStartOfYear(0));
+        Assert.Equal(0, s_YearForm1.CountDaysFromEpochToStartOfYear(1));
+        Assert.Equal(DaysInYear2, s_YearForm2.CountDaysFromEpochToStartOfYear(2));
+        Assert.Equal(DaysInYear2And3, s_YearForm3.CountDaysFromEpochToStartOfYear(3));
     }
 }
 
@@ -285,16 +285,16 @@ public partial class GJYearFormTests
         int daysInYear = info.DaysInYear;
 
         // Plain forms.
-        Assert.Equal(daysInYear, YearForm0.CountDaysInYear(y));
-        Assert.Equal(daysInYear, YearForm1.CountDaysInYear(y - 1));
-        Assert.Equal(daysInYear, YearForm2.CountDaysInYear(y - 2));
-        Assert.Equal(daysInYear, YearForm3.CountDaysInYear(y - 3));
+        Assert.Equal(daysInYear, s_YearForm0.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_YearForm1.CountDaysInYear(y - 1));
+        Assert.Equal(daysInYear, s_YearForm2.CountDaysInYear(y - 2));
+        Assert.Equal(daysInYear, s_YearForm3.CountDaysInYear(y - 3));
 
         // Normal forms.
-        Assert.Equal(daysInYear, NormalYearForm0.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm1.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm2.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm3.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm0.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm1.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm2.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm3.CountDaysInYear(y));
     }
 
     [Theory, MemberData(nameof(GregorianYearInfoData))]
@@ -307,16 +307,16 @@ public partial class GJYearFormTests
         if (y != 0 && y % 100 == 0 && y % 400 != 0) { return; }
 
         // Plain forms.
-        Assert.Equal(daysInYear, YearForm0.CountDaysInYear(y));
-        Assert.Equal(daysInYear, YearForm1.CountDaysInYear(y - 1));
-        Assert.Equal(daysInYear, YearForm2.CountDaysInYear(y - 2));
-        Assert.Equal(daysInYear, YearForm3.CountDaysInYear(y - 3));
+        Assert.Equal(daysInYear, s_YearForm0.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_YearForm1.CountDaysInYear(y - 1));
+        Assert.Equal(daysInYear, s_YearForm2.CountDaysInYear(y - 2));
+        Assert.Equal(daysInYear, s_YearForm3.CountDaysInYear(y - 3));
 
         // Normal forms.
-        Assert.Equal(daysInYear, NormalYearForm0.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm1.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm2.CountDaysInYear(y));
-        Assert.Equal(daysInYear, NormalYearForm3.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm0.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm1.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm2.CountDaysInYear(y));
+        Assert.Equal(daysInYear, s_NormalYearForm3.CountDaysInYear(y));
     }
 }
 
@@ -332,10 +332,10 @@ public partial class GJYearFormTests
         var (y, startOfYear) = info;
 
         // Act
-        int daysSinceEpoch0 = YearForm0.GetStartOfYear(y) - DaysInYear0;
-        int daysSinceEpoch1 = YearForm1.GetStartOfYear(y - 1);
-        int daysSinceEpoch2 = YearForm2.GetStartOfYear(y - 2) + DaysInYear2;
-        int daysSinceEpoch3 = YearForm3.GetStartOfYear(y - 3) + DaysInYear2And3;
+        int daysSinceEpoch0 = s_YearForm0.GetStartOfYear(y) - DaysInYear0;
+        int daysSinceEpoch1 = s_YearForm1.GetStartOfYear(y - 1);
+        int daysSinceEpoch2 = s_YearForm2.GetStartOfYear(y - 2) + DaysInYear2;
+        int daysSinceEpoch3 = s_YearForm3.GetStartOfYear(y - 3) + DaysInYear2And3;
 
         // Act & Assert
 
@@ -346,10 +346,10 @@ public partial class GJYearFormTests
         Assert.Equal(startOfYear, DayZero.OldStyle + daysSinceEpoch3);
 
         // Normal forms.
-        Assert.Equal(startOfYear, DayZero.OldStyle + NormalYearForm0.GetStartOfYear(y));
-        Assert.Equal(startOfYear, DayZero.OldStyle + NormalYearForm1.GetStartOfYear(y));
-        Assert.Equal(startOfYear, DayZero.OldStyle + NormalYearForm2.GetStartOfYear(y));
-        Assert.Equal(startOfYear, DayZero.OldStyle + NormalYearForm3.GetStartOfYear(y));
+        Assert.Equal(startOfYear, DayZero.OldStyle + s_NormalYearForm0.GetStartOfYear(y));
+        Assert.Equal(startOfYear, DayZero.OldStyle + s_NormalYearForm1.GetStartOfYear(y));
+        Assert.Equal(startOfYear, DayZero.OldStyle + s_NormalYearForm2.GetStartOfYear(y));
+        Assert.Equal(startOfYear, DayZero.OldStyle + s_NormalYearForm3.GetStartOfYear(y));
     }
 
     [Fact]
@@ -364,16 +364,16 @@ public partial class GJYearFormTests
         Assert.Equal(startOfYear, s_GregorianSchema.GetStartOfYear(-100));
 
         // Plain forms.
-        Assert.Equal(startOfYear - 1, YearForm0.GetStartOfYear(-100) - DaysInYear0);
-        Assert.Equal(startOfYear - 1, YearForm1.GetStartOfYear(-100 - 1));
-        Assert.Equal(startOfYear - 1, YearForm2.GetStartOfYear(-100 - 2) + DaysInYear2);
-        Assert.Equal(startOfYear - 1, YearForm3.GetStartOfYear(-100 - 3) + DaysInYear2And3);
+        Assert.Equal(startOfYear - 1, s_YearForm0.GetStartOfYear(-100) - DaysInYear0);
+        Assert.Equal(startOfYear - 1, s_YearForm1.GetStartOfYear(-100 - 1));
+        Assert.Equal(startOfYear - 1, s_YearForm2.GetStartOfYear(-100 - 2) + DaysInYear2);
+        Assert.Equal(startOfYear - 1, s_YearForm3.GetStartOfYear(-100 - 3) + DaysInYear2And3);
 
         // Normal forms.
-        Assert.Equal(startOfYear - 1, NormalYearForm0.GetStartOfYear(-100));
-        Assert.Equal(startOfYear - 1, NormalYearForm1.GetStartOfYear(-100));
-        Assert.Equal(startOfYear - 1, NormalYearForm2.GetStartOfYear(-100));
-        Assert.Equal(startOfYear - 1, NormalYearForm3.GetStartOfYear(-100));
+        Assert.Equal(startOfYear - 1, s_NormalYearForm0.GetStartOfYear(-100));
+        Assert.Equal(startOfYear - 1, s_NormalYearForm1.GetStartOfYear(-100));
+        Assert.Equal(startOfYear - 1, s_NormalYearForm2.GetStartOfYear(-100));
+        Assert.Equal(startOfYear - 1, s_NormalYearForm3.GetStartOfYear(-100));
     }
 
     [Fact]
@@ -387,16 +387,16 @@ public partial class GJYearFormTests
             // Act & Assert
 
             // Plain forms.
-            Assert.Equal(startOfYear, YearForm0.GetStartOfYear(y) - DaysInYear0);
-            Assert.Equal(startOfYear, YearForm1.GetStartOfYear(y - 1));
-            Assert.Equal(startOfYear, YearForm2.GetStartOfYear(y - 2) + DaysInYear2);
-            Assert.Equal(startOfYear, YearForm3.GetStartOfYear(y - 3) + DaysInYear2And3);
+            Assert.Equal(startOfYear, s_YearForm0.GetStartOfYear(y) - DaysInYear0);
+            Assert.Equal(startOfYear, s_YearForm1.GetStartOfYear(y - 1));
+            Assert.Equal(startOfYear, s_YearForm2.GetStartOfYear(y - 2) + DaysInYear2);
+            Assert.Equal(startOfYear, s_YearForm3.GetStartOfYear(y - 3) + DaysInYear2And3);
 
             // Normal forms.
-            Assert.Equal(startOfYear, NormalYearForm0.GetStartOfYear(y));
-            Assert.Equal(startOfYear, NormalYearForm1.GetStartOfYear(y));
-            Assert.Equal(startOfYear, NormalYearForm2.GetStartOfYear(y));
-            Assert.Equal(startOfYear, NormalYearForm3.GetStartOfYear(y));
+            Assert.Equal(startOfYear, s_NormalYearForm0.GetStartOfYear(y));
+            Assert.Equal(startOfYear, s_NormalYearForm1.GetStartOfYear(y));
+            Assert.Equal(startOfYear, s_NormalYearForm2.GetStartOfYear(y));
+            Assert.Equal(startOfYear, s_NormalYearForm3.GetStartOfYear(y));
         }
     }
 
@@ -412,16 +412,16 @@ public partial class GJYearFormTests
         Assert.Equal(startOfYear, s_GregorianSchema.GetStartOfYear(101));
 
         // Plain forms.
-        Assert.Equal(startOfYear + 1, YearForm0.GetStartOfYear(101) - DaysInYear0);
-        Assert.Equal(startOfYear + 1, YearForm1.GetStartOfYear(101 - 1));
-        Assert.Equal(startOfYear + 1, YearForm2.GetStartOfYear(101 - 2) + DaysInYear2);
-        Assert.Equal(startOfYear + 1, YearForm3.GetStartOfYear(101 - 3) + DaysInYear2And3);
+        Assert.Equal(startOfYear + 1, s_YearForm0.GetStartOfYear(101) - DaysInYear0);
+        Assert.Equal(startOfYear + 1, s_YearForm1.GetStartOfYear(101 - 1));
+        Assert.Equal(startOfYear + 1, s_YearForm2.GetStartOfYear(101 - 2) + DaysInYear2);
+        Assert.Equal(startOfYear + 1, s_YearForm3.GetStartOfYear(101 - 3) + DaysInYear2And3);
 
         // Normal forms.
-        Assert.Equal(startOfYear + 1, NormalYearForm0.GetStartOfYear(101));
-        Assert.Equal(startOfYear + 1, NormalYearForm1.GetStartOfYear(101));
-        Assert.Equal(startOfYear + 1, NormalYearForm2.GetStartOfYear(101));
-        Assert.Equal(startOfYear + 1, NormalYearForm3.GetStartOfYear(101));
+        Assert.Equal(startOfYear + 1, s_NormalYearForm0.GetStartOfYear(101));
+        Assert.Equal(startOfYear + 1, s_NormalYearForm1.GetStartOfYear(101));
+        Assert.Equal(startOfYear + 1, s_NormalYearForm2.GetStartOfYear(101));
+        Assert.Equal(startOfYear + 1, s_NormalYearForm3.GetStartOfYear(101));
     }
 }
 
@@ -439,23 +439,23 @@ public partial class GJYearFormTests
         // Act & Assert
 
         // Plain forms.
-        Assert.Equal(y, YearForm0.GetYear(daysSinceEpoch + DaysInYear0, out int d0yA));
+        Assert.Equal(y, s_YearForm0.GetYear(daysSinceEpoch + DaysInYear0, out int d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, 1 + YearForm1.GetYear(daysSinceEpoch, out d0yA));
+        Assert.Equal(y, 1 + s_YearForm1.GetYear(daysSinceEpoch, out d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, 2 + YearForm2.GetYear(daysSinceEpoch - DaysInYear2, out d0yA));
+        Assert.Equal(y, 2 + s_YearForm2.GetYear(daysSinceEpoch - DaysInYear2, out d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, 3 + YearForm3.GetYear(daysSinceEpoch - DaysInYear2And3, out d0yA));
+        Assert.Equal(y, 3 + s_YearForm3.GetYear(daysSinceEpoch - DaysInYear2And3, out d0yA));
         Assert.Equal(d0yE, d0yA);
 
         // Normal forms.
-        Assert.Equal(y, NormalYearForm0.GetYear(daysSinceEpoch, out d0yA));
+        Assert.Equal(y, s_NormalYearForm0.GetYear(daysSinceEpoch, out d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, NormalYearForm1.GetYear(daysSinceEpoch, out d0yA));
+        Assert.Equal(y, s_NormalYearForm1.GetYear(daysSinceEpoch, out d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, NormalYearForm2.GetYear(daysSinceEpoch, out d0yA));
+        Assert.Equal(y, s_NormalYearForm2.GetYear(daysSinceEpoch, out d0yA));
         Assert.Equal(d0yE, d0yA);
-        Assert.Equal(y, NormalYearForm3.GetYear(daysSinceEpoch, out d0yA));
+        Assert.Equal(y, s_NormalYearForm3.GetYear(daysSinceEpoch, out d0yA));
         Assert.Equal(d0yE, d0yA);
     }
 
@@ -474,23 +474,23 @@ public partial class GJYearFormTests
         // Genuine result: year -100, doy = 365 (-100 is a common year).
 
         // Plain forms.
-        Assert.Equal(-100, YearForm0.GetYear(endOfYear + DaysInYear0, out int d0y));
+        Assert.Equal(-100, s_YearForm0.GetYear(endOfYear + DaysInYear0, out int d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, 1 + YearForm1.GetYear(endOfYear, out d0y));
+        Assert.Equal(-100, 1 + s_YearForm1.GetYear(endOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, 2 + YearForm2.GetYear(endOfYear - DaysInYear2, out d0y));
+        Assert.Equal(-100, 2 + s_YearForm2.GetYear(endOfYear - DaysInYear2, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, 3 + YearForm3.GetYear(endOfYear - DaysInYear2And3, out d0y));
+        Assert.Equal(-100, 3 + s_YearForm3.GetYear(endOfYear - DaysInYear2And3, out d0y));
         Assert.Equal(366, 1 + d0y);
 
         // Normal forms.
-        Assert.Equal(-100, NormalYearForm0.GetYear(endOfYear, out d0y));
+        Assert.Equal(-100, s_NormalYearForm0.GetYear(endOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, NormalYearForm1.GetYear(endOfYear, out d0y));
+        Assert.Equal(-100, s_NormalYearForm1.GetYear(endOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, NormalYearForm2.GetYear(endOfYear, out d0y));
+        Assert.Equal(-100, s_NormalYearForm2.GetYear(endOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(-100, NormalYearForm3.GetYear(endOfYear, out d0y));
+        Assert.Equal(-100, s_NormalYearForm3.GetYear(endOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
     }
 
@@ -512,23 +512,23 @@ public partial class GJYearFormTests
             int y = s_GregorianSchema.GetYear(daysSinceEpoch, out int doy);
 
             // Plain forms.
-            Assert.Equal(y, YearForm0.GetYear(daysSinceEpoch + DaysInYear0, out int d0yA));
+            Assert.Equal(y, s_YearForm0.GetYear(daysSinceEpoch + DaysInYear0, out int d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, 1 + YearForm1.GetYear(daysSinceEpoch, out d0yA));
+            Assert.Equal(y, 1 + s_YearForm1.GetYear(daysSinceEpoch, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, 2 + YearForm2.GetYear(daysSinceEpoch - DaysInYear2, out d0yA));
+            Assert.Equal(y, 2 + s_YearForm2.GetYear(daysSinceEpoch - DaysInYear2, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, 3 + YearForm3.GetYear(daysSinceEpoch - DaysInYear2And3, out d0yA));
+            Assert.Equal(y, 3 + s_YearForm3.GetYear(daysSinceEpoch - DaysInYear2And3, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
 
             // Normal forms.
-            Assert.Equal(y, NormalYearForm0.GetYear(daysSinceEpoch, out d0yA));
+            Assert.Equal(y, s_NormalYearForm0.GetYear(daysSinceEpoch, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, NormalYearForm1.GetYear(daysSinceEpoch, out d0yA));
+            Assert.Equal(y, s_NormalYearForm1.GetYear(daysSinceEpoch, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, NormalYearForm2.GetYear(daysSinceEpoch, out d0yA));
+            Assert.Equal(y, s_NormalYearForm2.GetYear(daysSinceEpoch, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
-            Assert.Equal(y, NormalYearForm3.GetYear(daysSinceEpoch, out d0yA));
+            Assert.Equal(y, s_NormalYearForm3.GetYear(daysSinceEpoch, out d0yA));
             Assert.Equal(doy, 1 + d0yA);
         }
     }
@@ -548,23 +548,23 @@ public partial class GJYearFormTests
         // Genuine result: year 101, doy = 1.
 
         // Plain forms.
-        Assert.Equal(100, YearForm0.GetYear(startOfYear + DaysInYear0, out int d0y));
+        Assert.Equal(100, s_YearForm0.GetYear(startOfYear + DaysInYear0, out int d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, 1 + YearForm1.GetYear(startOfYear, out d0y));
+        Assert.Equal(100, 1 + s_YearForm1.GetYear(startOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, 2 + YearForm2.GetYear(startOfYear - DaysInYear2, out d0y));
+        Assert.Equal(100, 2 + s_YearForm2.GetYear(startOfYear - DaysInYear2, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, 3 + YearForm3.GetYear(startOfYear - DaysInYear2And3, out d0y));
+        Assert.Equal(100, 3 + s_YearForm3.GetYear(startOfYear - DaysInYear2And3, out d0y));
         Assert.Equal(366, 1 + d0y);
 
         // Normal forms.
-        Assert.Equal(100, NormalYearForm0.GetYear(startOfYear, out d0y));
+        Assert.Equal(100, s_NormalYearForm0.GetYear(startOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, NormalYearForm1.GetYear(startOfYear, out d0y));
+        Assert.Equal(100, s_NormalYearForm1.GetYear(startOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, NormalYearForm2.GetYear(startOfYear, out d0y));
+        Assert.Equal(100, s_NormalYearForm2.GetYear(startOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
-        Assert.Equal(100, NormalYearForm3.GetYear(startOfYear, out d0y));
+        Assert.Equal(100, s_NormalYearForm3.GetYear(startOfYear, out d0y));
         Assert.Equal(366, 1 + d0y);
     }
 }

@@ -18,12 +18,14 @@ public partial record QuasiAffineForm
     /// <summary>
     /// Initializes a new instance of the <see cref="QuasiAffineForm"/> record.
     /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
     public QuasiAffineForm(int A, int B, int Remainder)
     {
         _a = A != 0 ? A : Throw.ArgumentOutOfRange<int>(nameof(A));
         _b = B != 0 ? B : Throw.ArgumentOutOfRange<int>(nameof(B));
         R = Remainder;
     }
+#pragma warning restore IDE1006
 
     // A != 0 means that all forms can be reversed.
     public int A

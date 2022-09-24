@@ -53,7 +53,7 @@ public static partial class ZCatalog
     /// </summary>
     // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
     // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
-    private static readonly int MinUserId = SimpleCatalog.MaxId + 1;
+    private static readonly int s_MinUserId = SimpleCatalog.MaxId + 1;
 
 #if BIGGER_ZCATALOG
     /// <summary>
@@ -78,7 +78,7 @@ public static partial class ZCatalog
     /// Nevertheless, we guarantee that it will never be less than 128.</para>
     /// </remarks>
 #endif
-    public static int MaxNumberOfUserCalendars { get; } = MaxId - MinUserId + 1;
+    public static int MaxNumberOfUserCalendars { get; } = MaxId - s_MinUserId + 1;
 
     /// <summary>
     /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -109,7 +109,7 @@ public static partial class ZCatalog
     private static readonly ConcurrentDictionary<string, Lazy<ZCalendar>> s_CalendarsByKey =
         InitCalendarsByKey();
 
-    private static readonly ZRegistry s_Registry = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
+    private static readonly ZRegistry s_Registry = new(s_CalendarsByKey, s_CalendarsById, s_MinUserId);
 
     // We ignore lazy calendars not yet initialized.
     internal static ICollection<string> Keys => s_CalendarsByKey.Keys;

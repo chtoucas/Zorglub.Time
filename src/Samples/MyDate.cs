@@ -43,7 +43,7 @@ public readonly partial struct MyDate :
 
     private static readonly DayNumber s_Epoch = s_Scope.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Scope.Domain;
-    private static readonly int EpochDayOfWeek = (int)s_Epoch.DayOfWeek;
+    private static readonly int s_EpochDayOfWeek = (int)s_Epoch.DayOfWeek;
 
     private static readonly SystemSegment s_Segment = SystemSegment.FromCalendricalSegment(s_Scope.Segment);
 
@@ -99,7 +99,7 @@ public readonly partial struct MyDate :
 
     public DayOfWeek DayOfWeek =>
         (DayOfWeek)Modulo(
-            checked(EpochDayOfWeek + DaysSinceEpoch),
+            checked(s_EpochDayOfWeek + DaysSinceEpoch),
             CalendricalConstants.DaysInWeek);
 
     public bool IsIntercalary

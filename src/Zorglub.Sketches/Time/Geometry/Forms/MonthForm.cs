@@ -17,8 +17,10 @@ public record MonthForm(int A, int B, int Remainder, MonthFormNumbering Numberin
     /// Initializes a new instance of the <see cref="MonthForm"/> record with the default
     /// (algebraic) numbering system.
     /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
     public MonthForm(int A, int B, int Remainder)
         : this(A, B, Remainder, MonthFormNumbering.Algebraic) { }
+#pragma warning restore IDE1006
 
     /// <summary>
     /// Obtains the number of whole days elapsed since the start of the year and before the

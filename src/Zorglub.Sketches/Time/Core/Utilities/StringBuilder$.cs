@@ -442,6 +442,7 @@ internal partial class StringBuilderExtensions // Chiffres romains
         return AppendTen1000OrMore(buf, num);
     }
 
+#pragma warning disable IDE1006 // Naming Styles
     private static void AppendRomanUnit(StringBuilder buf, int num, char I, char V, char X)
     {
         Debug.Assert(0 <= num && num <= 9);
@@ -469,4 +470,5 @@ internal partial class StringBuilderExtensions // Chiffres romains
             }
         }
     }
+#pragma warning restore IDE1006
 }

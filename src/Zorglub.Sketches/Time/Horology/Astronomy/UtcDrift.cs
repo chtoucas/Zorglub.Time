@@ -41,7 +41,7 @@ internal static class UtcDrift
 
     // Année de la dernière de mise à jour.
     [SuppressMessage("Performance", "CA1802:Use literals where appropriate")]
-    private static readonly int LastYear = 2019;
+    private static readonly int s_LastYear = 2019;
 
     // The official leap seconds annoucements are the responsability of the
     // IERS.
@@ -109,7 +109,7 @@ internal static class UtcDrift
     public static double GetDeltaAT(Yemoda ymd, double fractionOfDay)
     {
         var (year, month, day) = ymd;
-        if (year < FirstYear || year > LastYear + 5)
+        if (year < FirstYear || year > s_LastYear + 5)
         {
             // Précède l'introduction de l'UTC ou 5 années après la dernière
             // mise à jour des secondes intercalaires.
