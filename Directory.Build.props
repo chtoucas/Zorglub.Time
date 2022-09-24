@@ -82,10 +82,18 @@
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <!--
-          CS1030 Compiler Warning (level 1) #warning
-          CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member'
+          CS1030  Compiler Warning (level 1) #warning
+          CS1591  Missing XML comment for publicly visible type or member 'Type_or_Member'
+          IDE0049 Use language keywords instead of framework type names for type references
+                  No warning or error should appear when
+                    dotnet_style_predefined_type_for_locals_parameters_members = true
+                  and, for instance, we write "GetXXX(int)" in an XML doc.
+                  Adding IDE0049 to WarningsNotAsErrors fixes this in the sense
+                  that VS no longer displays an error (normal) but also discards
+                  the warning (weird)!
+                  https://github.com/dotnet/roslyn/issues/57764
         -->
-        <WarningsNotAsErrors>CS1030;CS1591</WarningsNotAsErrors>
+        <WarningsNotAsErrors>CS1030;CS1591;IDE0049</WarningsNotAsErrors>
         <NoWarn />
       </PropertyGroup>
     </When>
