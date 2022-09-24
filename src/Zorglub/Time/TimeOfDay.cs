@@ -78,7 +78,7 @@ public readonly partial struct TimeOfDay :
     /// <para>This constructor does NOT validate its parameter.</para></summary>
     private TimeOfDay(int bin)
     {
-        CheckBinaryData__(bin);
+        __CheckBinaryData(bin);
 
         _bin = bin;
     }
@@ -255,7 +255,7 @@ public partial struct TimeOfDay // Binary data helpers
 
     [Conditional("DEBUG")]
     [ExcludeFromCodeCoverage]
-    private static void CheckBinaryData__(int bin) => ValidateBinaryData(bin);
+    private static void __CheckBinaryData(int bin) => ValidateBinaryData(bin);
 }
 
 public partial struct TimeOfDay // Factories, conversions...

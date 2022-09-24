@@ -116,7 +116,7 @@ public readonly partial struct Yemox : IEqualityOperators<Yemox, Yemox>
     /// </summary>
     internal Yemox(int bin)
     {
-        CheckBinaryData__(bin);
+        __CheckBinaryData(bin);
 
         _bin = bin;
     }
@@ -262,7 +262,7 @@ public partial struct Yemox // Binary data helpers
 
     [Conditional("DEBUG")]
     [ExcludeFromCodeCoverage]
-    private static void CheckBinaryData__(int bin) => ValidateBinaryData(bin);
+    private static void __CheckBinaryData(int bin) => ValidateBinaryData(bin);
 }
 
 public partial struct Yemox // IEquatable

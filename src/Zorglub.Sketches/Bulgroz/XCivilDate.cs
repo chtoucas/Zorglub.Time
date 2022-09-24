@@ -152,7 +152,7 @@ public readonly partial struct XCivilDate :
     /// </summary>
     private XCivilDate(int bin)
     {
-        CheckBinaryData__(bin);
+        __CheckBinaryData(bin);
         _bin = bin;
     }
 
@@ -489,7 +489,7 @@ public partial struct XCivilDate // Binary data helpers
 
     [Conditional("DEBUG")]
     [ExcludeFromCodeCoverage]
-    private static void CheckBinaryData__(int bin) => ValidateBinaryData(bin);
+    private static void __CheckBinaryData(int bin) => ValidateBinaryData(bin);
 
     /// <summary>
     /// Packs the specified date parts.

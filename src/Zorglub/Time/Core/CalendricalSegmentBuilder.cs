@@ -256,12 +256,12 @@ public partial class CalendricalSegmentBuilder // Builder methods
     //
 
     [Conditional("DEBUG")]
-    private void ValidateYear__(int year) => _yearsValidator.Validate(year);
+    private void __ValidateYear(int year) => _yearsValidator.Validate(year);
 
     [Pure]
     private Endpoint GetEndpointAtStartOfYear(int year)
     {
-        ValidateYear__(year);
+        __ValidateYear(year);
 
         return new Endpoint
         {
@@ -274,7 +274,7 @@ public partial class CalendricalSegmentBuilder // Builder methods
     [Pure]
     private Endpoint GetEndpointAtEndOfYear(int year)
     {
-        ValidateYear__(year);
+        __ValidateYear(year);
 
         return new Endpoint
         {

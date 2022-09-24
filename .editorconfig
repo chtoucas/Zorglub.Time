@@ -276,7 +276,7 @@ dotnet_naming_rule.InterfaceRule.symbols = InterfaceSym
 dotnet_naming_rule.InterfaceRule.style = InterfaceStyle
 # Symbol specification
 dotnet_naming_symbols.InterfaceSym.applicable_kinds = interface
-dotnet_naming_symbols.InterfaceSym.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.InterfaceSym.applicable_accessibilities = private, public, internal, protected, protected_internal, private_protected
 # Style
 dotnet_naming_style.InterfaceStyle.required_prefix = I
 dotnet_naming_style.InterfaceStyle.capitalization = pascal_case
@@ -287,7 +287,7 @@ dotnet_naming_rule.TypeRule.symbols = TypeSym
 dotnet_naming_rule.TypeRule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.TypeSym.applicable_kinds = class, struct, enum
-dotnet_naming_symbols.TypeSym.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.TypeSym.applicable_accessibilities = private, public, internal, protected, protected_internal, private_protected
 
 #### Fields ####
 
@@ -297,7 +297,7 @@ dotnet_naming_rule.NonPrivateStaticFieldRule.symbols = NonPrivateStaticFieldSym
 dotnet_naming_rule.NonPrivateStaticFieldRule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateStaticFieldSym.applicable_kinds = field
-dotnet_naming_symbols.NonPrivateStaticFieldSym.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
+dotnet_naming_symbols.NonPrivateStaticFieldSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
 dotnet_naming_symbols.NonPrivateStaticFieldSym.required_modifiers = static
 
 #### Non-private read-only fields are PascalCase
@@ -306,7 +306,7 @@ dotnet_naming_rule.NonPrivateReadOnlyFieldRule.symbols = NonPrivateReadOnlyField
 dotnet_naming_rule.NonPrivateReadOnlyFieldRule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.applicable_kinds = field
-dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
+dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
 dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.required_modifiers = readonly
 
 #### Private static fields are PascalCase and start with s_
@@ -362,10 +362,10 @@ dotnet_naming_rule.LocalFunRule.style = CamelCaseStyle
 # Symbol specification
 dotnet_naming_symbols.LocalFunSym.applicable_kinds = local_function
 
-#### Non-field members are PascalCase
-dotnet_naming_rule.NonFieldMemberRule.severity = warning
-dotnet_naming_rule.NonFieldMemberRule.symbols = NonFieldMemberSym
-dotnet_naming_rule.NonFieldMemberRule.style = PascalCaseStyle
+#### Non-private non-field members are PascalCase
+dotnet_naming_rule.NonPrivateNonFieldMemberRule.severity = warning
+dotnet_naming_rule.NonPrivateNonFieldMemberRule.symbols = NonPrivateNonFieldMemberSym
+dotnet_naming_rule.NonPrivateNonFieldMemberRule.style = PascalCaseStyle
 # Symbol specification
-dotnet_naming_symbols.NonFieldMemberSym.applicable_kinds = property, event, method
-dotnet_naming_symbols.NonFieldMemberSym.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_kinds = property, event, method
+dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
