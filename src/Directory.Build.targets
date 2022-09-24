@@ -2,6 +2,7 @@
 
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.targets" />
 
+  <!-- SourceLink + PublicApiAnalyzers -->
   <Import Project="$(MSBuildThisFileDirectory)Packable.targets"
           Condition=" '$(IsPackable)' == 'true' "/>
 

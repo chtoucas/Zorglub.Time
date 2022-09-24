@@ -81,8 +81,11 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
-        <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
+        <!--
+          CS1030 Compiler Warning (level 1) #warning
+          CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member'
+        -->
+        <WarningsNotAsErrors>CS1030;CS1591</WarningsNotAsErrors>
         <NoWarn />
       </PropertyGroup>
     </When>
