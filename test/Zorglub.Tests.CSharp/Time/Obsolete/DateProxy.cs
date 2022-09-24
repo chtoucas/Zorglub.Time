@@ -10,7 +10,6 @@ using System.Diagnostics.Contracts;
 using System.Numerics;
 
 using Zorglub.Time;
-using Zorglub.Time.Core;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
 

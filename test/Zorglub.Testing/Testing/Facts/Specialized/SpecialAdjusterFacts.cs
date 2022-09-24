@@ -5,7 +5,6 @@ namespace Zorglub.Testing.Facts.Specialized;
 
 using Zorglub.Testing.Data;
 using Zorglub.Testing.Facts.Hemerology;
-using Zorglub.Time.Core;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Specialized;
 

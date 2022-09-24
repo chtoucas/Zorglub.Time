@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Testing.Data.Unbounded;
-using Zorglub.Time.Horology;
 using Zorglub.Time.Simple;
 
 public sealed partial class ZCalendarTests :

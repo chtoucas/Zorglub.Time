@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using Zorglub.Time.Hemerology;
-
 /// <summary>
 /// Provides test data for <see cref="PositivistSchema"/>.
 /// </summary>

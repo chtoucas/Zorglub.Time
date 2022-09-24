@@ -8,7 +8,6 @@ using System;
 using Play.Demo;
 
 using Zorglub.Time.Horology;
-using Zorglub.Time.Horology.Ntp;
 
 using static System.Console;
 using static Zorglub.Time.Core.TemporalConstants;

@@ -5,7 +5,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 
 using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
-using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar.
