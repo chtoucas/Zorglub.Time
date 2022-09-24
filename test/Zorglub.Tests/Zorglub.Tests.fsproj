@@ -10,8 +10,8 @@
       We enable most opt-in warnings; see
       https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/compiler-options
     -->
-    <WarnOn>$(WarnOn);FS1182;FS3366;FS3517;FS3389;FS3390</WarnOn>
     <NoWarn>$(NoWarn);FS0052</NoWarn>
+    <WarnOn>$(WarnOn);FS1182;FS3366;FS3517;FS3389;FS3390</WarnOn>
 
     <!-- Silent a warning from Microsoft.NET.Test.Sdk -->
     <GenerateProgramFile>false</GenerateProgramFile>

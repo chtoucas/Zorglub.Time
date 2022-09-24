@@ -202,7 +202,6 @@ file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) 2020
 # Unnecessary Code Rules      #
 ###############################
 
-# Replacement for CA1801 & xUnit1026
 dotnet_code_quality_unused_parameters = all
 dotnet_remove_unnecessary_suppression_exclusions = none
 

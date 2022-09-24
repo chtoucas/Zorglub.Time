@@ -4,11 +4,10 @@
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
 
     <!--
-      CA1000    Do not declare static members on generic types (Design)
-      CA1707    Identifiers should not contain underscores (Naming)
-      CA1711    Identifiers should not have incorrect suffix (Naming)
+      CA1000  Do not declare static members on generic types (Design)
+      CA1707  Identifiers should not contain underscores (Naming)
     -->
-    <NoWarn>$(NoWarn);CA1000;CA1707;CA1711</NoWarn>
+    <NoWarn>$(NoWarn);CA1000;CA1707</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

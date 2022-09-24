@@ -20,12 +20,12 @@ public static class HowToCreateACalendar
 
     public static SimpleCalendar CreateSimpleCalendar() =>
         GregorianSchema.GetInstance()
-            .CreateCalendar("CreateCalendar", DayZero.NewStyle, proleptic: true);
+            .CreateCalendar("CreateSimpleCalendar", DayZero.NewStyle, proleptic: true);
 
     // Hand-written version.
-    public static SimpleCalendar CreateSimpleCalendar_Plain() =>
+    public static SimpleCalendar CreateSimpleCalendarPlain() =>
         (from x in GregorianSchema.GetInstance()
-         select SimpleCatalog.Add("CreateCalendar_HWV", x, DayZero.NewStyle, proleptic: true)
+         select SimpleCatalog.Add("CreateSimpleCalendarPlain", x, DayZero.NewStyle, proleptic: true)
          ).Unbox();
 
     #endregion
@@ -33,17 +33,17 @@ public static class HowToCreateACalendar
 
     public static bool TryCreateSimpleCalendar(out SimpleCalendar? calendar) =>
         GregorianSchema.GetInstance()
-            .TryCreateCalendar("TryCreateCalendar", DayZero.NewStyle, out calendar, proleptic: true);
+            .TryCreateCalendar("TryCreateSimpleCalendar", DayZero.NewStyle, out calendar, proleptic: true);
 
     // Hand-written version.
-    public static SimpleCalendar TryCreateSimpleCalendar_Plain()
+    public static SimpleCalendar TryCreateSimpleCalendarPlain()
     {
         return GregorianSchema.GetInstance().Select(tryAdd).Unbox();
 
         static SimpleCalendar? tryAdd(GregorianSchema schema)
         {
             _ = SimpleCatalog.TryAdd(
-                "TryCreateCalendar_HWV", schema, DayZero.NewStyle, proleptic: true, out var chr);
+                "TryCreateSimpleCalendarPlain", schema, DayZero.NewStyle, proleptic: true, out var chr);
 
             return chr;
         }
@@ -56,7 +56,7 @@ public static class HowToCreateACalendar
         GregorianSchema.GetInstance()
             .Select(x => MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)));
 
-    public static Box<MinMaxYearScope> GetScope_QEP() =>
+    public static Box<MinMaxYearScope> GetScopeQEP() =>
         from x in GregorianSchema.GetInstance()
         select MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999));
 
@@ -67,14 +67,14 @@ public static class HowToCreateACalendar
 
     // Ways to construct the same calendar.
 
-    public static MinMaxYearCalendar Select_QEP() =>
+    public static MinMaxYearCalendar SelectQEP() =>
         (from x in GregorianSchema.GetInstance()
          let y = MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999))
-         select new MinMaxYearCalendar("Select_QEP", y)
+         select new MinMaxYearCalendar("SelectQEP", y)
          ).Unbox();
 
     // Versions below are here to demonstrate ZipWith() and SelectMany(),
-    // but Select_QEP() is a better and simpler solution; the intermediate
+    // but SelectQEP() is a better and simpler solution; the intermediate
     // Box<MinMaxYearScope> is unnecessary.
     // Prerequisite: BoxExtensions from Zorglub.Sketches.
 
@@ -86,13 +86,13 @@ public static class HowToCreateACalendar
         return schema.ZipWith(scope, (x, y) => new MinMaxYearCalendar("ZipWith", y)).Unbox();
     }
 
-    public static MinMaxYearCalendar SelectMany_QEP()
+    public static MinMaxYearCalendar SelectManyQEP()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
 
         return (from x in scope
-                select new MinMaxYearCalendar("SelectMany_QEP", x)
+                select new MinMaxYearCalendar("SelectManyQEP", x)
                 ).Unbox();
     }
 

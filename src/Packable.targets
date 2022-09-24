@@ -38,8 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
     <!--
       RS0016  Symbol XXX is not part of the declared API
-      RS0017  Symbol XXX is part of the declared API, but is either not public
-              or could not be found
+      RS0017  Symbol XXX is part of the declared API, but is either not public or could not be found
       RS0036  Symbol XXX is missing nullability annotations in the declared API
     -->
     <NoWarn>$(NoWarn);RS0016;RS0017;RS0036</NoWarn>

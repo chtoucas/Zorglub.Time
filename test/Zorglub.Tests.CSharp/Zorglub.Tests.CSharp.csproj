@@ -4,16 +4,11 @@
     <TargetFrameworks>$(MyTestFrameworks)</TargetFrameworks>
 
     <!--
-      CA1000    Do not declare static members on generic types (Design)
       CA1034    Nested types should not be visible (Design)
       CA1707    Identifiers should not contain underscores (Naming)
-      CA1711    Identifiers should not have incorrect suffix (Naming)
-      CA1716    Identifiers should not match keywords (Naming)
       xUnit1026 Theory methods should use all of their parameters
-
-      NB: CA1801 & xUnit1026 are "replaced" by IDE0060 (see .editorconfig).
     -->
-    <NoWarn>$(NoWarn);CA1000;CA1034;CA1707;CA1711;CA1716;xUnit1026</NoWarn>
+    <NoWarn>$(NoWarn);CA1034;CA1707;xUnit1026</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
