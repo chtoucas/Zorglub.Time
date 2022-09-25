@@ -24,13 +24,14 @@ indent_size = 2
 indent_size = 2
 
 # XML config files
-[*.{props,targets,ruleset,config,nuspec,resx}]
+[*.{props,targets,config,nuspec,resx}]
 indent_size = 2
 
 ################################################################################
 # CSharp Settings                                                              #
 ################################################################################
-# We discard 2 rules (:none):
+# We discard 3 rules (:none):
+# - dotnet_style_prefer_conditional_expression_over_return = true
 # - csharp_style_expression_bodied_local_functions = when_on_single_line
 # - csharp_style_expression_bodied_methods = when_on_single_line
 
@@ -40,6 +41,7 @@ indent_size = 4
 indent_style = space
 tab_width = 4
 
+charset = utf-8-bom
 end_of_line = crlf
 insert_final_newline = true
 
@@ -84,7 +86,7 @@ dotnet_diagnostic.IDE0110.severity = warning
 dotnet_diagnostic.IDE1006.severity = warning
 
 ###############################
-# Experimental Rules          #
+# Experimental and            #
 # Undocumented Rules          #
 ###############################
 
@@ -92,9 +94,11 @@ csharp_style_prefer_method_group_conversion = true
 csharp_style_prefer_top_level_statements = true
 
 #### New line preferences ####
+# IDE2000 & IDE2003
 dotnet_style_allow_multiple_blank_lines_experimental = false
 dotnet_style_allow_statement_immediately_after_block_experimental = true
 # CSharp
+# IDE2004, IDE2002 & IDE2001
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
 csharp_style_allow_embedded_statements_on_same_line_experimental = true
@@ -134,7 +138,7 @@ dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_prefer_auto_properties = false
 dotnet_style_prefer_compound_assignment = true
 dotnet_style_prefer_conditional_expression_over_assignment = true
-dotnet_style_prefer_conditional_expression_over_return = true
+dotnet_style_prefer_conditional_expression_over_return = true:none
 dotnet_style_prefer_foreach_explicit_cast_in_source = when_strongly_typed
 dotnet_style_prefer_inferred_anonymous_type_member_names = true
 dotnet_style_prefer_inferred_tuple_names = true
@@ -374,7 +378,7 @@ dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = p
 ################################################################################
 # Special CSharp Settings                                                      #
 ################################################################################
-# NB: Release builds transform warnings into errors!
+# NB: Release builds turn warnings into errors!
 
 [src/{Zorglub,Zorglub.Extras}/**/*.cs]
 dotnet_analyzer_diagnostic.category-Style.severity = warning
@@ -387,7 +391,7 @@ dotnet_analyzer_diagnostic.category-Style.severity = warning
 dotnet_analyzer_diagnostic.category-Style.severity = warning
 # IDE0007: Use var instead of explicit type
 dotnet_diagnostic.IDE0007.severity = none
-# IDE0130:
+# IDE0130: (dotnet_style_namespace_match_folder)
 dotnet_diagnostic.IDE0130.severity = none
 
 [test/{Zorglub.Testing,Zorglub.Tests.CSharp}/**/*.cs]
