@@ -16,22 +16,16 @@ using Zorglub.Time.Horology;
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
 
-/// <summary>
-/// Represents the Civil calendar.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Represents the Civil calendar.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class CivilCalendar :
     SpecialCalendar<CivilDate>,
     IRegularFeaturette
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
     public CivilCalendar() : this(new CivilSchema()) { }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
     internal CivilCalendar(CivilSchema schema)
         : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle))
     {
@@ -46,20 +40,14 @@ public sealed class CivilCalendar :
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>
-/// Provides common adjusters for <see cref="CivilDate"/>.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Provides common adjusters for <see cref="CivilDate"/>.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilAdjuster"/> class.</summary>
     public CivilAdjuster() : base(CivilDate.Calendar.Scope) { }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilAdjuster"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     internal CivilAdjuster(MinMaxYearScope scope) : base(scope) { }
 
@@ -68,104 +56,71 @@ public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>
-/// Represents a clock for the Civil calendar.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Represents a clock for the Civil calendar.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class CivilClock
 {
-    /// <summary>
-    /// Represents the clock.
-    /// </summary>
+    /// <summary>Represents the clock.</summary>
     private readonly IClock _clock;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilClock"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilClock"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     public CivilClock(IClock clock)
     {
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
 
-    /// <summary>
-    /// Gets an instance of the <see cref="CivilClock"/> class for the system clock using the
-    /// current time zone setting on this machine.
-    /// </summary>
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock using
+    /// the current time zone setting on this machine.</summary>
     public static CivilClock Local { get; } = new(SystemClocks.Local);
 
-    /// <summary>
-    /// Gets an instance of the <see cref="CivilClock"/> class for the system clock using the
-    /// Coordinated Universal Time (UTC).
-    /// </summary>
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock using
+    /// the Coordinated Universal Time (UTC).</summary>
     public static CivilClock Utc { get; } = new(SystemClocks.Utc);
 
-    /// <summary>
-    /// Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.
+    /// <summary>Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     [Pure]
     public static CivilClock GetClock(IClock clock) => new(clock);
 
-    /// <summary>
-    /// Obtains a <see cref="CivilDate"/> value representing the current date.
-    /// </summary>
+    /// <summary>Obtains a <see cref="CivilDate"/> value representing the current date.</summary>
     [Pure]
     public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
-/// <summary>
-/// Represents the Civil date.
-/// <para><see cref="CivilDate"/> is an immutable struct.</para>
-/// </summary>
+/// <summary>Represents the Civil date.
+/// <para><see cref="CivilDate"/> is an immutable struct.</para></summary>
 public readonly partial struct CivilDate :
     IDate<CivilDate, CivilCalendar>,
     IAdjustable<CivilDate>
 {
-    /// <summary>
-    /// Represents the schema.
-    /// </summary>
+    /// <summary>Represents the schema.</summary>
     private static readonly CivilSchema s_Schema = new();
 
-    /// <summary>
-    /// Represents the calendar.
-    /// </summary>
+    /// <summary>Represents the calendar.</summary>
     private static readonly CivilCalendar s_Calendar = new(s_Schema);
 
-    /// <summary>
-    /// Represents the scope.
-    /// </summary>
+    /// <summary>Represents the scope.</summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
-    /// <summary>
-    /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
-    /// </summary>
+    /// <summary>Represents the domain, the interval of supported <see cref="DayNumber"/>.</summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
-    /// <summary>
-    /// Represents the date adjuster.
-    /// </summary>
+    /// <summary>Represents the date adjuster.</summary>
     private static readonly CivilAdjuster s_Adjuster = new(s_Scope);
 
-    /// <summary>
-    /// Represents the smallest possible value of a <see cref="CivilDate"/>.
-    /// </summary>
+    /// <summary>Represents the smallest possible value of a <see cref="CivilDate"/>.</summary>
     private static readonly CivilDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
 
-    /// <summary>
-    /// Represents the largest possible value of a <see cref="CivilDate"/>.
-    /// </summary>
+    /// <summary>Represents the largest possible value of a <see cref="CivilDate"/>.</summary>
     private static readonly CivilDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
-    /// <summary>
-    /// Represents the count of days since the Gregorian epoch.
-    /// </summary>
+    /// <summary>Represents the count of days since the Gregorian epoch.</summary>
     private readonly int _daysSinceZero;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
-    /// date parts.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
+    /// date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid date or
     /// <paramref name="year"/> is outside the range of years supported by
     /// <see cref="CivilCalendar"/>.</exception>
@@ -176,12 +131,10 @@ public readonly partial struct CivilDate :
         _daysSinceZero = CivilFormulae.CountDaysSinceEpoch(year, month, day);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
-    /// ordinal date parts.
-    /// </summary>
-    /// <exception cref="AoorException">The specified components do not form a valid ordinal
-    /// date or <paramref name="year"/> is outside the range of years supported by
+    /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
+    /// ordinal date parts.</summary>
+    /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
+    /// <paramref name="year"/> is outside the range of years supported by
     /// <see cref="CivilCalendar"/>.</exception>
     public CivilDate(int year, int dayOfYear)
     {
@@ -190,9 +143,7 @@ public readonly partial struct CivilDate :
         _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilDate"/> struct.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public CivilDate(DayNumber dayNumber)
@@ -202,31 +153,23 @@ public readonly partial struct CivilDate :
         _daysSinceZero = dayNumber.DaysSinceZero;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CivilDate"/> struct.
-    /// <para>This method does NOT validate its parameter.</para>
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.
+    /// <para>This method does NOT validate its parameter.</para></summary>
     internal CivilDate(int daysSinceZero)
     {
         _daysSinceZero = daysSinceZero;
     }
 
-    /// <summary>
-    /// Gets the smallest possible value of a <see cref="CivilDate"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the smallest possible value of a <see cref="CivilDate"/>.
+    /// <para>This static property is thread-safe.</para></summary>
     public static CivilDate MinValue => s_MinValue;
 
-    /// <summary>
-    /// Gets the largest possible value of a <see cref="CivilDate"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the largest possible value of a <see cref="CivilDate"/>.
+    /// <para>This static property is thread-safe.</para></summary>
     public static CivilDate MaxValue => s_MaxValue;
 
-    /// <summary>
-    /// Gets the date adjuster.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the date adjuster.
+    /// <para>This static property is thread-safe.</para></summary>
     public static CivilAdjuster Adjuster => s_Adjuster;
 
     /// <inheritdoc />
@@ -235,9 +178,7 @@ public readonly partial struct CivilDate :
     /// <inheritdoc />
     public DayNumber DayNumber => new(_daysSinceZero);
 
-    /// <summary>
-    /// Gets the count of days since the Gregorian epoch.
-    /// </summary>
+    /// <summary>Gets the count of days since the Gregorian epoch.</summary>
     public int DaysSinceZero => _daysSinceZero;
 
     int IFixedDay.DaysSinceEpoch => _daysSinceZero;
@@ -303,8 +244,7 @@ public readonly partial struct CivilDate :
     /// <inheritdoc />
     public bool IsSupplementary => false;
 
-    /// <summary>
-    /// Returns a culture-independent string representation of the current instance.
+    /// <summary>Returns a culture-independent string representation of the current instance.
     /// </summary>
     [Pure]
     public override string ToString()
@@ -409,15 +349,11 @@ public partial struct CivilDate // Conversions, adjustments...
 
 public partial struct CivilDate // IEquatable
 {
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="CivilDate"/> are equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator ==(CivilDate left, CivilDate right) =>
         left._daysSinceZero == right._daysSinceZero;
 
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="CivilDate"/> are not equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator !=(CivilDate left, CivilDate right) =>
         left._daysSinceZero != right._daysSinceZero;
 
@@ -437,49 +373,31 @@ public partial struct CivilDate // IEquatable
 
 public partial struct CivilDate // IComparable
 {
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is strictly earlier than the
-    /// right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <(CivilDate left, CivilDate right) =>
         left._daysSinceZero < right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is earlier than or equal to
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <=(CivilDate left, CivilDate right) =>
         left._daysSinceZero <= right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is strictly later than the
-    /// right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >(CivilDate left, CivilDate right) =>
         left._daysSinceZero > right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is later than or equal to
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >=(CivilDate left, CivilDate right) =>
         left._daysSinceZero >= right._daysSinceZero;
 
-    /// <summary>
-    /// Obtains the earlier date of two specified dates.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public static CivilDate Min(CivilDate x, CivilDate y) => x < y ? x : y;
 
-    /// <summary>
-    /// Obtains the later date of two specified dates.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public static CivilDate Max(CivilDate x, CivilDate y) => x > y ? x : y;
 
-    /// <summary>
-    /// Indicates whether this instance is earlier, later or the same as the specified one.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public int CompareTo(CivilDate other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
@@ -495,37 +413,28 @@ public partial struct CivilDate // Math ops
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
-    /// <summary>
-    /// Subtracts the two specified dates and returns the number of days between them.
+    /// <summary>Subtracts the two specified dates and returns the number of days between them.
     /// </summary>
     public static int operator -(CivilDate left, CivilDate right) => left.CountDaysSince(right);
 
-    /// <summary>
-    /// Adds a number of days to the specified date, yielding a new date.
-    /// </summary>
+    /// <summary>Adds a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
     public static CivilDate operator +(CivilDate value, int days) => value.PlusDays(days);
 
-    /// <summary>
-    /// Subtracts a number of days to the specified date, yielding a new date.
-    /// </summary>
+    /// <summary>Subtracts a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
     public static CivilDate operator -(CivilDate value, int days) => value.PlusDays(-days);
 
-    /// <summary>
-    /// Adds one day to the specified date, yielding a new date.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported
-    /// date.</exception>
+    /// <summary>Adds one day to the specified date, yielding a new date.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the latest supported date.
+    /// </exception>
     public static CivilDate operator ++(CivilDate value) => value.NextDay();
 
-    /// <summary>
-    /// Subtracts one day to the specified date, yielding a new date.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported
-    /// date.</exception>
+    /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the earliest supported date.
+    /// </exception>
     public static CivilDate operator --(CivilDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
