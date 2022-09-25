@@ -32,7 +32,7 @@ try {
     $testProject = Join-Path $TestDir 'Zorglub.Tests\Zorglub.Tests.fsproj' -Resolve
     $conf = Join-Path $EngDir 'fsharplint.json' -Resolve
 
-    & dotnet dotnet fsharplint lint -l $conf $testProject
+    & dotnet fsharplint lint -l $conf $testProject
 }
 finally {
     popd
