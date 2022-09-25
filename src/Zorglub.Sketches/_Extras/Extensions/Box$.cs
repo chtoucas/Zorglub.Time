@@ -97,7 +97,7 @@ public partial class BoxExtensions // Querying
 
         if (box.IsEmpty) { return Box<TResult>.Empty; }
 
-        Box<TMiddle> middle = binder(box.Content);
+        var middle = binder(box.Content);
         if (middle.IsEmpty) { return Box<TResult>.Empty; }
 
         return Box.Create(zipper(box.Content, middle.Content));
@@ -200,8 +200,8 @@ public partial class BoxExtensions // Querying
 
         if (outer.IsEmpty || inner.IsEmpty) { return Box<TResult>.Empty; }
 
-        TKey outerKey = outerSelector(outer.Content);
-        TKey innerKey = innerSelector(inner.Content!);
+        var outerKey = outerSelector(outer.Content);
+        var innerKey = innerSelector(inner.Content!);
 
         return comparer.Equals(outerKey, innerKey)
             ? Box.Create(resultSelector(outer.Content, inner.Content))
