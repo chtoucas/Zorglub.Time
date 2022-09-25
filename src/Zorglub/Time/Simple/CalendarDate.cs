@@ -31,8 +31,7 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <para><see cref="CalendarDate"/> is an immutable struct.</para></summary>
 public readonly partial struct CalendarDate : ISimpleDate<CalendarDate>
 {
-    /// <summary>Represents the internal binary representation.
-    /// <para>This field is read-only.</para></summary>
+    /// <summary>Represents the internal binary representation.</summary>
     private readonly Yemodax _bin; // 4 bytes
 
     /// <summary>Initializes a new instance of the <see cref="CalendarDate"/> struct to the

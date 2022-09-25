@@ -16,13 +16,11 @@ public abstract class SimpleClock
 {
     /// <summary>
     /// Represents the calendar.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly SimpleCalendar _calendar;
 
     /// <summary>
     /// Represents the clock.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly IClock _clock;
 

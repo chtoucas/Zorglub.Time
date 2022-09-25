@@ -88,7 +88,6 @@ public readonly partial struct RangeSet<T> :
     /// <summary>
     /// Represents the empty range.
     /// <para>The empty range is both an intersection absorber and a span identity.</para>
-    /// <para>This field is read-only.</para>
     /// </summary>
     internal static readonly RangeSet<T> Empty;
 
@@ -96,7 +95,6 @@ public readonly partial struct RangeSet<T> :
 
     /// <summary>
     /// Represents the pair of left and right endpoints if this range is inhabited.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly OrderedPair<T> _endpoints;
 

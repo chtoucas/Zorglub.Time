@@ -12,8 +12,7 @@ using static Zorglub.Time.Core.CalendricalConstants;
 /// <para>This class cannot be inherited.</para></summary>
 internal sealed class LunarPreValidator : ICalendricalPreValidator
 {
-    /// <summary>Represents the schema.
-    /// <para>This field is read-only.</para></summary>
+    /// <summary>Represents the schema.</summary>
     private readonly CalendricalSchema _schema;
 
     /// <summary>Initializes a new instance of the <see cref="LunarPreValidator"/> class.</summary>

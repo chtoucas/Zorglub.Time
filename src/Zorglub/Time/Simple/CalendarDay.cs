@@ -38,7 +38,6 @@ public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>
 
     /// <summary>
     /// Represents the internal binary representation.
-    /// <para>This field is read-only.</para>
     /// </summary>
     /// <remarks>
     /// <para>

@@ -22,7 +22,6 @@ public abstract partial class CalendarScope : ICalendricalValidator, ISchemaBoun
 {
     /// <summary>
     /// Represents the underlying schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly ICalendricalSchema _schema;
 

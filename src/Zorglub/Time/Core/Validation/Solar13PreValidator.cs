@@ -16,7 +16,6 @@ internal sealed class Solar13PreValidator : ICalendricalPreValidator
 {
     /// <summary>
     /// Represents the schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly CalendricalSchema _schema;
 

@@ -29,13 +29,11 @@ internal static class GregorianStandardScope
 
     /// <summary>
     /// Represents the minimum possible value for the number of consecutive days from the epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly int s_MinDaysSinceEpoch = GregorianFormulae.GetStartOfYear(MinYear);
 
     /// <summary>
     /// Represents the maximum possible value for the number of consecutive days from the epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly int s_MaxDaysSinceEpoch = GregorianFormulae.GetEndOfYear(MaxYear);
 

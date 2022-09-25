@@ -9,8 +9,7 @@ using Zorglub.Time.Core.Intervals;
 /// <para>This class cannot be inherited.</para></summary>
 public sealed class CalendricalSegment : ISchemaBound
 {
-    /// <summary>Represents the underlying schema.
-    /// <para>This field is read-only.</para></summary>
+    /// <summary>Represents the underlying schema.</summary>
     private readonly ICalendricalSchema _schema;
 
     /// <summary>Initializes a new instance of the <see cref="CalendricalSegment"/> class.

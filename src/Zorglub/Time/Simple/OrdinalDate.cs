@@ -16,7 +16,6 @@ public readonly partial struct OrdinalDate : ISimpleDate<OrdinalDate>
 {
     /// <summary>
     /// Represents the internal binary representation.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly Yedoyx _bin; // 4 bytes
 

@@ -37,7 +37,6 @@ public static partial class SimpleCatalog
 
     /// <summary>
     /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly SimpleCalendar[] s_SystemCalendars = InitializeSystemCalendars();
 
@@ -45,13 +44,11 @@ public static partial class SimpleCatalog
     /// Represents the array of fully constructed calendars, indexed by their internal IDs.
     /// <para>A value is null if the calendar has not yet been fully constructed (obviously).
     /// </para>
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly SimpleCalendar?[] s_Calendars = InitializeCalendars(s_SystemCalendars);
 
     /// <summary>
     /// Represents the registry.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly SimpleRegistry s_Registry =
         new(s_SystemCalendars)

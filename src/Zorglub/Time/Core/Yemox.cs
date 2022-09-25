@@ -53,13 +53,11 @@ public readonly partial struct Yemox : IEqualityOperators<Yemox, Yemox>
 
     /// <summary>
     /// Represents the smallest possible value of a <see cref="Yemox"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     internal static readonly Yemox MinValue = new(MinYear, MinMonth, MinExtra);
 
     /// <summary>
     /// Gets the largest possible value of a <see cref="Yemox"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     internal static readonly Yemox MaxValue = new(MaxYear, MaxMonth, MaxExtra);
 

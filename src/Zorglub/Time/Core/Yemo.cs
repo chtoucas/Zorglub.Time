@@ -56,13 +56,11 @@ public readonly partial struct Yemo :
 
     /// <summary>
     /// Represents the smallest possible value of a <see cref="Yemo"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     internal static readonly Yemo MinValue = new(MinYear, MinMonth);
 
     /// <summary>
     /// Gets the largest possible value of a <see cref="Yemo"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     internal static readonly Yemo MaxValue = new(MaxYear, MaxMonth);
 

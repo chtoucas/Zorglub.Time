@@ -90,13 +90,11 @@ public sealed class JulianClock
 {
     /// <summary>
     /// Represents the clock.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly IClock _clock;
 
     /// <summary>
     /// Represents the epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly DayNumber _epoch;
 
@@ -154,55 +152,46 @@ public readonly partial struct JulianDate :
 
     /// <summary>
     /// Represents the schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly JulianSchema s_Schema = new();
 
     /// <summary>
     /// Represents the calendar.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly JulianCalendar s_Calendar = new(s_Schema);
 
     /// <summary>
     /// Represents the scope.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
     /// <summary>
     /// Represents the epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
 
     /// <summary>
     /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
     /// <summary>
     /// Represents the date adjuster.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly JulianAdjuster s_Adjuster = new(s_Scope);
 
     /// <summary>
     /// Represents the smallest possible value of a <see cref="JulianDate"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly JulianDate s_MinValue = new(s_Domain.Min - s_Epoch);
 
     /// <summary>
     /// Represents the largest possible value of a <see cref="JulianDate"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly JulianDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
     /// <summary>
     /// Represents the count of days since the Julian epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly int _daysSinceEpoch;
 

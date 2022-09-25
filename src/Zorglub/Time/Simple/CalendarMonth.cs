@@ -30,7 +30,6 @@ public readonly partial struct CalendarMonth :
 {
     /// <summary>
     /// Represents the internal binary representation.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly Yemox _bin; // 4 bytes
 

@@ -32,7 +32,6 @@ public static class ProlepticScope
 
     /// <summary>
     /// Represents the range of supported years.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly Range<int> s_SupportedYears = Range.Create(MinYear, MaxYear);
 

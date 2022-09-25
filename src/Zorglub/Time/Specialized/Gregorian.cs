@@ -74,7 +74,6 @@ public sealed class GregorianClock
 {
     /// <summary>
     /// Represents the clock.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly IClock _clock;
 
@@ -125,49 +124,41 @@ public readonly partial struct GregorianDate :
 
     /// <summary>
     /// Represents the schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly GregorianSchema s_Schema = new();
 
     /// <summary>
     /// Represents the calendar.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly GregorianCalendar s_Calendar = new(s_Schema);
 
     /// <summary>
     /// Represents the scope.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
     /// <summary>
     /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
     /// <summary>
     /// Represents the date adjuster.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly GregorianAdjuster s_Adjuster = new(s_Scope);
 
     /// <summary>
     /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly GregorianDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
 
     /// <summary>
     /// Represents the largest possible value of a <see cref="GregorianDate"/>.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private static readonly GregorianDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
     /// <summary>
     /// Represents the count of days since the Gregorian epoch.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly int _daysSinceZero;
 

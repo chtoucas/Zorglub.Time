@@ -13,7 +13,6 @@ public sealed class SystemSegment : ISchemaBound
 {
     /// <summary>
     /// Represents the underlying schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly SystemSchema _schema;
 

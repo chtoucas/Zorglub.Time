@@ -11,13 +11,11 @@ internal sealed class PlainPreValidator : ICalendricalPreValidator
 {
     /// <summary>
     /// Represents the minimum total number of days there is at least in a year.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly int _minDaysInYear;
 
     /// <summary>
     /// Represents the schema.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly ICalendricalSchema _schema;
 

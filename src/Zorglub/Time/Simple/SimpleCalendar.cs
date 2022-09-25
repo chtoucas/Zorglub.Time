@@ -54,7 +54,6 @@ public partial class SimpleCalendar : ICalendar
 {
     /// <summary>
     /// Represents the integer value of the day of the week of the epoch of the calendar.
-    /// <para>This field is read-only.</para>
     /// </summary>
     private readonly int _epochDayOfWeek;
 

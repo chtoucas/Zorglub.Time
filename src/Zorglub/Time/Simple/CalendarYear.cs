@@ -50,25 +50,21 @@ public readonly partial struct CalendarYear :
 
     /// <summary>
     /// Represents the year.
-    /// <para>This field is read-only.</para>
     /// </summary>
     [FieldOffset(0)] private readonly short _year; // 2 bytes.
 
     /// <summary>
     /// Represents the calendar ID.
-    /// <para>This field is read-only.</para>
     /// </summary>
     [FieldOffset(2)] private readonly Cuid _cuid; // 1 byte.
 
     /// <summary>
     /// Always set to zero.
-    /// <para>This field is read-only.</para>
     /// </summary>
     [FieldOffset(3)] private readonly byte _zero; // 1 byte.
 
     /// <summary>
     /// Represents the internal binary representation.
-    /// <para>This field is read-only.</para>
     /// </summary>
     /// <remarks>
     /// <para>
@@ -98,7 +94,6 @@ public readonly partial struct CalendarYear :
 
     /// <summary>
     /// Represents the internal binary representation.
-    /// <para>This field is read-only.</para>
     /// </summary>
     /// <remarks>
     /// <para>
