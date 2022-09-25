@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{304001B6-7B4
 		eng\asm.ps1 = eng\asm.ps1
 		eng\bench.ps1 = eng\bench.ps1
 		eng\cover.ps1 = eng\cover.ps1
+		eng\freeze-api.ps1 = eng\freeze-api.ps1
 		eng\fsharplint.json = eng\fsharplint.json
 		eng\fsharplint.ps1 = eng\fsharplint.ps1
 		eng\pack.ps1 = eng\pack.ps1

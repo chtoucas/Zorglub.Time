@@ -18,8 +18,7 @@ function Print-Help {
 
 Update the PublicAPI files:
 - Unshipped members are moved to PublicAPI.Shipped.txt.
-- Obsolete members are moved from PublicAPI.Shipped.txt to PublicAPI.Unshipped.txt
-  and prefixed w/ *REMOVED*.
+- Removed members are kept verbatim in PublicAPI.Unshipped.txt.
 
 Usage: freeze-api.ps1 [arguments]
   -h|-Help           print this help then exit
@@ -55,7 +54,6 @@ function Update-PublicAPI {
     foreach ($item in $unshippedContent) {
         if ($item.Length -gt 0) {
             if ($item.StartsWith("*REMOVED*", "InvariantCultureIgnoreCase")) {
-                # Removed entries may only appear within PublicAPI.Unshipped.txt.
                 $removedContent += $item
             }
             elseif (-not $item.StartsWith("#", "InvariantCultureIgnoreCase")) {
@@ -81,10 +79,6 @@ function Update-PublicAPI {
 #-------------------------------------------------------------------------------
 
 if ($Help) { Print-Help ; exit }
-
-# ------------------------------------------------------------------------------
-
-say "Hello, this is the script to update the Public API files."
 
 try {
     pushd $SrcDir
