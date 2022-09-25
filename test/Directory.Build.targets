@@ -2,6 +2,8 @@
 
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.targets" />
 
+  <!-- SHOULD only be imported by Xunit-test projects -->
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json">
       <Visible>false</Visible>
