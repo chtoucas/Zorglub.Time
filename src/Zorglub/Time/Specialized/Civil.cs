@@ -121,7 +121,7 @@ public readonly partial struct CivilDate :
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
     /// date parts.</summary>
-    /// <exception cref="AoorException">The specified components do not form a valid date or
+    /// <exception cref="AoorException">The specified components do not form a valid date -or-
     /// <paramref name="year"/> is outside the range of years supported by
     /// <see cref="CivilCalendar"/>.</exception>
     public CivilDate(int year, int month, int day)
