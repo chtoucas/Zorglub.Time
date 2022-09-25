@@ -23,10 +23,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{304001B6-7B46-4FCD-9FAF-10F0AD0EE89A}"
 	ProjectSection(SolutionItems) = preProject
 		eng\asm.ps1 = eng\asm.ps1
-		eng\bench.cmd = eng\bench.cmd
+		eng\bench.ps1 = eng\bench.ps1
 		eng\cover.ps1 = eng\cover.ps1
-		eng\fsharplint.cmd = eng\fsharplint.cmd
 		eng\fsharplint.json = eng\fsharplint.json
+		eng\fsharplint.ps1 = eng\fsharplint.ps1
 		eng\pack.ps1 = eng\pack.ps1
 		eng\reset.ps1 = eng\reset.ps1
 		eng\test.ps1 = eng\test.ps1

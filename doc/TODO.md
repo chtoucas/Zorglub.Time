@@ -14,9 +14,6 @@ better than y/m/d, poly-calendar is not such a good idea (JulianDate/Calendar
 contains the name of the calendar, we can add specific methods). Proleptic is
 only a bit slower than Standard (> 0).
 
-- C# 11
-  - checked ops.
-  - required for props.
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
@@ -28,16 +25,18 @@ only a bit slower than Standard (> 0).
     CalendarDate. We have the three forms of dates for that purpose.
 - Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
 
-- Packaging: version numbering (timestamp).
-- Script freeze-api.ps1
+- pack.ps1: version numbering (timestamp).
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   D.B.props: LangVersion
   D.B.targets: disable preview features (ENABLE_PREVIEW_FEATURES).
-  Clean up unnecessary `#pragma warning disable`.
-  NET7_0_OR_GREATER (Range + tests)
-  Future.cs, remove global using System.Numerics?
+  NET7_0_OR_GREATER (generic constraint: Range & tests)
+  Remove unnecessary `#pragma warning disable`.
+  Remove Future.cs
   Github action: test on Ubuntu and MacOS.
+  C# 11
+  - checked ops.
+  - required for props.
   https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11
   https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
   https://docs.microsoft.com/en-us/dotnet/standard/generics/math
@@ -48,12 +47,10 @@ only a bit slower than Standard (> 0).
   XML doc: "would", "was"
 - Era type as a range of DayNumber's.
 - ISpanFormattable
-- Clean up DIM.
-  Beware of DIM and structs.
+- Clean up DIM. Beware of DIM and structs.
   https://mattwarren.org/2020/02/19/Under-the-hood-of-Default-Interface-Methods/
 - New code coverage? https://github.com/FortuneN/FineCodeCoverage
-  - https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
-  - https://github.com/microsoft/dotnet/
+  https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
 
 
 Plan?
