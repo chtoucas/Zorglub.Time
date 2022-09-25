@@ -16,4 +16,10 @@
     <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Zorglub.Generators\Zorglub.Generators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
 </Project>

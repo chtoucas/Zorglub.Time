@@ -98,7 +98,11 @@ https://en.wikipedia.org/wiki/Regnal_year
 Subprojects
 -----------
 
-- C# source generators for specialized date types?
+- C# source generators
+  https://github.com/amis92/csharp-source-generators
+  - Enum.IsDefined
+  - DIM (schema)
+  - specialized date types?
 - C# analyzers.
 - Parsing / formatting.
 
