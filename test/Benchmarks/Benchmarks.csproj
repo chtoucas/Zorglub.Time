@@ -5,6 +5,8 @@
     <TargetFramework>$(MyDefaultFramework)</TargetFramework>
     <RootNamespace>Benchmarks</RootNamespace>
 
+    <ImplicitUsings>enable</ImplicitUsings>
+
     <!--<BenchmarkHarness Condition=" '$(BenchmarkHarness)' != 'true' ">false</BenchmarkHarness>-->
     <DefineConstants Condition=" '$(BenchmarkHarness)' == 'true' ">$(DefineConstants);__BENCHMARK_HARNESS__</DefineConstants>
 
@@ -28,10 +30,6 @@
     <NoWarn>$(NoWarn);CA1303;CA1707;CA1822</NoWarn>
   </PropertyGroup>
 
-  <!-- Using's -->
-  <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
   <ItemGroup>
     <Using Include="BenchmarkDotNet.Attributes" />
   </ItemGroup>
