@@ -80,10 +80,12 @@ try {
 
     $args = @("-c:$Configuration")
 
+    $testProject = Join-Path $TestDir 'Zorglub.Tests' -Resolve
+
     if ($NoTest) { $NoBuild = $true }
 
     if (-not $NoBuild) {
-        & dotnet build $TestProject $args
+        & dotnet build $testProject $args
             || die 'Failed to build the project'
     }
 
@@ -93,7 +95,7 @@ try {
         if ($Smoke) { $filter = "ExcludeFrom!=Smoke&$filter" }
         $args += "--filter:$filter"
 
-        & dotnet test $TestProject $args `
+        & dotnet test $testProject $args `
             --no-build `
             /p:ExcludeByAttribute=DebuggerNonUserCode `
             /p:DoesNotReturnAttribute=DoesNotReturnAttribute `

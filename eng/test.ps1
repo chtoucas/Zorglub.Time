@@ -134,7 +134,9 @@ try {
 
     if ($filter) { $args += "--filter:$filter" }
 
-    & dotnet test $TestProject $args
+    $testProject = Join-Path $TestDir 'Zorglub.Tests' -Resolve
+
+    & dotnet test $testProject $args
         || die 'Failed to run the test suite.'
 }
 finally {
