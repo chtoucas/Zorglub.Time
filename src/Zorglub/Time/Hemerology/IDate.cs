@@ -66,7 +66,7 @@ public interface IDate<TSelf, out TCalendar> :
     where TCalendar : ICalendar<TSelf>
     where TSelf : IDate<TSelf, TCalendar>
 {
-    /// <summary>Gets the calendar to which belongs the current instance.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the calendar to which belongs the current instance.
+    /// <para>This static property is thread-safe.</para></summary>
     static abstract TCalendar Calendar { get; }
 }
