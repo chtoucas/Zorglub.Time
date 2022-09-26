@@ -205,6 +205,9 @@ static Zorglub.Time.Core.Schemas.Tropicalia3031Schema.GetInstance() -> Zorglub.T
 static Zorglub.Time.Core.Schemas.Tropicalia3130Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Tropicalia3130Schema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
 static Zorglub.Time.Core.Schemas.WorldSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.WorldSchema!>!
+static Zorglub.Time.Specialized.Armenian13Clock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.Armenian13Clock!
+static Zorglub.Time.Specialized.Armenian13Clock.Local.get -> Zorglub.Time.Specialized.Armenian13Clock!
+static Zorglub.Time.Specialized.Armenian13Clock.Utc.get -> Zorglub.Time.Specialized.Armenian13Clock!
 static Zorglub.Time.Specialized.Armenian13Date.Adjuster.get -> Zorglub.Time.Specialized.Armenian13Adjuster!
 static Zorglub.Time.Specialized.Armenian13Date.Calendar.get -> Zorglub.Time.Specialized.Armenian13Calendar!
 static Zorglub.Time.Specialized.Armenian13Date.Max(Zorglub.Time.Specialized.Armenian13Date x, Zorglub.Time.Specialized.Armenian13Date y) -> Zorglub.Time.Specialized.Armenian13Date
@@ -222,6 +225,9 @@ static Zorglub.Time.Specialized.Armenian13Date.operator <=(Zorglub.Time.Speciali
 static Zorglub.Time.Specialized.Armenian13Date.operator ==(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
 static Zorglub.Time.Specialized.Armenian13Date.operator >(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
 static Zorglub.Time.Specialized.Armenian13Date.operator >=(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
+static Zorglub.Time.Specialized.ArmenianClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.ArmenianClock!
+static Zorglub.Time.Specialized.ArmenianClock.Local.get -> Zorglub.Time.Specialized.ArmenianClock!
+static Zorglub.Time.Specialized.ArmenianClock.Utc.get -> Zorglub.Time.Specialized.ArmenianClock!
 static Zorglub.Time.Specialized.ArmenianDate.Adjuster.get -> Zorglub.Time.Specialized.ArmenianAdjuster!
 static Zorglub.Time.Specialized.ArmenianDate.Calendar.get -> Zorglub.Time.Specialized.ArmenianCalendar!
 static Zorglub.Time.Specialized.ArmenianDate.Max(Zorglub.Time.Specialized.ArmenianDate x, Zorglub.Time.Specialized.ArmenianDate y) -> Zorglub.Time.Specialized.ArmenianDate
@@ -239,6 +245,9 @@ static Zorglub.Time.Specialized.ArmenianDate.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.ArmenianDate.operator ==(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
 static Zorglub.Time.Specialized.ArmenianDate.operator >(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
 static Zorglub.Time.Specialized.ArmenianDate.operator >=(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
+static Zorglub.Time.Specialized.Coptic13Clock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.Coptic13Clock!
+static Zorglub.Time.Specialized.Coptic13Clock.Local.get -> Zorglub.Time.Specialized.Coptic13Clock!
+static Zorglub.Time.Specialized.Coptic13Clock.Utc.get -> Zorglub.Time.Specialized.Coptic13Clock!
 static Zorglub.Time.Specialized.Coptic13Date.Adjuster.get -> Zorglub.Time.Specialized.Coptic13Adjuster!
 static Zorglub.Time.Specialized.Coptic13Date.Calendar.get -> Zorglub.Time.Specialized.Coptic13Calendar!
 static Zorglub.Time.Specialized.Coptic13Date.Max(Zorglub.Time.Specialized.Coptic13Date x, Zorglub.Time.Specialized.Coptic13Date y) -> Zorglub.Time.Specialized.Coptic13Date
@@ -256,6 +265,9 @@ static Zorglub.Time.Specialized.Coptic13Date.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.Coptic13Date.operator ==(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
 static Zorglub.Time.Specialized.Coptic13Date.operator >(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
 static Zorglub.Time.Specialized.Coptic13Date.operator >=(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
+static Zorglub.Time.Specialized.CopticClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.CopticClock!
+static Zorglub.Time.Specialized.CopticClock.Local.get -> Zorglub.Time.Specialized.CopticClock!
+static Zorglub.Time.Specialized.CopticClock.Utc.get -> Zorglub.Time.Specialized.CopticClock!
 static Zorglub.Time.Specialized.CopticDate.Adjuster.get -> Zorglub.Time.Specialized.CopticAdjuster!
 static Zorglub.Time.Specialized.CopticDate.Calendar.get -> Zorglub.Time.Specialized.CopticCalendar!
 static Zorglub.Time.Specialized.CopticDate.Max(Zorglub.Time.Specialized.CopticDate x, Zorglub.Time.Specialized.CopticDate y) -> Zorglub.Time.Specialized.CopticDate
@@ -273,6 +285,9 @@ static Zorglub.Time.Specialized.CopticDate.operator <=(Zorglub.Time.Specialized.
 static Zorglub.Time.Specialized.CopticDate.operator ==(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
 static Zorglub.Time.Specialized.CopticDate.operator >(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
 static Zorglub.Time.Specialized.CopticDate.operator >=(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
+static Zorglub.Time.Specialized.Ethiopic13Clock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.Ethiopic13Clock!
+static Zorglub.Time.Specialized.Ethiopic13Clock.Local.get -> Zorglub.Time.Specialized.Ethiopic13Clock!
+static Zorglub.Time.Specialized.Ethiopic13Clock.Utc.get -> Zorglub.Time.Specialized.Ethiopic13Clock!
 static Zorglub.Time.Specialized.Ethiopic13Date.Adjuster.get -> Zorglub.Time.Specialized.Ethiopic13Adjuster!
 static Zorglub.Time.Specialized.Ethiopic13Date.Calendar.get -> Zorglub.Time.Specialized.Ethiopic13Calendar!
 static Zorglub.Time.Specialized.Ethiopic13Date.Max(Zorglub.Time.Specialized.Ethiopic13Date x, Zorglub.Time.Specialized.Ethiopic13Date y) -> Zorglub.Time.Specialized.Ethiopic13Date
@@ -290,6 +305,9 @@ static Zorglub.Time.Specialized.Ethiopic13Date.operator <=(Zorglub.Time.Speciali
 static Zorglub.Time.Specialized.Ethiopic13Date.operator ==(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
 static Zorglub.Time.Specialized.Ethiopic13Date.operator >(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
 static Zorglub.Time.Specialized.Ethiopic13Date.operator >=(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
+static Zorglub.Time.Specialized.EthiopicClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.EthiopicClock!
+static Zorglub.Time.Specialized.EthiopicClock.Local.get -> Zorglub.Time.Specialized.EthiopicClock!
+static Zorglub.Time.Specialized.EthiopicClock.Utc.get -> Zorglub.Time.Specialized.EthiopicClock!
 static Zorglub.Time.Specialized.EthiopicDate.Adjuster.get -> Zorglub.Time.Specialized.EthiopicAdjuster!
 static Zorglub.Time.Specialized.EthiopicDate.Calendar.get -> Zorglub.Time.Specialized.EthiopicCalendar!
 static Zorglub.Time.Specialized.EthiopicDate.Max(Zorglub.Time.Specialized.EthiopicDate x, Zorglub.Time.Specialized.EthiopicDate y) -> Zorglub.Time.Specialized.EthiopicDate
@@ -307,6 +325,9 @@ static Zorglub.Time.Specialized.EthiopicDate.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.EthiopicDate.operator ==(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
 static Zorglub.Time.Specialized.EthiopicDate.operator >(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
 static Zorglub.Time.Specialized.EthiopicDate.operator >=(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
+static Zorglub.Time.Specialized.TabularIslamicClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.TabularIslamicClock!
+static Zorglub.Time.Specialized.TabularIslamicClock.Local.get -> Zorglub.Time.Specialized.TabularIslamicClock!
+static Zorglub.Time.Specialized.TabularIslamicClock.Utc.get -> Zorglub.Time.Specialized.TabularIslamicClock!
 static Zorglub.Time.Specialized.TabularIslamicDate.Adjuster.get -> Zorglub.Time.Specialized.TabularIslamicAdjuster!
 static Zorglub.Time.Specialized.TabularIslamicDate.Calendar.get -> Zorglub.Time.Specialized.TabularIslamicCalendar!
 static Zorglub.Time.Specialized.TabularIslamicDate.Max(Zorglub.Time.Specialized.TabularIslamicDate x, Zorglub.Time.Specialized.TabularIslamicDate y) -> Zorglub.Time.Specialized.TabularIslamicDate
@@ -324,6 +345,9 @@ static Zorglub.Time.Specialized.TabularIslamicDate.operator <=(Zorglub.Time.Spec
 static Zorglub.Time.Specialized.TabularIslamicDate.operator ==(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
 static Zorglub.Time.Specialized.TabularIslamicDate.operator >(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
 static Zorglub.Time.Specialized.TabularIslamicDate.operator >=(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
+static Zorglub.Time.Specialized.WorldClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.WorldClock!
+static Zorglub.Time.Specialized.WorldClock.Local.get -> Zorglub.Time.Specialized.WorldClock!
+static Zorglub.Time.Specialized.WorldClock.Utc.get -> Zorglub.Time.Specialized.WorldClock!
 static Zorglub.Time.Specialized.WorldDate.Adjuster.get -> Zorglub.Time.Specialized.WorldAdjuster!
 static Zorglub.Time.Specialized.WorldDate.Calendar.get -> Zorglub.Time.Specialized.WorldCalendar!
 static Zorglub.Time.Specialized.WorldDate.Max(Zorglub.Time.Specialized.WorldDate x, Zorglub.Time.Specialized.WorldDate y) -> Zorglub.Time.Specialized.WorldDate
@@ -341,6 +365,9 @@ static Zorglub.Time.Specialized.WorldDate.operator <=(Zorglub.Time.Specialized.W
 static Zorglub.Time.Specialized.WorldDate.operator ==(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
 static Zorglub.Time.Specialized.WorldDate.operator >(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
 static Zorglub.Time.Specialized.WorldDate.operator >=(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
+static Zorglub.Time.Specialized.Zoroastrian13Clock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.Zoroastrian13Clock!
+static Zorglub.Time.Specialized.Zoroastrian13Clock.Local.get -> Zorglub.Time.Specialized.Zoroastrian13Clock!
+static Zorglub.Time.Specialized.Zoroastrian13Clock.Utc.get -> Zorglub.Time.Specialized.Zoroastrian13Clock!
 static Zorglub.Time.Specialized.Zoroastrian13Date.Adjuster.get -> Zorglub.Time.Specialized.Zoroastrian13Adjuster!
 static Zorglub.Time.Specialized.Zoroastrian13Date.Calendar.get -> Zorglub.Time.Specialized.Zoroastrian13Calendar!
 static Zorglub.Time.Specialized.Zoroastrian13Date.Max(Zorglub.Time.Specialized.Zoroastrian13Date x, Zorglub.Time.Specialized.Zoroastrian13Date y) -> Zorglub.Time.Specialized.Zoroastrian13Date
@@ -358,6 +385,9 @@ static Zorglub.Time.Specialized.Zoroastrian13Date.operator <=(Zorglub.Time.Speci
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator ==(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator >(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator >=(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
+static Zorglub.Time.Specialized.ZoroastrianClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.ZoroastrianClock!
+static Zorglub.Time.Specialized.ZoroastrianClock.Local.get -> Zorglub.Time.Specialized.ZoroastrianClock!
+static Zorglub.Time.Specialized.ZoroastrianClock.Utc.get -> Zorglub.Time.Specialized.ZoroastrianClock!
 static Zorglub.Time.Specialized.ZoroastrianDate.Adjuster.get -> Zorglub.Time.Specialized.ZoroastrianAdjuster!
 static Zorglub.Time.Specialized.ZoroastrianDate.Calendar.get -> Zorglub.Time.Specialized.ZoroastrianCalendar!
 static Zorglub.Time.Specialized.ZoroastrianDate.Max(Zorglub.Time.Specialized.ZoroastrianDate x, Zorglub.Time.Specialized.ZoroastrianDate y) -> Zorglub.Time.Specialized.ZoroastrianDate
@@ -413,6 +443,9 @@ Zorglub.Time.Specialized.Armenian13Calendar
 Zorglub.Time.Specialized.Armenian13Calendar.Armenian13Calendar() -> void
 Zorglub.Time.Specialized.Armenian13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Armenian13Calendar.VirtualMonth.get -> int
+Zorglub.Time.Specialized.Armenian13Clock
+Zorglub.Time.Specialized.Armenian13Clock.Armenian13Clock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.Armenian13Clock.GetCurrentDate() -> Zorglub.Time.Specialized.Armenian13Date
 Zorglub.Time.Specialized.Armenian13Date
 Zorglub.Time.Specialized.Armenian13Date.Adjust(System.Func<Zorglub.Time.Specialized.Armenian13Date, Zorglub.Time.Specialized.Armenian13Date>! adjuster) -> Zorglub.Time.Specialized.Armenian13Date
 Zorglub.Time.Specialized.Armenian13Date.Armenian13Date() -> void
@@ -455,6 +488,9 @@ Zorglub.Time.Specialized.ArmenianAdjuster.ArmenianAdjuster() -> void
 Zorglub.Time.Specialized.ArmenianCalendar
 Zorglub.Time.Specialized.ArmenianCalendar.ArmenianCalendar() -> void
 Zorglub.Time.Specialized.ArmenianCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.ArmenianClock
+Zorglub.Time.Specialized.ArmenianClock.ArmenianClock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.ArmenianClock.GetCurrentDate() -> Zorglub.Time.Specialized.ArmenianDate
 Zorglub.Time.Specialized.ArmenianDate
 Zorglub.Time.Specialized.ArmenianDate.Adjust(System.Func<Zorglub.Time.Specialized.ArmenianDate, Zorglub.Time.Specialized.ArmenianDate>! adjuster) -> Zorglub.Time.Specialized.ArmenianDate
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate() -> void
@@ -498,6 +534,9 @@ Zorglub.Time.Specialized.Coptic13Calendar
 Zorglub.Time.Specialized.Coptic13Calendar.Coptic13Calendar() -> void
 Zorglub.Time.Specialized.Coptic13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Coptic13Calendar.VirtualMonth.get -> int
+Zorglub.Time.Specialized.Coptic13Clock
+Zorglub.Time.Specialized.Coptic13Clock.Coptic13Clock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.Coptic13Clock.GetCurrentDate() -> Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Coptic13Date, Zorglub.Time.Specialized.Coptic13Date>! adjuster) -> Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date.Century.get -> int
@@ -540,6 +579,9 @@ Zorglub.Time.Specialized.CopticAdjuster.CopticAdjuster() -> void
 Zorglub.Time.Specialized.CopticCalendar
 Zorglub.Time.Specialized.CopticCalendar.CopticCalendar() -> void
 Zorglub.Time.Specialized.CopticCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.CopticClock
+Zorglub.Time.Specialized.CopticClock.CopticClock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.CopticClock.GetCurrentDate() -> Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Adjust(System.Func<Zorglub.Time.Specialized.CopticDate, Zorglub.Time.Specialized.CopticDate>! adjuster) -> Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Century.get -> int
@@ -583,6 +625,9 @@ Zorglub.Time.Specialized.Ethiopic13Calendar
 Zorglub.Time.Specialized.Ethiopic13Calendar.Ethiopic13Calendar() -> void
 Zorglub.Time.Specialized.Ethiopic13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Ethiopic13Calendar.VirtualMonth.get -> int
+Zorglub.Time.Specialized.Ethiopic13Clock
+Zorglub.Time.Specialized.Ethiopic13Clock.Ethiopic13Clock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.Ethiopic13Clock.GetCurrentDate() -> Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Ethiopic13Date, Zorglub.Time.Specialized.Ethiopic13Date>! adjuster) -> Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date.Century.get -> int
@@ -625,6 +670,9 @@ Zorglub.Time.Specialized.EthiopicAdjuster.EthiopicAdjuster() -> void
 Zorglub.Time.Specialized.EthiopicCalendar
 Zorglub.Time.Specialized.EthiopicCalendar.EthiopicCalendar() -> void
 Zorglub.Time.Specialized.EthiopicCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.EthiopicClock
+Zorglub.Time.Specialized.EthiopicClock.EthiopicClock(Zorglub.Time.Horology.IClock! clock) -> void
+Zorglub.Time.Specialized.EthiopicClock.GetCurrentDate() -> Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Adjust(System.Func<Zorglub.Time.Specialized.EthiopicDate, Zorglub.Time.Specialized.EthiopicDate>! adjuster) -> Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Century.get -> int
@@ -667,6 +715,9 @@ Zorglub.Time.Specialized.TabularIslamicAdjuster.TabularIslamicAdjuster() -> void
 Zorglub.Time.Specialized.TabularIslamicCalendar
 Zorglub.Time.Specialized.TabularIslamicCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.TabularIslamicCalendar.TabularIslamicCalendar() -> void
+Zorglub.Time.Specialized.TabularIslamicClock
+Zorglub.Time.Specialized.TabularIslamicClock.GetCurrentDate() -> Zorglub.Time.Specialized.TabularIslamicDate
+Zorglub.Time.Specialized.TabularIslamicClock.TabularIslamicClock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Adjust(System.Func<Zorglub.Time.Specialized.TabularIslamicDate, Zorglub.Time.Specialized.TabularIslamicDate>! adjuster) -> Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Century.get -> int
@@ -709,6 +760,9 @@ Zorglub.Time.Specialized.WorldCalendar
 Zorglub.Time.Specialized.WorldCalendar.CountDaysInWorldMonth(int year, int month) -> int
 Zorglub.Time.Specialized.WorldCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.WorldCalendar.WorldCalendar() -> void
+Zorglub.Time.Specialized.WorldClock
+Zorglub.Time.Specialized.WorldClock.GetCurrentDate() -> Zorglub.Time.Specialized.WorldDate
+Zorglub.Time.Specialized.WorldClock.WorldClock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.WorldDate
 Zorglub.Time.Specialized.WorldDate.Adjust(System.Func<Zorglub.Time.Specialized.WorldDate, Zorglub.Time.Specialized.WorldDate>! adjuster) -> Zorglub.Time.Specialized.WorldDate
 Zorglub.Time.Specialized.WorldDate.Century.get -> int
@@ -752,6 +806,9 @@ Zorglub.Time.Specialized.Zoroastrian13Calendar
 Zorglub.Time.Specialized.Zoroastrian13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Calendar.VirtualMonth.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Calendar.Zoroastrian13Calendar() -> void
+Zorglub.Time.Specialized.Zoroastrian13Clock
+Zorglub.Time.Specialized.Zoroastrian13Clock.GetCurrentDate() -> Zorglub.Time.Specialized.Zoroastrian13Date
+Zorglub.Time.Specialized.Zoroastrian13Clock.Zoroastrian13Clock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.Zoroastrian13Date
 Zorglub.Time.Specialized.Zoroastrian13Date.Adjust(System.Func<Zorglub.Time.Specialized.Zoroastrian13Date, Zorglub.Time.Specialized.Zoroastrian13Date>! adjuster) -> Zorglub.Time.Specialized.Zoroastrian13Date
 Zorglub.Time.Specialized.Zoroastrian13Date.Century.get -> int
@@ -794,6 +851,9 @@ Zorglub.Time.Specialized.ZoroastrianAdjuster.ZoroastrianAdjuster() -> void
 Zorglub.Time.Specialized.ZoroastrianCalendar
 Zorglub.Time.Specialized.ZoroastrianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.ZoroastrianCalendar.ZoroastrianCalendar() -> void
+Zorglub.Time.Specialized.ZoroastrianClock
+Zorglub.Time.Specialized.ZoroastrianClock.GetCurrentDate() -> Zorglub.Time.Specialized.ZoroastrianDate
+Zorglub.Time.Specialized.ZoroastrianClock.ZoroastrianClock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Adjust(System.Func<Zorglub.Time.Specialized.ZoroastrianDate, Zorglub.Time.Specialized.ZoroastrianDate>! adjuster) -> Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Century.get -> int

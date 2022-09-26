@@ -383,6 +383,10 @@ dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = p
 [src/{Zorglub,Zorglub.Extras}/**/*.cs]
 dotnet_analyzer_diagnostic.category-Style.severity = warning
 
+[src/Zorglub.Extras/Time/Specialized/*.g.cs]
+# Enable Code Analysis on generated files.
+generated_code = false
+
 #[src/Zorglub.Sketches/_Extras/**/*.cs]
 #dotnet_style_namespace_match_folder = true
 #dotnet_diagnostic.IDE0130.severity = none

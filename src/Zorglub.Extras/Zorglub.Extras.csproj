@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+
   <PropertyGroup>
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time.Extras</AssemblyName>
+
+    <TransformOnBuild Condition=" '$(Configuration)' == 'Release' ">true</TransformOnBuild>
 
     <IsPackable>true</IsPackable>
     <Title></Title>

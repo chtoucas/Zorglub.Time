@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-#nullable enable
-
 namespace Zorglub.Time.Specialized;
 
 using Zorglub.Time.Core.Intervals;
@@ -23,43 +21,32 @@ using Zorglub.Time.Horology;
 /// <para>This class cannot be inherited.</para></summary>
 public sealed partial class Ethiopic13Calendar : SpecialCalendar<Ethiopic13Date>
 {
-    /// <inheritdoc />
-    [Pure]
     private protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
 /// <summary>Provides common adjusters for <see cref="Ethiopic13Date"/>.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed class Ethiopic13Adjuster : SpecialAdjuster<Ethiopic13Date>
+public sealed partial class Ethiopic13Adjuster : SpecialAdjuster<Ethiopic13Date>
 {
     /// <summary>Initializes a new instance of the <see cref="Ethiopic13Adjuster"/> class.</summary>
     public Ethiopic13Adjuster() : base(Ethiopic13Date.Calendar.Scope) { }
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Adjuster"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     internal Ethiopic13Adjuster(MinMaxYearScope scope) : base(scope) { }
 
-    /// <inheritdoc />
-    [Pure]
     private protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
 /// <summary>Represents a clock for the Ethiopic calendar.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed class Ethiopic13Clock
+public sealed partial class Ethiopic13Clock
 {
-    /// <summary>Represents the clock.</summary>
     private readonly IClock _clock;
-
-    /// <summary>Represents the epoch.</summary>
     private readonly DayNumber _epoch;
 
     /// <summary>Initializes a new instance of the <see cref="Ethiopic13Clock"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     public Ethiopic13Clock(IClock clock) : this(Ethiopic13Date.Calendar.Epoch, clock) { }
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Clock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     private Ethiopic13Clock(DayNumber epoch, IClock clock)
     {
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -92,33 +79,17 @@ public partial struct Ethiopic13Date :
     IDate<Ethiopic13Date, Ethiopic13Calendar>,
     IAdjustable<Ethiopic13Date>
 {
-    // NB: the order in which the static fields are written is __important__.
+    // WARNING: the order in which the static fields are written is __important__.
 
-    /// <summary>Represents the schema.</summary>
     private static readonly Coptic13Schema s_Schema = new();
-
-    /// <summary>Represents the calendar.</summary>
     private static readonly Ethiopic13Calendar s_Calendar = new(s_Schema);
-
-    /// <summary>Represents the scope.</summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
-
-    /// <summary>Represents the epoch.</summary>
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
-
-    /// <summary>Represents the domain, the interval of supported <see cref="DayNumber"/>.</summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
-
-    /// <summary>Represents the date adjuster.</summary>
     private static readonly Ethiopic13Adjuster s_Adjuster = new(s_Scope);
-
-    /// <summary>Represents the smallest possible value of a <see cref="Ethiopic13Date"/>.</summary>
     private static readonly Ethiopic13Date s_MinValue = new(s_Domain.Min - s_Epoch);
-
-    /// <summary>Represents the largest possible value of a <see cref="Ethiopic13Date"/>.</summary>
     private static readonly Ethiopic13Date s_MaxValue = new(s_Domain.Max - s_Epoch);
 
-    /// <summary>Represents the count of days since the Ethiopic epoch.</summary>
     private readonly int _daysSinceEpoch;
 
     /// <summary>Initializes a new instance of the <see cref="Ethiopic13Date"/> struct to the
@@ -155,19 +126,18 @@ public partial struct Ethiopic13Date :
         _daysSinceEpoch = dayNumber - s_Epoch;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Date"/> struct.
-    /// <para>This method does NOT validate its parameter.</para></summary>
+    /// <summary>This constructor does NOT validate its parameter.</summary>
     internal Ethiopic13Date(int daysSinceEpoch)
     {
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    /// <summary>Gets the smallest possible value of a <see cref="Ethiopic13Date"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static Ethiopic13Date MinValue => s_MinValue;
 
-    /// <summary>Gets the largest possible value of a <see cref="Ethiopic13Date"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static Ethiopic13Date MaxValue => s_MaxValue;
 
     /// <summary>Gets the date adjuster.
@@ -269,7 +239,6 @@ public partial struct Ethiopic13Date :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-
 public partial struct Ethiopic13Date // Conversions, adjustments...
 {
     #region Counting
@@ -302,10 +271,6 @@ public partial struct Ethiopic13Date // Conversions, adjustments...
 
         return adjuster.Invoke(this);
     }
-
-    //
-    // Adjust the day of the week
-    //
 
     /// <inheritdoc />
     [Pure]
@@ -357,13 +322,11 @@ public partial struct Ethiopic13Date // Conversions, adjustments...
 
 public partial struct Ethiopic13Date // IEquatable
 {
-    /// <summary>Determines whether two specified instances of <see cref="Ethiopic13Date"/> are equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator ==(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch == right._daysSinceEpoch;
 
-    /// <summary>Determines whether two specified instances of <see cref="Ethiopic13Date"/> are not
-    /// equal.</summary>
+    /// <inheritdoc />
     public static bool operator !=(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
@@ -383,36 +346,31 @@ public partial struct Ethiopic13Date // IEquatable
 
 public partial struct Ethiopic13Date // IComparable
 {
-    /// <summary>Compares the two specified instances to see if the left one is strictly earlier
-    /// than the right one.</summary>
+    /// <inheritdoc />
     public static bool operator <(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch < right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is earlier than or
-    /// equal to the right one.</summary>
+    /// <inheritdoc />
     public static bool operator <=(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch <= right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is strictly later than
-    /// the right one.</summary>
+    /// <inheritdoc />
     public static bool operator >(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch > right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is later than or equal
-    /// to the right one.</summary>
+    /// <inheritdoc />
     public static bool operator >=(Ethiopic13Date left, Ethiopic13Date right) =>
         left._daysSinceEpoch >= right._daysSinceEpoch;
 
-    /// <summary>Obtains the earlier date of two specified dates.</summary>
+    /// <inheritdoc />
     [Pure]
     public static Ethiopic13Date Min(Ethiopic13Date x, Ethiopic13Date y) => x < y ? x : y;
 
-    /// <summary>Obtains the later date of two specified dates.</summary>
+    /// <inheritdoc />
     [Pure]
     public static Ethiopic13Date Max(Ethiopic13Date x, Ethiopic13Date y) => x > y ? x : y;
 
-    /// <summary>Indicates whether this instance is earlier, later or the same as the specified one.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public int CompareTo(Ethiopic13Date other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
@@ -425,7 +383,7 @@ public partial struct Ethiopic13Date // IComparable
 
 public partial struct Ethiopic13Date // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
     /// <summary>Subtracts the two specified dates and returns the number of days between them.
@@ -473,10 +431,12 @@ public partial struct Ethiopic13Date // Math ops
     /// <inheritdoc />
     [Pure]
     public Ethiopic13Date NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<Ethiopic13Date>() : new Ethiopic13Date(_daysSinceEpoch + 1);
+        this == s_MaxValue ? Throw.DateOverflow<Ethiopic13Date>()
+        : new Ethiopic13Date(_daysSinceEpoch + 1);
 
     /// <inheritdoc />
     [Pure]
     public Ethiopic13Date PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<Ethiopic13Date>() : new Ethiopic13Date(_daysSinceEpoch - 1);
+        this == s_MinValue ? Throw.DateOverflow<Ethiopic13Date>()
+        : new Ethiopic13Date(_daysSinceEpoch - 1);
 }

@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-#nullable enable
-
 namespace Zorglub.Time.Specialized;
 
 using Zorglub.Time.Core.Intervals;
@@ -23,43 +21,32 @@ using Zorglub.Time.Horology;
 /// <para>This class cannot be inherited.</para></summary>
 public sealed partial class ZoroastrianCalendar : SpecialCalendar<ZoroastrianDate>
 {
-    /// <inheritdoc />
-    [Pure]
     private protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
 /// <summary>Provides common adjusters for <see cref="ZoroastrianDate"/>.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed class ZoroastrianAdjuster : SpecialAdjuster<ZoroastrianDate>
+public sealed partial class ZoroastrianAdjuster : SpecialAdjuster<ZoroastrianDate>
 {
     /// <summary>Initializes a new instance of the <see cref="ZoroastrianAdjuster"/> class.</summary>
     public ZoroastrianAdjuster() : base(ZoroastrianDate.Calendar.Scope) { }
 
-    /// <summary>Initializes a new instance of the <see cref="ZoroastrianAdjuster"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     internal ZoroastrianAdjuster(MinMaxYearScope scope) : base(scope) { }
 
-    /// <inheritdoc />
-    [Pure]
     private protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
 /// <summary>Represents a clock for the Zoroastrian calendar.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed class ZoroastrianClock
+public sealed partial class ZoroastrianClock
 {
-    /// <summary>Represents the clock.</summary>
     private readonly IClock _clock;
-
-    /// <summary>Represents the epoch.</summary>
     private readonly DayNumber _epoch;
 
     /// <summary>Initializes a new instance of the <see cref="ZoroastrianClock"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     public ZoroastrianClock(IClock clock) : this(ZoroastrianDate.Calendar.Epoch, clock) { }
 
-    /// <summary>Initializes a new instance of the <see cref="ZoroastrianClock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     private ZoroastrianClock(DayNumber epoch, IClock clock)
     {
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -92,33 +79,17 @@ public partial struct ZoroastrianDate :
     IDate<ZoroastrianDate, ZoroastrianCalendar>,
     IAdjustable<ZoroastrianDate>
 {
-    // NB: the order in which the static fields are written is __important__.
+    // WARNING: the order in which the static fields are written is __important__.
 
-    /// <summary>Represents the schema.</summary>
     private static readonly Egyptian12Schema s_Schema = new();
-
-    /// <summary>Represents the calendar.</summary>
     private static readonly ZoroastrianCalendar s_Calendar = new(s_Schema);
-
-    /// <summary>Represents the scope.</summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
-
-    /// <summary>Represents the epoch.</summary>
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
-
-    /// <summary>Represents the domain, the interval of supported <see cref="DayNumber"/>.</summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
-
-    /// <summary>Represents the date adjuster.</summary>
     private static readonly ZoroastrianAdjuster s_Adjuster = new(s_Scope);
-
-    /// <summary>Represents the smallest possible value of a <see cref="ZoroastrianDate"/>.</summary>
     private static readonly ZoroastrianDate s_MinValue = new(s_Domain.Min - s_Epoch);
-
-    /// <summary>Represents the largest possible value of a <see cref="ZoroastrianDate"/>.</summary>
     private static readonly ZoroastrianDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
-    /// <summary>Represents the count of days since the Zoroastrian epoch.</summary>
     private readonly int _daysSinceEpoch;
 
     /// <summary>Initializes a new instance of the <see cref="ZoroastrianDate"/> struct to the
@@ -155,19 +126,18 @@ public partial struct ZoroastrianDate :
         _daysSinceEpoch = dayNumber - s_Epoch;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="ZoroastrianDate"/> struct.
-    /// <para>This method does NOT validate its parameter.</para></summary>
+    /// <summary>This constructor does NOT validate its parameter.</summary>
     internal ZoroastrianDate(int daysSinceEpoch)
     {
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    /// <summary>Gets the smallest possible value of a <see cref="ZoroastrianDate"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static ZoroastrianDate MinValue => s_MinValue;
 
-    /// <summary>Gets the largest possible value of a <see cref="ZoroastrianDate"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static ZoroastrianDate MaxValue => s_MaxValue;
 
     /// <summary>Gets the date adjuster.
@@ -269,7 +239,6 @@ public partial struct ZoroastrianDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-
 public partial struct ZoroastrianDate // Conversions, adjustments...
 {
     #region Counting
@@ -302,10 +271,6 @@ public partial struct ZoroastrianDate // Conversions, adjustments...
 
         return adjuster.Invoke(this);
     }
-
-    //
-    // Adjust the day of the week
-    //
 
     /// <inheritdoc />
     [Pure]
@@ -357,13 +322,11 @@ public partial struct ZoroastrianDate // Conversions, adjustments...
 
 public partial struct ZoroastrianDate // IEquatable
 {
-    /// <summary>Determines whether two specified instances of <see cref="ZoroastrianDate"/> are equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator ==(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch == right._daysSinceEpoch;
 
-    /// <summary>Determines whether two specified instances of <see cref="ZoroastrianDate"/> are not
-    /// equal.</summary>
+    /// <inheritdoc />
     public static bool operator !=(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
@@ -383,36 +346,31 @@ public partial struct ZoroastrianDate // IEquatable
 
 public partial struct ZoroastrianDate // IComparable
 {
-    /// <summary>Compares the two specified instances to see if the left one is strictly earlier
-    /// than the right one.</summary>
+    /// <inheritdoc />
     public static bool operator <(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch < right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is earlier than or
-    /// equal to the right one.</summary>
+    /// <inheritdoc />
     public static bool operator <=(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch <= right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is strictly later than
-    /// the right one.</summary>
+    /// <inheritdoc />
     public static bool operator >(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch > right._daysSinceEpoch;
 
-    /// <summary>Compares the two specified instances to see if the left one is later than or equal
-    /// to the right one.</summary>
+    /// <inheritdoc />
     public static bool operator >=(ZoroastrianDate left, ZoroastrianDate right) =>
         left._daysSinceEpoch >= right._daysSinceEpoch;
 
-    /// <summary>Obtains the earlier date of two specified dates.</summary>
+    /// <inheritdoc />
     [Pure]
     public static ZoroastrianDate Min(ZoroastrianDate x, ZoroastrianDate y) => x < y ? x : y;
 
-    /// <summary>Obtains the later date of two specified dates.</summary>
+    /// <inheritdoc />
     [Pure]
     public static ZoroastrianDate Max(ZoroastrianDate x, ZoroastrianDate y) => x > y ? x : y;
 
-    /// <summary>Indicates whether this instance is earlier, later or the same as the specified one.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public int CompareTo(ZoroastrianDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
@@ -425,7 +383,7 @@ public partial struct ZoroastrianDate // IComparable
 
 public partial struct ZoroastrianDate // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
     /// <summary>Subtracts the two specified dates and returns the number of days between them.
@@ -473,10 +431,12 @@ public partial struct ZoroastrianDate // Math ops
     /// <inheritdoc />
     [Pure]
     public ZoroastrianDate NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<ZoroastrianDate>() : new ZoroastrianDate(_daysSinceEpoch + 1);
+        this == s_MaxValue ? Throw.DateOverflow<ZoroastrianDate>()
+        : new ZoroastrianDate(_daysSinceEpoch + 1);
 
     /// <inheritdoc />
     [Pure]
     public ZoroastrianDate PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<ZoroastrianDate>() : new ZoroastrianDate(_daysSinceEpoch - 1);
+        this == s_MinValue ? Throw.DateOverflow<ZoroastrianDate>()
+        : new ZoroastrianDate(_daysSinceEpoch - 1);
 }
