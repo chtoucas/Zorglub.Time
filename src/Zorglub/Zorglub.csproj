@@ -17,9 +17,10 @@
   </PropertyGroup>
 
   <!--<ItemGroup>
-    <ProjectReference Include="..\Generators\Generators.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Generators\Generators.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>-->
 
 </Project>

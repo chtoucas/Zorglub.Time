@@ -12,13 +12,15 @@
     <MyLibraryFrameworks>$(MyDefaultFramework)</MyLibraryFrameworks>
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
 
-    <!-- Should be "latest" or "preview" -->
+    <!--
+      Lang Version:
+        "latest" or "preview"
+      Preview Features:
+        When we enable Preview Features we do it at the assembly level via
+        "GenerateRequiresPreviewFeaturesAttribute" (this is the default behaviour,
+        but I prefer to be explicit about this), and for all projects.
+    -->
     <LangVersion>preview</LangVersion>
-
-    <!-- Preview Features
-      When we enable preview features we do it at the assembly level via
-      "GenerateRequiresPreviewFeaturesAttribute" (this is the default behaviour,
-      but I prefer to be explicit about this), and for all projects. -->
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
   </PropertyGroup>

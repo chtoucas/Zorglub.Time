@@ -18,11 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Zorglub.Extras\Zorglub.Extras.csproj" />
-    <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
-    <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
+    <ProjectReference Include="..\Generators\Generators.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Zorglub.Extras\Zorglub.Extras.csproj" />
+    <ProjectReference Include="..\Zorglub.Sketches\Zorglub.Sketches.csproj" />
+    <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\src\Samples\Samples.projitems" Label="Shared" />
+  <Import Project="..\Samples\Samples.projitems" Label="Shared" />
 
 </Project>
