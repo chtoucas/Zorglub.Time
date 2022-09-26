@@ -102,7 +102,8 @@ Subprojects
   https://github.com/amis92/csharp-source-generators
   - Enum.IsDefined
   - DIM (schema)
-  - specialized date types? <- T4
+  - specialized date types <- T4 then SourceGenerator
+    https://stackoverflow.com/questions/1646580/get-visual-studio-to-run-a-t4-template-on-every-build
 - C# analyzers.
 - Parsing / formatting.
 

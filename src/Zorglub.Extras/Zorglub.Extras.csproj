@@ -21,11 +21,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>%(Filename).g.cs</LastGenOutput>
     </None>
-    <!--<Compile Update="**\*.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>$([System.IO.Path]::GetFileNameWithoutExtension('%(Filename)')).tt</DependentUpon>
-    </Compile>-->
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +43,41 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Coptic13.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Ethiopic.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Ethiopic.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Ethiopic13.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Ethiopic13.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Ethiopic.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Ethiopic.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\TabularIslamic.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TabularIslamic.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\World.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>World.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Zoroastrian.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Zoroastrian.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Zoroastrian13.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Zoroastrian13.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

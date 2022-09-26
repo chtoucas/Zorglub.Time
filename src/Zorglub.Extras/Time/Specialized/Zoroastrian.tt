@@ -1,0 +1,4 @@
+﻿<#@include file="__Template.t4" #>
+<#
+    WriteClasses("Zoroastrian", "Zoroastrian", "Egyptian12Schema");
+#>
