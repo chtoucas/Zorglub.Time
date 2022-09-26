@@ -21,6 +21,9 @@ using Zorglub.Time.Horology;
 /// <para>This class cannot be inherited.</para></summary>
 public sealed partial class Armenian13Calendar : SpecialCalendar<Armenian13Date>
 {
+    /// <summary>Initializes a new instance of the <see cref=" Armenian13Calendar"/> class.</summary>
+    public Armenian13Calendar() : this(new Egyptian13Schema()) { }
+
     private protected sealed override Armenian13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
@@ -61,14 +64,12 @@ public sealed partial class Armenian13Clock
     /// using the Coordinated Universal Time (UTC).</summary>
     public static Armenian13Clock Utc { get; } = new(SystemClocks.Utc);
 
-    /// <summary>Obtains an instance of the <see cref="Armenian13Clock"/> class for the specified
-    /// clock.</summary>
+    /// <summary>Obtains an instance of the <see cref="Armenian13Clock"/> class for the specified clock.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     [Pure]
     public static Armenian13Clock GetClock(IClock clock) => new(clock);
 
-    /// <summary>Obtains a <see cref="Armenian13Date"/> value representing the current
-    /// date.</summary>
+    /// <summary>Obtains a <see cref="Armenian13Date"/> value representing the current date.</summary>
     [Pure]
     public Armenian13Date GetCurrentDate() => new(_clock.Today() - _epoch);
 }
@@ -92,11 +93,9 @@ public partial struct Armenian13Date :
 
     private readonly int _daysSinceEpoch;
 
-    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct to the
-    /// specified date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct to the specified date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid date or
-    /// <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="Armenian13Calendar"/>.</exception>
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public Armenian13Date(int year, int month, int day)
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
@@ -104,11 +103,9 @@ public partial struct Armenian13Date :
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct to the
-    /// specified ordinal date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct to the specified ordinal date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
-    /// <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="Armenian13Calendar"/>.</exception>
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public Armenian13Date(int year, int dayOfYear)
     {
         s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -116,9 +113,8 @@ public partial struct Armenian13Date :
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-    /// supported values.</exception>
+    /// <summary>Initializes a new instance of the <see cref="Armenian13Date"/> struct to the specified day number.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
     public Armenian13Date(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
@@ -221,8 +217,7 @@ public partial struct Armenian13Date :
         }
     }
 
-    /// <summary>Returns a culture-independent string representation of the current instance.
-    /// </summary>
+    /// <summary>Returns a culture-independent string representation of the current instance.</summary>
     [Pure]
     public override string ToString()
     {
@@ -386,10 +381,8 @@ public partial struct Armenian13Date // Math ops
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
-    /// <summary>Subtracts the two specified dates and returns the number of days between them.
-    /// </summary>
-    public static int operator -(Armenian13Date left, Armenian13Date right) =>
-        left.CountDaysSince(right);
+    /// <summary>Subtracts the two specified dates and returns the number of days between them.</summary>
+    public static int operator -(Armenian13Date left, Armenian13Date right) => left.CountDaysSince(right);
 
     /// <summary>Adds a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
@@ -402,13 +395,11 @@ public partial struct Armenian13Date // Math ops
     public static Armenian13Date operator -(Armenian13Date value, int days) => value.PlusDays(-days);
 
     /// <summary>Adds one day to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported date.
-    /// </exception>
+    /// <exception cref="OverflowException">The operation would overflow the latest supported date.</exception>
     public static Armenian13Date operator ++(Armenian13Date value) => value.NextDay();
 
     /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported date.
-    /// </exception>
+    /// <exception cref="OverflowException">The operation would overflow the earliest supported date.</exception>
     public static Armenian13Date operator --(Armenian13Date value) => value.PreviousDay();
 
 #pragma warning restore CA2225
