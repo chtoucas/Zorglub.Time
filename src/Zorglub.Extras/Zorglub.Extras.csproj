@@ -7,14 +7,54 @@
     <IsPackable>true</IsPackable>
     <Title></Title>
     <Description></Description>
-    <!--
-    <PackageDescription><![CDATA[
+    <PackageTags>Calendar;Date;NTP</PackageTags>
+    <!--<PackageDescription><![CDATA[
 
     ]]></PackageDescription>
-    -->
-    <PackageTags>Calendar;Date;NTP</PackageTags>
-    <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
+    <PackageReleaseNotes><![CDATA[
+
+    ]]></PackageReleaseNotes>-->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="**\*.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>%(Filename).g.cs</LastGenOutput>
+    </None>
+    <!--<Compile Update="**\*.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>$([System.IO.Path]::GetFileNameWithoutExtension('%(Filename)')).tt</DependentUpon>
+    </Compile>-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Time\Specialized\Armenian.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Armenian.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Armenian13.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Armenian13.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Coptic.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Coptic.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Time\Specialized\Coptic13.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Coptic13.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <!-- T4 service -->
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
