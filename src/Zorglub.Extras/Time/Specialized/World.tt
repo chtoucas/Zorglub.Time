@@ -1,4 +1,4 @@
-﻿<#@include file="__Template.t4" #>
+﻿<#@include file="Calendar.t4" #>
 <#
-    WriteClasses("World", "World", "WorldSchema");
+    WriteCode("World", "World", "WorldSchema");
 #>

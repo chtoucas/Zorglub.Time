@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets"
-          Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />
 
   <PropertyGroup>
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
@@ -58,11 +57,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Ethiopic13.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Ethiopic.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Ethiopic.tt</DependentUpon>
     </Compile>
     <Compile Update="Time\Specialized\TabularIslamic.g.cs">
       <DesignTime>True</DesignTime>

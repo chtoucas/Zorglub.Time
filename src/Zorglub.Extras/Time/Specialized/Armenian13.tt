@@ -1,4 +1,4 @@
-﻿<#@include file="__Template.t4" #>
+﻿<#@include file="Calendar.t4" #>
 <#
-    WriteClasses("Armenian", "Armenian13", "Egyptian13Schema");
+    WriteCode("Armenian", "Armenian13", "Egyptian13Schema");
 #>

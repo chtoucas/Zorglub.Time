@@ -2,7 +2,7 @@
 <#@ output extension=".g.cs" #>
 <#
 
-void WriteClasses(
+void WriteCode(
     string __Name__,
     string __Prefix__,
     string __SchemaType__)
