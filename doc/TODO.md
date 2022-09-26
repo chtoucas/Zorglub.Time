@@ -98,11 +98,11 @@ https://en.wikipedia.org/wiki/Regnal_year
 Subprojects
 -----------
 
-- C# source generators
+- T4 or C# source generators
   https://github.com/amis92/csharp-source-generators
   - Enum.IsDefined
   - DIM (schema)
-  - specialized date types?
+  - specialized date types? <- T4
 - C# analyzers.
 - Parsing / formatting.
 

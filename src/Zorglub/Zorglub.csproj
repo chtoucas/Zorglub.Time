@@ -7,13 +7,13 @@
     <IsPackable>true</IsPackable>
     <Title></Title>
     <Description></Description>
-    <!--
-    <PackageDescription><![CDATA[
+    <PackageTags>Calendar;Date;Gregorian;Julian</PackageTags>
+    <!--<PackageDescription><![CDATA[
 
     ]]></PackageDescription>
-    -->
-    <PackageTags>Calendar;Date;Gregorian;Julian</PackageTags>
-    <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
+    <PackageReleaseNotes><![CDATA[
+
+    ]]></PackageReleaseNotes>-->
   </PropertyGroup>
 
   <!--<ItemGroup>
