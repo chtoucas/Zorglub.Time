@@ -11,6 +11,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // REVIEW(perf): custom methods on calendars and dates.
 // - IRegularFeaturette       -> use MonthsPerYear
 // - IVirtualMonthFeaturette  -> use a constant
+// - IsSupplementary is almost always equal to false
 
 public sealed partial class ArmenianCalendar : IRegularFeaturette
 {

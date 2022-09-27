@@ -14,7 +14,7 @@ using Zorglub.Time.Horology;
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
 
-/// <summary>Represents the Gregorian calendar.
+/// <summary>Represents the proleptic Gregorian calendar.
 /// <para>This class cannot be inherited.</para></summary>
 public sealed class GregorianCalendar :
     SpecialCalendar<GregorianDate>,
@@ -425,9 +425,8 @@ public partial struct GregorianDate // Math ops
     public GregorianDate PlusDays(int days)
     {
         int daysSinceZero = checked(_daysSinceZero + days);
-        // We don't write:
+        // Don't write (the addition may also overflow...):
         // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        // The addition may also overflow...
         s_Scope.DaysValidator.CheckOverflow(daysSinceZero);
         return new(daysSinceZero);
     }

@@ -22,105 +22,105 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Horology;
 
-/// <summary>Represents the Ethiopic calendar.
+/// <summary>Represents the Julian calendar.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed partial class Ethiopic13Calendar : SpecialCalendar<Ethiopic13Date>
+public sealed partial class JulianCalendar : SpecialCalendar<JulianDate>
 {
-    /// <summary>Initializes a new instance of the <see cref=" Ethiopic13Calendar"/> class.</summary>
-    public Ethiopic13Calendar() : this(new Coptic13Schema()) { }
+    /// <summary>Initializes a new instance of the <see cref=" JulianCalendar"/> class.</summary>
+    public JulianCalendar() : this(new JulianSchema()) { }
 
-    private protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    private protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>Provides common adjusters for <see cref="Ethiopic13Date"/>.
+/// <summary>Provides common adjusters for <see cref="JulianDate"/>.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed partial class Ethiopic13Adjuster : SpecialAdjuster<Ethiopic13Date>
+public sealed partial class JulianAdjuster : SpecialAdjuster<JulianDate>
 {
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Adjuster"/> class.</summary>
-    public Ethiopic13Adjuster() : base(Ethiopic13Date.Calendar.Scope) { }
+    /// <summary>Initializes a new instance of the <see cref="JulianAdjuster"/> class.</summary>
+    public JulianAdjuster() : base(JulianDate.Calendar.Scope) { }
 
-    internal Ethiopic13Adjuster(MinMaxYearScope scope) : base(scope) { }
+    internal JulianAdjuster(MinMaxYearScope scope) : base(scope) { }
 
-    private protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    private protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>Represents a clock for the Ethiopic calendar.
+/// <summary>Represents a clock for the Julian calendar.
 /// <para>This class cannot be inherited.</para></summary>
-public sealed partial class Ethiopic13Clock
+public sealed partial class JulianClock
 {
     private readonly IClock _clock;
     private readonly DayNumber _epoch;
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Clock"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianClock"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    public Ethiopic13Clock(IClock clock) : this(Ethiopic13Date.Calendar.Epoch, clock) { }
+    public JulianClock(IClock clock) : this(JulianDate.Calendar.Epoch, clock) { }
 
-    private Ethiopic13Clock(DayNumber epoch, IClock clock)
+    private JulianClock(DayNumber epoch, IClock clock)
     {
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         _epoch = epoch;
     }
 
-    /// <summary>Gets an instance of the <see cref="Ethiopic13Clock"/> class for the system clock
+    /// <summary>Gets an instance of the <see cref="JulianClock"/> class for the system clock
     /// using the current time zone setting on this machine.</summary>
-    public static Ethiopic13Clock Local { get; } = new(SystemClocks.Local);
+    public static JulianClock Local { get; } = new(SystemClocks.Local);
 
-    /// <summary>Gets an instance of the <see cref="Ethiopic13Clock"/> class for the system clock
+    /// <summary>Gets an instance of the <see cref="JulianClock"/> class for the system clock
     /// using the Coordinated Universal Time (UTC).</summary>
-    public static Ethiopic13Clock Utc { get; } = new(SystemClocks.Utc);
+    public static JulianClock Utc { get; } = new(SystemClocks.Utc);
 
-    /// <summary>Obtains an instance of the <see cref="Ethiopic13Clock"/> class for the specified clock.</summary>
+    /// <summary>Obtains an instance of the <see cref="JulianClock"/> class for the specified clock.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     [Pure]
-    public static Ethiopic13Clock GetClock(IClock clock) => new(clock);
+    public static JulianClock GetClock(IClock clock) => new(clock);
 
-    /// <summary>Obtains a <see cref="Ethiopic13Date"/> value representing the current date.</summary>
+    /// <summary>Obtains a <see cref="JulianDate"/> value representing the current date.</summary>
     [Pure]
-    public Ethiopic13Date GetCurrentDate() => new(_clock.Today() - _epoch);
+    public JulianDate GetCurrentDate() => new(_clock.Today() - _epoch);
 }
 
-/// <summary>Represents the Ethiopic date.
-/// <para><see cref="Ethiopic13Date"/> is an immutable struct.</para></summary>
-public partial struct Ethiopic13Date :
-    IDate<Ethiopic13Date, Ethiopic13Calendar>,
-    IAdjustable<Ethiopic13Date>
+/// <summary>Represents the Julian date.
+/// <para><see cref="JulianDate"/> is an immutable struct.</para></summary>
+public partial struct JulianDate :
+    IDate<JulianDate, JulianCalendar>,
+    IAdjustable<JulianDate>
 {
     // WARNING: the order in which the static fields are written is __important__.
 
-    private static readonly Coptic13Schema s_Schema = new();
-    private static readonly Ethiopic13Calendar s_Calendar = new(s_Schema);
+    private static readonly JulianSchema s_Schema = new();
+    private static readonly JulianCalendar s_Calendar = new(s_Schema);
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
-    private static readonly Ethiopic13Adjuster s_Adjuster = new(s_Scope);
-    private static readonly Ethiopic13Date s_MinValue = new(s_Domain.Min - s_Epoch);
-    private static readonly Ethiopic13Date s_MaxValue = new(s_Domain.Max - s_Epoch);
+    private static readonly JulianAdjuster s_Adjuster = new(s_Scope);
+    private static readonly JulianDate s_MinValue = new(s_Domain.Min - s_Epoch);
+    private static readonly JulianDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
     private readonly int _daysSinceEpoch;
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Date"/> struct to the specified date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid date or
     /// <paramref name="year"/> is outside the range of supported years.</exception>
-    public Ethiopic13Date(int year, int month, int day)
+    public JulianDate(int year, int month, int day)
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Date"/> struct to the specified ordinal date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified ordinal date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
     /// <paramref name="year"/> is outside the range of supported years.</exception>
-    public Ethiopic13Date(int year, int dayOfYear)
+    public JulianDate(int year, int dayOfYear)
     {
         s_Scope.ValidateOrdinal(year, dayOfYear);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="Ethiopic13Date"/> struct to the specified day number.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
-    public Ethiopic13Date(DayNumber dayNumber)
+    public JulianDate(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
 
@@ -128,25 +128,25 @@ public partial struct Ethiopic13Date :
     }
 
     /// <summary>This constructor does NOT validate its parameter.</summary>
-    internal Ethiopic13Date(int daysSinceEpoch)
+    internal JulianDate(int daysSinceEpoch)
     {
         _daysSinceEpoch = daysSinceEpoch;
     }
 
     /// <inheritdoc />
     /// <remarks>This static property is thread-safe.</remarks>
-    public static Ethiopic13Date MinValue => s_MinValue;
+    public static JulianDate MinValue => s_MinValue;
 
     /// <inheritdoc />
     /// <remarks>This static property is thread-safe.</remarks>
-    public static Ethiopic13Date MaxValue => s_MaxValue;
+    public static JulianDate MaxValue => s_MaxValue;
 
     /// <summary>Gets the date adjuster.
     /// <para>This static property is thread-safe.</para></summary>
-    public static Ethiopic13Adjuster Adjuster => s_Adjuster;
+    public static JulianAdjuster Adjuster => s_Adjuster;
 
     /// <inheritdoc />
-    public static Ethiopic13Calendar Calendar => s_Calendar;
+    public static JulianCalendar Calendar => s_Calendar;
 
     /// <inheritdoc />
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
@@ -239,7 +239,7 @@ public partial struct Ethiopic13Date :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct Ethiopic13Date // Conversions, adjustments...
+public partial struct JulianDate // Conversions, adjustments...
 {
     #region Counting
 
@@ -265,7 +265,7 @@ public partial struct Ethiopic13Date // Conversions, adjustments...
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
-    public Ethiopic13Date Adjust(Func<Ethiopic13Date, Ethiopic13Date> adjuster)
+    public JulianDate Adjust(Func<JulianDate, JulianDate> adjuster)
     {
         Requires.NotNull(adjuster);
 
@@ -274,150 +274,150 @@ public partial struct Ethiopic13Date // Conversions, adjustments...
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date Previous(DayOfWeek dayOfWeek)
+    public JulianDate Previous(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Previous(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new Ethiopic13Date(dayNumber - s_Epoch);
+        return new JulianDate(dayNumber - s_Epoch);
     }
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date PreviousOrSame(DayOfWeek dayOfWeek)
+    public JulianDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new Ethiopic13Date(dayNumber - s_Epoch);
+        return new JulianDate(dayNumber - s_Epoch);
     }
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date Nearest(DayOfWeek dayOfWeek)
+    public JulianDate Nearest(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Nearest(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new Ethiopic13Date(dayNumber - s_Epoch);
+        return new JulianDate(dayNumber - s_Epoch);
     }
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date NextOrSame(DayOfWeek dayOfWeek)
+    public JulianDate NextOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.NextOrSame(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new Ethiopic13Date(dayNumber - s_Epoch);
+        return new JulianDate(dayNumber - s_Epoch);
     }
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date Next(DayOfWeek dayOfWeek)
+    public JulianDate Next(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Next(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new Ethiopic13Date(dayNumber - s_Epoch);
+        return new JulianDate(dayNumber - s_Epoch);
     }
 
     #endregion
 }
 
-public partial struct Ethiopic13Date // IEquatable
+public partial struct JulianDate // IEquatable
 {
     /// <inheritdoc />
-    public static bool operator ==(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator ==(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch == right._daysSinceEpoch;
 
     /// <inheritdoc />
-    public static bool operator !=(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator !=(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
     /// <inheritdoc />
     [Pure]
-    public bool Equals(Ethiopic13Date other) => _daysSinceEpoch == other._daysSinceEpoch;
+    public bool Equals(JulianDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
     /// <inheritdoc />
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is Ethiopic13Date date && Equals(date);
+        obj is JulianDate date && Equals(date);
 
     /// <inheritdoc />
     [Pure]
     public override int GetHashCode() => _daysSinceEpoch;
 }
 
-public partial struct Ethiopic13Date // IComparable
+public partial struct JulianDate // IComparable
 {
     /// <inheritdoc />
-    public static bool operator <(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator <(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch < right._daysSinceEpoch;
 
     /// <inheritdoc />
-    public static bool operator <=(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator <=(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch <= right._daysSinceEpoch;
 
     /// <inheritdoc />
-    public static bool operator >(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator >(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch > right._daysSinceEpoch;
 
     /// <inheritdoc />
-    public static bool operator >=(Ethiopic13Date left, Ethiopic13Date right) =>
+    public static bool operator >=(JulianDate left, JulianDate right) =>
         left._daysSinceEpoch >= right._daysSinceEpoch;
 
     /// <inheritdoc />
     [Pure]
-    public static Ethiopic13Date Min(Ethiopic13Date x, Ethiopic13Date y) => x < y ? x : y;
+    public static JulianDate Min(JulianDate x, JulianDate y) => x < y ? x : y;
 
     /// <inheritdoc />
     [Pure]
-    public static Ethiopic13Date Max(Ethiopic13Date x, Ethiopic13Date y) => x > y ? x : y;
+    public static JulianDate Max(JulianDate x, JulianDate y) => x > y ? x : y;
 
     /// <inheritdoc />
     [Pure]
-    public int CompareTo(Ethiopic13Date other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+    public int CompareTo(JulianDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
     [Pure]
     int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is Ethiopic13Date date ? CompareTo(date)
-        : Throw.NonComparable(typeof(Ethiopic13Date), obj);
+        : obj is JulianDate date ? CompareTo(date)
+        : Throw.NonComparable(typeof(JulianDate), obj);
 }
 
-public partial struct Ethiopic13Date // Math ops
+public partial struct JulianDate // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
     /// <summary>Subtracts the two specified dates and returns the number of days between them.</summary>
-    public static int operator -(Ethiopic13Date left, Ethiopic13Date right) => left.CountDaysSince(right);
+    public static int operator -(JulianDate left, JulianDate right) => left.CountDaysSince(right);
 
     /// <summary>Adds a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
-    public static Ethiopic13Date operator +(Ethiopic13Date value, int days) => value.PlusDays(days);
+    public static JulianDate operator +(JulianDate value, int days) => value.PlusDays(days);
 
     /// <summary>Subtracts a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
-    public static Ethiopic13Date operator -(Ethiopic13Date value, int days) => value.PlusDays(-days);
+    public static JulianDate operator -(JulianDate value, int days) => value.PlusDays(-days);
 
     /// <summary>Adds one day to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow the latest supported date.</exception>
-    public static Ethiopic13Date operator ++(Ethiopic13Date value) => value.NextDay();
+    public static JulianDate operator ++(JulianDate value) => value.NextDay();
 
     /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow the earliest supported date.</exception>
-    public static Ethiopic13Date operator --(Ethiopic13Date value) => value.PreviousDay();
+    public static JulianDate operator --(JulianDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     /// <inheritdoc />
     [Pure]
-    public int CountDaysSince(Ethiopic13Date other) =>
+    public int CountDaysSince(JulianDate other) =>
         // No need to use a checked context here.
         _daysSinceEpoch - other._daysSinceEpoch;
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date PlusDays(int days)
+    public JulianDate PlusDays(int days)
     {
         int daysSinceEpoch = checked(_daysSinceEpoch + days);
         // Don't write (the addition may also overflow...):
@@ -428,13 +428,13 @@ public partial struct Ethiopic13Date // Math ops
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<Ethiopic13Date>()
-        : new Ethiopic13Date(_daysSinceEpoch + 1);
+    public JulianDate NextDay() =>
+        this == s_MaxValue ? Throw.DateOverflow<JulianDate>()
+        : new JulianDate(_daysSinceEpoch + 1);
 
     /// <inheritdoc />
     [Pure]
-    public Ethiopic13Date PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<Ethiopic13Date>()
-        : new Ethiopic13Date(_daysSinceEpoch - 1);
+    public JulianDate PreviousDay() =>
+        this == s_MinValue ? Throw.DateOverflow<JulianDate>()
+        : new JulianDate(_daysSinceEpoch - 1);
 }

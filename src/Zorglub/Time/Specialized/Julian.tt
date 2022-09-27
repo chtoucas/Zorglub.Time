@@ -1,0 +1,4 @@
+﻿<#@include file="..\..\..\SpecialCalendar.tt" #>
+<#
+    WriteSpecialCalendar("Julian", "Julian", "JulianSchema");
+#>

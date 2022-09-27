@@ -8,6 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+#pragma warning disable IDE0240 // Remove redundant nullable directive ✓
+// Public API, fix RS0041 "Public members should not use oblivious types".
+#nullable enable
+#pragma warning restore IDE0240
+
 namespace Zorglub.Time.Specialized;
 
 using Zorglub.Time.Core.Intervals;
@@ -415,6 +420,8 @@ public partial struct Zoroastrian13Date // Math ops
     public Zoroastrian13Date PlusDays(int days)
     {
         int daysSinceEpoch = checked(_daysSinceEpoch + days);
+        // Don't write (the addition may also overflow...):
+        // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
         s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
         return new(daysSinceEpoch);
     }
