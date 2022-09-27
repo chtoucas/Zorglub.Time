@@ -98,13 +98,15 @@ https://en.wikipedia.org/wiki/Regnal_year
 Subprojects
 -----------
 
-- T4 or C# source generators
+- T4 vs C# Source Generators
+  - T4: simple
+  - T4: requires VS
+  - SG: Code Analysis?
+  - SG: VS experience is less than stellar
   https://github.com/amis92/csharp-source-generators
   - Enum.IsDefined
-  - DIM (schema)
-  - specialized date types <- T4 then SourceGenerator
-    https://stackoverflow.com/questions/1646580/get-visual-studio-to-run-a-t4-template-on-every-build
-- C# analyzers.
+  - DIM (ICalendricalSchemaPlus)
+  - specialized date types
 - Parsing / formatting.
 
 
