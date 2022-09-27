@@ -21,7 +21,7 @@ public abstract partial class GJSchema :
     /// Represents the number of months in a year.
     /// <para>This field is a constant equal to 12.</para>
     /// </summary>
-    private const int MonthsPerYear = 12;
+    internal const int MonthsPerYear = 12;
 
     /// <summary>
     /// Represents the number of days in a common year.

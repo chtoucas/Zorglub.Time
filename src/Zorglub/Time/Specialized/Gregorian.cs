@@ -25,12 +25,10 @@ public sealed class GregorianCalendar :
 
     internal GregorianCalendar(GregorianSchema schema)
         : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc />
-    public int MonthsInYear { get; }
+    public int MonthsInYear => GJSchema.MonthsPerYear;
 
     [Pure]
     private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);

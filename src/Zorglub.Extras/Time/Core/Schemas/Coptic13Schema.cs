@@ -21,7 +21,7 @@ public sealed partial class Coptic13Schema :
     /// Represents the number of months in a year.
     /// <para>This field is a constant equal to 12.</para>
     /// </summary>
-    private const int MonthsPerYear = 13;
+    internal const int MonthsPerYear = 13;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Coptic13Schema"/> class.

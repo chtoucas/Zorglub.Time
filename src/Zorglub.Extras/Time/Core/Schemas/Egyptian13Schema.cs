@@ -27,7 +27,7 @@ public sealed partial class Egyptian13Schema :
     /// Represents the number of months in a year.
     /// <para>This field is a constant equal to 13.</para>
     /// </summary>
-    private const int MonthsPerYear = 13;
+    internal const int MonthsPerYear = 13;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Egyptian13Schema"/> class.

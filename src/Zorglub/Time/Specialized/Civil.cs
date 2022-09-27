@@ -27,12 +27,10 @@ public sealed class CivilCalendar :
 
     internal CivilCalendar(CivilSchema schema)
         : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc />
-    public int MonthsInYear { get; }
+    public int MonthsInYear => GJSchema.MonthsPerYear;
 
     [Pure]
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);

@@ -8,21 +8,20 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// REVIEW(perf): custom methods on calendars and dates.
-// - IRegularFeaturette       -> use MonthsPerYear
-// - IVirtualMonthFeaturette  -> use a constant
-// - IsSupplementary is almost always equal to false
+// TODO(api): non-standard math.
+// XML doc, explain the scope for all calendars.
+// CountDaysSince(other) checked context or not? do we test it?
+
+// REVIEW(perf): IsSupplementary is almost always equal to false
 
 public sealed partial class ArmenianCalendar : IRegularFeaturette
 {
     internal ArmenianCalendar(Egyptian12Schema schema)
         : base("Armenian", StandardScope.Create(schema, DayZero.Armenian))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc />
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
 public readonly partial struct ArmenianDate : IEpagomenalDay
@@ -41,12 +40,12 @@ public sealed partial class Armenian13Calendar : IRegularFeaturette, IVirtualMon
     internal Armenian13Calendar(Egyptian13Schema schema)
         : base("Armenian", StandardScope.Create(schema, DayZero.Armenian))
     {
-        MonthsInYear = schema.MonthsInYear;
         VirtualMonth = schema.VirtualMonth;
     }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Egyptian13Schema.MonthsPerYear;
+
     /// <inheritdoc/>
     public int VirtualMonth { get; }
 }
@@ -66,12 +65,10 @@ public sealed partial class CopticCalendar : IRegularFeaturette
 {
     internal CopticCalendar(Coptic12Schema schema)
         : base("Coptic", StandardScope.Create(schema, DayZero.Coptic))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
 public readonly partial struct CopticDate : IEpagomenalDay
@@ -90,12 +87,12 @@ public sealed partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonth
     internal Coptic13Calendar(Coptic13Schema schema)
         : base("Coptic", StandardScope.Create(schema, DayZero.Coptic))
     {
-        MonthsInYear = schema.MonthsInYear;
         VirtualMonth = schema.VirtualMonth;
     }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Coptic13Schema.MonthsPerYear;
+
     /// <inheritdoc/>
     public int VirtualMonth { get; }
 }
@@ -115,12 +112,10 @@ public sealed partial class EthiopicCalendar : IRegularFeaturette
 {
     internal EthiopicCalendar(Coptic12Schema schema)
         : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
 public readonly partial struct EthiopicDate : IEpagomenalDay
@@ -139,12 +134,12 @@ public sealed partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMon
     internal Ethiopic13Calendar(Coptic13Schema schema)
         : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic))
     {
-        MonthsInYear = schema.MonthsInYear;
         VirtualMonth = schema.VirtualMonth;
     }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Coptic13Schema.MonthsPerYear;
+
     /// <inheritdoc/>
     public int VirtualMonth { get; }
 }
@@ -164,24 +159,20 @@ public sealed partial class TabularIslamicCalendar : IRegularFeaturette
 {
     internal TabularIslamicCalendar(TabularIslamicSchema schema)
         : base("Tabular Islamic", StandardScope.Create(schema, DayZero.TabularIslamic))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => TabularIslamicSchema.MonthsPerYear;
 }
 
 public sealed partial class WorldCalendar : IRegularFeaturette
 {
     internal WorldCalendar(WorldSchema schema)
         : base("World", StandardScope.Create(schema, DayZero.SundayBeforeGregorian))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => WorldSchema.MonthsPerYear;
 
     /// <summary>Obtains the genuine number of days in a month (excluding the blank days that are
     /// formally outside any month).
@@ -212,12 +203,10 @@ public sealed partial class ZoroastrianCalendar : IRegularFeaturette
 {
     internal ZoroastrianCalendar(Egyptian12Schema schema)
         : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))
-    {
-        MonthsInYear = schema.MonthsInYear;
-    }
+    { }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
 public readonly partial struct ZoroastrianDate : IEpagomenalDay
@@ -237,12 +226,12 @@ public sealed partial class Zoroastrian13Calendar : IRegularFeaturette,
     internal Zoroastrian13Calendar(Egyptian13Schema schema)
         : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))
     {
-        MonthsInYear = schema.MonthsInYear;
         VirtualMonth = schema.VirtualMonth;
     }
 
     /// <inheritdoc/>
-    public int MonthsInYear { get; }
+    public int MonthsInYear => Egyptian13Schema.MonthsPerYear;
+
     /// <inheritdoc/>
     public int VirtualMonth { get; }
 }

@@ -18,7 +18,7 @@ public sealed partial class Coptic12Schema :
 {
     /// <summary>Represents the number of months in a year.</summary>
     /// <remarks>This field is a constant equal to 12.</remarks>
-    private const int MonthsPerYear = 12;
+    internal const int MonthsPerYear = 12;
 
     /// <summary>Initializes a new instance of the <see cref="Coptic12Schema"/> class.</summary>
     internal Coptic12Schema() : base(30) { }
