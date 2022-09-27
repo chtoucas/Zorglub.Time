@@ -32,3 +32,7 @@ internal static partial class AssemblyInfo
         "";
 #endif
 }
+
+#if RELEASE && __ENABLE_PREVIEW_FEATURES__
+#warning Built using preview features of the .NET platform
+#endif

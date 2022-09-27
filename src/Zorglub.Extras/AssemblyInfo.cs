@@ -8,3 +8,7 @@
 [assembly: InternalsVisibleTo("Zorglub.Tests" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Tests.CSharp" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 #endif
+
+#if RELEASE && __ENABLE_PREVIEW_FEATURES__
+#warning Built using preview features of the .NET platform
+#endif
