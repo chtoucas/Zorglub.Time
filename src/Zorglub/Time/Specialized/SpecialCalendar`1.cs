@@ -10,29 +10,23 @@ using Zorglub.Time.Hemerology.Scopes;
 
 // See comments in SpecialAdjuster<>.
 
-/// <summary>
-/// Represents a calendar with dates within a range of years and provides a base for derived
-/// classes.
+/// <summary>Represents a calendar with dates within a range of years and provides a base for
+/// derived classes.
 /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
 /// consecutive days since the epoch.</para>
-/// <para>This class can ONLY be inherited from within friend assemblies.</para>
-/// </summary>
+/// <para>This class can ONLY be inherited from within friend assemblies.</para></summary>
 /// <typeparam name="TDate">The type of date object.</typeparam>
 public abstract class SpecialCalendar<TDate> : MinMaxYearBasicCalendar, ICalendar<TDate>
 {
-    /// <summary>
-    /// Called from constructors in derived classes to initialize the
-    /// <see cref="SpecialCalendar{TDate}"/> class.
-    /// </summary>
+    /// <summary>Called from constructors in derived classes to initialize the
+    /// <see cref="SpecialCalendar{TDate}"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     private protected SpecialCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
 
-    /// <summary>
-    /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
+    /// <summary>Creates a new instance of <typeparamref name="TDate"/> from the specified count of
     /// consecutive days since the epoch.
-    /// <para>This method does NOT validate its parameter.</para>
-    /// </summary>
+    /// <para>This method does NOT validate its parameter.</para></summary>
     [Pure]
     private protected abstract TDate GetDate(int daysSinceEpoch);
 

@@ -8,6 +8,10 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
+// REVIEW(perf): custom methods on calendars and dates.
+// - IRegularFeaturette       -> use MonthsPerYear
+// - IVirtualMonthFeaturette  -> use a constant
+
 public sealed partial class ArmenianCalendar : IRegularFeaturette
 {
     internal ArmenianCalendar(Egyptian12Schema schema)
@@ -166,8 +170,6 @@ public sealed partial class TabularIslamicCalendar : IRegularFeaturette
     /// <inheritdoc/>
     public int MonthsInYear { get; }
 }
-
-public readonly partial struct TabularIslamicDate { }
 
 public sealed partial class WorldCalendar : IRegularFeaturette
 {

@@ -25,17 +25,15 @@ public sealed class CivilCalendar :
     /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
     public CivilCalendar() : this(new CivilSchema()) { }
 
-    /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
     internal CivilCalendar(CivilSchema schema)
         : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle))
     {
         MonthsInYear = schema.MonthsInYear;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public int MonthsInYear { get; }
 
-    /// <inheritdoc/>
     [Pure]
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
@@ -47,11 +45,8 @@ public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
     /// <summary>Initializes a new instance of the <see cref="CivilAdjuster"/> class.</summary>
     public CivilAdjuster() : base(CivilDate.Calendar.Scope) { }
 
-    /// <summary>Initializes a new instance of the <see cref="CivilAdjuster"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     internal CivilAdjuster(MinMaxYearScope scope) : base(scope) { }
 
-    /// <inheritdoc/>
     [Pure]
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
@@ -60,7 +55,6 @@ public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
 /// <para>This class cannot be inherited.</para></summary>
 public sealed class CivilClock
 {
-    /// <summary>Represents the clock.</summary>
     private readonly IClock _clock;
 
     /// <summary>Initializes a new instance of the <see cref="CivilClock"/> class.</summary>
@@ -95,35 +89,22 @@ public readonly partial struct CivilDate :
     IDate<CivilDate, CivilCalendar>,
     IAdjustable<CivilDate>
 {
-    /// <summary>Represents the schema.</summary>
+    // WARNING: the order in which the static fields are written is __important__.
+
     private static readonly CivilSchema s_Schema = new();
-
-    /// <summary>Represents the calendar.</summary>
     private static readonly CivilCalendar s_Calendar = new(s_Schema);
-
-    /// <summary>Represents the scope.</summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
-
-    /// <summary>Represents the domain, the interval of supported <see cref="DayNumber"/>.</summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
-
-    /// <summary>Represents the date adjuster.</summary>
     private static readonly CivilAdjuster s_Adjuster = new(s_Scope);
-
-    /// <summary>Represents the smallest possible value of a <see cref="CivilDate"/>.</summary>
     private static readonly CivilDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
-
-    /// <summary>Represents the largest possible value of a <see cref="CivilDate"/>.</summary>
     private static readonly CivilDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
-    /// <summary>Represents the count of days since the Gregorian epoch.</summary>
     private readonly int _daysSinceZero;
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
     /// date parts.</summary>
-    /// <exception cref="AoorException">The specified components do not form a valid date -or-
-    /// <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="CivilCalendar"/>.</exception>
+    /// <exception cref="AoorException">The specified components do not form a valid date or
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public CivilDate(int year, int month, int day)
     {
         GregorianStandardScope.ValidateYearMonthDay(year, month, day);
@@ -134,8 +115,7 @@ public readonly partial struct CivilDate :
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
     /// ordinal date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
-    /// <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="CivilCalendar"/>.</exception>
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public CivilDate(int year, int dayOfYear)
     {
         GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
@@ -160,12 +140,12 @@ public readonly partial struct CivilDate :
         _daysSinceZero = daysSinceZero;
     }
 
-    /// <summary>Gets the smallest possible value of a <see cref="CivilDate"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static CivilDate MinValue => s_MinValue;
 
-    /// <summary>Gets the largest possible value of a <see cref="CivilDate"/>.
-    /// <para>This static property is thread-safe.</para></summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static CivilDate MaxValue => s_MaxValue;
 
     /// <summary>Gets the date adjuster.
@@ -295,16 +275,12 @@ public partial struct CivilDate // Conversions, adjustments...
         return adjuster.Invoke(this);
     }
 
-    //
-    // Adjust the day of the week
-    //
-
     /// <inheritdoc />
     [Pure]
     public CivilDate Previous(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Previous(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
 
@@ -313,7 +289,7 @@ public partial struct CivilDate // Conversions, adjustments...
     public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
 
@@ -322,7 +298,7 @@ public partial struct CivilDate // Conversions, adjustments...
     public CivilDate Nearest(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Nearest(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
 
@@ -331,7 +307,7 @@ public partial struct CivilDate // Conversions, adjustments...
     public CivilDate NextOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
 
@@ -340,7 +316,7 @@ public partial struct CivilDate // Conversions, adjustments...
     public CivilDate Next(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Next(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
 
@@ -450,6 +426,9 @@ public partial struct CivilDate // Math ops
     public CivilDate PlusDays(int days)
     {
         int daysSinceZero = checked(_daysSinceZero + days);
+        // We don't write:
+        // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
+        // The addition may also overflow...
         GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceZero);
         return new(daysSinceZero);
     }
@@ -457,10 +436,12 @@ public partial struct CivilDate // Math ops
     /// <inheritdoc />
     [Pure]
     public CivilDate NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero + 1);
+        this == s_MaxValue ? Throw.DateOverflow<CivilDate>()
+        : new CivilDate(_daysSinceZero + 1);
 
     /// <inheritdoc />
     [Pure]
     public CivilDate PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero - 1);
+        this == s_MinValue ? Throw.DateOverflow<CivilDate>()
+        : new CivilDate(_daysSinceZero - 1);
 }

@@ -14,161 +14,95 @@ using Zorglub.Time.Horology;
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
 
-/// <summary>
-/// Represents the Gregorian calendar.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Represents the Gregorian calendar.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class GregorianCalendar :
     SpecialCalendar<GregorianDate>,
     IRegularFeaturette
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianCalendar"/> class.</summary>
     public GregorianCalendar() : this(new GregorianSchema()) { }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
-    /// </summary>
     internal GregorianCalendar(GregorianSchema schema)
         : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle))
     {
         MonthsInYear = schema.MonthsInYear;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public int MonthsInYear { get; }
 
-    /// <inheritdoc/>
     [Pure]
     private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>
-/// Provides common adjusters for <see cref="GregorianDate"/>.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Provides common adjusters for <see cref="GregorianDate"/>.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class GregorianAdjuster : SpecialAdjuster<GregorianDate>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianAdjuster"/> class.</summary>
     public GregorianAdjuster() : base(GregorianDate.Calendar.Scope) { }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
-    /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
     internal GregorianAdjuster(MinMaxYearScope scope) : base(scope) { }
 
-    /// <inheritdoc/>
     [Pure]
     private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>
-/// Represents a clock for the Gregorian calendar.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Represents a clock for the Gregorian calendar.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class GregorianClock
 {
-    /// <summary>
-    /// Represents the clock.
-    /// </summary>
     private readonly IClock _clock;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianClock"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianClock"/> class.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     public GregorianClock(IClock clock)
     {
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
 
-    /// <summary>
-    /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using the
-    /// current time zone setting on this machine.
-    /// </summary>
+    /// <summary>Gets an instance of the <see cref="GregorianClock"/> class for the system clock
+    /// using the current time zone setting on this machine.</summary>
     public static GregorianClock Local { get; } = new(SystemClocks.Local);
 
-    /// <summary>
-    /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using
-    /// the Coordinated Universal Time (UTC).
-    /// </summary>
+    /// <summary>Gets an instance of the <see cref="GregorianClock"/> class for the system clock
+    /// using the Coordinated Universal Time (UTC).</summary>
     public static GregorianClock Utc { get; } = new(SystemClocks.Utc);
 
-    /// <summary>
-    /// Obtains an instance of the <see cref="GregorianClock"/> class for the specified clock.
-    /// </summary>
+    /// <summary>Obtains an instance of the <see cref="GregorianClock"/> class for the specified
+    /// clock.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
     [Pure]
     public static GregorianClock GetClock(IClock clock) => new(clock);
 
-    /// <summary>
-    /// Obtains a <see cref="GregorianDate"/> value representing the current date.
-    /// </summary>
+    /// <summary>Obtains a <see cref="GregorianDate"/> value representing the current date.</summary>
     [Pure]
     public GregorianDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
-/// <summary>
-/// Represents the Gregorian date.
-/// <para><see cref="GregorianDate"/> is an immutable struct.</para>
-/// </summary>
+/// <summary>Represents the Gregorian date.
+/// <para><see cref="GregorianDate"/> is an immutable struct.</para></summary>
 public readonly partial struct GregorianDate :
     IDate<GregorianDate, GregorianCalendar>,
     IAdjustable<GregorianDate>
 {
-    // NB: the order in which the static fields are written is important.
+    // WARNING: the order in which the static fields are written is __important__.
 
-    /// <summary>
-    /// Represents the schema.
-    /// </summary>
     private static readonly GregorianSchema s_Schema = new();
-
-    /// <summary>
-    /// Represents the calendar.
-    /// </summary>
     private static readonly GregorianCalendar s_Calendar = new(s_Schema);
-
-    /// <summary>
-    /// Represents the scope.
-    /// </summary>
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
-
-    /// <summary>
-    /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
-    /// </summary>
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
-
-    /// <summary>
-    /// Represents the date adjuster.
-    /// </summary>
     private static readonly GregorianAdjuster s_Adjuster = new(s_Scope);
-
-    /// <summary>
-    /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
-    /// </summary>
     private static readonly GregorianDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
-
-    /// <summary>
-    /// Represents the largest possible value of a <see cref="GregorianDate"/>.
-    /// </summary>
     private static readonly GregorianDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
-    /// <summary>
-    /// Represents the count of days since the Gregorian epoch.
-    /// </summary>
     private readonly int _daysSinceZero;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianDate"/> struct to the specified
-    /// date parts.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct to the
+    /// specified date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid date or
-    /// <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="GregorianCalendar"/>.</exception>
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public GregorianDate(int year, int month, int day)
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
@@ -176,13 +110,10 @@ public readonly partial struct GregorianDate :
         _daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianDate"/> struct to the specified
-    /// ordinal date parts.
-    /// </summary>
-    /// <exception cref="AoorException">The specified components do not form a valid ordinal
-    /// date or <paramref name="year"/> is outside the range of years supported by
-    /// <see cref="GregorianCalendar"/>.</exception>
+    /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct to the
+    /// specified ordinal date parts.</summary>
+    /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
+    /// <paramref name="year"/> is outside the range of supported years.</exception>
     public GregorianDate(int year, int dayOfYear)
     {
         s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -190,9 +121,7 @@ public readonly partial struct GregorianDate :
         _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianDate"/> struct.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public GregorianDate(DayNumber dayNumber)
@@ -202,31 +131,23 @@ public readonly partial struct GregorianDate :
         _daysSinceZero = dayNumber.DaysSinceZero;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GregorianDate"/> struct.
-    /// <para>This method does NOT validate its parameter.</para>
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.
+    /// <para>This method does NOT validate its parameter.</para></summary>
     internal GregorianDate(int daysSinceZero)
     {
         _daysSinceZero = daysSinceZero;
     }
 
-    /// <summary>
-    /// Gets the smallest possible value of a <see cref="GregorianDate"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static GregorianDate MinValue => s_MinValue;
 
-    /// <summary>
-    /// Gets the largest possible value of a <see cref="GregorianDate"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <inheritdoc />
+    /// <remarks>This static property is thread-safe.</remarks>
     public static GregorianDate MaxValue => s_MaxValue;
 
-    /// <summary>
-    /// Gets the date adjuster.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the date adjuster.
+    /// <para>This static property is thread-safe.</para></summary>
     public static GregorianAdjuster Adjuster => s_Adjuster;
 
     /// <inheritdoc />
@@ -235,9 +156,7 @@ public readonly partial struct GregorianDate :
     /// <inheritdoc />
     public DayNumber DayNumber => new(_daysSinceZero);
 
-    /// <summary>
-    /// Gets the count of days since the Gregorian epoch.
-    /// </summary>
+    /// <summary>Gets the count of days since the Gregorian epoch.</summary>
     public int DaysSinceZero => _daysSinceZero;
 
     int IFixedDay.DaysSinceEpoch => _daysSinceZero;
@@ -303,8 +222,7 @@ public readonly partial struct GregorianDate :
     /// <inheritdoc />
     public bool IsSupplementary => false;
 
-    /// <summary>
-    /// Returns a culture-independent string representation of the current instance.
+    /// <summary>Returns a culture-independent string representation of the current instance.
     /// </summary>
     [Pure]
     public override string ToString()
@@ -355,16 +273,12 @@ public partial struct GregorianDate // Conversions, adjustments...
         return adjuster.Invoke(this);
     }
 
-    //
-    // Adjust the day of the week
-    //
-
     /// <inheritdoc />
     [Pure]
     public GregorianDate Previous(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Previous(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new GregorianDate(dayNumber.DaysSinceZero);
     }
 
@@ -373,7 +287,7 @@ public partial struct GregorianDate // Conversions, adjustments...
     public GregorianDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new GregorianDate(dayNumber.DaysSinceZero);
     }
 
@@ -382,7 +296,7 @@ public partial struct GregorianDate // Conversions, adjustments...
     public GregorianDate Nearest(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Nearest(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new GregorianDate(dayNumber.DaysSinceZero);
     }
 
@@ -391,7 +305,7 @@ public partial struct GregorianDate // Conversions, adjustments...
     public GregorianDate NextOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new GregorianDate(dayNumber.DaysSinceZero);
     }
 
@@ -400,7 +314,7 @@ public partial struct GregorianDate // Conversions, adjustments...
     public GregorianDate Next(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Next(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new GregorianDate(dayNumber.DaysSinceZero);
     }
 
@@ -409,15 +323,11 @@ public partial struct GregorianDate // Conversions, adjustments...
 
 public partial struct GregorianDate // IEquatable
 {
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="GregorianDate"/> are equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator ==(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero == right._daysSinceZero;
 
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="GregorianDate"/> are not equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator !=(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero != right._daysSinceZero;
 
@@ -437,49 +347,31 @@ public partial struct GregorianDate // IEquatable
 
 public partial struct GregorianDate // IComparable
 {
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is strictly earlier than the
-    /// right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero < right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is earlier than or equal to
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <=(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero <= right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is strictly later than the
-    /// right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero > right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified instances to see if the left one is later than or equal to
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >=(GregorianDate left, GregorianDate right) =>
         left._daysSinceZero >= right._daysSinceZero;
 
-    /// <summary>
-    /// Obtains the earlier date of two specified dates.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public static GregorianDate Min(GregorianDate x, GregorianDate y) => x < y ? x : y;
 
-    /// <summary>
-    /// Obtains the later date of two specified dates.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public static GregorianDate Max(GregorianDate x, GregorianDate y) => x > y ? x : y;
 
-    /// <summary>
-    /// Indicates whether this instance is earlier, later or the same as the specified one.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public int CompareTo(GregorianDate other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
@@ -495,38 +387,29 @@ public partial struct GregorianDate // Math ops
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
-    /// <summary>
-    /// Subtracts the two specified dates and returns the number of days between them.
+    /// <summary>Subtracts the two specified dates and returns the number of days between them.
     /// </summary>
     public static int operator -(GregorianDate left, GregorianDate right) =>
         left.CountDaysSince(right);
 
-    /// <summary>
-    /// Adds a number of days to the specified date, yielding a new date.
-    /// </summary>
+    /// <summary>Adds a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
     public static GregorianDate operator +(GregorianDate value, int days) => value.PlusDays(days);
 
-    /// <summary>
-    /// Subtracts a number of days to the specified date, yielding a new date.
-    /// </summary>
+    /// <summary>Subtracts a number of days to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow either the capacity of
     /// <see cref="Int32"/> or the range of supported dates.</exception>
     public static GregorianDate operator -(GregorianDate value, int days) => value.PlusDays(-days);
 
-    /// <summary>
-    /// Adds one day to the specified date, yielding a new date.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported
-    /// date.</exception>
+    /// <summary>Adds one day to the specified date, yielding a new date.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the latest supported date.
+    /// </exception>
     public static GregorianDate operator ++(GregorianDate value) => value.NextDay();
 
-    /// <summary>
-    /// Subtracts one day to the specified date, yielding a new date.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported
-    /// date.</exception>
+    /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the earliest supported date.
+    /// </exception>
     public static GregorianDate operator --(GregorianDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
@@ -543,7 +426,7 @@ public partial struct GregorianDate // Math ops
     {
         int daysSinceZero = checked(_daysSinceZero + days);
         // We don't write:
-        // > Domain.CheckOverflow(Epoch + daysSinceEpoch);
+        // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
         // The addition may also overflow...
         s_Scope.DaysValidator.CheckOverflow(daysSinceZero);
         return new(daysSinceZero);
@@ -552,10 +435,12 @@ public partial struct GregorianDate // Math ops
     /// <inheritdoc />
     [Pure]
     public GregorianDate NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<GregorianDate>() : new GregorianDate(_daysSinceZero + 1);
+        this == s_MaxValue ? Throw.DateOverflow<GregorianDate>()
+        : new GregorianDate(_daysSinceZero + 1);
 
     /// <inheritdoc />
     [Pure]
     public GregorianDate PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<GregorianDate>() : new GregorianDate(_daysSinceZero - 1);
+        this == s_MinValue ? Throw.DateOverflow<GregorianDate>()
+        : new GregorianDate(_daysSinceZero - 1);
 }

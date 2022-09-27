@@ -99,10 +99,8 @@ Subprojects
 -----------
 
 - T4 vs C# Source Generators
-  - T4: simple
-  - T4: requires VS
-  - SG: Code Analysis?
-  - SG: VS experience is less than stellar
+  T4: simple but requires VS
+  SG: Code Analysis? VS experience is less than stellar
   https://github.com/amis92/csharp-source-generators
   - Enum.IsDefined
   - DIM (ICalendricalSchemaPlus)
