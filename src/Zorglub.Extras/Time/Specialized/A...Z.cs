@@ -10,9 +10,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 // TODO(api): non-standard math.
 // XML doc, explain the scope for all calendars.
-// CountDaysSince(other) checked context or not? do we test it?
-
-// REVIEW(perf): IsSupplementary is almost always equal to false
+// CountDaysSince(other) checked context or not? ensure that we test that?
 
 public sealed partial class ArmenianCalendar : IRegularFeaturette
 {
