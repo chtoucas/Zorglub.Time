@@ -1,4 +1,4 @@
-﻿<#@include file="Calendar.t4" #>
+﻿<#@include file="..\..\..\SpecialCalendar.tt" #>
 <#
-    WriteCode("Armenian", "Armenian13", "Egyptian13Schema");
+    WriteSpecialCalendar("Armenian", "Armenian13", "Egyptian13Schema");
 #>
