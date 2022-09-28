@@ -62,6 +62,7 @@ Plan?
   * At least one Lunisolar calendar (Hebrew)
   * At least one leap week calendar (ISO & Pax)
 - XML doc/comments: currently largely outdated or badly written.
+  https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 - .NET 7, we use preview features
 
 ### Version 1.x

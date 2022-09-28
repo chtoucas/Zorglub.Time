@@ -1,4 +1,6 @@
-﻿<#@include file="..\..\..\SpecialCalendar.tt" #>
+﻿<#@ template language="C#" debug="false" hostspecific="false" #>
+<#@ output extension=".g.cs" #>
+<#@include file="$(MyTextTemplates)SpecialCalendarV1.tt" #>
 <#
     WriteSpecialCalendar("Zoroastrian", "Zoroastrian13", "Egyptian13Schema");
 #>

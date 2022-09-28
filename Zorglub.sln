@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{082AED17-C2C
 		src\AssemblyInfo.Common.cs = src\AssemblyInfo.Common.cs
 		src\Directory.Build.targets = src\Directory.Build.targets
 		src\Packable.targets = src\Packable.targets
-		src\SpecialCalendar.tt = src\SpecialCalendar.tt
 		src\Usings.cs = src\Usings.cs
 	EndProjectSection
 EndProject
@@ -74,6 +73,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play", "src\Play\Play.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generators", "src\Generators\Generators.csproj", "{85455969-26EA-4501-B6AC-C8EABE91D148}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{86243B89-E14A-4445-B327-BFC6E1543B1C}"
+	ProjectSection(SolutionItems) = preProject
+		src\TextTemplates\SpecialCalendarV1.tt = src\TextTemplates\SpecialCalendarV1.tt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,7 @@ Global
 		{7BBEE280-CABE-4CC2-8EE7-BFB6560A56F1} = {9168CBAA-E37D-45A6-8514-B01FD174E257}
 		{69BE078D-1FED-4AAE-8990-69733553592B} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
 		{85455969-26EA-4501-B6AC-C8EABE91D148} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
+		{86243B89-E14A-4445-B327-BFC6E1543B1C} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC43B678-8DBB-48E8-B6AF-D835A56B858B}

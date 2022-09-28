@@ -1,6 +1,4 @@
-﻿<#@ template language="C#" debug="false" hostspecific="false" #>
-<#@ output extension=".g.cs" #>
-<# void WriteSpecialCalendar(string Name, string Prefix, string Schema) { #>
+﻿<# void WriteSpecialCalendar(string Name, string Prefix, string Schema) { #>
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 

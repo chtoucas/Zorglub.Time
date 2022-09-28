@@ -8,9 +8,10 @@
 
     <!-- WARNING: keep "MyDefaultFramework" in sync with "global.json" -->
     <MyDefaultFramework>net6.0</MyDefaultFramework>
-
     <MyLibraryFrameworks>$(MyDefaultFramework)</MyLibraryFrameworks>
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
+
+    <MyTextTemplates>$(MSBuildThisFileDirectory)src\TextTemplates\</MyTextTemplates>
 
     <!--
       Lang Version:
