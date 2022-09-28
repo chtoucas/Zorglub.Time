@@ -13,8 +13,7 @@ using EnvDTE;
 
 using Microsoft.VisualStudio.TextTemplating;
 
-/// <summary>Provides a base class for generated text transformations hosted inside Visual Studio.
-/// </summary>
+/// <summary>Provides a base class for generated text transformations hosted inside Visual Studio.</summary>
 public abstract class VSTemplate : TextTransformation
 {
     private readonly Lazy<DTE> _dte;
@@ -26,7 +25,7 @@ public abstract class VSTemplate : TextTransformation
     /// <summary>Initializes a new instance of the <see cref="VSTemplate"/> class.</summary>
     protected VSTemplate()
     {
-        _host = new Lazy<ITextTemplatingEngineHost>(() => HostFactory(this));
+        _host = new Lazy<ITextTemplatingEngineHost>(() => ResolveHost(this));
         _dte = new Lazy<DTE>(DteFactory);
     }
 
@@ -36,7 +35,7 @@ public abstract class VSTemplate : TextTransformation
     {
         if (parent is null) throw new ArgumentNullException(nameof(parent));
 
-        _host = new Lazy<ITextTemplatingEngineHost>(() => HostFactory(parent));
+        _host = new Lazy<ITextTemplatingEngineHost>(() => ResolveHost(parent));
         _dte = new Lazy<DTE>(DteFactory);
     }
 
@@ -44,10 +43,10 @@ public abstract class VSTemplate : TextTransformation
     protected DTE Dte => _dte.Value;
 
     /// <summary>Gets the templating engine host.</summary>
-    protected ITextTemplatingEngineHost VSHost => _host.Value;
+    protected ITextTemplatingEngineHost Host => _host.Value;
 
-    /// <summary>Gets or sets the name of the template.
-    /// <para>If none was specified, it is inferred from the template filename.</para></summary>
+    /// <summary>Gets or sets the template name.
+    /// <para>If none was specified, the name is inferred from the template filename.</para></summary>
     protected string Name
     {
         get => _name ??= InferName();
@@ -61,10 +60,8 @@ public abstract class VSTemplate : TextTransformation
         }
     }
 
-    /// <summary>
-    /// Gets or sets the name of the namespace.
-    /// <para>If none was specified, it is inferred from the template location.</para></summary>
-    /// </summary>
+    /// <summary>Gets or sets the template namespace.
+    /// <para>If none was specified, the namespace inferred from the template location.</para></summary>
     protected string Namespace
     {
         get => _namespace ??= InferNamespace();
@@ -87,7 +84,7 @@ public abstract class VSTemplate : TextTransformation
         return TransformText();
     }
 
-    public override string TransformText()
+    public sealed override string TransformText()
     {
         WriteHeader();
         WriteContent();
@@ -101,7 +98,7 @@ public abstract class VSTemplate : TextTransformation
     protected virtual void WriteContent() { }
 
     /// <summary>Writes the file header directly into the generated output.</summary>
-    protected virtual void WriteHeader() =>
+    protected void WriteHeader() =>
         WriteLine(FormattableString.Invariant(
 $"""
 // SPDX-License-Identifier: BSD-3-Clause
@@ -133,24 +130,22 @@ $"""
     // Private Helpers
     //
 
-    private static ITextTemplatingEngineHost HostFactory(TextTransformation transformation)
+    private static ITextTemplatingEngineHost ResolveHost(TextTransformation transformation)
     {
-        var transformationType = transformation.GetType();
-        var hostProperty = transformationType.GetProperty("Host");
+        var host = transformation.GetType().GetProperty("Host");
 
-        if (hostProperty is null)
+        if (host is null)
             throw new NotSupportedException(
                 "Unable to access the templating engine host. "
                 + "Please make sure your template includes hostspecific=\"true\" "
                 + "attribute in the <#@ template #> directive.");
 
-        return (ITextTemplatingEngineHost)hostProperty.GetValue(transformation, null);
+        return (ITextTemplatingEngineHost)host.GetValue(transformation, null);
     }
 
     private DTE DteFactory()
     {
-        var serviceProvider = (IServiceProvider)VSHost;
-        if (serviceProvider is null)
+        if (Host is not IServiceProvider serviceProvider)
             throw new NotSupportedException("Host property is null.");
 
         if (serviceProvider.GetService(typeof(DTE)) is not DTE dte)
@@ -161,5 +156,5 @@ $"""
 
     private static string InferNamespace() => CallContext.LogicalGetData("NamespaceHint").ToString();
 
-    private string InferName() => Path.GetFileNameWithoutExtension(VSHost.TemplateFile);
+    private string InferName() => Path.GetFileNameWithoutExtension(Host.TemplateFile);
 }
