@@ -99,7 +99,7 @@ public abstract class VSTemplate : TextTransformation
     private string InferName()
     {
         return Path.GetFileNameWithoutExtension(VSHost.TemplateFile);
-    }*/
+    }
 }
 
 #>

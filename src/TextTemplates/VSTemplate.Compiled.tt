@@ -1,4 +1,4 @@
-﻿<#@ assembly name="$(MyTextTemplatesDll)" #>
+﻿<#@ assembly name="$(MyTextTemplating)" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplates" #><#+
 

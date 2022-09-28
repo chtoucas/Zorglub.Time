@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-//#define ENABLE_DTE
+#nullable enable
 
 namespace Zorglub.TextTemplates;
 
@@ -9,36 +9,27 @@ using System;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 
-#if ENABLE_DTE
 using EnvDTE;
-#endif
 
 using Microsoft.VisualStudio.TextTemplating;
 
 // Provides a base class for generated text transformations hosted inside Visual Studio.
 public abstract class VSTemplate : TextTransformation
 {
-    // Default indentation level.
-    private const string Indent = "    ";
+    private const string DefaultIndent = "    ";
 
-#if ENABLE_DTE
-    // Lazy factory for the DTE.
     private readonly Lazy<DTE> _dte;
-#endif
-    // Lazy factory for the templating engine host.
     private readonly Lazy<ITextTemplatingEngineHost> _host;
 
     // Default template's name.
-    private string _name;
+    private string? _name;
     // Default namespace.
-    private string _namespace;
+    private string? _namespace;
 
     protected VSTemplate()
     {
         _host = new Lazy<ITextTemplatingEngineHost>(() => HostFactory(this));
-#if ENABLE_DTE
         _dte = new Lazy<DTE>(DteFactory);
-#endif
     }
 
     // parent: The parent text transformation.
@@ -47,15 +38,11 @@ public abstract class VSTemplate : TextTransformation
         if (parent is null) throw new ArgumentNullException(nameof(parent));
 
         _host = new Lazy<ITextTemplatingEngineHost>(() => HostFactory(parent));
-#if ENABLE_DTE
         _dte = new Lazy<DTE>(DteFactory);
-#endif
     }
 
-#if ENABLE_DTE
     // Gets the DTE (Development Tools Environment) service.
     protected DTE Dte => _dte.Value;
-#endif
 
     // Gets the templating engine host.
     protected ITextTemplatingEngineHost VSHost => _host.Value;
@@ -106,7 +93,7 @@ public abstract class VSTemplate : TextTransformation
     protected virtual void WriteContent() { }
 
     // Increases the indent by the default indent.
-    protected void PushIndent() => PushIndent(Indent);
+    protected void PushIndent() => PushIndent(DefaultIndent);
 
     // Writes a new (empty) line directly into the generated output.
     protected void WriteLine() => WriteLine(String.Empty);
@@ -129,20 +116,17 @@ public abstract class VSTemplate : TextTransformation
         return (ITextTemplatingEngineHost)hostProperty.GetValue(transformation, null);
     }
 
-#if ENABLE_DTE
     private DTE DteFactory()
     {
         var serviceProvider = (IServiceProvider)VSHost;
         if (serviceProvider is null)
             throw new NotSupportedException("Host property is null.");
 
-        var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
-        if (dte is null)
+        if (serviceProvider.GetService(typeof(DTE)) is not DTE dte)
             throw new NotSupportedException("Unable to retrieve the DTE (Development Tools Environment) service.");
 
         return dte;
     }
-#endif
 
     private static string InferNamespace() => CallContext.LogicalGetData("NamespaceHint").ToString();
 

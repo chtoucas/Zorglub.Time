@@ -12,7 +12,7 @@
     <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
 
     <MyTextTemplates>$(MSBuildThisFileDirectory)src\TextTemplates\</MyTextTemplates>
-    <MyTextTemplatesDll>$(MSBuildThisFileDirectory)eng\lib\Zorglub.TextTemplates.v$(VisualStudioVersion).dll</MyTextTemplatesDll>
+    <MyTextTemplating>$(MSBuildThisFileDirectory)eng\blib\Zorglub.TextTemplating.v$(VisualStudioVersion).dll</MyTextTemplating>
 
     <!--
       Lang Version:

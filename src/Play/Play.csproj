@@ -12,19 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Nada.Compiled.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Nada.Compiled.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Nada.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Nada.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Nada.Compiled.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Nada.Compiled.txt</LastGenOutput>

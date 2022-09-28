@@ -73,7 +73,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play", "src\Play\Play.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generators", "src\Generators\Generators.csproj", "{85455969-26EA-4501-B6AC-C8EABE91D148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextTemplates", "src\TextTemplates\TextTemplates.csproj", "{4991E20D-9896-4243-A8E2-5E1FE7C93953}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
+	ProjectSection(SolutionItems) = preProject
+		src\TextTemplates\SpecialCalendarV1.tt = src\TextTemplates\SpecialCalendarV1.tt
+		src\TextTemplates\VSTemplate.Compiled.tt = src\TextTemplates\VSTemplate.Compiled.tt
+		src\TextTemplates\VSTemplate.tt = src\TextTemplates\VSTemplate.tt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,10 +122,6 @@ Global
 		{85455969-26EA-4501-B6AC-C8EABE91D148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85455969-26EA-4501-B6AC-C8EABE91D148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85455969-26EA-4501-B6AC-C8EABE91D148}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4991E20D-9896-4243-A8E2-5E1FE7C93953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4991E20D-9896-4243-A8E2-5E1FE7C93953}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4991E20D-9896-4243-A8E2-5E1FE7C93953}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4991E20D-9896-4243-A8E2-5E1FE7C93953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,7 +141,7 @@ Global
 		{7BBEE280-CABE-4CC2-8EE7-BFB6560A56F1} = {9168CBAA-E37D-45A6-8514-B01FD174E257}
 		{69BE078D-1FED-4AAE-8990-69733553592B} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
 		{85455969-26EA-4501-B6AC-C8EABE91D148} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
-		{4991E20D-9896-4243-A8E2-5E1FE7C93953} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
+		{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC43B678-8DBB-48E8-B6AF-D835A56B858B}
