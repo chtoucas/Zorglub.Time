@@ -1,0 +1,15 @@
+﻿<#@ assembly name="$(MyTextTemplatesDll)" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="Zorglub.TextTemplates" #><#+
+
+public partial class NadaTemplate : VSTemplate
+{
+    public NadaTemplate(TextTransformation parent) : base(parent) { }
+
+    protected override void WriteContent()
+    {
+#>YYY<#+
+    }
+}
+
+#>
