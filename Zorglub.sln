@@ -76,8 +76,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
 	ProjectSection(SolutionItems) = preProject
 		src\TextTemplates\SpecialCalendarV1.tt = src\TextTemplates\SpecialCalendarV1.tt
-		src\TextTemplates\VSTemplate.Compiled.tt = src\TextTemplates\VSTemplate.Compiled.tt
-		src\TextTemplates\VSTemplate.tt = src\TextTemplates\VSTemplate.tt
 	EndProjectSection
 EndProject
 Global

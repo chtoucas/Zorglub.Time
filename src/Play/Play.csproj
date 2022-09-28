@@ -12,15 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Nada.Compiled.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Nada.Compiled.txt</LastGenOutput>
-    </None>
-    <None Update="Nada.Compiled.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Nada.Compiled.tt</DependentUpon>
-    </None>
+    <None Include="NadaTemplate.tt" />
     <None Update="Nada.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Nada.txt</LastGenOutput>

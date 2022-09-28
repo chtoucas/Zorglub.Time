@@ -1,16 +1,4 @@
 ﻿<#@ template language="C#" debug="true" hostspecific="true" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System" #>
-<#@ import namespace="System.IO" #>
-<#@ import namespace="System.Runtime.Remoting.Messaging" #>
-<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ output extension=".txt" #>
-<#
-var ns = InferNamespace();
-#>
-<#= ns #>
-<#+
-
-public string InferNamespace() { return CallContext.LogicalGetData("NamespaceHint").ToString(); }
-
-#>
+<#@ include file="NadaTemplate.tt" #>
+<#= new NadaTemplate(this).Execute() #>
