@@ -1,0 +1,23 @@
+﻿<#+
+
+public partial class CalendarTemplate
+{
+    protected void EmitAdjuster()
+    {
+#>
+/// <summary>Provides common adjusters for <see cref="<#= Prefix #>Date"/>.
+/// <para>This class cannot be inherited.</para></summary>
+public sealed partial class <#= Prefix #>Adjuster : SpecialAdjuster<<#= Prefix #>Date>
+{
+    /// <summary>Initializes a new instance of the <see cref="<#= Prefix #>Adjuster"/> class.</summary>
+    public <#= Prefix #>Adjuster() : base(<#= Prefix #>Date.Calendar.Scope) { }
+
+    internal <#= Prefix #>Adjuster(MinMaxYearScope scope) : base(scope) { }
+
+    private protected sealed override <#= Prefix #>Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+}
+<#+
+    } // T4: End of EmitAdjuster()
+} // T4: End of CalendarTemplate
+
+#>

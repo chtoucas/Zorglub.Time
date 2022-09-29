@@ -1,0 +1,46 @@
+﻿<#+
+
+public partial class CalendarTemplate
+{
+    protected void EmitClock()
+    {
+#>
+/// <summary>Represents a clock for the <#= DisplayName #> calendar.
+/// <para>This class cannot be inherited.</para></summary>
+public sealed partial class <#= Prefix #>Clock
+{
+    private readonly IClock _clock;
+    private readonly DayNumber _epoch;
+
+    /// <summary>Initializes a new instance of the <see cref="<#= Prefix #>Clock"/> class.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    public <#= Prefix #>Clock(IClock clock) : this(<#= Prefix #>Date.Calendar.Epoch, clock) { }
+
+    private <#= Prefix #>Clock(DayNumber epoch, IClock clock)
+    {
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+        _epoch = epoch;
+    }
+
+    /// <summary>Gets an instance of the <see cref="<#= Prefix #>Clock"/> class for the system clock
+    /// using the current time zone setting on this machine.</summary>
+    public static <#= Prefix #>Clock Local { get; } = new(SystemClocks.Local);
+
+    /// <summary>Gets an instance of the <see cref="<#= Prefix #>Clock"/> class for the system clock
+    /// using the Coordinated Universal Time (UTC).</summary>
+    public static <#= Prefix #>Clock Utc { get; } = new(SystemClocks.Utc);
+
+    /// <summary>Obtains an instance of the <see cref="<#= Prefix #>Clock"/> class for the specified clock.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    [Pure]
+    public static <#= Prefix #>Clock GetClock(IClock clock) => new(clock);
+
+    /// <summary>Obtains a <see cref="<#= Prefix #>Date"/> value representing the current date.</summary>
+    [Pure]
+    public <#= Prefix #>Date GetCurrentDate() => new(_clock.Today() - _epoch);
+}
+<#+
+    } // T4: End of EmitClock()
+} // T4: End of CalendarTemplate
+
+#>

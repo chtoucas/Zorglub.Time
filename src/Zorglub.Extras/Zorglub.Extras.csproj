@@ -26,7 +26,6 @@
       <LastGenOutput>%(Filename).g.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Time\Specialized\Armenian.g.cs">
       <DesignTime>True</DesignTime>
@@ -79,8 +78,6 @@
       <DependentUpon>Zoroastrian13.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <!-- T4 service -->
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>

@@ -1,0 +1,71 @@
+﻿<#@ assembly name="$(MyTextTemplating)" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="Zorglub.TextTemplates" #>
+<#@ include file="EmitAdjuster.tt" #>
+<#@ include file="EmitClock.tt" #>
+<#@ include file="EmitDate.tt" #><#+
+
+public abstract partial class CalendarTemplate : VSTemplate
+{
+    protected CalendarTemplate(TextTransformation parent, string schema) : base(parent)
+    {
+        if (String.IsNullOrWhiteSpace(schema))
+            throw new ArgumentException("The schema can not be null or blank.", nameof(schema));
+
+        Schema = schema;
+        DisplayName = Name;
+        Prefix = Name;
+    }
+
+    public string DisplayName { get; protected set; }
+    public string Prefix { get; protected set; }
+    public string Schema { get; }
+
+    protected sealed override void WriteContent()
+    {
+#>
+
+#pragma warning disable IDE0240 // Remove redundant nullable directive ✓
+// Public API, fix RS0041 "Public members should not use oblivious types".
+#nullable enable
+#pragma warning restore IDE0240
+
+namespace <#= Namespace #>;
+
+using Zorglub.Time.Core.Intervals;
+using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Core.Validation;
+using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
+using Zorglub.Time.Horology;
+
+<#+
+        EmitCalendar();
+
+        WriteLine();
+        EmitAdjuster();
+
+        WriteLine();
+        EmitClock();
+
+        WriteLine();
+        EmitDate();
+    } // T4: End of WriteContent()
+
+    private void EmitCalendar()
+    {
+#>
+/// <summary>Represents the <#= DisplayName #> calendar.
+/// <para>This class cannot be inherited.</para></summary>
+public sealed partial class <#= Prefix #>Calendar : SpecialCalendar<<#= Prefix #>Date>
+{
+    /// <summary>Initializes a new instance of the <see cref="<#= Prefix #>Calendar"/> class.</summary>
+    public <#= Prefix #>Calendar() : this(new <#= Schema #>()) { }
+
+    private protected sealed override <#= Prefix #>Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+}
+<#+
+    } // T4: End of EmitCalendar()
+} // T4: End of CalendarTemplate
+
+#>

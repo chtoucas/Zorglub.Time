@@ -1,6 +1,4 @@
-﻿<#@ template language="C#" debug="false" hostspecific="false" #>
+﻿<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@include file="$(MyTextTemplates)SpecialCalendarV1.tt" #>
-<#
-    WriteSpecialCalendar("Julian", "Julian", "JulianSchema");
-#>
+<#@ include file="$(MyTextTemplates)Specialized\Julian.tt" #>
+<#= new JulianTemplate(this).Execute() #>
