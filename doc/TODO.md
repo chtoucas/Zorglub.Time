@@ -106,6 +106,13 @@ Subprojects
   - Enum.IsDefined
   - DIM (ICalendricalSchemaPlus)
   - specialized date types
+  T4 TODOs:
+    Use Mono.T4? Advantage: compatible with .NET Core.
+    TransformOnBuild (Zorglub and Zorglub.Extras).
+
+    https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-and-t4-text-templates
+    https://learn.microsoft.com/en-us/visualstudio/modeling/design-time-code-generation-by-using-t4-text-templates
+    https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process
 - Parsing / formatting.
 
 
