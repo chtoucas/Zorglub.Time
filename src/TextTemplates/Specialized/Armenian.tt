@@ -1,0 +1,10 @@
+﻿<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ include file="$(MyTextTemplates)Specialized\Calendar.tt" once="true" #><#+
+
+public sealed partial class ArmenianTemplate : CalendarTemplate
+{
+    public ArmenianTemplate(TextTransformation parent)
+        : base(parent, "Egyptian12Schema") { }
+}
+
+#>

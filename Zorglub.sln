@@ -74,18 +74,24 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generators", "src\Generators\Generators.csproj", "{85455969-26EA-4501-B6AC-C8EABE91D148}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
-	ProjectSection(SolutionItems) = preProject
-		src\TextTemplates\SpecialCalendarV1.tt = src\TextTemplates\SpecialCalendarV1.tt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specialized", "Specialized", "{E8FCC386-31D8-467E-8A35-FEE3511F0869}"
 	ProjectSection(SolutionItems) = preProject
+		src\TextTemplates\Specialized\Armenian.tt = src\TextTemplates\Specialized\Armenian.tt
+		src\TextTemplates\Specialized\Armenian13.tt = src\TextTemplates\Specialized\Armenian13.tt
 		src\TextTemplates\Specialized\Calendar.tt = src\TextTemplates\Specialized\Calendar.tt
+		src\TextTemplates\Specialized\Coptic.tt = src\TextTemplates\Specialized\Coptic.tt
+		src\TextTemplates\Specialized\Coptic13.tt = src\TextTemplates\Specialized\Coptic13.tt
 		src\TextTemplates\Specialized\EmitAdjuster.tt = src\TextTemplates\Specialized\EmitAdjuster.tt
 		src\TextTemplates\Specialized\EmitClock.tt = src\TextTemplates\Specialized\EmitClock.tt
 		src\TextTemplates\Specialized\EmitDate.tt = src\TextTemplates\Specialized\EmitDate.tt
+		src\TextTemplates\Specialized\Ethiopic.tt = src\TextTemplates\Specialized\Ethiopic.tt
+		src\TextTemplates\Specialized\Ethiopic13.tt = src\TextTemplates\Specialized\Ethiopic13.tt
 		src\TextTemplates\Specialized\Julian.tt = src\TextTemplates\Specialized\Julian.tt
 		src\TextTemplates\Specialized\TabularIslamic.tt = src\TextTemplates\Specialized\TabularIslamic.tt
+		src\TextTemplates\Specialized\World.tt = src\TextTemplates\Specialized\World.tt
+		src\TextTemplates\Specialized\Zoroastrian.tt = src\TextTemplates\Specialized\Zoroastrian.tt
+		src\TextTemplates\Specialized\Zoroastrian13.tt = src\TextTemplates\Specialized\Zoroastrian13.tt
 	EndProjectSection
 EndProject
 Global

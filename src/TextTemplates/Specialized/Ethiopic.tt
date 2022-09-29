@@ -1,0 +1,10 @@
+﻿<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ include file="$(MyTextTemplates)Specialized\Calendar.tt" once="true" #><#+
+
+public sealed partial class EthiopicTemplate : CalendarTemplate
+{
+    public EthiopicTemplate(TextTransformation parent)
+        : base(parent, "Coptic12Schema") { }
+}
+
+#>

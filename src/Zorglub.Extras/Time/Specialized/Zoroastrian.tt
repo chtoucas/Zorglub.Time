@@ -1,6 +1,4 @@
-﻿<#@ template language="C#" debug="false" hostspecific="false" #>
+﻿<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@include file="$(MyTextTemplates)SpecialCalendarV1.tt" #>
-<#
-    WriteSpecialCalendar("Zoroastrian", "Zoroastrian", "Egyptian12Schema");
-#>
+<#@ include file="$(MyTextTemplates)Specialized\Zoroastrian.tt" #>
+<#= new ZoroastrianTemplate(this).Execute() #>
