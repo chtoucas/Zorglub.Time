@@ -12,16 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="NadaTemplate.tt" />
-    <None Update="Nada.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Nada.txt</LastGenOutput>
-    </None>
-    <None Update="Nada.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Nada.tt</DependentUpon>
-    </None>
     <None Update="Play.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -35,10 +25,6 @@
     <ProjectReference Include="..\Zorglub.Extras\Zorglub.Extras.csproj" />
     <ProjectReference Include="..\Zorglub.Sketches\Zorglub.Sketches.csproj" />
     <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <Import Project="..\Samples\Samples.projitems" Label="Shared" />

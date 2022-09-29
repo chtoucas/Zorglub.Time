@@ -1,4 +1,0 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true" #>
-<#@ output extension=".txt" #>
-<#@ include file="NadaTemplate.tt" #>
-<#= new NadaTemplate(this).Execute() #>

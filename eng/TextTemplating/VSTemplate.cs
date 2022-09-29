@@ -19,9 +19,6 @@ public abstract class VSTemplate : TextTransformation
     private readonly Lazy<DTE> _dte;
     private readonly Lazy<ITextTemplatingEngineHost> _host;
 
-    private string? _name;
-    private string? _namespace;
-
     /// <summary>Initializes a new instance of the <see cref="VSTemplate"/> class.</summary>
     protected VSTemplate()
     {
@@ -45,6 +42,7 @@ public abstract class VSTemplate : TextTransformation
     /// <summary>Gets the templating engine host.</summary>
     protected ITextTemplatingEngineHost Host => _host.Value;
 
+    private string? _name;
     /// <summary>Gets or sets the template name.
     /// <para>If none was specified, the name is inferred from the template filename.</para></summary>
     protected string Name
@@ -60,6 +58,7 @@ public abstract class VSTemplate : TextTransformation
         }
     }
 
+    private string? _namespace;
     /// <summary>Gets or sets the template namespace.
     /// <para>If none was specified, the namespace inferred from the template location.</para></summary>
     protected string Namespace
