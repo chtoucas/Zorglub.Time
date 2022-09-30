@@ -109,6 +109,7 @@ Subprojects
   T4 TODOs:
     Use Mono.T4? Advantage: compatible with .NET Core.
     TransformOnBuild (Zorglub and Zorglub.Extras).
+    Shadowing
 
     https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-and-t4-text-templates
     https://learn.microsoft.com/en-us/visualstudio/modeling/design-time-code-generation-by-using-t4-text-templates

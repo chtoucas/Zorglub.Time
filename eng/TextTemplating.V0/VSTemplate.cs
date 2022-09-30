@@ -1,6 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#nullable enable
+
 namespace Zorglub.TextTemplating;
 
 using System;
@@ -12,11 +14,10 @@ using EnvDTE;
 using Microsoft.VisualStudio.TextTemplating;
 
 /// <summary>Provides a base class for generated text transformations hosted inside Visual Studio.</summary>
-[CLSCompliant(false)]
 public abstract class VSTemplate : TextTransformation
 {
-    private readonly Lazy<ITextTemplatingEngineHost> _host;
     private readonly Lazy<DTE> _dte;
+    private readonly Lazy<ITextTemplatingEngineHost> _host;
 
     /// <summary>Initializes a new instance of the <see cref="VSTemplate"/> class.</summary>
     protected VSTemplate()
@@ -35,11 +36,11 @@ public abstract class VSTemplate : TextTransformation
         _dte = new Lazy<DTE>(DteFactory);
     }
 
-    /// <summary>Gets the templating engine host.</summary>
-    protected ITextTemplatingEngineHost Host => _host.Value;
-
     /// <summary>Gets the DTE (Development Tools Environment) service.</summary>
     protected DTE Dte => _dte.Value;
+
+    /// <summary>Gets the templating engine host.</summary>
+    protected ITextTemplatingEngineHost Host => _host.Value;
 
     private string? _name;
     /// <summary>Gets or sets the template name.
