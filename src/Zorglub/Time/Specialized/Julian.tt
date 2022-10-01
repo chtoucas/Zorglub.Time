@@ -1,4 +1,4 @@
 ﻿<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(MyTextTemplates)Specialized\Julian.tt" #>
+<#@ include file="$(ZorglubT4Directory)Specialized\Julian.tt" #>
 <#= new JulianTemplate(this).Execute() #>

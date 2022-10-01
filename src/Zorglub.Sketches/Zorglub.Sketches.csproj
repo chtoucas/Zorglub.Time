@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(ZorglubLibraryFrameworks)</TargetFrameworks>
 
     <!--
       CS1591  Missing XML comment for publicly visible type or member 'Type_or_Member'

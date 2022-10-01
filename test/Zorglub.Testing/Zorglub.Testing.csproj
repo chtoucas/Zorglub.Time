@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(ZorglubLibraryFrameworks)</TargetFrameworks>
 
     <!--
       CA1000  Do not declare static members on generic types (Design)

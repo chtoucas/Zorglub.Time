@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>$(MyDefaultFramework)</TargetFramework>
+    <TargetFramework>$(ZorglubDefaultFramework)</TargetFramework>
     <RootNamespace>Benchmarks</RootNamespace>
 
     <ImplicitUsings>enable</ImplicitUsings>

@@ -1,4 +1,4 @@
 ﻿<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(MyTextTemplates)Specialized\Armenian.tt" #>
+<#@ include file="$(ZorglubT4Directory)Specialized\Armenian.tt" #>
 <#= new ArmenianTemplate(this).Execute() #>

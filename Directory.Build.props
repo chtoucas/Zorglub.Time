@@ -6,13 +6,13 @@
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
     <ContinuousIntegrationBuild Condition=" '$(TF_BUILD)' == 'true' ">true</ContinuousIntegrationBuild>
 
-    <!-- WARNING: keep "MyDefaultFramework" in sync with "global.json" -->
-    <MyDefaultFramework>net6.0</MyDefaultFramework>
-    <MyLibraryFrameworks>$(MyDefaultFramework)</MyLibraryFrameworks>
-    <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
+    <!-- WARNING: keep "ZorglubDefaultFramework" in sync with "global.json" -->
+    <ZorglubDefaultFramework>net6.0</ZorglubDefaultFramework>
+    <ZorglubLibraryFrameworks>$(ZorglubDefaultFramework)</ZorglubLibraryFrameworks>
+    <ZorglubTestFrameworks>$(ZorglubDefaultFramework)</ZorglubTestFrameworks>
 
-    <MyTextTemplates>$(MSBuildThisFileDirectory)src\TextTemplates\</MyTextTemplates>
-    <MyTextTemplating>$(MSBuildThisFileDirectory)eng\blib\Zorglub.TextTemplating.$(VisualStudioVersion).dll</MyTextTemplating>
+    <ZorglubT4Directory>$(MSBuildThisFileDirectory)src\TextTemplates\</ZorglubT4Directory>
+    <ZorglubT4Assembly>$(MSBuildThisFileDirectory)eng\blib\Zorglub.TextTemplating.$(VisualStudioVersion).dll</ZorglubT4Assembly>
 
     <!--
       Lang Version:

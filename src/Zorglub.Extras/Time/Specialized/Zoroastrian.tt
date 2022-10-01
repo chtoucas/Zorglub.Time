@@ -1,4 +1,4 @@
 ﻿<#@ template language="C#" debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(MyTextTemplates)Specialized\Zoroastrian.tt" #>
+<#@ include file="$(ZorglubT4Directory)Specialized\Zoroastrian.tt" #>
 <#= new ZoroastrianTemplate(this).Execute() #>

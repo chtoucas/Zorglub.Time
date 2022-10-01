@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>$(MyDefaultFramework)</TargetFramework>
+    <TargetFramework>$(ZorglubDefaultFramework)</TargetFramework>
 
     <WarningLevel>5</WarningLevel>
     <!--

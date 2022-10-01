@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(ZorglubLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time</AssemblyName>
 
     <IsPackable>true</IsPackable>

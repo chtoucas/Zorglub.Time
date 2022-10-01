@@ -4,7 +4,7 @@
           Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />-->
 
   <PropertyGroup>
-    <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(ZorglubLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time.Extras</AssemblyName>
 
     <!--<TransformOnBuild>true</TransformOnBuild>

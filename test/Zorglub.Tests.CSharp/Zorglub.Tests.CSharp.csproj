@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(MyTestFrameworks)</TargetFrameworks>
+    <TargetFrameworks>$(ZorglubTestFrameworks)</TargetFrameworks>
 
     <!--
       CA1034    Nested types should not be visible (Design)
