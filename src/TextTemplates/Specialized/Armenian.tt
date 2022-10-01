@@ -1,5 +1,5 @@
 ﻿<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
-<#@ include file="$(MyTextTemplates)Specialized\Calendar.tt" once="true" #><#+
+<#@ include file="Calendar.tt" once="true" #><#+
 
 public sealed partial class ArmenianTemplate : CalendarTemplate
 {

@@ -1,4 +1,4 @@
-﻿<#@ assembly name="$(MyTextTemplating)" #>
+﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplating" #>
 <#@ include file="Calendar.EmitAdjuster.tt" #>
