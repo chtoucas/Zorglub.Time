@@ -11,8 +11,11 @@
     <PackageReference Include="Microsoft.VisualStudio.TextTemplating" Version="17.3.32803.143" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(MSBuildThisFileDirectory)..\blib&quot;" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent"
+          Condition=" '$(Configuration)' == 'Release' ">
+    <Message Text="Copying Zorglub.TextTemplating.$(VisualStudioVersion).dll to blib..." Importance="high" />
+    <Exec
+        Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(MSBuildThisFileDirectory)..\blib&quot;" />
   </Target>
 
 </Project>

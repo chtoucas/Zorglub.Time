@@ -32,6 +32,7 @@
     <RootNamespace>Zorglub</RootNamespace>
 
     <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
 
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)eng\Narvalo.snk</AssemblyOriginatorKeyFile>
 

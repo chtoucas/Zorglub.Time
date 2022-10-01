@@ -21,6 +21,7 @@
       <MyMessage>$(MyMessage)%0A| %24(EnablePreviewFeatures)      = "$(EnablePreviewFeatures)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(ContinuousIntegrationBuild) = "$(ContinuousIntegrationBuild)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(EnableSourceLink)           = "$(EnableSourceLink)"</MyMessage>
+      <MyMessage>$(MyMessage)%0A| %24(Deterministic)              = "$(Deterministic)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(DeterministicSourcePaths)   = "$(DeterministicSourcePaths)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(CheckForOverflowUnderflow)  = "$(CheckForOverflowUnderflow)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(GenerateDocumentationFile)  = "$(GenerateDocumentationFile)"</MyMessage>
