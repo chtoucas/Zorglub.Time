@@ -26,6 +26,8 @@ only a bit slower than Standard (> 0).
 - Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
 
 - pack.ps1: version numbering (timestamp).
+  https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/versioning
+  https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   D.B.props: LangVersion
