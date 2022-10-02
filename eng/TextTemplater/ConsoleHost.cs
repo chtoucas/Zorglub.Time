@@ -1,8 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-// Adapted from https://github.com/mono/t4/blob/main/Mono.TextTemplating/Mono.TextTemplating/TemplateGenerator.cs
-// and https://github.com/unoplatform/uno/tree/master/src/T4Generator
+// Adapted from
+// https://learn.microsoft.com/en-us/visualstudio/modeling/processing-text-templates-by-using-a-custom-host
+// See also
+// https://github.com/mono/t4/blob/main/Mono.TextTemplating/Mono.TextTemplating/TemplateGenerator.cs
+// https://github.com/unoplatform/uno/tree/master/src/T4Generator
 
 namespace TextTemplater;
 

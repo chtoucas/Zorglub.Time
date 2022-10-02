@@ -14,8 +14,7 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent"
           Condition=" '$(Configuration)' == 'Release' ">
     <Message Text="Copying Zorglub.TextTemplating.$(VisualStudioVersion).dll to blib..." Importance="high" />
-    <Exec
-        Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(MSBuildThisFileDirectory)..\blib&quot;" />
+    <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(MSBuildThisFileDirectory)..\blib&quot;" />
   </Target>
 
 </Project>

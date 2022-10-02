@@ -21,7 +21,7 @@ public abstract class VSTemplate : TextTransformation
     /// <summary>Initializes a new instance of the <see cref="VSTemplate"/> class.</summary>
     protected VSTemplate()
     {
-        _host = new Lazy<ITextTemplatingEngineHost>(() => ResolveHost(this));
+        _host = new Lazy<ITextTemplatingEngineHost>(() => GetHostProperty(this));
         _dte = new Lazy<DTE>(DteFactory);
     }
 
@@ -31,20 +31,14 @@ public abstract class VSTemplate : TextTransformation
     {
         if (parent is null) throw new ArgumentNullException(nameof(parent));
 
-        _host = new Lazy<ITextTemplatingEngineHost>(() => ResolveHost(parent));
+        _host = new Lazy<ITextTemplatingEngineHost>(() => GetHostProperty(parent));
         _dte = new Lazy<DTE>(DteFactory);
     }
-
-    /// <summary>Gets the templating engine host.</summary>
-    protected ITextTemplatingEngineHost Host => _host.Value;
-
-    /// <summary>Gets the DTE (Development Tools Environment) service.</summary>
-    protected DTE Dte => _dte.Value;
 
     private string? _name;
     /// <summary>Gets or sets the template name.
     /// <para>If none was specified, the name is inferred from the template filename.</para></summary>
-    protected string Name
+    public string Name
     {
         get => _name ??= InferName();
 
@@ -60,7 +54,7 @@ public abstract class VSTemplate : TextTransformation
     private string? _namespace;
     /// <summary>Gets or sets the template namespace.
     /// <para>If none was specified, the namespace inferred from the template location.</para></summary>
-    protected string Namespace
+    public string Namespace
     {
         get => _namespace ??= InferNamespace();
 
@@ -72,6 +66,12 @@ public abstract class VSTemplate : TextTransformation
             _namespace = value;
         }
     }
+
+    /// <summary>Gets the templating engine host.</summary>
+    protected ITextTemplatingEngineHost Host => _host.Value;
+
+    /// <summary>Gets the DTE (Development Tools Environment) service.</summary>
+    protected DTE Dte => _dte.Value;
 
     /// <summary>Initializes the templating class then generates the output text of the
     /// transformation.</summary>
@@ -128,7 +128,7 @@ $"""
     // Private Helpers
     //
 
-    private static ITextTemplatingEngineHost ResolveHost(TextTransformation transformation)
+    private static ITextTemplatingEngineHost GetHostProperty(TextTransformation transformation)
     {
         var host = transformation.GetType().GetProperty("Host");
 
@@ -146,6 +146,7 @@ $"""
         if (Host is not IServiceProvider serviceProvider)
             throw new NotSupportedException("Host property is null.");
 
+        // GetCOMService()?
         if (serviceProvider.GetService(typeof(DTE)) is not DTE dte)
             throw new NotSupportedException("Unable to retrieve the DTE (Development Tools Environment) service.");
 
