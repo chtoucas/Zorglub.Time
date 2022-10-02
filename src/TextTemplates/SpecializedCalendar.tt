@@ -1,13 +1,13 @@
 ﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplating" #>
-<#@ include file="Calendar.EmitAdjuster.tt" #>
-<#@ include file="Calendar.EmitClock.tt" #>
-<#@ include file="Calendar.EmitDate.tt" #><#+
+<#@ include file="SpecializedCalendar.EmitAdjuster.tt" #>
+<#@ include file="SpecializedCalendar.EmitClock.tt" #>
+<#@ include file="SpecializedCalendar.EmitDate.tt" #><#+
 
-public abstract partial class CalendarTemplate : VSTemplate
+public abstract partial class SpecializedCalendarTemplate : VSTemplate
 {
-    protected CalendarTemplate(TextTransformation parent, string schema) : base(parent)
+    protected SpecializedCalendarTemplate(TextTransformation parent, string schema) : base(parent)
     {
         if (String.IsNullOrWhiteSpace(schema))
             throw new ArgumentException("The schema can not be null or blank.", nameof(schema));
@@ -66,6 +66,6 @@ public sealed partial class <#= Prefix #>Calendar : SpecialCalendar<<#= Prefix #
 }
 <#+
     } // T4: End of EmitCalendar()
-} // T4: End of CalendarTemplate
+} // T4: End of SpecializedCalendarTemplate
 
 #>

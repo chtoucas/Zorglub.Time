@@ -1,4 +1,13 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)Specialized\TabularIslamic.tt" #>
-<#= new TabularIslamicTemplate(this).Execute() #>
+<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#= new TabularIslamicTemplate(this).Execute() #><#+
+
+public sealed class TabularIslamicTemplate : SpecializedCalendarTemplate
+{
+    public TabularIslamicTemplate(TextTransformation parent) : base(parent, "TabularIslamicSchema") { }
+
+    public override void Initialize() { DisplayName = "Tabular Islamic"; }
+}
+
+#>

@@ -1,4 +1,11 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)Specialized\Zoroastrian.tt" #>
-<#= new ZoroastrianTemplate(this).Execute() #>
+<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#= new ZoroastrianTemplate(this).Execute() #><#+
+
+public sealed class ZoroastrianTemplate : SpecializedCalendarTemplate
+{
+    public ZoroastrianTemplate(TextTransformation parent) : base(parent, "Egyptian12Schema") { }
+}
+
+#>

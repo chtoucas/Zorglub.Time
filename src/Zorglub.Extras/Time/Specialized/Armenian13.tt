@@ -1,4 +1,13 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)Specialized\Armenian13.tt" #>
-<#= new Armenian13Template(this).Execute() #>
+<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#= new Armenian13Template(this).Execute() #><#+
+
+public sealed class Armenian13Template : SpecializedCalendarTemplate
+{
+    public Armenian13Template(TextTransformation parent) : base(parent, "Egyptian13Schema") { }
+
+    public override void Initialize() { DisplayName = "Armenian"; }
+}
+
+#>

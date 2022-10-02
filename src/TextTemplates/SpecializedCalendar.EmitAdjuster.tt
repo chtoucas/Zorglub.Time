@@ -1,6 +1,6 @@
 ﻿<#+
 
-public partial class CalendarTemplate
+public partial class SpecializedCalendarTemplate
 {
     protected void EmitAdjuster()
     {
@@ -18,6 +18,6 @@ public sealed partial class <#= Prefix #>Adjuster : SpecialAdjuster<<#= Prefix #
 }
 <#+
     } // T4: End of EmitAdjuster()
-} // T4: End of CalendarTemplate
+} // T4: End of SpecializedCalendarTemplate
 
 #>

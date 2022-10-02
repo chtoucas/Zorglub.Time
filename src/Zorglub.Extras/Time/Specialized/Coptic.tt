@@ -1,4 +1,11 @@
-﻿<#@ template language="C#" debug="true" hostspecific="true" #>
+﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)Specialized\Coptic.tt" #>
-<#= new CopticTemplate(this).Execute() #>
+<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#= new CopticTemplate(this).Execute() #><#+
+
+public sealed class CopticTemplate : SpecializedCalendarTemplate
+{
+    public CopticTemplate(TextTransformation parent) : base(parent, "Coptic12Schema") { }
+}
+
+#>
