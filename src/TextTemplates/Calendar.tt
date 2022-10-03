@@ -1,9 +1,9 @@
 ﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
-<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
-<#@ import namespace="Zorglub.TextTemplating" #>
 <#@ include file="Calendar.EmitAdjuster.tt" #>
 <#@ include file="Calendar.EmitClock.tt" #>
-<#@ include file="Calendar.EmitDate.tt" #><#+
+<#@ include file="Calendar.EmitDate.tt" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="Zorglub.TextTemplating" #><#+
 
 public abstract partial class CalendarTemplate : VSTemplate
 {

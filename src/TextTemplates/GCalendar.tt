@@ -1,6 +1,5 @@
-﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
-<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
-<#@ include file="Calendar.tt" #><#+
+﻿<#@ include file="Calendar.tt" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #><#+
 
 // Special case: Epoch = Gregorian epoch (DayZero.NewStyle)
 
