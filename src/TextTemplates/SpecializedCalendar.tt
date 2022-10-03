@@ -23,6 +23,23 @@ public abstract partial class SpecializedCalendarTemplate : VSTemplate
 
     protected sealed override void WriteContent()
     {
+        EmitPreamble();
+
+        WriteLine();
+        EmitCalendar();
+
+        WriteLine();
+        EmitAdjuster();
+
+        WriteLine();
+        EmitClock();
+
+        WriteLine();
+        EmitDate();
+    } // T4: End of WriteContent()
+
+    protected void EmitPreamble()
+    {
 #>
 
 #pragma warning disable IDE0240 // Remove redundant nullable directive ✓
@@ -38,21 +55,10 @@ using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Horology;
-
 <#+
-        EmitCalendar();
+    } // T4: End of EmitPreamble()
 
-        WriteLine();
-        EmitAdjuster();
-
-        WriteLine();
-        EmitClock();
-
-        WriteLine();
-        EmitDate();
-    } // T4: End of WriteContent()
-
-    private void EmitCalendar()
+    protected void EmitCalendar()
     {
 #>
 /// <summary>Represents the <#= DisplayName #> calendar.
