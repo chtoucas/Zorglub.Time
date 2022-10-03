@@ -33,7 +33,7 @@ public readonly partial struct <#= Prefix #>Date :
 {
     // WARNING: the order in which the static fields are written is __important__.
 
-    private static readonly <#= Schema#> s_Schema = new();
+    private static readonly <#= SchemaClass #> s_Schema = new();
     private static readonly <#= Prefix #>Calendar s_Calendar = new(s_Schema);
     private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;

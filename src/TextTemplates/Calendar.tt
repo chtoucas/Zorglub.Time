@@ -7,19 +7,20 @@
 
 public abstract partial class CalendarTemplate : VSTemplate
 {
-    protected CalendarTemplate(TextTransformation parent, string schema) : base(parent)
+    protected CalendarTemplate(TextTransformation parent, string schemaClass) : base(parent)
     {
-        if (String.IsNullOrWhiteSpace(schema))
-            throw new ArgumentException("The schema can not be null or blank.", nameof(schema));
+        if (String.IsNullOrWhiteSpace(schemaClass))
+            throw new ArgumentException("The schema can not be null or blank.", nameof(schemaClass));
 
-        Schema = schema;
+        SchemaClass = schemaClass;
         DisplayName = Name;
         Prefix = Name;
     }
 
     public string DisplayName { get; protected set; }
     public string Prefix { get; protected set; }
-    public string Schema { get; }
+
+    public string SchemaClass { get; }
     public string DaysSinceEpochField { get; protected set; } = "_daysSinceEpoch";
 
     protected sealed override void WriteContent()
@@ -83,7 +84,7 @@ using Zorglub.Time.Horology;
 public sealed partial class <#= Prefix #>Calendar : SpecialCalendar<<#= Prefix #>Date>
 {
     /// <summary>Initializes a new instance of the <see cref="<#= Prefix #>Calendar"/> class.</summary>
-    public <#= Prefix #>Calendar() : this(new <#= Schema #>()) { }
+    public <#= Prefix #>Calendar() : this(new <#= SchemaClass #>()) { }
 
     private protected sealed override <#= Prefix #>Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
