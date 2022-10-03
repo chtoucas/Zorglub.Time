@@ -21,7 +21,6 @@ public abstract partial class SpecializedCalendarTemplate : VSTemplate
     public string Prefix { get; protected set; }
     public string Schema { get; }
     public string DaysSinceEpochField { get; protected set; } = "_daysSinceEpoch";
-    public string StaticScope { get; set; } = "s_Scope";
 
     protected sealed override void WriteContent()
     {

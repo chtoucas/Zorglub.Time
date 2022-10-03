@@ -14,6 +14,9 @@ using Zorglub.Time.Hemerology.Scopes;
 // are strictly equivalent.
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
+//
+// Generated code: we could optimize PlusDays() by using
+// GregorianStandardScope.DaysValidator instead of s_Scope.DaysValidator.
 
 /// <remarks>This calendar is proleptic.</remarks>
 public partial class CivilCalendar : IRegularFeaturette

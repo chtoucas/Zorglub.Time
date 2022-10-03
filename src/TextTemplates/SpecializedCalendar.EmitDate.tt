@@ -389,7 +389,7 @@ public partial struct <#= Prefix #>Date // Math
         int daysSinceEpoch = checked(<#= DaysSinceEpochField #> + days);
         // Don't write (the addition may also overflow...):
         // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        <#= StaticScope #>.DaysValidator.CheckOverflow(daysSinceEpoch);
+        s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
         return new(daysSinceEpoch);
     }
 

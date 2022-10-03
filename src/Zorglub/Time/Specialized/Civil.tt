@@ -1,10 +1,4 @@
 ﻿<#@ template debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
 <#@ include file="$(ZorglubT4Directory)GSpecializedCalendar.tt" once="true" #>
-<#
-var tpl = new GSpecializedCalendarTemplate(this, "CivilSchema")
-{
-    StaticScope = "GregorianStandardScope"
-};
-#>
-<#= tpl.Execute() #>
+<#= new GSpecializedCalendarTemplate(this, "CivilSchema").Execute() #>

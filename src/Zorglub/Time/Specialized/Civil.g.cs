@@ -262,7 +262,7 @@ public partial struct CivilDate // Math
         int daysSinceEpoch = checked(_daysSinceZero + days);
         // Don't write (the addition may also overflow...):
         // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceEpoch);
+        s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
         return new(daysSinceEpoch);
     }
 
