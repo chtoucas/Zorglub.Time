@@ -84,7 +84,7 @@ public sealed partial class ArmenianClock
 
 /// <summary>Represents the Armenian date.
 /// <para><see cref="ArmenianDate"/> is an immutable struct.</para></summary>
-public partial struct ArmenianDate :
+public readonly partial struct ArmenianDate :
     IDate<ArmenianDate, ArmenianCalendar>,
     IAdjustable<ArmenianDate>
 {
@@ -242,10 +242,8 @@ public partial struct ArmenianDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct ArmenianDate // Conversions, adjustments...
+public partial struct ArmenianDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct ArmenianDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct ArmenianDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct ArmenianDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new ArmenianDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct ArmenianDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct ArmenianDate // IComparable
         : Throw.NonComparable(typeof(ArmenianDate), obj);
 }
 
-public partial struct ArmenianDate // Math ops
+public partial struct ArmenianDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

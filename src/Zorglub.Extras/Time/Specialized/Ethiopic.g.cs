@@ -84,7 +84,7 @@ public sealed partial class EthiopicClock
 
 /// <summary>Represents the Ethiopic date.
 /// <para><see cref="EthiopicDate"/> is an immutable struct.</para></summary>
-public partial struct EthiopicDate :
+public readonly partial struct EthiopicDate :
     IDate<EthiopicDate, EthiopicCalendar>,
     IAdjustable<EthiopicDate>
 {
@@ -242,10 +242,8 @@ public partial struct EthiopicDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct EthiopicDate // Conversions, adjustments...
+public partial struct EthiopicDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct EthiopicDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct EthiopicDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct EthiopicDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new EthiopicDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct EthiopicDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct EthiopicDate // IComparable
         : Throw.NonComparable(typeof(EthiopicDate), obj);
 }
 
-public partial struct EthiopicDate // Math ops
+public partial struct EthiopicDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

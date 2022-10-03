@@ -16,42 +16,17 @@ using Zorglub.Time.Horology;
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
 
-/// <summary>Represents the Civil calendar.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed class CivilCalendar :
-    SpecialCalendar<CivilDate>,
-    IRegularFeaturette
+/// <remarks>This calendar is proleptic.</remarks>
+public partial class CivilCalendar : IRegularFeaturette
 {
-    /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
-    public CivilCalendar() : this(new CivilSchema()) { }
-
     internal CivilCalendar(CivilSchema schema)
-        : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle))
-    { }
+        : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle)) { }
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;
-
-    [Pure]
-    private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>Provides common adjusters for <see cref="CivilDate"/>.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
-{
-    /// <summary>Initializes a new instance of the <see cref="CivilAdjuster"/> class.</summary>
-    public CivilAdjuster() : base(CivilDate.Calendar.Scope) { }
-
-    internal CivilAdjuster(MinMaxYearScope scope) : base(scope) { }
-
-    [Pure]
-    private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
-}
-
-/// <summary>Represents a clock for the Civil calendar.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed class CivilClock
+public partial class CivilClock
 {
     private readonly IClock _clock;
 
@@ -81,11 +56,7 @@ public sealed class CivilClock
     public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
-/// <summary>Represents the Civil date.
-/// <para><see cref="CivilDate"/> is an immutable struct.</para></summary>
-public readonly partial struct CivilDate :
-    IDate<CivilDate, CivilCalendar>,
-    IAdjustable<CivilDate>
+public partial struct CivilDate
 {
     // WARNING: the order in which the static fields are written is __important__.
 
@@ -97,7 +68,7 @@ public readonly partial struct CivilDate :
     private static readonly CivilDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
     private static readonly CivilDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
-    private readonly int _daysSinceEpoch;
+    private readonly int _daysSinceZero;
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
     /// date parts.</summary>
@@ -107,7 +78,7 @@ public readonly partial struct CivilDate :
     {
         GregorianStandardScope.ValidateYearMonthDay(year, month, day);
 
-        _daysSinceEpoch = CivilFormulae.CountDaysSinceEpoch(year, month, day);
+        _daysSinceZero = CivilFormulae.CountDaysSinceEpoch(year, month, day);
     }
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
@@ -118,7 +89,7 @@ public readonly partial struct CivilDate :
     {
         GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
 
-        _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
+        _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.</summary>
@@ -128,14 +99,14 @@ public readonly partial struct CivilDate :
     {
         s_Domain.Validate(dayNumber);
 
-        _daysSinceEpoch = dayNumber.DaysSinceZero;
+        _daysSinceZero = dayNumber.DaysSinceZero;
     }
 
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.
     /// <para>This method does NOT validate its parameter.</para></summary>
-    internal CivilDate(int daysSinceEpoch)
+    internal CivilDate(int daysSinceZero)
     {
-        _daysSinceEpoch = daysSinceEpoch;
+        _daysSinceZero = daysSinceZero;
     }
 
     /// <inheritdoc />
@@ -154,12 +125,12 @@ public readonly partial struct CivilDate :
     public static CivilCalendar Calendar => s_Calendar;
 
     /// <inheritdoc />
-    public DayNumber DayNumber => new(_daysSinceEpoch);
+    public DayNumber DayNumber => new(_daysSinceZero);
 
     /// <summary>Gets the count of days since the Gregorian epoch.</summary>
-    public int DaysSinceZero => _daysSinceEpoch;
+    public int DaysSinceZero => _daysSinceZero;
 
-    int IFixedDay.DaysSinceEpoch => _daysSinceEpoch;
+    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
 
     /// <inheritdoc />
     public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -174,14 +145,14 @@ public readonly partial struct CivilDate :
     public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
     /// <inheritdoc />
-    public int Year => CivilFormulae.GetYear(_daysSinceEpoch);
+    public int Year => CivilFormulae.GetYear(_daysSinceZero);
 
     /// <inheritdoc />
     public int Month
     {
         get
         {
-            CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+            CivilFormulae.GetDateParts(_daysSinceZero, out _, out int m, out _);
             return m;
         }
     }
@@ -191,7 +162,7 @@ public readonly partial struct CivilDate :
     {
         get
         {
-            _ = CivilFormulae.GetYear(_daysSinceEpoch, out int doy);
+            _ = CivilFormulae.GetYear(_daysSinceZero, out int doy);
             return doy;
         }
     }
@@ -201,7 +172,7 @@ public readonly partial struct CivilDate :
     {
         get
         {
-            CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+            CivilFormulae.GetDateParts(_daysSinceZero, out _, out _, out int d);
             return d;
         }
     }
@@ -214,7 +185,7 @@ public readonly partial struct CivilDate :
     {
         get
         {
-            CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out int d);
+            CivilFormulae.GetDateParts(_daysSinceZero, out _, out int m, out int d);
             return GregorianFormulae.IsIntercalaryDay(m, d);
         }
     }
@@ -227,42 +198,21 @@ public readonly partial struct CivilDate :
     [Pure]
     public override string ToString()
     {
-        CivilFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+        CivilFormulae.GetDateParts(_daysSinceZero, out int y, out int m, out int d);
         return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
     }
 
     /// <inheritdoc />
     public void Deconstruct(out int year, out int month, out int day) =>
-        CivilFormulae.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+        CivilFormulae.GetDateParts(_daysSinceZero, out year, out month, out day);
 
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
-        year = CivilFormulae.GetYear(_daysSinceEpoch, out dayOfYear);
+        year = CivilFormulae.GetYear(_daysSinceZero, out dayOfYear);
 }
 
-public partial struct CivilDate // Conversions, adjustments...
+public partial struct CivilDate // Adjustments
 {
-    #region Counting
-
-    /// <inheritdoc />
-    [Pure]
-    public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
-
-    /// <inheritdoc />
-    [Pure]
-    public int CountRemainingDaysInYear() => s_Schema.CountDaysInYearAfter(_daysSinceEpoch);
-
-    /// <inheritdoc />
-    [Pure]
-    public int CountElapsedDaysInMonth() => s_Schema.CountDaysInMonthBefore(_daysSinceEpoch);
-
-    /// <inheritdoc />
-    [Pure]
-    public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
-
-    #endregion
-    #region Adjustments
-
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -317,69 +267,6 @@ public partial struct CivilDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CivilDate(dayNumber.DaysSinceZero);
     }
-
-    #endregion
-}
-
-public partial struct CivilDate // IEquatable
-{
-    /// <inheritdoc />
-    public static bool operator ==(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch == right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    public static bool operator !=(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch != right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    [Pure]
-    public bool Equals(CivilDate other) => _daysSinceEpoch == other._daysSinceEpoch;
-
-    /// <inheritdoc />
-    [Pure]
-    public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is CivilDate date && Equals(date);
-
-    /// <inheritdoc />
-    [Pure]
-    public override int GetHashCode() => _daysSinceEpoch;
-}
-
-public partial struct CivilDate // IComparable
-{
-    /// <inheritdoc />
-    public static bool operator <(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch < right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    public static bool operator <=(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch <= right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    public static bool operator >(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch > right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    public static bool operator >=(CivilDate left, CivilDate right) =>
-        left._daysSinceEpoch >= right._daysSinceEpoch;
-
-    /// <inheritdoc />
-    [Pure]
-    public static CivilDate Min(CivilDate x, CivilDate y) => x < y ? x : y;
-
-    /// <inheritdoc />
-    [Pure]
-    public static CivilDate Max(CivilDate x, CivilDate y) => x > y ? x : y;
-
-    /// <inheritdoc />
-    [Pure]
-    public int CompareTo(CivilDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
-
-    [Pure]
-    int IComparable.CompareTo(object? obj) =>
-        obj is null ? 1
-        : obj is CivilDate date ? CompareTo(date)
-        : Throw.NonComparable(typeof(CivilDate), obj);
 }
 
 public partial struct CivilDate // Math ops
@@ -415,30 +302,26 @@ public partial struct CivilDate // Math ops
 
     /// <inheritdoc />
     [Pure]
-    public int CountDaysSince(CivilDate other) =>
-        // No need to use a checked context here.
-        _daysSinceEpoch - other._daysSinceEpoch;
+    public int CountDaysSince(CivilDate other) => _daysSinceZero - other._daysSinceZero;
 
     /// <inheritdoc />
     [Pure]
     public CivilDate PlusDays(int days)
     {
-        int daysSinceEpoch = checked(_daysSinceEpoch + days);
-        // Don't write (the addition may also overflow...):
-        // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceEpoch);
-        return new(daysSinceEpoch);
+        int daysSinceZero = checked(_daysSinceZero + days);
+        GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceZero);
+        return new(daysSinceZero);
     }
 
     /// <inheritdoc />
     [Pure]
     public CivilDate NextDay() =>
         this == s_MaxValue ? Throw.DateOverflow<CivilDate>()
-        : new CivilDate(_daysSinceEpoch + 1);
+        : new CivilDate(_daysSinceZero + 1);
 
     /// <inheritdoc />
     [Pure]
     public CivilDate PreviousDay() =>
         this == s_MinValue ? Throw.DateOverflow<CivilDate>()
-        : new CivilDate(_daysSinceEpoch - 1);
+        : new CivilDate(_daysSinceZero - 1);
 }

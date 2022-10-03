@@ -12,17 +12,16 @@ using Zorglub.Time.Hemerology.Scopes;
 // XML doc, explain the scope for all calendars.
 // CountDaysSince(other) checked context or not? ensure that we test that?
 
-public sealed partial class ArmenianCalendar : IRegularFeaturette
+public partial class ArmenianCalendar : IRegularFeaturette
 {
     internal ArmenianCalendar(Egyptian12Schema schema)
-        : base("Armenian", StandardScope.Create(schema, DayZero.Armenian))
-    { }
+        : base("Armenian", StandardScope.Create(schema, DayZero.Armenian)) { }
 
     /// <inheritdoc />
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
-public readonly partial struct ArmenianDate : IEpagomenalDay
+public partial struct ArmenianDate : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -33,7 +32,7 @@ public readonly partial struct ArmenianDate : IEpagomenalDay
     }
 }
 
-public sealed partial class Armenian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
+public partial class Armenian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     internal Armenian13Calendar(Egyptian13Schema schema)
         : base("Armenian", StandardScope.Create(schema, DayZero.Armenian))
@@ -48,7 +47,7 @@ public sealed partial class Armenian13Calendar : IRegularFeaturette, IVirtualMon
     public int VirtualMonth { get; }
 }
 
-public readonly partial struct Armenian13Date : IEpagomenalDay
+public partial struct Armenian13Date : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -59,17 +58,16 @@ public readonly partial struct Armenian13Date : IEpagomenalDay
     }
 }
 
-public sealed partial class CopticCalendar : IRegularFeaturette
+public partial class CopticCalendar : IRegularFeaturette
 {
     internal CopticCalendar(Coptic12Schema schema)
-        : base("Coptic", StandardScope.Create(schema, DayZero.Coptic))
-    { }
+        : base("Coptic", StandardScope.Create(schema, DayZero.Coptic)) { }
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
-public readonly partial struct CopticDate : IEpagomenalDay
+public partial struct CopticDate : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -80,7 +78,7 @@ public readonly partial struct CopticDate : IEpagomenalDay
     }
 }
 
-public sealed partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
+public partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     internal Coptic13Calendar(Coptic13Schema schema)
         : base("Coptic", StandardScope.Create(schema, DayZero.Coptic))
@@ -95,7 +93,7 @@ public sealed partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonth
     public int VirtualMonth { get; }
 }
 
-public readonly partial struct Coptic13Date : IEpagomenalDay
+public partial struct Coptic13Date : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -106,17 +104,16 @@ public readonly partial struct Coptic13Date : IEpagomenalDay
     }
 }
 
-public sealed partial class EthiopicCalendar : IRegularFeaturette
+public partial class EthiopicCalendar : IRegularFeaturette
 {
     internal EthiopicCalendar(Coptic12Schema schema)
-        : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic))
-    { }
+        : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic)) { }
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
-public readonly partial struct EthiopicDate : IEpagomenalDay
+public partial struct EthiopicDate : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -127,7 +124,7 @@ public readonly partial struct EthiopicDate : IEpagomenalDay
     }
 }
 
-public sealed partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
+public partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     internal Ethiopic13Calendar(Coptic13Schema schema)
         : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic))
@@ -142,7 +139,7 @@ public sealed partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMon
     public int VirtualMonth { get; }
 }
 
-public readonly partial struct Ethiopic13Date : IEpagomenalDay
+public partial struct Ethiopic13Date : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -153,21 +150,19 @@ public readonly partial struct Ethiopic13Date : IEpagomenalDay
     }
 }
 
-public sealed partial class TabularIslamicCalendar : IRegularFeaturette
+public partial class TabularIslamicCalendar : IRegularFeaturette
 {
     internal TabularIslamicCalendar(TabularIslamicSchema schema)
-        : base("Tabular Islamic", StandardScope.Create(schema, DayZero.TabularIslamic))
-    { }
+        : base("Tabular Islamic", StandardScope.Create(schema, DayZero.TabularIslamic)) { }
 
     /// <inheritdoc/>
     public int MonthsInYear => TabularIslamicSchema.MonthsPerYear;
 }
 
-public sealed partial class WorldCalendar : IRegularFeaturette
+public partial class WorldCalendar : IRegularFeaturette
 {
     internal WorldCalendar(WorldSchema schema)
-        : base("World", StandardScope.Create(schema, DayZero.SundayBeforeGregorian))
-    { }
+        : base("World", StandardScope.Create(schema, DayZero.SundayBeforeGregorian)) { }
 
     /// <inheritdoc/>
     public int MonthsInYear => WorldSchema.MonthsPerYear;
@@ -184,7 +179,7 @@ public sealed partial class WorldCalendar : IRegularFeaturette
     }
 }
 
-public readonly partial struct WorldDate : IBlankDay
+public partial struct WorldDate : IBlankDay
 {
     /// <inheritdoc />
     public bool IsBlank
@@ -197,17 +192,16 @@ public readonly partial struct WorldDate : IBlankDay
     }
 }
 
-public sealed partial class ZoroastrianCalendar : IRegularFeaturette
+public partial class ZoroastrianCalendar : IRegularFeaturette
 {
     internal ZoroastrianCalendar(Egyptian12Schema schema)
-        : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))
-    { }
+        : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian)) { }
 
     /// <inheritdoc/>
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
-public readonly partial struct ZoroastrianDate : IEpagomenalDay
+public partial struct ZoroastrianDate : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]
@@ -218,7 +212,7 @@ public readonly partial struct ZoroastrianDate : IEpagomenalDay
     }
 }
 
-public sealed partial class Zoroastrian13Calendar : IRegularFeaturette,
+public partial class Zoroastrian13Calendar : IRegularFeaturette,
     IVirtualMonthFeaturette
 {
     internal Zoroastrian13Calendar(Egyptian13Schema schema)
@@ -234,7 +228,7 @@ public sealed partial class Zoroastrian13Calendar : IRegularFeaturette,
     public int VirtualMonth { get; }
 }
 
-public readonly partial struct Zoroastrian13Date : IEpagomenalDay
+public partial struct Zoroastrian13Date : IEpagomenalDay
 {
     /// <inheritdoc />
     [Pure]

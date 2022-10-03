@@ -24,8 +24,7 @@ public sealed class GregorianCalendar :
     public GregorianCalendar() : this(new GregorianSchema()) { }
 
     internal GregorianCalendar(GregorianSchema schema)
-        : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle))
-    { }
+        : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle)) { }
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;
@@ -95,7 +94,7 @@ public readonly partial struct GregorianDate :
     private static readonly GregorianDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
     private static readonly GregorianDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
 
-    private readonly int _daysSinceEpoch;
+    private readonly int _daysSinceZero;
 
     /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct to the
     /// specified date parts.</summary>
@@ -105,7 +104,7 @@ public readonly partial struct GregorianDate :
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
 
-        _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
+        _daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
     }
 
     /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct to the
@@ -116,7 +115,7 @@ public readonly partial struct GregorianDate :
     {
         s_Scope.ValidateOrdinal(year, dayOfYear);
 
-        _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
+        _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
     /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.</summary>
@@ -126,14 +125,14 @@ public readonly partial struct GregorianDate :
     {
         s_Domain.Validate(dayNumber);
 
-        _daysSinceEpoch = dayNumber.DaysSinceZero;
+        _daysSinceZero = dayNumber.DaysSinceZero;
     }
 
     /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.
     /// <para>This method does NOT validate its parameter.</para></summary>
-    internal GregorianDate(int daysSinceEpoch)
+    internal GregorianDate(int daysSinceZero)
     {
-        _daysSinceEpoch = daysSinceEpoch;
+        _daysSinceZero = daysSinceZero;
     }
 
     /// <inheritdoc />
@@ -152,12 +151,12 @@ public readonly partial struct GregorianDate :
     public static GregorianCalendar Calendar => s_Calendar;
 
     /// <inheritdoc />
-    public DayNumber DayNumber => new(_daysSinceEpoch);
+    public DayNumber DayNumber => new(_daysSinceZero);
 
     /// <summary>Gets the count of days since the Gregorian epoch.</summary>
-    public int DaysSinceZero => _daysSinceEpoch;
+    public int DaysSinceZero => _daysSinceZero;
 
-    int IFixedDay.DaysSinceEpoch => _daysSinceEpoch;
+    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
 
     /// <inheritdoc />
     public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -172,14 +171,14 @@ public readonly partial struct GregorianDate :
     public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
     /// <inheritdoc />
-    public int Year => GregorianFormulae.GetYear(_daysSinceEpoch);
+    public int Year => GregorianFormulae.GetYear(_daysSinceZero);
 
     /// <inheritdoc />
     public int Month
     {
         get
         {
-            GregorianFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+            GregorianFormulae.GetDateParts(_daysSinceZero, out _, out int m, out _);
             return m;
         }
     }
@@ -189,7 +188,7 @@ public readonly partial struct GregorianDate :
     {
         get
         {
-            _ = GregorianFormulae.GetYear(_daysSinceEpoch, out int doy);
+            _ = GregorianFormulae.GetYear(_daysSinceZero, out int doy);
             return doy;
         }
     }
@@ -199,7 +198,7 @@ public readonly partial struct GregorianDate :
     {
         get
         {
-            GregorianFormulae.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+            GregorianFormulae.GetDateParts(_daysSinceZero, out _, out _, out int d);
             return d;
         }
     }
@@ -212,7 +211,7 @@ public readonly partial struct GregorianDate :
     {
         get
         {
-            GregorianFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out int d);
+            GregorianFormulae.GetDateParts(_daysSinceZero, out _, out int m, out int d);
             return GregorianFormulae.IsIntercalaryDay(m, d);
         }
     }
@@ -225,17 +224,17 @@ public readonly partial struct GregorianDate :
     [Pure]
     public override string ToString()
     {
-        GregorianFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+        GregorianFormulae.GetDateParts(_daysSinceZero, out int y, out int m, out int d);
         return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
     }
 
     /// <inheritdoc />
     public void Deconstruct(out int year, out int month, out int day) =>
-        GregorianFormulae.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+        GregorianFormulae.GetDateParts(_daysSinceZero, out year, out month, out day);
 
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
-        year = GregorianFormulae.GetYear(_daysSinceEpoch, out dayOfYear);
+        year = GregorianFormulae.GetYear(_daysSinceZero, out dayOfYear);
 }
 
 public partial struct GregorianDate // Conversions, adjustments...
@@ -244,19 +243,19 @@ public partial struct GregorianDate // Conversions, adjustments...
 
     /// <inheritdoc />
     [Pure]
-    public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
+    public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceZero);
 
     /// <inheritdoc />
     [Pure]
-    public int CountRemainingDaysInYear() => s_Schema.CountDaysInYearAfter(_daysSinceEpoch);
+    public int CountRemainingDaysInYear() => s_Schema.CountDaysInYearAfter(_daysSinceZero);
 
     /// <inheritdoc />
     [Pure]
-    public int CountElapsedDaysInMonth() => s_Schema.CountDaysInMonthBefore(_daysSinceEpoch);
+    public int CountElapsedDaysInMonth() => s_Schema.CountDaysInMonthBefore(_daysSinceZero);
 
     /// <inheritdoc />
     [Pure]
-    public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+    public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceZero);
 
     #endregion
     #region Adjustments
@@ -323,15 +322,15 @@ public partial struct GregorianDate // IEquatable
 {
     /// <inheritdoc />
     public static bool operator ==(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch == right._daysSinceEpoch;
+        left._daysSinceZero == right._daysSinceZero;
 
     /// <inheritdoc />
     public static bool operator !=(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch != right._daysSinceEpoch;
+        left._daysSinceZero != right._daysSinceZero;
 
     /// <inheritdoc />
     [Pure]
-    public bool Equals(GregorianDate other) => _daysSinceEpoch == other._daysSinceEpoch;
+    public bool Equals(GregorianDate other) => _daysSinceZero == other._daysSinceZero;
 
     /// <inheritdoc />
     [Pure]
@@ -340,26 +339,26 @@ public partial struct GregorianDate // IEquatable
 
     /// <inheritdoc />
     [Pure]
-    public override int GetHashCode() => _daysSinceEpoch;
+    public override int GetHashCode() => _daysSinceZero;
 }
 
 public partial struct GregorianDate // IComparable
 {
     /// <inheritdoc />
     public static bool operator <(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch < right._daysSinceEpoch;
+        left._daysSinceZero < right._daysSinceZero;
 
     /// <inheritdoc />
     public static bool operator <=(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch <= right._daysSinceEpoch;
+        left._daysSinceZero <= right._daysSinceZero;
 
     /// <inheritdoc />
     public static bool operator >(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch > right._daysSinceEpoch;
+        left._daysSinceZero > right._daysSinceZero;
 
     /// <inheritdoc />
     public static bool operator >=(GregorianDate left, GregorianDate right) =>
-        left._daysSinceEpoch >= right._daysSinceEpoch;
+        left._daysSinceZero >= right._daysSinceZero;
 
     /// <inheritdoc />
     [Pure]
@@ -371,7 +370,7 @@ public partial struct GregorianDate // IComparable
 
     /// <inheritdoc />
     [Pure]
-    public int CompareTo(GregorianDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+    public int CompareTo(GregorianDate other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
     [Pure]
     int IComparable.CompareTo(object? obj) =>
@@ -414,30 +413,26 @@ public partial struct GregorianDate // Math ops
 
     /// <inheritdoc />
     [Pure]
-    public int CountDaysSince(GregorianDate other) =>
-        // No need to use a checked context here.
-        _daysSinceEpoch - other._daysSinceEpoch;
+    public int CountDaysSince(GregorianDate other) => _daysSinceZero - other._daysSinceZero;
 
     /// <inheritdoc />
     [Pure]
     public GregorianDate PlusDays(int days)
     {
-        int daysSinceEpoch = checked(_daysSinceEpoch + days);
-        // Don't write (the addition may also overflow...):
-        // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
-        return new(daysSinceEpoch);
+        int daysSinceZero = checked(_daysSinceZero + days);
+        s_Scope.DaysValidator.CheckOverflow(daysSinceZero);
+        return new(daysSinceZero);
     }
 
     /// <inheritdoc />
     [Pure]
     public GregorianDate NextDay() =>
         this == s_MaxValue ? Throw.DateOverflow<GregorianDate>()
-        : new GregorianDate(_daysSinceEpoch + 1);
+        : new GregorianDate(_daysSinceZero + 1);
 
     /// <inheritdoc />
     [Pure]
     public GregorianDate PreviousDay() =>
         this == s_MinValue ? Throw.DateOverflow<GregorianDate>()
-        : new GregorianDate(_daysSinceEpoch - 1);
+        : new GregorianDate(_daysSinceZero - 1);
 }

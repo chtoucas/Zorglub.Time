@@ -84,7 +84,7 @@ public sealed partial class ZoroastrianClock
 
 /// <summary>Represents the Zoroastrian date.
 /// <para><see cref="ZoroastrianDate"/> is an immutable struct.</para></summary>
-public partial struct ZoroastrianDate :
+public readonly partial struct ZoroastrianDate :
     IDate<ZoroastrianDate, ZoroastrianCalendar>,
     IAdjustable<ZoroastrianDate>
 {
@@ -242,10 +242,8 @@ public partial struct ZoroastrianDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct ZoroastrianDate // Conversions, adjustments...
+public partial struct ZoroastrianDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct ZoroastrianDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct ZoroastrianDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct ZoroastrianDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new ZoroastrianDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct ZoroastrianDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct ZoroastrianDate // IComparable
         : Throw.NonComparable(typeof(ZoroastrianDate), obj);
 }
 
-public partial struct ZoroastrianDate // Math ops
+public partial struct ZoroastrianDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

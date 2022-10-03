@@ -8,11 +8,10 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology.Scopes;
 
 /// <remarks>This calendar is proleptic.</remarks>
-public sealed partial class JulianCalendar : IRegularFeaturette
+public partial class JulianCalendar : IRegularFeaturette
 {
     internal JulianCalendar(JulianSchema schema)
-        : base("Julian", MinMaxYearScope.CreateMaximal(schema, DayZero.OldStyle))
-    { }
+        : base("Julian", MinMaxYearScope.CreateMaximal(schema, DayZero.OldStyle)) { }
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;

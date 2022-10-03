@@ -84,7 +84,7 @@ public sealed partial class WorldClock
 
 /// <summary>Represents the World date.
 /// <para><see cref="WorldDate"/> is an immutable struct.</para></summary>
-public partial struct WorldDate :
+public readonly partial struct WorldDate :
     IDate<WorldDate, WorldCalendar>,
     IAdjustable<WorldDate>
 {
@@ -242,10 +242,8 @@ public partial struct WorldDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct WorldDate // Conversions, adjustments...
+public partial struct WorldDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct WorldDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct WorldDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct WorldDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new WorldDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct WorldDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct WorldDate // IComparable
         : Throw.NonComparable(typeof(WorldDate), obj);
 }
 
-public partial struct WorldDate // Math ops
+public partial struct WorldDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

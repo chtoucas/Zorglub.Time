@@ -84,7 +84,7 @@ public sealed partial class TabularIslamicClock
 
 /// <summary>Represents the Tabular Islamic date.
 /// <para><see cref="TabularIslamicDate"/> is an immutable struct.</para></summary>
-public partial struct TabularIslamicDate :
+public readonly partial struct TabularIslamicDate :
     IDate<TabularIslamicDate, TabularIslamicCalendar>,
     IAdjustable<TabularIslamicDate>
 {
@@ -242,10 +242,8 @@ public partial struct TabularIslamicDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct TabularIslamicDate // Conversions, adjustments...
+public partial struct TabularIslamicDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct TabularIslamicDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct TabularIslamicDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct TabularIslamicDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new TabularIslamicDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct TabularIslamicDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct TabularIslamicDate // IComparable
         : Throw.NonComparable(typeof(TabularIslamicDate), obj);
 }
 
-public partial struct TabularIslamicDate // Math ops
+public partial struct TabularIslamicDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

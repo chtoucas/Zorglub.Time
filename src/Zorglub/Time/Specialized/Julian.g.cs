@@ -84,7 +84,7 @@ public sealed partial class JulianClock
 
 /// <summary>Represents the Julian date.
 /// <para><see cref="JulianDate"/> is an immutable struct.</para></summary>
-public partial struct JulianDate :
+public readonly partial struct JulianDate :
     IDate<JulianDate, JulianCalendar>,
     IAdjustable<JulianDate>
 {
@@ -242,10 +242,8 @@ public partial struct JulianDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct JulianDate // Conversions, adjustments...
+public partial struct JulianDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct JulianDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct JulianDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct JulianDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new JulianDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct JulianDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct JulianDate // IComparable
         : Throw.NonComparable(typeof(JulianDate), obj);
 }
 
-public partial struct JulianDate // Math ops
+public partial struct JulianDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

@@ -84,7 +84,7 @@ public sealed partial class CopticClock
 
 /// <summary>Represents the Coptic date.
 /// <para><see cref="CopticDate"/> is an immutable struct.</para></summary>
-public partial struct CopticDate :
+public readonly partial struct CopticDate :
     IDate<CopticDate, CopticCalendar>,
     IAdjustable<CopticDate>
 {
@@ -242,10 +242,8 @@ public partial struct CopticDate :
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
 }
 
-public partial struct CopticDate // Conversions, adjustments...
+public partial struct CopticDate // Counting
 {
-    #region Counting
-
     /// <inheritdoc />
     [Pure]
     public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
@@ -261,10 +259,10 @@ public partial struct CopticDate // Conversions, adjustments...
     /// <inheritdoc />
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
+}
 
-    #endregion
-    #region Adjustments
-
+public partial struct CopticDate // Adjustments
+{
     /// <inheritdoc />
     /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
     [Pure]
@@ -319,8 +317,6 @@ public partial struct CopticDate // Conversions, adjustments...
         if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
         return new CopticDate(dayNumber - s_Epoch);
     }
-
-    #endregion
 }
 
 public partial struct CopticDate // IEquatable
@@ -384,7 +380,7 @@ public partial struct CopticDate // IComparable
         : Throw.NonComparable(typeof(CopticDate), obj);
 }
 
-public partial struct CopticDate // Math ops
+public partial struct CopticDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
