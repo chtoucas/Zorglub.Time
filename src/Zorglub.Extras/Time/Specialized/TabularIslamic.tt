@@ -1,9 +1,9 @@
 ﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#@ include file="$(ZorglubT4Directory)Calendar.tt" once="true" #>
 <#= new TabularIslamicTemplate(this).Execute() #><#+
 
-public sealed class TabularIslamicTemplate : SpecializedCalendarTemplate
+public sealed class TabularIslamicTemplate : CalendarTemplate
 {
     public TabularIslamicTemplate(TextTransformation parent) : base(parent, "TabularIslamicSchema") { }
 

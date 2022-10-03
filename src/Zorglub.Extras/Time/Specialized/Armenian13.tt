@@ -1,9 +1,9 @@
 ﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
-<#@ include file="$(ZorglubT4Directory)SpecializedCalendar.tt" once="true" #>
+<#@ include file="$(ZorglubT4Directory)Calendar.tt" once="true" #>
 <#= new Armenian13Template(this).Execute() #><#+
 
-public sealed class Armenian13Template : SpecializedCalendarTemplate
+public sealed class Armenian13Template : CalendarTemplate
 {
     public Armenian13Template(TextTransformation parent) : base(parent, "Egyptian13Schema") { }
 

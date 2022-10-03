@@ -1,12 +1,12 @@
 ﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
-<#@ include file="SpecializedCalendar.tt" #><#+
+<#@ include file="Calendar.tt" #><#+
 
 // Special case: Epoch = Gregorian epoch (DayZero.NewStyle)
 
-public sealed class GSpecializedCalendarTemplate : SpecializedCalendarTemplate
+public sealed class GCalendarTemplate : CalendarTemplate
 {
-    public GSpecializedCalendarTemplate(TextTransformation parent, string schema) : base(parent, schema)
+    public GCalendarTemplate(TextTransformation parent, string schema) : base(parent, schema)
     {
         DaysSinceEpochField = "_daysSinceZero";
     }

@@ -1,6 +1,6 @@
 ﻿<#+
 
-public partial class SpecializedCalendarTemplate
+public partial class CalendarTemplate
 {
     protected void EmitDate()
     {
@@ -407,6 +407,6 @@ public partial struct <#= Prefix #>Date // Math
 }
 <#+
     } // T4: End of EmitDateMath()
-} // T4: End of SpecializedCalendarTemplate
+} // T4: End of CalendarTemplate
 
 #>

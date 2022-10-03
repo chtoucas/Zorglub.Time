@@ -1,13 +1,13 @@
 ﻿<#@ assembly name="$(ZorglubT4Assembly)" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplating" #>
-<#@ include file="SpecializedCalendar.EmitAdjuster.tt" #>
-<#@ include file="SpecializedCalendar.EmitClock.tt" #>
-<#@ include file="SpecializedCalendar.EmitDate.tt" #><#+
+<#@ include file="Calendar.EmitAdjuster.tt" #>
+<#@ include file="Calendar.EmitClock.tt" #>
+<#@ include file="Calendar.EmitDate.tt" #><#+
 
-public abstract partial class SpecializedCalendarTemplate : VSTemplate
+public abstract partial class CalendarTemplate : VSTemplate
 {
-    protected SpecializedCalendarTemplate(TextTransformation parent, string schema) : base(parent)
+    protected CalendarTemplate(TextTransformation parent, string schema) : base(parent)
     {
         if (String.IsNullOrWhiteSpace(schema))
             throw new ArgumentException("The schema can not be null or blank.", nameof(schema));
@@ -34,7 +34,7 @@ public abstract partial class SpecializedCalendarTemplate : VSTemplate
         EmitUsings();
 
         WriteLine();
-        EmitCalendar();
+        EmitCalendarDecl();
 
         WriteLine();
         EmitAdjuster();
@@ -75,7 +75,7 @@ using Zorglub.Time.Horology;
 <#+
     } // T4: End of EmitUsings()
 
-    protected void EmitCalendar()
+    protected void EmitCalendarDecl()
     {
 #>
 /// <summary>Represents the <#= DisplayName #> calendar.
@@ -88,7 +88,7 @@ public sealed partial class <#= Prefix #>Calendar : SpecialCalendar<<#= Prefix #
     private protected sealed override <#= Prefix #>Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 <#+
-    } // T4: End of EmitCalendar()
-} // T4: End of SpecializedCalendarTemplate
+    } // T4: End of EmitCalendarDecl()
+} // T4: End of CalendarTemplate
 
 #>

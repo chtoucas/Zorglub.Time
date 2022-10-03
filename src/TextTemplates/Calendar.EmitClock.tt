@@ -1,6 +1,6 @@
 ﻿<#+
 
-public partial class SpecializedCalendarTemplate
+public partial class CalendarTemplate
 {
     protected virtual void EmitClock()
     {
@@ -41,6 +41,6 @@ public sealed partial class <#= Prefix #>Clock
 }
 <#+
     } // T4: End of EmitClock()
-} // T4: End of SpecializedCalendarTemplate
+} // T4: End of CalendarTemplate
 
 #>
