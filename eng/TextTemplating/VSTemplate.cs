@@ -68,7 +68,7 @@ public abstract class VSTemplate : TextTransformation
     }
 
     /// <summary>Gets the templating engine host.</summary>
-    protected ITextTemplatingEngineHost Host => _host.Value;
+    protected ITextTemplatingEngineHost VSHost => _host.Value;
 
     /// <summary>Gets the DTE (Development Tools Environment) service.</summary>
     protected DTE Dte => _dte.Value;
@@ -143,7 +143,7 @@ $"""
 
     private DTE DteFactory()
     {
-        if (Host is not IServiceProvider serviceProvider)
+        if (VSHost is not IServiceProvider serviceProvider)
             throw new NotSupportedException("Host property is null.");
 
         // GetCOMService()?
@@ -155,5 +155,5 @@ $"""
 
     private static string InferNamespace() => CallContext.LogicalGetData("NamespaceHint").ToString();
 
-    private string InferName() => Path.GetFileNameWithoutExtension(Host.TemplateFile);
+    private string InferName() => Path.GetFileNameWithoutExtension(VSHost.TemplateFile);
 }
