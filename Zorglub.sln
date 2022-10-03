@@ -76,6 +76,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
 	ProjectSection(SolutionItems) = preProject
 		src\TextTemplates\SpecializedCalendar.EmitAdjuster.tt = src\TextTemplates\SpecializedCalendar.EmitAdjuster.tt
+		src\TextTemplates\GSpecializedCalendar.tt = src\TextTemplates\GSpecializedCalendar.tt
 		src\TextTemplates\SpecializedCalendar.EmitClock.tt = src\TextTemplates\SpecializedCalendar.EmitClock.tt
 		src\TextTemplates\SpecializedCalendar.EmitDate.tt = src\TextTemplates\SpecializedCalendar.EmitDate.tt
 		src\TextTemplates\SpecializedCalendar.tt = src\TextTemplates\SpecializedCalendar.tt

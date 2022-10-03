@@ -21,8 +21,9 @@ public abstract partial class SpecializedCalendarTemplate : VSTemplate
     public string Prefix { get; protected set; }
     public string Schema { get; }
     public string DaysSinceEpochField { get; protected set; } = "_daysSinceEpoch";
+    public string StaticScope { get; set; } = "s_Scope";
 
-    protected override void WriteContent()
+    protected sealed override void WriteContent()
     {
         WriteLine();
         EmitPragmas();
@@ -63,7 +64,7 @@ namespace <#= Namespace #>;
 <#+
     } // T4: End of EmitNamespace()
 
-    protected void EmitUsings()
+    protected virtual void EmitUsings()
     {
 #>
 using Zorglub.Time.Core.Intervals;

@@ -221,7 +221,7 @@ public partial struct CivilDate // IComparable
         : Throw.NonComparable(typeof(CivilDate), obj);
 }
 
-public partial struct CivilDate // Standard math
+public partial struct CivilDate // Math
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.

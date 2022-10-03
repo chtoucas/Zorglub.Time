@@ -22,7 +22,7 @@ public partial class SpecializedCalendarTemplate
         EmitDateMath();
     }
 
-    protected void EmitDateDecl()
+    protected virtual void EmitDateDecl()
     {
 #>
 /// <summary>Represents the <#= DisplayName #> date.
@@ -211,7 +211,7 @@ public partial struct <#= Prefix #>Date // Counting
 <#+
     } // T4: End of EmitDateCounting()
 
-    protected void EmitDateAdjustment()
+    protected virtual void EmitDateAdjustment()
     {
 #>
 public partial struct <#= Prefix #>Date // Adjustments
@@ -389,7 +389,7 @@ public partial struct <#= Prefix #>Date // Math
         int daysSinceEpoch = checked(<#= DaysSinceEpochField #> + days);
         // Don't write (the addition may also overflow...):
         // > s_Domain.CheckOverflow(s_Epoch + daysSinceEpoch);
-        s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
+        <#= StaticScope #>.DaysValidator.CheckOverflow(daysSinceEpoch);
         return new(daysSinceEpoch);
     }
 
@@ -406,7 +406,7 @@ public partial struct <#= Prefix #>Date // Math
         : new <#= Prefix #>Date(<#= DaysSinceEpochField #> - 1);
 }
 <#+
-    } // T4: End of EmitDate()
+    } // T4: End of EmitDateMath()
 } // T4: End of SpecializedCalendarTemplate
 
 #>

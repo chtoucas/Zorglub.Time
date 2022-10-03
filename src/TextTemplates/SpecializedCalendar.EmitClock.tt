@@ -2,7 +2,7 @@
 
 public partial class SpecializedCalendarTemplate
 {
-    protected void EmitClock()
+    protected virtual void EmitClock()
     {
 #>
 /// <summary>Represents a clock for the <#= DisplayName #> calendar.

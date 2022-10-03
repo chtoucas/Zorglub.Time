@@ -17,6 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Time\Specialized\Gregorian.tt">
+      <LastGenOutput>Gregorian.g.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Time\Specialized\Civil.tt">
       <LastGenOutput>Civil.g.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -27,6 +31,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Time\Specialized\Gregorian.g.cs">
+      <DependentUpon>Gregorian.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Time\Specialized\Civil.g.cs">
       <DependentUpon>Civil.tt</DependentUpon>
       <DesignTime>True</DesignTime>
