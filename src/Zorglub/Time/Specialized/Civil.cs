@@ -9,7 +9,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 // We use GregorianStandardScope instead of s_Calendar.Scope because they
 // are strictly equivalent.
@@ -24,36 +23,6 @@ public partial class CivilCalendar : IRegularFeaturette
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;
-}
-
-public partial class CivilClock
-{
-    private readonly IClock _clock;
-
-    /// <summary>Initializes a new instance of the <see cref="CivilClock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    public CivilClock(IClock clock)
-    {
-        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
-    }
-
-    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock using
-    /// the current time zone setting on this machine.</summary>
-    public static CivilClock Local { get; } = new(SystemClocks.Local);
-
-    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock using
-    /// the Coordinated Universal Time (UTC).</summary>
-    public static CivilClock Utc { get; } = new(SystemClocks.Utc);
-
-    /// <summary>Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.
-    /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    [Pure]
-    public static CivilClock GetClock(IClock clock) => new(clock);
-
-    /// <summary>Obtains a <see cref="CivilDate"/> value representing the current date.</summary>
-    [Pure]
-    public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
 public partial struct CivilDate
@@ -209,119 +178,4 @@ public partial struct CivilDate
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = CivilFormulae.GetYear(_daysSinceZero, out dayOfYear);
-}
-
-public partial struct CivilDate // Adjustments
-{
-    /// <inheritdoc />
-    /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
-    [Pure]
-    public CivilDate Adjust(Func<CivilDate, CivilDate> adjuster)
-    {
-        Requires.NotNull(adjuster);
-
-        return adjuster.Invoke(this);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate Previous(DayOfWeek dayOfWeek)
-    {
-        var dayNumber = DayNumber.Previous(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new CivilDate(dayNumber.DaysSinceZero);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
-    {
-        var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new CivilDate(dayNumber.DaysSinceZero);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate Nearest(DayOfWeek dayOfWeek)
-    {
-        var dayNumber = DayNumber.Nearest(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new CivilDate(dayNumber.DaysSinceZero);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate NextOrSame(DayOfWeek dayOfWeek)
-    {
-        var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new CivilDate(dayNumber.DaysSinceZero);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate Next(DayOfWeek dayOfWeek)
-    {
-        var dayNumber = DayNumber.Next(dayOfWeek);
-        if (s_Domain.Contains(dayNumber) == false) Throw.DateOverflow();
-        return new CivilDate(dayNumber.DaysSinceZero);
-    }
-}
-
-public partial struct CivilDate // Math ops
-{
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
-    // Friendly alternates do exist but use domain-specific names.
-
-    /// <summary>Subtracts the two specified dates and returns the number of days between them.
-    /// </summary>
-    public static int operator -(CivilDate left, CivilDate right) => left.CountDaysSince(right);
-
-    /// <summary>Adds a number of days to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow either the capacity of
-    /// <see cref="Int32"/> or the range of supported dates.</exception>
-    public static CivilDate operator +(CivilDate value, int days) => value.PlusDays(days);
-
-    /// <summary>Subtracts a number of days to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow either the capacity of
-    /// <see cref="Int32"/> or the range of supported dates.</exception>
-    public static CivilDate operator -(CivilDate value, int days) => value.PlusDays(-days);
-
-    /// <summary>Adds one day to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported date.
-    /// </exception>
-    public static CivilDate operator ++(CivilDate value) => value.NextDay();
-
-    /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported date.
-    /// </exception>
-    public static CivilDate operator --(CivilDate value) => value.PreviousDay();
-
-#pragma warning restore CA2225
-
-    /// <inheritdoc />
-    [Pure]
-    public int CountDaysSince(CivilDate other) => _daysSinceZero - other._daysSinceZero;
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate PlusDays(int days)
-    {
-        int daysSinceZero = checked(_daysSinceZero + days);
-        GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceZero);
-        return new(daysSinceZero);
-    }
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate NextDay() =>
-        this == s_MaxValue ? Throw.DateOverflow<CivilDate>()
-        : new CivilDate(_daysSinceZero + 1);
-
-    /// <inheritdoc />
-    [Pure]
-    public CivilDate PreviousDay() =>
-        this == s_MinValue ? Throw.DateOverflow<CivilDate>()
-        : new CivilDate(_daysSinceZero - 1);
 }
