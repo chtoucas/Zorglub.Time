@@ -19,10 +19,14 @@ public partial class CalendarTemplate : CSharpTemplate
 
     public string SchemaClass { get; }
 
-    public string DisplayName { get; protected set; }
-    public string Prefix { get; protected set; }
+    // NB: we don't check the setter because these are design time templates:
+    // if "value" is null or invalid, then the T4 transformation will fail right
+    // away.
 
-    public string DaysSinceEpochField { get; protected set; } = "_daysSinceEpoch";
+    public string DisplayName { get; set; }
+    public string Prefix { get; set; }
+
+    public string DaysSinceEpochField { get; set; } = "_daysSinceEpoch";
 
     // Temporary property until we decide what to do with clocks.
     public bool EnableClock { get; set; }
