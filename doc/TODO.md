@@ -111,6 +111,19 @@ Subprojects
   T4 TODOs:
     Use Mono.T4? Advantage: compatible with .NET Core.
     TransformOnBuild (Zorglub and Zorglub.Extras).
+```xml
+<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets"
+          Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />
+<PropertyGroup>
+<TransformOnBuild>true</TransformOnBuild>
+<TransformOutOfDateOnly Condition=" '$(Configuration)' == 'Debug' ">true</TransformOutOfDateOnly>
+</PropertyGroup>
+<ItemGroup>
+<T4ParameterValues Include="XXX">
+  <Value>$(XXX)</Value>
+</T4ParameterValues>
+</ItemGroup>
+```
     Shadowing
 
     https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-and-t4-text-templates

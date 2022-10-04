@@ -1,14 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!--<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets"
-          Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />-->
-
   <PropertyGroup>
     <TargetFrameworks>$(ZorglubLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time.Extras</AssemblyName>
-
-    <!--<TransformOnBuild>true</TransformOnBuild>
-    <TransformOutOfDateOnly Condition=" '$(Configuration)' == 'Debug' ">true</TransformOutOfDateOnly>-->
 
     <IsPackable>true</IsPackable>
     <Title></Title>
@@ -89,4 +83,3 @@
   </ItemGroup>
 
 </Project>
-<!---->

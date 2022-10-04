@@ -9,7 +9,7 @@ using System.Runtime.Remoting.Messaging;
 
 using Microsoft.VisualStudio.TextTemplating;
 
-/// <summary>Provides a base class for generated text transformations hosted inside Visual Studio.</summary>
+/// <summary>Provides a base class for generated C# transformations hosted inside Visual Studio.</summary>
 [CLSCompliant(false)]
 public abstract class CSharpTemplate : TextTransformation
 {
@@ -93,7 +93,7 @@ public abstract class CSharpTemplate : TextTransformation
     // Writers
     //
 
-    protected virtual void WriteContent() { }
+    protected abstract void WriteContent();
 
     /// <summary>Write the T4 compiler attribute into the generated output.</summary>
     protected void WriteCompilerAttribute() =>
@@ -122,7 +122,10 @@ public abstract class CSharpTemplate : TextTransformation
         return (ITextTemplatingEngineHost)host.GetValue(transformation, null);
     }
 
-    private static string InferNamespace() => CallContext.LogicalGetData("NamespaceHint").ToString();
+    private string InferNamespace() =>
+        VSHost.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint")
+        ?? CallContext.LogicalGetData("NamespaceHint")?.ToString()
+        ?? throw new NotSupportedException("Unable to infer the current namespace.");
 
     private string InferName() => Path.GetFileNameWithoutExtension(VSHost.TemplateFile);
 }
