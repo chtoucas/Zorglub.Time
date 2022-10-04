@@ -5,7 +5,7 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplating" #><#+
 
-public partial class CalendarTemplate : VSTemplate
+public partial class CalendarTemplate : CSharpTemplate
 {
     public CalendarTemplate(TextTransformation parent, string schemaClass) : base(parent)
     {
