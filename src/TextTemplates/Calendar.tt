@@ -5,9 +5,9 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="Zorglub.TextTemplating" #><#+
 
-public abstract partial class CalendarTemplate : VSTemplate
+public partial class CalendarTemplate : VSTemplate
 {
-    protected CalendarTemplate(TextTransformation parent, string schemaClass) : base(parent)
+    public CalendarTemplate(TextTransformation parent, string schemaClass) : base(parent)
     {
         if (String.IsNullOrWhiteSpace(schemaClass))
             throw new ArgumentException("The schema can not be null or blank.", nameof(schemaClass));
@@ -17,10 +17,11 @@ public abstract partial class CalendarTemplate : VSTemplate
         Prefix = Name;
     }
 
+    public string SchemaClass { get; }
+
     public string DisplayName { get; protected set; }
     public string Prefix { get; protected set; }
 
-    public string SchemaClass { get; }
     public string DaysSinceEpochField { get; protected set; } = "_daysSinceEpoch";
 
     protected sealed override void WriteContent()

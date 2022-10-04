@@ -1,11 +1,4 @@
 ﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
 <#@ include file="$(ZorglubT4Directory)Calendar.tt" once="true" #>
-<#= new JulianTemplate(this).Execute() #><#+
-
-public sealed class JulianTemplate : CalendarTemplate
-{
-    public JulianTemplate(TextTransformation parent) : base(parent, "JulianSchema") { }
-}
-
-#>
+<#= new CalendarTemplate(this, "JulianSchema").Execute() #>

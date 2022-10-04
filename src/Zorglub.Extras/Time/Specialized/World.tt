@@ -1,11 +1,4 @@
 ﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
 <#@ include file="$(ZorglubT4Directory)Calendar.tt" once="true" #>
-<#= new WorldTemplate(this).Execute() #><#+
-
-public sealed class WorldTemplate : CalendarTemplate
-{
-    public WorldTemplate(TextTransformation parent) : base(parent, "WorldSchema") { }
-}
-
-#>
+<#= new CalendarTemplate(this, "WorldSchema").Execute() #>
