@@ -30,6 +30,15 @@ public sealed partial class CivilCalendar : SpecialCalendar<CivilDate>
     /// <summary>Initializes a new instance of the <see cref="CivilCalendar"/> class.</summary>
     public CivilCalendar() : this(new CivilSchema()) { }
 
+    internal CivilCalendar(CivilSchema schema) : base("Civil", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(CivilSchema schema);
+
+    partial void OnInitializing(CivilSchema schema);
+
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
@@ -43,6 +52,37 @@ public sealed partial class CivilAdjuster : SpecialAdjuster<CivilDate>
     internal CivilAdjuster(MinMaxYearScope scope) : base(scope) { }
 
     private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+}
+
+/// <summary>Represents a clock for the Civil calendar.
+/// <para>This class cannot be inherited.</para></summary>
+public sealed partial class CivilClock
+{
+    private readonly IClock _clock;
+
+    /// <summary>Initializes a new instance of the <see cref="CivilClock"/> class.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    public CivilClock(IClock clock)
+    {
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+    }
+
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock
+    /// using the current time zone setting on this machine.</summary>
+    public static CivilClock Local { get; } = new(SystemClocks.Local);
+
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock
+    /// using the Coordinated Universal Time (UTC).</summary>
+    public static CivilClock Utc { get; } = new(SystemClocks.Utc);
+
+    /// <summary>Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    [Pure]
+    public static CivilClock GetClock(IClock clock) => new(clock);
+
+    /// <summary>Obtains a <see cref="CivilDate"/> value representing the current date.</summary>
+    [Pure]
+    public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
 /// <summary>Represents the Civil date.

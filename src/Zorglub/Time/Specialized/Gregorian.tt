@@ -1,4 +1,4 @@
 ﻿<#@ template debug="true" hostspecific="true" #>
 <#@ output extension=".g.cs" #>
 <#@ include file="$(ZorglubT4Directory)GCalendar.tt" once="true" #>
-<#= new GCalendarTemplate(this, "GregorianSchema").Execute() #>
+<#= new GCalendarTemplate(this, "GregorianSchema") { EnableClock = true }.Execute() #>

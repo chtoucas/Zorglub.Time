@@ -23,7 +23,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the Zoroastrian calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -31,6 +30,15 @@ public sealed partial class ZoroastrianCalendar : SpecialCalendar<ZoroastrianDat
 {
     /// <summary>Initializes a new instance of the <see cref="ZoroastrianCalendar"/> class.</summary>
     public ZoroastrianCalendar() : this(new Egyptian12Schema()) { }
+
+    internal ZoroastrianCalendar(Egyptian12Schema schema) : base("Zoroastrian", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(Egyptian12Schema schema);
+
+    partial void OnInitializing(Egyptian12Schema schema);
 
     private protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

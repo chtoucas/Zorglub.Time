@@ -23,7 +23,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the Armenian calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -31,6 +30,15 @@ public sealed partial class Armenian13Calendar : SpecialCalendar<Armenian13Date>
 {
     /// <summary>Initializes a new instance of the <see cref="Armenian13Calendar"/> class.</summary>
     public Armenian13Calendar() : this(new Egyptian13Schema()) { }
+
+    internal Armenian13Calendar(Egyptian13Schema schema) : base("Armenian", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(Egyptian13Schema schema);
+
+    partial void OnInitializing(Egyptian13Schema schema);
 
     private protected sealed override Armenian13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

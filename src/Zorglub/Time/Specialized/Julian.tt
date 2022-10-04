@@ -1,4 +1,4 @@
 ﻿<#@ template hostspecific="true" #>
 <#@ output extension=".g.cs" #>
 <#@ include file="$(ZorglubT4Directory)Calendar.tt" once="true" #>
-<#= new CalendarTemplate(this, "JulianSchema").Execute() #>
+<#= new CalendarTemplate(this, "JulianSchema") { EnableClock = true }.Execute() #>

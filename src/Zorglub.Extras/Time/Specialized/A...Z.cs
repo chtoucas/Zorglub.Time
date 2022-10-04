@@ -14,8 +14,8 @@ using Zorglub.Time.Hemerology.Scopes;
 
 public partial class ArmenianCalendar : IRegularFeaturette
 {
-    internal ArmenianCalendar(Egyptian12Schema schema)
-        : base("Armenian", StandardScope.Create(schema, DayZero.Armenian)) { }
+    private static partial MinMaxYearScope GetScope(Egyptian12Schema schema) =>
+        StandardScope.Create(schema, DayZero.Armenian);
 
     /// <inheritdoc />
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
@@ -34,17 +34,16 @@ public partial struct ArmenianDate : IEpagomenalDay
 
 public partial class Armenian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
-    internal Armenian13Calendar(Egyptian13Schema schema)
-        : base("Armenian", StandardScope.Create(schema, DayZero.Armenian))
-    {
-        VirtualMonth = schema.VirtualMonth;
-    }
+    private static partial MinMaxYearScope GetScope(Egyptian13Schema schema) =>
+        StandardScope.Create(schema, DayZero.Armenian);
+
+    partial void OnInitializing(Egyptian13Schema schema) => VirtualMonth = schema.VirtualMonth;
 
     /// <inheritdoc/>
     public int MonthsInYear => Egyptian13Schema.MonthsPerYear;
 
     /// <inheritdoc/>
-    public int VirtualMonth { get; }
+    public int VirtualMonth { get; private set; }
 }
 
 public partial struct Armenian13Date : IEpagomenalDay
@@ -60,8 +59,8 @@ public partial struct Armenian13Date : IEpagomenalDay
 
 public partial class CopticCalendar : IRegularFeaturette
 {
-    internal CopticCalendar(Coptic12Schema schema)
-        : base("Coptic", StandardScope.Create(schema, DayZero.Coptic)) { }
+    private static partial MinMaxYearScope GetScope(Coptic12Schema schema) =>
+        StandardScope.Create(schema, DayZero.Coptic);
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
@@ -80,17 +79,16 @@ public partial struct CopticDate : IEpagomenalDay
 
 public partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
-    internal Coptic13Calendar(Coptic13Schema schema)
-        : base("Coptic", StandardScope.Create(schema, DayZero.Coptic))
-    {
-        VirtualMonth = schema.VirtualMonth;
-    }
+    private static partial MinMaxYearScope GetScope(Coptic13Schema schema) =>
+        StandardScope.Create(schema, DayZero.Coptic);
+
+    partial void OnInitializing(Coptic13Schema schema) => VirtualMonth = schema.VirtualMonth;
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic13Schema.MonthsPerYear;
 
     /// <inheritdoc/>
-    public int VirtualMonth { get; }
+    public int VirtualMonth { get; private set; }
 }
 
 public partial struct Coptic13Date : IEpagomenalDay
@@ -106,8 +104,8 @@ public partial struct Coptic13Date : IEpagomenalDay
 
 public partial class EthiopicCalendar : IRegularFeaturette
 {
-    internal EthiopicCalendar(Coptic12Schema schema)
-        : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic)) { }
+    private static partial MinMaxYearScope GetScope(Coptic12Schema schema) =>
+        StandardScope.Create(schema, DayZero.Ethiopic);
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
@@ -126,17 +124,16 @@ public partial struct EthiopicDate : IEpagomenalDay
 
 public partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
-    internal Ethiopic13Calendar(Coptic13Schema schema)
-        : base("Ethiopic", StandardScope.Create(schema, DayZero.Ethiopic))
-    {
-        VirtualMonth = schema.VirtualMonth;
-    }
+    private static partial MinMaxYearScope GetScope(Coptic13Schema schema) =>
+        StandardScope.Create(schema, DayZero.Ethiopic);
+
+    partial void OnInitializing(Coptic13Schema schema) => VirtualMonth = schema.VirtualMonth;
 
     /// <inheritdoc/>
     public int MonthsInYear => Coptic13Schema.MonthsPerYear;
 
     /// <inheritdoc/>
-    public int VirtualMonth { get; }
+    public int VirtualMonth { get; private set; }
 }
 
 public partial struct Ethiopic13Date : IEpagomenalDay
@@ -152,8 +149,8 @@ public partial struct Ethiopic13Date : IEpagomenalDay
 
 public partial class TabularIslamicCalendar : IRegularFeaturette
 {
-    internal TabularIslamicCalendar(TabularIslamicSchema schema)
-        : base("Tabular Islamic", StandardScope.Create(schema, DayZero.TabularIslamic)) { }
+    private static partial MinMaxYearScope GetScope(TabularIslamicSchema schema) =>
+        StandardScope.Create(schema, DayZero.TabularIslamic);
 
     /// <inheritdoc/>
     public int MonthsInYear => TabularIslamicSchema.MonthsPerYear;
@@ -161,8 +158,8 @@ public partial class TabularIslamicCalendar : IRegularFeaturette
 
 public partial class WorldCalendar : IRegularFeaturette
 {
-    internal WorldCalendar(WorldSchema schema)
-        : base("World", StandardScope.Create(schema, DayZero.SundayBeforeGregorian)) { }
+    private static partial MinMaxYearScope GetScope(WorldSchema schema) =>
+        StandardScope.Create(schema, DayZero.SundayBeforeGregorian);
 
     /// <inheritdoc/>
     public int MonthsInYear => WorldSchema.MonthsPerYear;
@@ -194,8 +191,8 @@ public partial struct WorldDate : IBlankDay
 
 public partial class ZoroastrianCalendar : IRegularFeaturette
 {
-    internal ZoroastrianCalendar(Egyptian12Schema schema)
-        : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian)) { }
+    private static partial MinMaxYearScope GetScope(Egyptian12Schema schema) =>
+        StandardScope.Create(schema, DayZero.Zoroastrian);
 
     /// <inheritdoc/>
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
@@ -214,17 +211,16 @@ public partial struct ZoroastrianDate : IEpagomenalDay
 
 public partial class Zoroastrian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
-    internal Zoroastrian13Calendar(Egyptian13Schema schema)
-        : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))
-    {
-        VirtualMonth = schema.VirtualMonth;
-    }
+    private static partial MinMaxYearScope GetScope(Egyptian13Schema schema) =>
+        StandardScope.Create(schema, DayZero.Zoroastrian);
+
+    partial void OnInitializing(Egyptian13Schema schema) => VirtualMonth = schema.VirtualMonth;
 
     /// <inheritdoc/>
     public int MonthsInYear => Egyptian13Schema.MonthsPerYear;
 
     /// <inheritdoc/>
-    public int VirtualMonth { get; }
+    public int VirtualMonth { get; private set; }
 }
 
 public partial struct Zoroastrian13Date : IEpagomenalDay

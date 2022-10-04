@@ -23,7 +23,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the World calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -31,6 +30,15 @@ public sealed partial class WorldCalendar : SpecialCalendar<WorldDate>
 {
     /// <summary>Initializes a new instance of the <see cref="WorldCalendar"/> class.</summary>
     public WorldCalendar() : this(new WorldSchema()) { }
+
+    internal WorldCalendar(WorldSchema schema) : base("World", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(WorldSchema schema);
+
+    partial void OnInitializing(WorldSchema schema);
 
     private protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

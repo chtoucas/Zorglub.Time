@@ -23,7 +23,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the Tabular Islamic calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -31,6 +30,15 @@ public sealed partial class TabularIslamicCalendar : SpecialCalendar<TabularIsla
 {
     /// <summary>Initializes a new instance of the <see cref="TabularIslamicCalendar"/> class.</summary>
     public TabularIslamicCalendar() : this(new TabularIslamicSchema()) { }
+
+    internal TabularIslamicCalendar(TabularIslamicSchema schema) : base("Tabular Islamic", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(TabularIslamicSchema schema);
+
+    partial void OnInitializing(TabularIslamicSchema schema);
 
     private protected sealed override TabularIslamicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

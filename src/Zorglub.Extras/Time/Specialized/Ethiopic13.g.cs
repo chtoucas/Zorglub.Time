@@ -23,7 +23,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the Ethiopic calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -31,6 +30,15 @@ public sealed partial class Ethiopic13Calendar : SpecialCalendar<Ethiopic13Date>
 {
     /// <summary>Initializes a new instance of the <see cref="Ethiopic13Calendar"/> class.</summary>
     public Ethiopic13Calendar() : this(new Coptic13Schema()) { }
+
+    internal Ethiopic13Calendar(Coptic13Schema schema) : base("Ethiopic", GetScope(schema))
+    {
+        OnInitializing(schema);
+    }
+
+    private static partial MinMaxYearScope GetScope(Coptic13Schema schema);
+
+    partial void OnInitializing(Coptic13Schema schema);
 
     private protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

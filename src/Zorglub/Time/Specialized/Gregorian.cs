@@ -16,8 +16,8 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <remarks>This calendar is proleptic.</remarks>
 public partial class GregorianCalendar : IRegularFeaturette
 {
-    internal GregorianCalendar(GregorianSchema schema)
-        : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle)) { }
+    private static partial MinMaxYearScope GetScope(GregorianSchema schema) =>
+        MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle);
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;
