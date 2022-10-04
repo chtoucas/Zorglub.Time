@@ -3,56 +3,42 @@
 
 namespace Zorglub.Time.Core.Schemas;
 
-/// <summary>
-/// Provides static formulae for the Julian schema (32-bit and 64-bit versions).
-/// <para>See also <seealso cref="JulianSchema"/>.
-/// </para>
+/// <summary>Provides static formulae for the Julian schema (32-bit and 64-bit versions).
+/// <para>See also <seealso cref="JulianSchema"/>.</para>
 /// <para>This class cannot be inherited.</para>
 /// </summary>
 internal static class JulianFormulae
 {
-    /// <summary>
-    /// Determines whether the specified year is leap or not.
-    /// </summary>
+    /// <summary>Determines whether the specified year is leap or not.</summary>
     [Pure]
     // CIL code size = 9 bytes <= 32 bytes.
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsLeapYear(long y) => (y & 3) == 0;
 
-    /// <summary>
-    /// Determines whether the specified year is leap or not.
-    /// </summary>
+    /// <summary>Determines whether the specified year is leap or not.</summary>
     [Pure]
     // CIL code size = 7 bytes <= 32 bytes.
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsLeapYear(int y) => (y & 3) == 0;
 
-    /// <summary>
-    /// Obtains the number of days in the specified year.
-    /// </summary>
+    /// <summary>Obtains the number of days in the specified year.</summary>
     [Pure]
     public static int CountDaysInYear(long y) =>
         IsLeapYear(y) ? GJSchema.DaysInLeapYear : GJSchema.DaysInCommonYear;
 
-    /// <summary>
-    /// Obtains the number of days in the specified year.
-    /// </summary>
+    /// <summary>Obtains the number of days in the specified year.</summary>
     [Pure]
     public static int CountDaysInYear(int y) =>
         IsLeapYear(y) ? GJSchema.DaysInLeapYear : GJSchema.DaysInCommonYear;
 
-    /// <summary>
-    /// Obtains the number of days in the specified month.
-    /// </summary>
+    /// <summary>Obtains the number of days in the specified month.</summary>
     [Pure]
     public static int CountDaysInMonth(long y, int m) =>
         m != 2 ? 30 + ((m + (m >> 3)) & 1)
         : IsLeapYear(y) ? 29
         : 28;
 
-    /// <summary>
-    /// Obtains the number of days in the specified month.
-    /// </summary>
+    /// <summary>Obtains the number of days in the specified month.</summary>
     [Pure]
     public static int CountDaysInMonth(int y, int m) =>
         m != 2 ? 30 + ((m + (m >> 3)) & 1)
@@ -62,8 +48,7 @@ internal static class JulianFormulae
     // WARNING: si on ajoute des versions 32-bit, il faudra sûrement vérifier que cela
     // n'entraînera pas de dépassements arithmétiques dans DayNumber.
 
-    /// <summary>
-    /// Counts the number of consecutive days from the epoch to the specified date.
+    /// <summary>Counts the number of consecutive days from the epoch to the specified date.
     /// </summary>
     [Pure]
     public static long CountDaysSinceEpoch(long y, int m, int d)
@@ -83,10 +68,8 @@ internal static class JulianFormulae
             + (int)((uint)(153 * m + 2) / 5) + d - 1;
     }
 
-    /// <summary>
-    /// Obtains the date parts for the specified day count (the number of consecutive days from
-    /// the epoch to a date); the results are given in output parameters.
-    /// </summary>
+    /// <summary>Obtains the date parts for the specified day count (the number of consecutive days
+    /// from the epoch to a date); the results are given in output parameters.</summary>
     public static void GetDateParts(long daysSinceEpoch, out long y, out int m, out int d)
     {
         daysSinceEpoch += GJSchema.DaysInYearAfterFebruary;
@@ -108,18 +91,14 @@ internal static class JulianFormulae
         }
     }
 
-    /// <summary>
-    /// Obtains the year from the specified day count (the number of consecutive days from the
-    /// epoch to a date).
-    /// </summary>
+    /// <summary>Obtains the year from the specified day count (the number of consecutive days from
+    /// the epoch to a date).</summary>
     [Pure]
     public static long GetYear(long daysSinceEpoch) =>
         MathZ.Divide((daysSinceEpoch << 2) + 1464, JulianSchema.DaysPer4YearCycle);
 
-    /// <summary>
-    /// Counts the number of consecutive days from the epoch to the first day of the specified
-    /// year.
-    /// </summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the first day of the
+    /// specified year.</summary>
     [Pure]
     public static long GetStartOfYear(long y)
     {
@@ -127,10 +106,8 @@ internal static class JulianFormulae
         return GJSchema.DaysInCommonYear * y + (y >> 2);
     }
 
-    /// <summary>
-    /// Counts the number of consecutive days from the epoch to the first day of the specified
-    /// year.
-    /// </summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the first day of the
+    /// specified year.</summary>
     [Pure]
     public static int GetStartOfYear(int y)
     {
