@@ -9,9 +9,9 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 // TODO(api): clocks, non-standard math.
-// XML doc, explain the scope for all calendars.
-// CountDaysSince(other) checked context or not? ensure that we test that?
+// Date.CountDaysSince(other) checked context or not? ensure that we test that?
 
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class ArmenianCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(Egyptian12Schema schema) =>
@@ -21,17 +21,7 @@ public partial class ArmenianCalendar : IRegularFeaturette
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
-public partial struct ArmenianDate : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class Armenian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     private static partial MinMaxYearScope GetScope(Egyptian13Schema schema) =>
@@ -46,17 +36,7 @@ public partial class Armenian13Calendar : IRegularFeaturette, IVirtualMonthFeatu
     public int VirtualMonth { get; private set; }
 }
 
-public partial struct Armenian13Date : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class CopticCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(Coptic12Schema schema) =>
@@ -66,17 +46,7 @@ public partial class CopticCalendar : IRegularFeaturette
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
-public partial struct CopticDate : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     private static partial MinMaxYearScope GetScope(Coptic13Schema schema) =>
@@ -91,17 +61,7 @@ public partial class Coptic13Calendar : IRegularFeaturette, IVirtualMonthFeature
     public int VirtualMonth { get; private set; }
 }
 
-public partial struct Coptic13Date : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class EthiopicCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(Coptic12Schema schema) =>
@@ -111,17 +71,7 @@ public partial class EthiopicCalendar : IRegularFeaturette
     public int MonthsInYear => Coptic12Schema.MonthsPerYear;
 }
 
-public partial struct EthiopicDate : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     private static partial MinMaxYearScope GetScope(Coptic13Schema schema) =>
@@ -136,17 +86,7 @@ public partial class Ethiopic13Calendar : IRegularFeaturette, IVirtualMonthFeatu
     public int VirtualMonth { get; private set; }
 }
 
-public partial struct Ethiopic13Date : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class TabularIslamicCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(TabularIslamicSchema schema) =>
@@ -156,6 +96,7 @@ public partial class TabularIslamicCalendar : IRegularFeaturette
     public int MonthsInYear => TabularIslamicSchema.MonthsPerYear;
 }
 
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class WorldCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(WorldSchema schema) =>
@@ -176,19 +117,7 @@ public partial class WorldCalendar : IRegularFeaturette
     }
 }
 
-public partial struct WorldDate : IBlankDay
-{
-    /// <inheritdoc />
-    public bool IsBlank
-    {
-        get
-        {
-            s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-            return s_Schema.IsBlankDay(y, m, d);
-        }
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class ZoroastrianCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(Egyptian12Schema schema) =>
@@ -198,17 +127,7 @@ public partial class ZoroastrianCalendar : IRegularFeaturette
     public int MonthsInYear => Egyptian12Schema.MonthsPerYear;
 }
 
-public partial struct ZoroastrianDate : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
-}
-
+/// <remarks>This calendar supports <i>all</i> dates within the range [1..9999] of years.</remarks>
 public partial class Zoroastrian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     private static partial MinMaxYearScope GetScope(Egyptian13Schema schema) =>
@@ -221,15 +140,4 @@ public partial class Zoroastrian13Calendar : IRegularFeaturette, IVirtualMonthFe
 
     /// <inheritdoc/>
     public int VirtualMonth { get; private set; }
-}
-
-public partial struct Zoroastrian13Date : IEpagomenalDay
-{
-    /// <inheritdoc />
-    [Pure]
-    public bool IsEpagomenal(out int epagomenalNumber)
-    {
-        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-        return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-    }
 }

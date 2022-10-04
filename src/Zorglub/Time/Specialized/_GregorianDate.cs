@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Specialized;
 
-using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
@@ -12,16 +11,6 @@ using Zorglub.Time.Hemerology.Scopes;
 
 // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
 // is equal to DayNumber.Zero.
-
-/// <remarks>This calendar is proleptic.</remarks>
-public partial class GregorianCalendar : IRegularFeaturette
-{
-    private static partial MinMaxYearScope GetScope(GregorianSchema schema) =>
-        MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle);
-
-    /// <inheritdoc />
-    public int MonthsInYear => GJSchema.MonthsPerYear;
-}
 
 public partial struct GregorianDate
 {
