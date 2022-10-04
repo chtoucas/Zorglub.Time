@@ -9,6 +9,7 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
+using Zorglub.Time.Horology;
 
 // We use GregorianStandardScope instead of s_Calendar.Scope because they
 // are strictly equivalent.
@@ -26,6 +27,37 @@ public partial class CivilCalendar : IRegularFeaturette
 
     /// <inheritdoc />
     public int MonthsInYear => GJSchema.MonthsPerYear;
+}
+
+/// <summary>Represents a clock for the Civil calendar.
+/// <para>This class cannot be inherited.</para></summary>
+public sealed partial class CivilClock
+{
+    private readonly IClock _clock;
+
+    /// <summary>Initializes a new instance of the <see cref="CivilClock"/> class.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    public CivilClock(IClock clock)
+    {
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+    }
+
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock
+    /// using the current time zone setting on this machine.</summary>
+    public static CivilClock Local { get; } = new(SystemClocks.Local);
+
+    /// <summary>Gets an instance of the <see cref="CivilClock"/> class for the system clock
+    /// using the Coordinated Universal Time (UTC).</summary>
+    public static CivilClock Utc { get; } = new(SystemClocks.Utc);
+
+    /// <summary>Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.</summary>
+    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+    [Pure]
+    public static CivilClock GetClock(IClock clock) => new(clock);
+
+    /// <summary>Obtains a <see cref="CivilDate"/> value representing the current date.</summary>
+    [Pure]
+    public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
 public partial struct CivilDate

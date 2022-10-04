@@ -8,7 +8,7 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// TODO(api): non-standard math.
+// TODO(api): clocks, non-standard math.
 // XML doc, explain the scope for all calendars.
 // CountDaysSince(other) checked context or not? ensure that we test that?
 
@@ -212,8 +212,7 @@ public partial struct ZoroastrianDate : IEpagomenalDay
     }
 }
 
-public partial class Zoroastrian13Calendar : IRegularFeaturette,
-    IVirtualMonthFeaturette
+public partial class Zoroastrian13Calendar : IRegularFeaturette, IVirtualMonthFeaturette
 {
     internal Zoroastrian13Calendar(Egyptian13Schema schema)
         : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))

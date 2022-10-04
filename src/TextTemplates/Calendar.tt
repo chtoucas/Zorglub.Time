@@ -41,8 +41,8 @@ public partial class CalendarTemplate : VSTemplate
         WriteLine();
         EmitAdjuster();
 
-        WriteLine();
-        EmitClock();
+        //WriteLine();
+        //EmitClock();
 
         WriteLine();
         EmitDate();

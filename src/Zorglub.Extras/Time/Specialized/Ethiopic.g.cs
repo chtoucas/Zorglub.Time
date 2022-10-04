@@ -47,41 +47,6 @@ public sealed partial class EthiopicAdjuster : SpecialAdjuster<EthiopicDate>
     private protected sealed override EthiopicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>Represents a clock for the Ethiopic calendar.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed partial class EthiopicClock
-{
-    private readonly IClock _clock;
-    private readonly DayNumber _epoch;
-
-    /// <summary>Initializes a new instance of the <see cref="EthiopicClock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    public EthiopicClock(IClock clock) : this(EthiopicDate.Calendar.Epoch, clock) { }
-
-    private EthiopicClock(DayNumber epoch, IClock clock)
-    {
-        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
-        _epoch = epoch;
-    }
-
-    /// <summary>Gets an instance of the <see cref="EthiopicClock"/> class for the system clock
-    /// using the current time zone setting on this machine.</summary>
-    public static EthiopicClock Local { get; } = new(SystemClocks.Local);
-
-    /// <summary>Gets an instance of the <see cref="EthiopicClock"/> class for the system clock
-    /// using the Coordinated Universal Time (UTC).</summary>
-    public static EthiopicClock Utc { get; } = new(SystemClocks.Utc);
-
-    /// <summary>Obtains an instance of the <see cref="EthiopicClock"/> class for the specified clock.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    [Pure]
-    public static EthiopicClock GetClock(IClock clock) => new(clock);
-
-    /// <summary>Obtains a <see cref="EthiopicDate"/> value representing the current date.</summary>
-    [Pure]
-    public EthiopicDate GetCurrentDate() => new(_clock.Today() - _epoch);
-}
-
 /// <summary>Represents the Ethiopic date.
 /// <para><see cref="EthiopicDate"/> is an immutable struct.</para></summary>
 public readonly partial struct EthiopicDate :

@@ -47,41 +47,6 @@ public sealed partial class ArmenianAdjuster : SpecialAdjuster<ArmenianDate>
     private protected sealed override ArmenianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }
 
-/// <summary>Represents a clock for the Armenian calendar.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed partial class ArmenianClock
-{
-    private readonly IClock _clock;
-    private readonly DayNumber _epoch;
-
-    /// <summary>Initializes a new instance of the <see cref="ArmenianClock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    public ArmenianClock(IClock clock) : this(ArmenianDate.Calendar.Epoch, clock) { }
-
-    private ArmenianClock(DayNumber epoch, IClock clock)
-    {
-        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
-        _epoch = epoch;
-    }
-
-    /// <summary>Gets an instance of the <see cref="ArmenianClock"/> class for the system clock
-    /// using the current time zone setting on this machine.</summary>
-    public static ArmenianClock Local { get; } = new(SystemClocks.Local);
-
-    /// <summary>Gets an instance of the <see cref="ArmenianClock"/> class for the system clock
-    /// using the Coordinated Universal Time (UTC).</summary>
-    public static ArmenianClock Utc { get; } = new(SystemClocks.Utc);
-
-    /// <summary>Obtains an instance of the <see cref="ArmenianClock"/> class for the specified clock.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    [Pure]
-    public static ArmenianClock GetClock(IClock clock) => new(clock);
-
-    /// <summary>Obtains a <see cref="ArmenianDate"/> value representing the current date.</summary>
-    [Pure]
-    public ArmenianDate GetCurrentDate() => new(_clock.Today() - _epoch);
-}
-
 /// <summary>Represents the Armenian date.
 /// <para><see cref="ArmenianDate"/> is an immutable struct.</para></summary>
 public readonly partial struct ArmenianDate :
