@@ -9,9 +9,6 @@ using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
-// is equal to DayNumber.Zero.
-
 public partial struct GregorianDate
 {
     // WARNING: the order in which the static fields are written is __important__.

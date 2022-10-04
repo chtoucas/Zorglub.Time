@@ -73,13 +73,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play", "src\Play\Play.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generators", "src\Generators\Generators.csproj", "{85455969-26EA-4501-B6AC-C8EABE91D148}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextTemplates", "TextTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeTemplates", "CodeTemplates", "{65D3BD0D-11C8-4F77-8CEF-04EDDE9897D2}"
 	ProjectSection(SolutionItems) = preProject
-		src\TextTemplates\Calendar.EmitAdjuster.tt = src\TextTemplates\Calendar.EmitAdjuster.tt
-		src\TextTemplates\Calendar.EmitClock.tt = src\TextTemplates\Calendar.EmitClock.tt
-		src\TextTemplates\Calendar.EmitDate.tt = src\TextTemplates\Calendar.EmitDate.tt
-		src\TextTemplates\Calendar.tt = src\TextTemplates\Calendar.tt
-		src\TextTemplates\GCalendar.tt = src\TextTemplates\GCalendar.tt
+		src\CodeTemplates\Calendar.EmitAdjuster.tt = src\CodeTemplates\Calendar.EmitAdjuster.tt
+		src\CodeTemplates\Calendar.EmitClock.tt = src\CodeTemplates\Calendar.EmitClock.tt
+		src\CodeTemplates\Calendar.EmitDate.tt = src\CodeTemplates\Calendar.EmitDate.tt
+		src\CodeTemplates\Calendar.tt = src\CodeTemplates\Calendar.tt
+		src\CodeTemplates\GCalendar.tt = src\CodeTemplates\GCalendar.tt
 	EndProjectSection
 EndProject
 Global

@@ -17,7 +17,8 @@ public partial class CivilCalendar : IRegularFeaturette
     public int MonthsInYear => GJSchema.MonthsPerYear;
 }
 
-/// <remarks>This calendar is <i>proleptic</i>.</remarks>
+/// <remarks>This calendar is <i>proleptic</i>. It supports <i>all</i> dates within the range
+/// [-999_998..999_999] of years.</remarks>
 public partial class GregorianCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(GregorianSchema schema) =>
@@ -27,7 +28,8 @@ public partial class GregorianCalendar : IRegularFeaturette
     public int MonthsInYear => GJSchema.MonthsPerYear;
 }
 
-/// <remarks>This calendar is <i>proleptic</i>.</remarks>
+/// <remarks>This calendar is <i>proleptic</i>. It supports <i>all</i> dates within the range
+/// [-999_998..999_999] of years.</remarks>
 public partial class JulianCalendar : IRegularFeaturette
 {
     private static partial MinMaxYearScope GetScope(JulianSchema schema) =>

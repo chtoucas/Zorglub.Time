@@ -12,9 +12,6 @@ using Zorglub.Time.Hemerology.Scopes;
 // We use GregorianStandardScope instead of s_Calendar.Scope because they
 // are strictly equivalent. We could optimize PlusDays() by using
 // GregorianStandardScope.DaysValidator instead of s_Scope.DaysValidator.
-//
-// We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
-// is equal to DayNumber.Zero.
 
 public partial struct CivilDate
 {

@@ -11,7 +11,7 @@
     <ZorglubLibraryFrameworks>$(ZorglubDefaultFramework)</ZorglubLibraryFrameworks>
     <ZorglubTestFrameworks>$(ZorglubDefaultFramework)</ZorglubTestFrameworks>
 
-    <ZorglubT4Directory>$(MSBuildThisFileDirectory)src\TextTemplates\</ZorglubT4Directory>
+    <ZorglubT4Directory>$(MSBuildThisFileDirectory)src\CodeTemplates\</ZorglubT4Directory>
     <ZorglubT4Assembly>$(MSBuildThisFileDirectory)eng\blib\Zorglub.TextTemplating.$(VisualStudioVersion).dll</ZorglubT4Assembly>
 
     <!--
