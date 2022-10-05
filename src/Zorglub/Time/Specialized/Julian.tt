@@ -4,4 +4,24 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-<#= new CalendarTemplate(this, "JulianSchema") { EnableClock = true }.Execute() #>
+<#= new JulianTemplate(this).Execute() #><#+
+
+public sealed class JulianTemplate : CalendarTemplate
+{
+    public JulianTemplate(TextTransformation parent) : base(parent, "JulianSchema") { }
+
+    protected override void EmitDateDecl()
+    {
+#>
+/// <summary>Represents the <#= DisplayName #> date.
+/// <para><see cref="<#= Prefix #>Date"/> is an immutable struct.</para></summary>
+public readonly partial struct <#= Prefix #>Date :
+    IDate<<#= Prefix #>Date, <#= Prefix #>Calendar>,
+    IAdjustable<<#= Prefix #>Date>
+{ }
+<#+
+    } // T4: End of EmitDateDecl()
+
+}
+
+#>

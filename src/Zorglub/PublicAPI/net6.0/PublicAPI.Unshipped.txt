@@ -776,9 +776,6 @@ static Zorglub.Time.Specialized.GregorianDate.operator <=(Zorglub.Time.Specializ
 static Zorglub.Time.Specialized.GregorianDate.operator ==(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >=(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
-static Zorglub.Time.Specialized.JulianClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.JulianClock!
-static Zorglub.Time.Specialized.JulianClock.Local.get -> Zorglub.Time.Specialized.JulianClock!
-static Zorglub.Time.Specialized.JulianClock.Utc.get -> Zorglub.Time.Specialized.JulianClock!
 static Zorglub.Time.Specialized.JulianDate.Adjuster.get -> Zorglub.Time.Specialized.JulianAdjuster!
 static Zorglub.Time.Specialized.JulianDate.Calendar.get -> Zorglub.Time.Specialized.JulianCalendar!
 static Zorglub.Time.Specialized.JulianDate.Max(Zorglub.Time.Specialized.JulianDate x, Zorglub.Time.Specialized.JulianDate y) -> Zorglub.Time.Specialized.JulianDate
@@ -1877,9 +1874,6 @@ Zorglub.Time.Specialized.JulianAdjuster.JulianAdjuster() -> void
 Zorglub.Time.Specialized.JulianCalendar
 Zorglub.Time.Specialized.JulianCalendar.JulianCalendar() -> void
 Zorglub.Time.Specialized.JulianCalendar.MonthsInYear.get -> int
-Zorglub.Time.Specialized.JulianClock
-Zorglub.Time.Specialized.JulianClock.GetCurrentDate() -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianClock.JulianClock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Adjust(System.Func<Zorglub.Time.Specialized.JulianDate, Zorglub.Time.Specialized.JulianDate>! adjuster) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Century.get -> int
