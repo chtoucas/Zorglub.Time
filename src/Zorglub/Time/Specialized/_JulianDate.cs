@@ -24,7 +24,8 @@ public partial struct JulianDate
 
     private readonly int _daysSinceEpoch;
 
-    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
+    /// date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid date or
     /// <paramref name="year"/> is outside the range of supported years.</exception>
     public JulianDate(int year, int month, int day)
@@ -34,7 +35,8 @@ public partial struct JulianDate
         _daysSinceEpoch = JulianFormulae.CountDaysSinceEpoch(year, month, day);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified ordinal date parts.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
+    /// ordinal date parts.</summary>
     /// <exception cref="AoorException">The specified components do not form a valid ordinal date or
     /// <paramref name="year"/> is outside the range of supported years.</exception>
     public JulianDate(int year, int dayOfYear)
@@ -44,8 +46,10 @@ public partial struct JulianDate
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified day number.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
+    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
+    /// day number.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
     public JulianDate(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
@@ -141,7 +145,8 @@ public partial struct JulianDate
     /// <inheritdoc />
     public bool IsSupplementary => false;
 
-    /// <summary>Returns a culture-independent string representation of the current instance.</summary>
+    /// <summary>Returns a culture-independent string representation of the current instance.
+    /// </summary>
     [Pure]
     public override string ToString()
     {
