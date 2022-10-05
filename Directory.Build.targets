@@ -17,6 +17,7 @@
           Condition=" '$(PrintSettings)' == 'true' and '$(TargetFramework)' != '' ">
     <PropertyGroup>
       <MyMessage>| %24(SignAssembly)               = "$(SignAssembly)"</MyMessage>
+      <MyMessage>$(MyMessage)%0A| %24(HideInternals)              = "$(HideInternals)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(LangVersion)                = "$(LangVersion)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(EnablePreviewFeatures)      = "$(EnablePreviewFeatures)"</MyMessage>
       <MyMessage>$(MyMessage)%0A| %24(ContinuousIntegrationBuild) = "$(ContinuousIntegrationBuild)"</MyMessage>

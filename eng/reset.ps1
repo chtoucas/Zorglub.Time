@@ -4,9 +4,13 @@
 
 [CmdletBinding()]
 param(
-    [switch] $Artifacts,
-    [switch] $VS,
+                 [switch] $Artifacts,
+    [Alias('b')] [switch] $BinAndObj,
+                 [switch] $PackagesLock,
+                 [switch] $Vss,
 
+                 [switch] $Hard,
+    [Alias('a')] [switch] $All,
     [Alias('h')] [switch] $Help
 )
 
@@ -17,11 +21,17 @@ param(
 function Print-Help {
     say @"
 
-Cleanup script. Remove all folders "bin" and "obj".
+Cleanup script. This script does nothing unless you specifiy at least one option.
 
 Usage: reset.ps1 [arguments]
-     -Artifacts     delete also the folder "__" containing the artifacts
-     -VS            delete also the folder ".vs" containing the Visual Studio settings
+     -Artifacts     delete the folder "__" containing the artifacts
+  -b|-BinAndObj     delete all folders "bin" and "obj".
+     -PackagesLock  delete all files "packages.lock.json".
+     -Vss           delete the folder ".vs" containing the Visual Studio settings
+
+     -Hard          remove untracked files from the working tree
+  -a|-All
+
   -h|-Help          print this help then exit
 
 "@
@@ -57,17 +67,30 @@ if ($Help) { Print-Help ; exit }
 try {
     pushd $RootDir
 
-    Remove-BinAndObj (Join-Path $RootDir 'src' -Resolve)
-    Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
+    if ($Hard) {
+        say "Use `git clean --dry-run [-d -X]`."
+        exit 0
+    }
 
-    if ($Artifacts) {
+    if ($All -or $Artifacts) {
         say "Deleting ""$ArtifactsDir""."
         if (Test-Path $ArtifactsDir) {
             rm $ArtifactsDir -Recurse
         }
     }
 
-    if ($VS) {
+    if ($All -or $BinAndObj) {
+        Remove-BinAndObj (Join-Path $RootDir 'src' -Resolve)
+        Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
+    }
+
+    if ($All -or $PackagesLock) {
+        say "Deleting ""packages.lock.json""."
+        gci -Recurse -File -Filter "packages.lock.json"
+            | foreach { Write-Verbose "Deleting ""$_""." ; rm $_.FullName }
+    }
+
+    if ($All -or $Vss) {
         $vsDir = Join-Path $RootDir '.vs'
         say "Deleting ""$vsDir""."
         if (Test-Path $vsDir) {
