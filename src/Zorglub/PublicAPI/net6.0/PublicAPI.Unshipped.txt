@@ -756,9 +756,6 @@ static Zorglub.Time.Specialized.CivilDate.operator <=(Zorglub.Time.Specialized.C
 static Zorglub.Time.Specialized.CivilDate.operator ==(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >=(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
-static Zorglub.Time.Specialized.GregorianClock.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Specialized.GregorianClock!
-static Zorglub.Time.Specialized.GregorianClock.Local.get -> Zorglub.Time.Specialized.GregorianClock!
-static Zorglub.Time.Specialized.GregorianClock.Utc.get -> Zorglub.Time.Specialized.GregorianClock!
 static Zorglub.Time.Specialized.GregorianDate.Adjuster.get -> Zorglub.Time.Specialized.GregorianAdjuster!
 static Zorglub.Time.Specialized.GregorianDate.Calendar.get -> Zorglub.Time.Specialized.GregorianCalendar!
 static Zorglub.Time.Specialized.GregorianDate.Max(Zorglub.Time.Specialized.GregorianDate x, Zorglub.Time.Specialized.GregorianDate y) -> Zorglub.Time.Specialized.GregorianDate
@@ -1830,9 +1827,6 @@ Zorglub.Time.Specialized.GregorianAdjuster.GregorianAdjuster() -> void
 Zorglub.Time.Specialized.GregorianCalendar
 Zorglub.Time.Specialized.GregorianCalendar.GregorianCalendar() -> void
 Zorglub.Time.Specialized.GregorianCalendar.MonthsInYear.get -> int
-Zorglub.Time.Specialized.GregorianClock
-Zorglub.Time.Specialized.GregorianClock.GetCurrentDate() -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianClock.GregorianClock(Zorglub.Time.Horology.IClock! clock) -> void
 Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Adjust(System.Func<Zorglub.Time.Specialized.GregorianDate, Zorglub.Time.Specialized.GregorianDate>! adjuster) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Century.get -> int
