@@ -105,12 +105,15 @@ Subprojects
   T4: simple but requires VS
   SG: Code Analysis? VS experience is less than stellar
   https://github.com/amis92/csharp-source-generators
+  https://github.com/dotnet/roslyn/discussions/49921#discussioncomment-195390
+  https://github.com/scriban/scriban/pull/272
   - Enum.IsDefined
   - DIM (ICalendricalSchemaPlus)
   - specialized date types
   T4 TODOs:
     Use Mono.T4? Advantage: compatible with .NET Core.
-    TransformOnBuild (Zorglub and Zorglub.Extras).
+    See https://github.com/morelinq/MoreLINQ
+    TransformOnBuild (Zorglub and Zorglub.Extras)
 ```xml
 <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets"
           Condition=" '$(BuildingInsideVisualStudio)' == 'true' " />
