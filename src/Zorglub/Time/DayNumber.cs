@@ -263,7 +263,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
         ValidateYear(year);
         JulianPreValidator.Instance.ValidateMonthDay(year, month, day);
 
-        int daysSinceEpoch = (int)JulianFormulae.CountDaysSinceEpoch(year, month, day);
+        int daysSinceEpoch = (int)JulianFormulae.CountDaysSinceEpoch((long)year, month, day);
         int daysSinceZero = daysSinceEpoch - DaysFromJulianEpochToZero;
         return new DayNumber(daysSinceZero);
     }
@@ -305,7 +305,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
         CheckJulianOverflow();
 
         int daysSinceEpoch = DaysFromJulianEpochToZero + _daysSinceZero;
-        int y = (int)JulianFormulae.GetYear(daysSinceEpoch);
+        int y = (int)JulianFormulae.GetYear((long)daysSinceEpoch);
         int doy = 1 + daysSinceEpoch - JulianFormulae.GetStartOfYear(y);
         return new OrdinalParts(y, doy);
     }
@@ -319,7 +319,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
         CheckJulianOverflow();
 
         int daysSinceEpoch = DaysFromJulianEpochToZero + _daysSinceZero;
-        return (int)JulianFormulae.GetYear(daysSinceEpoch);
+        return (int)JulianFormulae.GetYear((long)daysSinceEpoch);
     }
 
     #endregion
