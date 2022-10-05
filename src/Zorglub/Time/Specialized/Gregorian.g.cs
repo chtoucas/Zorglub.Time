@@ -18,7 +18,6 @@ namespace Zorglub.Time.Specialized;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Horology;
 
 /// <summary>Represents the Gregorian calendar.
 /// <para>This class cannot be inherited.</para></summary>
@@ -49,37 +48,6 @@ public sealed partial class GregorianAdjuster : SpecialAdjuster<GregorianDate>
     internal GregorianAdjuster(MinMaxYearScope scope) : base(scope) { }
 
     private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
-}
-
-/// <summary>Represents a clock for the Gregorian calendar.
-/// <para>This class cannot be inherited.</para></summary>
-public sealed partial class GregorianClock
-{
-    private readonly IClock _clock;
-
-    /// <summary>Initializes a new instance of the <see cref="GregorianClock"/> class.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    public GregorianClock(IClock clock)
-    {
-        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
-    }
-
-    /// <summary>Gets an instance of the <see cref="GregorianClock"/> class for the system clock
-    /// using the current time zone setting on this machine.</summary>
-    public static GregorianClock Local { get; } = new(SystemClocks.Local);
-
-    /// <summary>Gets an instance of the <see cref="GregorianClock"/> class for the system clock
-    /// using the Coordinated Universal Time (UTC).</summary>
-    public static GregorianClock Utc { get; } = new(SystemClocks.Utc);
-
-    /// <summary>Obtains an instance of the <see cref="GregorianClock"/> class for the specified clock.</summary>
-    /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-    [Pure]
-    public static GregorianClock GetClock(IClock clock) => new(clock);
-
-    /// <summary>Obtains a <see cref="GregorianDate"/> value representing the current date.</summary>
-    [Pure]
-    public GregorianDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
 }
 
 /// <summary>Represents the Gregorian date.
