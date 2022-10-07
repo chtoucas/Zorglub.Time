@@ -28,10 +28,8 @@ Usage: reset.ps1 [arguments]
   -b|-BinAndObj     delete all folders "bin" and "obj".
      -PackagesLock  delete all files "packages.lock.json".
      -Vss           delete the folder ".vs" containing the Visual Studio settings
-
      -Soft          remove untracked files from the working tree
   -a|-All
-
   -h|-Help          print this help then exit
 
 "@
