@@ -21,7 +21,7 @@ public static partial class DayZero
     /// within the Julian calendar.</summary>
     [Pure]
     private static DayNumber FromJulian(Ord yearOfEra, int m, int d) =>
-        OldStyle + (int)JulianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
+        OldStyle + JulianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
 }
 
 public partial class DayZero //

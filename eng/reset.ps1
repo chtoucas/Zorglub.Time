@@ -9,7 +9,7 @@ param(
                  [switch] $PackagesLock,
                  [switch] $Vss,
 
-                 [switch] $Hard,
+                 [switch] $Soft,
     [Alias('a')] [switch] $All,
     [Alias('h')] [switch] $Help
 )
@@ -29,7 +29,7 @@ Usage: reset.ps1 [arguments]
      -PackagesLock  delete all files "packages.lock.json".
      -Vss           delete the folder ".vs" containing the Visual Studio settings
 
-     -Hard          remove untracked files from the working tree
+     -Soft          remove untracked files from the working tree
   -a|-All
 
   -h|-Help          print this help then exit
@@ -67,7 +67,7 @@ if ($Help) { Print-Help ; exit }
 try {
     pushd $RootDir
 
-    if ($Hard) {
+    if ($Soft) {
         say "Use `git clean --dry-run [-d -X]`."
         exit 0
     }
