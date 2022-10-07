@@ -14,20 +14,20 @@ using Zorglub.Time.Specialized;
 using static NodaTime.Extensions.ClockExtensions;
 
 /*
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
+BenchmarkDotNet=v0.13.2, OS=Windows 10 (10.0.19044.2006/21H2/November2021Update)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.400
-  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
-  DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+.NET SDK=6.0.401
+  [Host]     : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
+  DefaultJob : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
 
-|              Method |     Mean |   Error |  StdDev | Ratio | Rank |
-|-------------------- |---------:|--------:|--------:|------:|-----:|
-|    'CivilDate     ' | 164.6 ns | 0.67 ns | 0.63 ns |  0.96 |    I |
-|  'SystemClock     ' | 171.2 ns | 0.56 ns | 0.50 ns |  1.00 |   II |
-|  'CalendarDay     ' | 171.6 ns | 0.65 ns | 0.57 ns |  1.00 |   II |
-|    'LocalDate *(Y)' | 177.8 ns | 0.59 ns | 0.55 ns |  1.04 |  III |
-|     'DateTime *   ' | 181.3 ns | 0.83 ns | 0.78 ns |  1.06 |   IV |
-|        'ZDate     ' | 182.9 ns | 1.33 ns | 1.11 ns |  1.07 |   IV |
+|             Method |     Mean |   Error |  StdDev | Ratio | Rank |
+|------------------- |---------:|--------:|--------:|------:|-----:|
+|   'CivilDate     ' | 164.1 ns | 0.89 ns | 0.83 ns |  0.94 |    I |
+| 'SystemClock     ' | 174.8 ns | 0.74 ns | 0.70 ns |  1.00 |   II |
+| 'CalendarDay     ' | 176.0 ns | 0.95 ns | 0.84 ns |  1.01 |   II |
+|   'LocalDate *(Y)' | 182.1 ns | 0.67 ns | 0.60 ns |  1.04 |  III |
+|    'DateTime *   ' | 183.9 ns | 1.06 ns | 0.99 ns |  1.05 |  III |
+|       'ZDate     ' | 184.2 ns | 0.85 ns | 0.79 ns |  1.05 |  III |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
