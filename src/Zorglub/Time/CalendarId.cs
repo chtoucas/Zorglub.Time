@@ -4,7 +4,7 @@
 namespace Zorglub.Time;
 
 // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
-// should use equivalent schemas and scopes.
+// should use functionally equivalent schema and scope.
 
 /// <summary>Specifies the permanent unique identifier of a calendar.
 /// <para>This feature is only available to system calendars.</para></summary>
