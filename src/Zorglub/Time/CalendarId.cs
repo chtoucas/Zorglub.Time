@@ -54,12 +54,11 @@ public enum CalendarId
 /// <para>This class cannot be inherited.</para></summary>
 internal static class CalendarIdExtensions
 {
-    /// <summary>Returns true if the specified permanent ID is defined; otherwise returns false.
-    /// </summary>
+    /// <summary>Returns true if the specified ID is defined; otherwise returns false.</summary>
     public static bool IsDefined(this CalendarId @this) =>
         CalendarId.Gregorian <= @this && @this <= CalendarId.Zoroastrian;
 
-    /// <summary>Converts the permanent ID to a calendar key.</summary>
+    /// <summary>Converts the ID to a calendar key.</summary>
     /// <exception cref="AoorException" />
     public static string ToCalendarKey(this CalendarId @this) =>
         @this switch

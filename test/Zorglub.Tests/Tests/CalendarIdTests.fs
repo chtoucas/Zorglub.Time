@@ -8,23 +8,23 @@ open System.Linq
 
 open Zorglub.Testing
 open Zorglub.Testing.Data
-
 open Zorglub.Time
 
 open Xunit
 
+/// Test data for ToString().
 [<Sealed>]
 type IdToStringData() as self =
     inherit TheoryData<CalendarId, string>()
     do
-        self.Add(CalendarId.Armenian, "Armenian")
-        self.Add(CalendarId.Civil, "Civil")
-        self.Add(CalendarId.Coptic, "Coptic")
-        self.Add(CalendarId.Ethiopic, "Ethiopic")
-        self.Add(CalendarId.Gregorian, "Gregorian")
-        self.Add(CalendarId.Julian, "Julian")
+        self.Add(CalendarId.Armenian,       "Armenian")
+        self.Add(CalendarId.Civil,          "Civil")
+        self.Add(CalendarId.Coptic,         "Coptic")
+        self.Add(CalendarId.Ethiopic,       "Ethiopic")
+        self.Add(CalendarId.Gregorian,      "Gregorian")
+        self.Add(CalendarId.Julian,         "Julian")
         self.Add(CalendarId.TabularIslamic, "TabularIslamic")
-        self.Add(CalendarId.Zoroastrian, "Zoroastrian")
+        self.Add(CalendarId.Zoroastrian,    "Zoroastrian")
 
 let validData = EnumDataSet.CalendarIdData
 let invalidData = EnumDataSet.InvalidCalendarIdData
