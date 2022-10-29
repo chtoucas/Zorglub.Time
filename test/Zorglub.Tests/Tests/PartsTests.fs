@@ -6,7 +6,6 @@ module Zorglub.Tests.PartsTests
 open System
 
 open Zorglub.Testing
-
 open Zorglub.Time
 
 open Xunit
@@ -17,7 +16,7 @@ module DateParts =
     /// Arbitrary for (x, y) where x and y are DateParts instances such that x <> y.
     /// Notice that x < y.
     let private xyArbitrary = Arb.fromGen <| gen {
-        let! ymd =
+        let! parts =
             Gen.elements [
                 // One different element.
                 (2, 1, 1); (1, 2, 1); (1, 1, 2);
@@ -26,7 +25,7 @@ module DateParts =
                 // Three different elements.
                 (2, 2, 2) ]
             |> Gen.map (fun (y, m, d) -> new DateParts(y, m, d))
-        return new DateParts(1, 1, 1), ymd
+        return new DateParts(1, 1, 1), parts
     }
 
     module Prelude =
@@ -67,20 +66,6 @@ module DateParts =
 
     module Equality =
         open NonStructuralComparison
-
-        /// Arbitrary for (x, y) where x and y are DateParts instances such that x <> y.
-        let private xyArbitrary = Arb.fromGen <| gen {
-            let! parts =
-                Gen.elements [
-                    // One different element.
-                    (2, 1, 1); (1, 2, 1); (1, 1, 2);
-                    // Two different elements.
-                    (2, 2, 1); (1, 2, 2); (2, 1, 2);
-                    // Three different elements.
-                    (2, 2, 2) ]
-                |> Gen.map (fun (y, m, d) -> new DateParts(y, m, d))
-            return new DateParts(1, 1, 1), parts
-        }
 
         // fsharplint:disable Hints
         [<Property>]
@@ -165,10 +150,10 @@ module MonthParts =
     /// Arbitrary for (x, y) where x and y are MonthParts instances such that x <> y.
     /// Notice that x < y.
     let private xyArbitrary = Arb.fromGen <| gen {
-        let! ym =
+        let! parts =
             Gen.elements [ (2, 1); (1, 2); (2, 2) ]
             |> Gen.map (fun (y, m) -> new MonthParts(y, m))
-        return new MonthParts(1, 1), ym
+        return new MonthParts(1, 1), parts
     }
 
     module Prelude =
@@ -202,14 +187,6 @@ module MonthParts =
 
     module Equality =
         open NonStructuralComparison
-
-        /// Arbitrary for (x, y) where x and y are MonthParts instances such that x <> y.
-        let private xyArbitrary = Arb.fromGen <| gen {
-            let! parts =
-                Gen.elements [ (2, 1); (1, 2); (2, 2) ]
-                |> Gen.map (fun (y, m) -> new MonthParts(y, m))
-            return new MonthParts(1, 1), parts
-        }
 
         // fsharplint:disable Hints
         [<Property>]
@@ -294,10 +271,10 @@ module OrdinalParts =
     /// Arbitrary for (x, y) where x and y are OrdinalParts instances such that x <> y.
     /// Notice that x < y.
     let private xyArbitrary = Arb.fromGen <| gen {
-        let! ydoy =
+        let! parts =
             Gen.elements [ (2, 1); (1, 2); (2, 2) ]
             |> Gen.map (fun (y, doy) -> new OrdinalParts(y, doy))
-        return new OrdinalParts(1, 1), ydoy
+        return new OrdinalParts(1, 1), parts
     }
 
     module Prelude =
@@ -331,14 +308,6 @@ module OrdinalParts =
 
     module Equality =
         open NonStructuralComparison
-
-        /// Arbitrary for (x, y) where x and y are OrdinalParts instances such that x <> y.
-        let private xyArbitrary = Arb.fromGen <| gen {
-            let! parts =
-                Gen.elements [ (2, 1); (1, 2); (2, 2) ]
-                |> Gen.map (fun (y, doy) -> new OrdinalParts(y, doy))
-            return new OrdinalParts(1, 1), parts
-        }
 
         // fsharplint:disable Hints
         [<Property>]

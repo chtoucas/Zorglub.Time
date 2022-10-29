@@ -13,13 +13,13 @@ namespace Zorglub.Time.Extensions;
 //
 // For better alternatives, see BoxExtensions in Simple.
 
-/// <summary>Provides extension methods for <see cref="Box{T}"/>.</summary>
-/// <remarks>This class cannot be inherited.</remarks>
+/// <summary>Provides extension methods for <see cref="Box{T}"/>.
+/// <para>This class cannot be inherited.</para></summary>
 public static class Unboxing
 {
     /// <summary>Obtains the enclosed object.</summary>
     /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
-    /// <exception cref="InvalidOperationException">This box is empty.</exception>
+    /// <exception cref="InvalidOperationException"><paramref name="box"/> is an empty box.</exception>
     [Pure]
     public static T Unbox<T>(this Box<T> box)
         where T : class
