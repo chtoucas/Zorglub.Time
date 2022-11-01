@@ -42,7 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
-    <PackageReference Include="NodaTime" Version="3.1.4" />
+    <PackageReference Include="NodaTime" Version="3.1.5" />
     <!-- TODO(code): temporary fix.
          BenchmarkDotNet depends on Microsoft.CodeAnalysis.CSharp v3.0.0
          which depends on Microsoft.CodeAnalysis.Common v3.0.0
