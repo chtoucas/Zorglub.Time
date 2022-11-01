@@ -6,11 +6,10 @@ module Zorglub.Tests.ValueTypeTests
 open System
 open System.Runtime.InteropServices
 
-open Zorglub.Testing
-open Zorglub.Testing.Data
-
 open Zorglub.Bulgroz
 open Zorglub.Bulgroz.Obsolete
+open Zorglub.Testing
+open Zorglub.Testing.Data
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals

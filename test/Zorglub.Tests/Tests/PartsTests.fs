@@ -18,11 +18,11 @@ module DateParts =
     let private xyArbitrary = Arb.fromGen <| gen {
         let! parts =
             Gen.elements [
-                // One different element.
+                // One distinct element.
                 (2, 1, 1); (1, 2, 1); (1, 1, 2);
-                // Two different elements.
+                // Two distinct elements.
                 (2, 2, 1); (1, 2, 2); (2, 1, 2);
-                // Three different elements.
+                // Three distinct elements.
                 (2, 2, 2) ]
             |> Gen.map (fun (y, m, d) -> new DateParts(y, m, d))
         return new DateParts(1, 1, 1), parts
@@ -32,18 +32,14 @@ module DateParts =
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<DateParts>
-            let y, m, d = parts.Deconstruct()
 
-            (y, m, d) === (0, 0, 0)
+            (parts.Year, parts.Month, parts.Day) === (0, 0, 0)
 
         [<Property>]
         let Constructor y m d =
             let parts = new DateParts(y, m, d)
-            let a = parts.Year
-            let b = parts.Month
-            let c = parts.Day
 
-            (a, b, c) = (y, m, d)
+            (parts.Year, parts.Month, parts.Day) = (y, m, d)
 
         [<Property>]
         let Deconstructor y m d =
@@ -56,13 +52,13 @@ module DateParts =
         let ``AtStartOfYear()`` y =
             let parts = new DateParts(y, 1, 1)
 
-            DateParts.AtStartOfYear(y) === parts
+            DateParts.AtStartOfYear(y) = parts
 
         [<Property>]
         let ``AtStartOfMonth()`` y m =
             let parts = new DateParts(y, m, 1)
 
-            DateParts.AtStartOfMonth(y, m) === parts
+            DateParts.AtStartOfMonth(y, m) = parts
 
     module Equality =
         open NonStructuralComparison
@@ -160,17 +156,14 @@ module MonthParts =
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<MonthParts>
-            let y, m = parts.Deconstruct()
 
-            (y, m) === (0, 0)
+            (parts.Year, parts.Month) === (0, 0)
 
         [<Property>]
         let Constructor y m =
             let parts = new MonthParts(y, m)
-            let a = parts.Year
-            let b = parts.Month
 
-            (a, b) = (y, m)
+            (parts.Year, parts.Month) = (y, m)
 
         [<Property>]
         let Deconstructor y m =
@@ -183,7 +176,7 @@ module MonthParts =
         let ``AtStartOfYear()`` y =
             let parts = new MonthParts(y, 1)
 
-            MonthParts.AtStartOfYear(y) === parts
+            MonthParts.AtStartOfYear(y) = parts
 
     module Equality =
         open NonStructuralComparison
@@ -281,17 +274,14 @@ module OrdinalParts =
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<OrdinalParts>
-            let y, doy = parts.Deconstruct()
 
-            (y, doy) === (0, 0)
+            (parts.Year, parts.DayOfYear) === (0, 0)
 
         [<Property>]
         let Constructor y doy =
             let parts = new OrdinalParts(y, doy)
-            let a = parts.Year
-            let b = parts.DayOfYear
 
-            (a, b) = (y, doy)
+            (parts.Year, parts.DayOfYear) = (y, doy)
 
         [<Property>]
         let Deconstructor y doy =
@@ -304,7 +294,7 @@ module OrdinalParts =
         let ``AtStartOfYear()`` y =
             let parts = new OrdinalParts(y, 1)
 
-            OrdinalParts.AtStartOfYear(y) === parts
+            OrdinalParts.AtStartOfYear(y) = parts
 
     module Equality =
         open NonStructuralComparison

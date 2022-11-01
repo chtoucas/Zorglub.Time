@@ -12,7 +12,6 @@ open Zorglub.Time
 
 open Xunit
 
-/// Test data for ToString().
 [<Sealed>]
 type IdToStringData() as self =
     inherit TheoryData<CalendarId, string>()
@@ -26,8 +25,8 @@ type IdToStringData() as self =
         self.Add(CalendarId.TabularIslamic, "TabularIslamic")
         self.Add(CalendarId.Zoroastrian,    "Zoroastrian")
 
-let validData = EnumDataSet.CalendarIdData
-let invalidData = EnumDataSet.InvalidCalendarIdData
+let calendarIdData = EnumDataSet.CalendarIdData
+let badCalendarIdData = EnumDataSet.InvalidCalendarIdData
 
 [<Fact>]
 let ``Sanity checks`` () =
@@ -36,26 +35,30 @@ let ``Sanity checks`` () =
 
     data.Count() === count
 
+[<Fact>]
+let ``Default value of CalendarId is Gregorian`` () =
+    Unchecked.defaultof<CalendarId> === CalendarId.Gregorian
+
 [<Theory; ClassData(typeof<IdToStringData>)>]
-let ``ToString() does not use any alias`` (cuid: CalendarId) str =
-    cuid.ToString() === str
+let ``ToString() does not use any alias`` (id: CalendarId) str =
+    id.ToString() === str
 
 //
 // Extension methods
 //
 
-[<Theory; MemberData(nameof(invalidData))>]
-let ``IsDefined() returns false when the CalendarId value is out of range`` (cuid: CalendarId) =
-     CalendarIdExtensions.IsDefined(cuid) |> nok
+[<Theory; MemberData(nameof(badCalendarIdData))>]
+let ``IsDefined() returns false when the CalendarId value is out of range`` (id: CalendarId) =
+     CalendarIdExtensions.IsDefined(id) |> nok
 
-[<Theory; MemberData(nameof(validData))>]
-let ``IsDefined() returns true when the CalendarId value is valid`` (cuid: CalendarId) =
-     CalendarIdExtensions.IsDefined(cuid) |> ok
+[<Theory; MemberData(nameof(calendarIdData))>]
+let ``IsDefined() returns true when the CalendarId value is valid`` (id: CalendarId) =
+     CalendarIdExtensions.IsDefined(id) |> ok
 
-[<Theory; MemberData(nameof(invalidData))>]
-let ``ToCalendarKey() throws when the CalendarId value is out of range`` (cuid: CalendarId) =
-     outOfRangeExn "this" (fun () -> CalendarIdExtensions.ToCalendarKey(cuid))
+[<Theory; MemberData(nameof(badCalendarIdData))>]
+let ``ToCalendarKey() throws when the CalendarId value is out of range`` (id: CalendarId) =
+     outOfRangeExn "this" (fun () -> CalendarIdExtensions.ToCalendarKey(id))
 
-[<Theory; MemberData(nameof(validData))>]
-let ``ToCalendarKey() does not throw when the CalendarId value is valid`` (cuid: CalendarId) =
-     CalendarIdExtensions.ToCalendarKey(cuid) |> ignore
+[<Theory; MemberData(nameof(calendarIdData))>]
+let ``ToCalendarKey() does not throw when the CalendarId value is valid`` (id: CalendarId) =
+     CalendarIdExtensions.ToCalendarKey(id) |> ignore

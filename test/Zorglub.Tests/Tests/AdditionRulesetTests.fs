@@ -9,47 +9,47 @@ open Zorglub.Time
 
 open Xunit
 
-let private defaultRule = enum<AdditionRule>(0)
+let private defaultRule = Unchecked.defaultof<AdditionRule>
 
 let additionRuleData = EnumDataSet.AdditionRuleData
-let invalidAdditionRuleData = EnumDataSet.InvalidAdditionRuleData
+let badAdditionRuleData = EnumDataSet.InvalidAdditionRuleData
 
-[<Theory; MemberData(nameof(invalidAdditionRuleData))>]
-let ``Constructor throws for an invalid rule for dates`` (rule: AdditionRule) =
+[<Fact>]
+let ``Default value of AdditionRule is Truncate`` () =
+    defaultRule === AdditionRule.Truncate
+
+[<Theory; MemberData(nameof(badAdditionRuleData))>]
+let ``Constructor throws for an invalid rule for dates`` rule =
     outOfRangeExn "value" (fun () -> AdditionRuleset(DateRule = rule))
 
-[<Theory; MemberData(nameof(invalidAdditionRuleData))>]
-let ``Constructor throws for an invalid rule for ordinal dates`` (rule: AdditionRule) =
+[<Theory; MemberData(nameof(badAdditionRuleData))>]
+let ``Constructor throws for an invalid rule for ordinal dates`` rule =
     outOfRangeExn "value" (fun () -> AdditionRuleset(OrdinalRule = rule))
 
-[<Theory; MemberData(nameof(invalidAdditionRuleData))>]
-let ``Constructor throws for an invalid rule for months`` (rule: AdditionRule) =
+[<Theory; MemberData(nameof(badAdditionRuleData))>]
+let ``Constructor throws for an invalid rule for months`` rule =
     outOfRangeExn "value" (fun () -> AdditionRuleset(MonthRule = rule))
 
-//
-// Properties
-//
+[<Theory; MemberData(nameof(additionRuleData))>]
+let ``Property DateRule`` rule =
+    let ruleset = AdditionRuleset(DateRule = rule)
+
+    ruleset.DateRule    === rule
+    ruleset.OrdinalRule === defaultRule
+    ruleset.MonthRule   === defaultRule
 
 [<Theory; MemberData(nameof(additionRuleData))>]
-let ``Property DateRule`` (rule: AdditionRule) =
-    let rules = AdditionRuleset(DateRule = rule)
+let ``Property OrdinalRule`` rule =
+    let ruleset = AdditionRuleset(OrdinalRule = rule)
 
-    rules.DateRule    === rule
-    rules.OrdinalRule === defaultRule
-    rules.MonthRule   === defaultRule
-
-[<Theory; MemberData(nameof(additionRuleData))>]
-let ``Property OrdinalRule`` (rule: AdditionRule) =
-    let rules = AdditionRuleset(OrdinalRule = rule)
-
-    rules.DateRule    === defaultRule
-    rules.OrdinalRule === rule
-    rules.MonthRule   === defaultRule
+    ruleset.DateRule    === defaultRule
+    ruleset.OrdinalRule === rule
+    ruleset.MonthRule   === defaultRule
 
 [<Theory; MemberData(nameof(additionRuleData))>]
-let ``Property MonthRule`` (rule: AdditionRule) =
-    let rules = AdditionRuleset(MonthRule = rule)
+let ``Property MonthRule`` rule =
+    let ruleset = AdditionRuleset(MonthRule = rule)
 
-    rules.DateRule    === defaultRule
-    rules.OrdinalRule === defaultRule
-    rules.MonthRule   === rule
+    ruleset.DateRule    === defaultRule
+    ruleset.OrdinalRule === defaultRule
+    ruleset.MonthRule   === rule
