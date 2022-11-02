@@ -134,13 +134,13 @@
     <Compile Include="Tests\Extras\GregorianReformTests.fs" />
     <Compile Include="Tests\AdditionRulesetTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
-    <Compile Include="Tests\IsoWeekdayTests.fs" />
-    <Compile Include="Tests\PartsTests.fs" />
-    <Compile Include="Tests\OrdTests.fs" />
     <Compile Include="Tests\DayNumberTests.fs" />
     <Compile Include="Tests\DayNumber64Tests.fs" />
     <Compile Include="Tests\DayZeroTests.fs" />
+    <Compile Include="Tests\IsoWeekdayTests.fs" />
     <Compile Include="Tests\MomentTests.fs" />
+    <Compile Include="Tests\OrdTests.fs" />
+    <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

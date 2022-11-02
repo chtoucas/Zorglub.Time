@@ -7,7 +7,7 @@ using Zorglub.Time.Core.Schemas;
 
 // https://en.wikipedia.org/wiki/Calendar_era
 
-/// <summary>Defines the (origin for) different styles of numbering days and common calendar epochs.
+/// <summary>Defines the (origin for) different styles of days numbering and common calendar epochs.
 /// <para>This class cannot be inherited.</para></summary>
 public static partial class DayZero
 {
@@ -24,32 +24,41 @@ public static partial class DayZero
         OldStyle + JulianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
 }
 
-public partial class DayZero //
+public partial class DayZero // Core epochs
 {
-    /// <summary>Gets the Monday 1st of January, 1 CE within the Gregorian calendar, i.e. the epoch
-    /// of the Gregorian calendar.
-    /// <para>Matches the epoch of the Common Era, Current Era or Vulgar Era.</para>
-    /// <para>This static property is thread-safe.</para></summary>
-    public static DayNumber NewStyle { get; } = DayNumber.Zero;
-
     /// <summary>Gets the Saturday 1st of January, 1 CE within the Julian calendar, i.e. the epoch
     /// of the Julian calendar.
     /// <para>Two days before <see cref="NewStyle"/>, the Gregorian epoch.</para>
     /// <para>This static property is thread-safe.</para></summary>
     public static DayNumber OldStyle { get; } = DayNumber.Zero - 2;
 
-    /// <summary>Gets the day before <see cref="NewStyle"/>.
+    /// <summary>Gets the day before the Gregorian epoch, i.e. the Sunday 31th of December, 1 BC
+    /// within the Gregorian calendar.
     /// <para>This static property is thread-safe.</para></summary>
     public static DayNumber RataDie { get; } = DayNumber.Zero - 1;
-}
 
-public partial class DayZero // Aliases
-{
+    /// <summary>Gets the Monday 1st of January, 1 CE within the Gregorian calendar, i.e. the epoch
+    /// of the Gregorian calendar.
+    /// <para>Matches the epoch of the Common Era, Current Era or Vulgar Era.</para>
+    /// <para>This static property is thread-safe.</para></summary>
+    public static DayNumber NewStyle { get; } = DayNumber.Zero;
+
     /// <summary>Gets the epoch of the Julian calendar.
     /// <para>The 1st of January, 1 CE within the Julian calendar.</para>
     /// <para>This property is an alias for <see cref="OldStyle"/>.</para>
     /// <para>This static property is thread-safe.</para></summary>
     public static DayNumber Julian { get; } = OldStyle;
+
+    /// <summary>Gets the day before the Gregorian epoch.
+    /// <para>Sunday 31th of December, 1 BC within the Gregorian calendar.</para>
+    /// <para>This property is an alias for <see cref="RataDie"/>.</para>
+    /// <para>This static property is thread-safe.</para>
+    /// We use this epoch for the Pax and the World calendars.
+    /// <list type="bullet">
+    /// <item>The Pax epoch must be a Sunday (first day of a Pax week).</item>
+    /// <item>The definition of the World calendar requires that a year starts on a Sunday.</item>
+    /// </list></summary>
+    public static DayNumber SundayBeforeGregorian { get; } = RataDie;
 
     /// <summary>Gets the epoch of the Gregorian calendar.
     /// <para>Monday 1st of January, 1 CE within the Gregorian calendar.</para>
@@ -75,17 +84,6 @@ public partial class DayZero //
     /// <para>This property matches also the epoch of the Era of Nabonassar.</para>
     /// <para>This static property is thread-safe.</para></summary>
     public static DayNumber Egyptian => FromJulian(Ord.First - 747, 2, 26);
-
-    /// <summary>Gets the day before the Gregorian epoch.
-    /// <para>Sunday 31th of December, 1 BC within the Gregorian calendar.</para>
-    /// <para>This static property is thread-safe.</para>
-    /// We use this epoch for the Pax and the World calendars.
-    /// <list type="bullet">
-    /// <item>The Pax epoch must be a Sunday (first day of a Pax week).</item>
-    /// <item>As part of its definition, within the World calendar, a year must start on a
-    /// Sunday.</item>
-    /// </list></summary>
-    public static DayNumber SundayBeforeGregorian { get; } = NewStyle - 1;
 
     /// <summary>Gets the epoch of the Ethiopic calendar.
     /// <para>The 29th of August, 8 CE within the Julian calendar.</para>

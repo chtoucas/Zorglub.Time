@@ -53,7 +53,7 @@ module Prelude =
     open TestCommon
 
     [<Fact>]
-    let ``Default value`` () =
+    let ``Default value of Ord is Ord.Zeroth`` () =
         Unchecked.defaultof<Ord> === Ord.Zeroth
 
     // NB: the constructor is private.

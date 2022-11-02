@@ -30,7 +30,7 @@ module DateParts =
 
     module Prelude =
         [<Fact>]
-        let ``Default value`` () =
+        let ``Default value of DateParts is (0, 0, 0)`` () =
             let parts = Unchecked.defaultof<DateParts>
 
             (parts.Year, parts.Month, parts.Day) === (0, 0, 0)
@@ -154,7 +154,7 @@ module MonthParts =
 
     module Prelude =
         [<Fact>]
-        let ``Default value`` () =
+        let ``Default value of MonthParts is (0, 0)`` () =
             let parts = Unchecked.defaultof<MonthParts>
 
             (parts.Year, parts.Month) === (0, 0)
@@ -272,7 +272,7 @@ module OrdinalParts =
 
     module Prelude =
         [<Fact>]
-        let ``Default value`` () =
+        let ``Default value of OrdinalParts is (0, 0)`` () =
             let parts = Unchecked.defaultof<OrdinalParts>
 
             (parts.Year, parts.DayOfYear) === (0, 0)

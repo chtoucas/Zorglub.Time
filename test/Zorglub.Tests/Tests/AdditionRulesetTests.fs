@@ -15,7 +15,7 @@ let additionRuleData = EnumDataSet.AdditionRuleData
 let badAdditionRuleData = EnumDataSet.InvalidAdditionRuleData
 
 [<Fact>]
-let ``Default value of AdditionRule is Truncate`` () =
+let ``Default value of AdditionRule is AdditionRule.Truncate`` () =
     defaultRule === AdditionRule.Truncate
 
 [<Theory; MemberData(nameof(badAdditionRuleData))>]

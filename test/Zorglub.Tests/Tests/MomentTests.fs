@@ -11,7 +11,7 @@ open Xunit
 
 module Prelude =
     [<Fact>]
-    let ``Default value`` () =
+    let ``Default value of Moment is Moment.Zero`` () =
         Unchecked.defaultof<Moment> === Moment.Zero
 
     //

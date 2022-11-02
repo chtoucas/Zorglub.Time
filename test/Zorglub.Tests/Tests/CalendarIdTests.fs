@@ -29,14 +29,14 @@ let calendarIdData = EnumDataSet.CalendarIdData
 let badCalendarIdData = EnumDataSet.InvalidCalendarIdData
 
 [<Fact>]
-let ``Sanity checks`` () =
+let ``IdToStringData is exhaustive`` () =
     let data = new IdToStringData()
     let count = Enum.GetValues(typeof<CalendarId>).Length
 
     data.Count() === count
 
 [<Fact>]
-let ``Default value of CalendarId is Gregorian`` () =
+let ``Default value of CalendarId is CalendarId.Gregorian`` () =
     Unchecked.defaultof<CalendarId> === CalendarId.Gregorian
 
 [<Theory; ClassData(typeof<IdToStringData>)>]

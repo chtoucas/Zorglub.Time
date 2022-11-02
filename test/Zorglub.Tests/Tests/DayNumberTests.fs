@@ -10,7 +10,6 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
-
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
@@ -72,7 +71,7 @@ module Prelude =
     let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
 
     [<Fact>]
-    let ``Default value`` () =
+    let ``Default value of DayNumber is DayNumber.Zero`` () =
         Unchecked.defaultof<DayNumber> === DayNumber.Zero
 
     // NB: the constructor is private.
