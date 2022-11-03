@@ -10,7 +10,6 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
-
 open Zorglub.Time
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Specialized
@@ -21,7 +20,7 @@ open FsCheck.Xunit
 
 // SYNC WITH DayNumberTests; see there for explanations.
 // We use the exact same code but adapted to DayNumber64.
-// When a test is too different from the one in DayNumberTests, we push it to Postlude.
+// When a test is too different from the one in DayNumberTests, we move it to Postlude.
 
 module TestCommon =
     let xynArbitrary =
