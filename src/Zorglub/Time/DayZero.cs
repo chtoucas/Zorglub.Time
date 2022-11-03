@@ -47,7 +47,7 @@ public partial class DayZero // Core epochs
     /// <para>The 1st of January, 1 CE within the Julian calendar.</para>
     /// <para>This property is an alias for <see cref="OldStyle"/>.</para>
     /// <para>This static property is thread-safe.</para></summary>
-    public static DayNumber Julian { get; } = OldStyle;
+    public static DayNumber Julian => OldStyle;
 
     /// <summary>Gets the day before the Gregorian epoch.
     /// <para>Sunday 31th of December, 1 BC within the Gregorian calendar.</para>
@@ -58,7 +58,7 @@ public partial class DayZero // Core epochs
     /// <item>The Pax epoch must be a Sunday (first day of a Pax week).</item>
     /// <item>The definition of the World calendar requires that a year starts on a Sunday.</item>
     /// </list></summary>
-    public static DayNumber SundayBeforeGregorian { get; } = RataDie;
+    public static DayNumber SundayBeforeGregorian => RataDie;
 
     /// <summary>Gets the epoch of the Gregorian calendar.
     /// <para>Monday 1st of January, 1 CE within the Gregorian calendar.</para>
@@ -66,7 +66,7 @@ public partial class DayZero // Core epochs
     /// <para>This property matches also the epoch of the Common Era, aka Current Era or Vulgar Era.
     /// </para>
     /// <para>This static property is thread-safe.</para></summary>
-    public static DayNumber Gregorian { get; } = NewStyle;
+    public static DayNumber Gregorian => NewStyle;
 }
 
 public partial class DayZero //
