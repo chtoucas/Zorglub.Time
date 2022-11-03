@@ -46,17 +46,6 @@ public partial struct JulianDate
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
-    /// day number.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-    /// supported values.</exception>
-    public JulianDate(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        _daysSinceEpoch = dayNumber - s_Epoch;
-    }
-
     /// <summary>This constructor does NOT validate its parameter.</summary>
     internal JulianDate(int daysSinceEpoch)
     {
@@ -161,4 +150,18 @@ public partial struct JulianDate
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
+}
+
+public partial struct JulianDate // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="JulianDate"/> struct from the specified
+    /// number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static JulianDate FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new JulianDate(dayNumber - s_Epoch);
+    }
 }

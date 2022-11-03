@@ -91,15 +91,6 @@ public readonly partial struct CopticDate :
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="CopticDate"/> struct to the specified day number.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
-    public CopticDate(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        _daysSinceEpoch = dayNumber - s_Epoch;
-    }
-
     /// <summary>This constructor does NOT validate its parameter.</summary>
     internal CopticDate(int daysSinceEpoch)
     {
@@ -210,6 +201,20 @@ public readonly partial struct CopticDate :
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
+}
+
+public partial struct CopticDate // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="CopticDate"/> struct from the
+    /// specified number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static CopticDate FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new CopticDate(dayNumber - s_Epoch);
+    }
 }
 
 public partial struct CopticDate // Counting

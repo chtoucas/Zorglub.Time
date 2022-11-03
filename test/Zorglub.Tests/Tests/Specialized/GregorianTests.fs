@@ -41,7 +41,7 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d);
         override __.GetDate(y, doy) = new GregorianDate(y, doy);
-        override __.GetDate(dayNumber) = new GregorianDate(dayNumber);
+        override __.GetDate(dayNumber) = GregorianDate.FromDayNumber(dayNumber);
 
         [<Fact>]
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12

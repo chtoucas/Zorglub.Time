@@ -64,15 +64,6 @@ public readonly partial struct <#= Prefix #>Date :
         <#= DaysSinceEpochField #> = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="<#= Prefix #>Date"/> struct to the specified day number.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
-    public <#= Prefix #>Date(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        <#= DaysSinceEpochField #> = dayNumber - s_Epoch;
-    }
-
     /// <summary>This constructor does NOT validate its parameter.</summary>
     internal <#= Prefix #>Date(int daysSinceEpoch)
     {
@@ -183,6 +174,20 @@ public readonly partial struct <#= Prefix #>Date :
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = s_Schema.GetYear(<#= DaysSinceEpochField #>, out dayOfYear);
+}
+
+public partial struct <#= Prefix #>Date // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="<#= Prefix #>Date"/> struct from the
+    /// specified number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static <#= Prefix #>Date FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new <#= Prefix #>Date(dayNumber - s_Epoch);
+    }
 }
 <#+
     } // T4: End of EmitDateDecl()

@@ -5,7 +5,6 @@ module Zorglub.Tests.Specialized.ArmenianTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
-open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Testing.Facts.Specialized
 
@@ -28,7 +27,7 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d);
         override __.GetDate(y, doy) = new ArmenianDate(y, doy);
-        override __.GetDate(dayNumber) = new ArmenianDate(dayNumber);
+        override __.GetDate(dayNumber) = ArmenianDate.FromDayNumber(dayNumber);
 
         [<Fact>]
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
@@ -79,7 +78,7 @@ module Bundles13 =
 
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d);
         override __.GetDate(y, doy) = new Armenian13Date(y, doy);
-        override __.GetDate(dayNumber) = new Armenian13Date(dayNumber);
+        override __.GetDate(dayNumber) = Armenian13Date.FromDayNumber(dayNumber);
 
         [<Fact>]
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 13

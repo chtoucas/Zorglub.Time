@@ -91,15 +91,6 @@ public readonly partial struct EthiopicDate :
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="EthiopicDate"/> struct to the specified day number.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of supported values.</exception>
-    public EthiopicDate(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        _daysSinceEpoch = dayNumber - s_Epoch;
-    }
-
     /// <summary>This constructor does NOT validate its parameter.</summary>
     internal EthiopicDate(int daysSinceEpoch)
     {
@@ -210,6 +201,20 @@ public readonly partial struct EthiopicDate :
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
+}
+
+public partial struct EthiopicDate // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="EthiopicDate"/> struct from the
+    /// specified number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static EthiopicDate FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new EthiopicDate(dayNumber - s_Epoch);
+    }
 }
 
 public partial struct EthiopicDate // Counting

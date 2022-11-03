@@ -49,16 +49,6 @@ public partial struct CivilDate
         _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-    /// supported values.</exception>
-    public CivilDate(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        _daysSinceZero = dayNumber.DaysSinceZero;
-    }
-
     /// <summary>Initializes a new instance of the <see cref="CivilDate"/> struct.
     /// <para>This method does NOT validate its parameter.</para></summary>
     internal CivilDate(int daysSinceZero)
@@ -166,4 +156,18 @@ public partial struct CivilDate
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = CivilFormulae.GetYear(_daysSinceZero, out dayOfYear);
+}
+
+public partial struct CivilDate // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="CivilDate"/> struct from the specified
+    /// number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static CivilDate FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new CivilDate(dayNumber.DaysSinceZero);
+    }
 }

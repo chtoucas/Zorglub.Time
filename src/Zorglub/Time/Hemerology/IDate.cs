@@ -7,7 +7,7 @@ namespace Zorglub.Time.Hemerology;
 
 using System.Numerics;
 
-// TODO(api): remove FromDayNumber() from IDate<TSelf, out TCalendar>?
+// TODO(api): add FromDayNumber() to IDate<TSelf, out TCalendar>?
 // Almost done, we still have to decide whether to keep it or not in simple
 // date types.
 // I'm not sure yet. We can achieve the same thing using one of the factory

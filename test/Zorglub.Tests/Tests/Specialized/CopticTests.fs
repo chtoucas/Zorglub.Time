@@ -28,7 +28,7 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new CopticDate(y, m, d);
         override __.GetDate(y, doy) = new CopticDate(y, doy);
-        override __.GetDate(dayNumber) = new CopticDate(dayNumber);
+        override __.GetDate(dayNumber) = CopticDate.FromDayNumber(dayNumber);
 
         [<Fact>]
         member x.MonthsInYear() = x.CalendarUT.MonthsInYear === 12
@@ -78,7 +78,7 @@ module Bundles13 =
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d);
         override __.GetDate(y, doy) = new Coptic13Date(y, doy);
-        override __.GetDate(dayNumber) = new Coptic13Date(dayNumber);
+        override __.GetDate(dayNumber) = Coptic13Date.FromDayNumber(dayNumber);
 
         [<Fact>]
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 13

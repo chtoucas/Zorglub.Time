@@ -45,16 +45,6 @@ public partial struct GregorianDate
         _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
     }
 
-    /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.</summary>
-    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-    /// supported values.</exception>
-    public GregorianDate(DayNumber dayNumber)
-    {
-        s_Domain.Validate(dayNumber);
-
-        _daysSinceZero = dayNumber.DaysSinceZero;
-    }
-
     /// <summary>Initializes a new instance of the <see cref="GregorianDate"/> struct.
     /// <para>This method does NOT validate its parameter.</para></summary>
     internal GregorianDate(int daysSinceZero)
@@ -162,4 +152,18 @@ public partial struct GregorianDate
     /// <inheritdoc />
     public void Deconstruct(out int year, out int dayOfYear) =>
         year = GregorianFormulae.GetYear(_daysSinceZero, out dayOfYear);
+}
+
+public partial struct GregorianDate // Factories
+{
+    /// <summary>Creates a new instance of the <see cref="GregorianDate"/> struct from the specified
+    /// number of consecutive days since the epoch.</summary>
+    /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+    /// supported values.</exception>
+    public static GregorianDate FromDayNumber(DayNumber dayNumber)
+    {
+        s_Domain.Validate(dayNumber);
+
+        return new GregorianDate(dayNumber.DaysSinceZero);
+    }
 }
