@@ -14,7 +14,6 @@ open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
-open Zorglub.Time.Simple
 open Zorglub.Time.Specialized
 
 open Xunit
@@ -25,21 +24,13 @@ open type Zorglub.Time.Extensions.DayNumberExtensions
 
 // SYNC WITH DayNumber64Tests.
 
-// TODO(code): we use both CivilDate and CalendarDate, we should should between the two!
-
-/// Convert one (Gregorian) Yemoda to a DayNumber.
-/// This function does NOT verify that x represents a valid Gregorian triple.
+/// Converts a "Gregorian" Yemoda to a DayNumber.
 let private toDayNumber (x: Yemoda) =
-    // CalendarDate or CivilDate? The latter is faster and more natural here
-    // (day number) BUT we may need support for negative years. Moreover, the
-    // speed argument is not really valid here as we construct a new CalendarDate
-    // instance using the internal ctor which does not perform any validation,
-    // something we cannot do with CivilDate.
-    let v = new CalendarDate(x, Cuid.Gregorian)
+    let y, m, d = x.Deconstruct()
+    let v = new GregorianDate(y, m, d)
     v.DayNumber
 
-/// Convert two (Gregorian) Yemoda's to a 2-uple of DayNumber's.
-/// This function does NOT verify that x and y represent valid Gregorian triples.
+/// Converts two "Gregorian" Yemoda's to a 2-uple of DayNumber's.
 let inline private toDayNumber2 x y = (toDayNumber x), (toDayNumber y)
 
 module TestCommon =
