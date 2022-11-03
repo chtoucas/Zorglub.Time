@@ -206,7 +206,7 @@ public readonly partial struct WorldDate :
 public partial struct WorldDate // Factories
 {
     /// <summary>Creates a new instance of the <see cref="WorldDate"/> struct from the
-    /// specified number of consecutive days since the epoch.</summary>
+    /// specified day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static WorldDate FromDayNumber(DayNumber dayNumber)

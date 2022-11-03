@@ -206,7 +206,7 @@ public readonly partial struct Coptic13Date :
 public partial struct Coptic13Date // Factories
 {
     /// <summary>Creates a new instance of the <see cref="Coptic13Date"/> struct from the
-    /// specified number of consecutive days since the epoch.</summary>
+    /// specified day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static Coptic13Date FromDayNumber(DayNumber dayNumber)

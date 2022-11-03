@@ -206,7 +206,7 @@ public readonly partial struct EthiopicDate :
 public partial struct EthiopicDate // Factories
 {
     /// <summary>Creates a new instance of the <see cref="EthiopicDate"/> struct from the
-    /// specified number of consecutive days since the epoch.</summary>
+    /// specified day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static EthiopicDate FromDayNumber(DayNumber dayNumber)

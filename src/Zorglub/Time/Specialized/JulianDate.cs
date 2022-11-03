@@ -155,7 +155,7 @@ public partial struct JulianDate
 public partial struct JulianDate // Factories
 {
     /// <summary>Creates a new instance of the <see cref="JulianDate"/> struct from the specified
-    /// number of consecutive days since the epoch.</summary>
+    /// day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static JulianDate FromDayNumber(DayNumber dayNumber)

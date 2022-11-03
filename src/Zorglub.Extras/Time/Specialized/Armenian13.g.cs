@@ -206,7 +206,7 @@ public readonly partial struct Armenian13Date :
 public partial struct Armenian13Date // Factories
 {
     /// <summary>Creates a new instance of the <see cref="Armenian13Date"/> struct from the
-    /// specified number of consecutive days since the epoch.</summary>
+    /// specified day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static Armenian13Date FromDayNumber(DayNumber dayNumber)

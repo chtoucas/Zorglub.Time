@@ -47,8 +47,7 @@ public abstract class SpecialAdjuster<TDate> : IDateAdjuster<TDate>
     /// <summary>Creates a new instance of <typeparamref name="TDate"/> from the specified count of
     /// consecutive days since the epoch.
     /// <para>This method does NOT validate its parameter.</para></summary>
-    [Pure]
-    private protected abstract TDate GetDate(int daysSinceEpoch);
+    [Pure] private protected abstract TDate GetDate(int daysSinceEpoch);
 
     /// <inheritdoc />
     [Pure]

@@ -161,7 +161,7 @@ public partial struct CivilDate
 public partial struct CivilDate // Factories
 {
     /// <summary>Creates a new instance of the <see cref="CivilDate"/> struct from the specified
-    /// number of consecutive days since the epoch.</summary>
+    /// day number.</summary>
     /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
     /// supported values.</exception>
     public static CivilDate FromDayNumber(DayNumber dayNumber)
