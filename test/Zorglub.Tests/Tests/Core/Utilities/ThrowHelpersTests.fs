@@ -7,10 +7,8 @@ open System
 open System.Collections.Generic
 
 open Zorglub.Testing
-
 open Zorglub.Time
 open Zorglub.Time.Core.Utilities
-open Zorglub.Time.Simple
 
 open Xunit
 
@@ -114,7 +112,6 @@ module ArgumentExns =
 
     [<Fact>]
     let BadCuid () =
-        argExn paramName (fun () -> ThrowHelpers.BadCuid(paramName, Cuid.Armenian, Cuid.Gregorian))
         argExn paramName (fun () -> ThrowHelpers.BadCuid(paramName, 1, 2))
 
     [<Fact>]

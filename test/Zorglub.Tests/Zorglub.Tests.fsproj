@@ -94,6 +94,7 @@
     <Compile Include="Tests\Horology\Ntp\ReferenceIdTests.fs" />
     <Compile Include="Tests\Horology\GregorianInstantTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
+    <Compile Include="Tests\Simple\ThrowHelpersTests.fs" />
     <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
     <Compile Include="Tests\Simple\SimpleRegistryTests.fs" />
     <Compile Include="Tests\Simple\SimpleCatalogTests.fs" />

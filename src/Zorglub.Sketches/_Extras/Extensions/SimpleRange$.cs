@@ -112,7 +112,7 @@ public partial class SimpleRangeExtensions // Set-related methods
     public static bool Contains(this Range<OrdinalDate> range, CalendarYear year)
     {
         var cuid = range.GetCalendar().Id;
-        if (year.Cuid != cuid) Throw.BadCuid(nameof(year), cuid, year.Cuid);
+        if (year.Cuid != cuid) ThrowHelpers.BadCuid(nameof(year), cuid, year.Cuid);
 
         return range.Min.CompareFast(year.FirstDay) <= 0
             && year.LastDay.CompareFast(range.Max) <= 0;
@@ -127,7 +127,7 @@ public partial class SimpleRangeExtensions // Set-related methods
     public static bool Contains(this Range<CalendarDate> range, CalendarMonth month)
     {
         var cuid = range.GetCalendar().Id;
-        if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
+        if (month.Cuid != cuid) ThrowHelpers.BadCuid(nameof(month), cuid, month.Cuid);
 
         return range.Min.CompareFast(month.FirstDay) <= 0
             && month.LastDay.CompareFast(range.Max) <= 0;

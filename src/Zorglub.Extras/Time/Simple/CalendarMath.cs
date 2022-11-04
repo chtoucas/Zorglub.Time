@@ -144,7 +144,7 @@ public abstract partial class CalendarMath
     /// <exception cref="ArgumentException">The validation failed.</exception>
     private void ValidateCuid(Cuid cuid, string paramName)
     {
-        if (cuid != Cuid) Throw.BadCuid(paramName, Cuid, cuid);
+        if (cuid != Cuid) ThrowHelpers.BadCuid(paramName, Cuid, cuid);
     }
 }
 

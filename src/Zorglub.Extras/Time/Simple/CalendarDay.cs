@@ -507,7 +507,7 @@ public partial struct CalendarDay // IComparable
     [Pure]
     public int CompareTo(CalendarDay other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
     }
@@ -565,7 +565,7 @@ public partial struct CalendarDay // Math ops
     [Pure]
     public int CountDaysSince(CalendarDay other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return checked(DaysSinceEpoch - other.DaysSinceEpoch);
     }

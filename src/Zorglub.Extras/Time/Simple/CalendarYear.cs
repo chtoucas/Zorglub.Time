@@ -455,7 +455,7 @@ public partial struct CalendarYear // Factories, infos, adjustments
     [Pure]
     internal bool Contains(CalendarMonth month)
     {
-        if (month.Cuid != Cuid) Throw.BadCuid(nameof(month), Cuid, month.Cuid);
+        if (month.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(month), Cuid, month.Cuid);
 
         return month.Year == Year;
     }
@@ -468,7 +468,7 @@ public partial struct CalendarYear // Factories, infos, adjustments
     [Pure]
     internal bool Contains(CalendarDate date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         return date.Year == Year;
     }
@@ -481,7 +481,7 @@ public partial struct CalendarYear // Factories, infos, adjustments
     [Pure]
     internal bool Contains(CalendarDay date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         return date.Year == Year;
     }
@@ -494,7 +494,7 @@ public partial struct CalendarYear // Factories, infos, adjustments
     [Pure]
     internal bool Contains(OrdinalDate date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         return date.Year == Year;
     }
@@ -614,7 +614,7 @@ public partial struct CalendarYear // IComparable
     [Pure]
     public int CompareTo(CalendarYear other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return Year.CompareTo(other.Year);
     }
@@ -679,7 +679,7 @@ public partial struct CalendarYear // Math ops
     [Pure]
     public int CountYearsSince(CalendarYear other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return Year - other.Year;
     }

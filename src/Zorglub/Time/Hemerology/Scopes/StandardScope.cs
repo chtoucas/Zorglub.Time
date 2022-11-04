@@ -7,15 +7,14 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Validation;
 
+// This is the scope used by SimpleCalendar, except in the Gregorian and Julian
+// cases.
+
 /// <summary>
 /// Defines a scope for a calendar supporting <i>all</i> dates within the range [1..9999] of
 /// years.
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-/// <remarks>
-/// <para>This is the scope used by <see cref="Simple.SimpleCalendar"/>, except in the Gregorian
-/// and Julian cases.</para>
-/// </remarks>
 public static class StandardScope
 {
     /// <summary>

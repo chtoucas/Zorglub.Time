@@ -449,7 +449,7 @@ public partial struct OrdinalDate // IComparable
     [Pure]
     public int CompareTo(OrdinalDate other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return Parts.CompareTo(other.Parts);
     }
@@ -520,7 +520,7 @@ public partial struct OrdinalDate // Math ops
     [Pure]
     public int CountDaysSince(OrdinalDate other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         ref readonly var chr = ref CalendarRef;
         return chr.Arithmetic.CountDaysBetween(other.Parts, Parts);
@@ -561,7 +561,7 @@ public partial struct OrdinalDate // Math ops
     [Pure]
     public int CountYearsSince(OrdinalDate other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         ref readonly var chr = ref CalendarRef;
         return chr.Math.CountYearsBetweenCore(other, this, out _);

@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Utilities;
 
-using Zorglub.Time.Simple;
-
 // TODO(code): do not use plain exn. Add localized messages (french)?
 
 #region Developer Notes
@@ -330,11 +328,6 @@ internal partial class ThrowHelpers // ArgumentException
 
     /// <exception cref="ArgumentException"/>
     [DoesNotReturn]
-    public static void BadCuid(string paramName, Cuid expected, Cuid actual) =>
-        throw GetBadCuidExn(paramName, expected, actual);
-
-    /// <exception cref="ArgumentException"/>
-    [DoesNotReturn]
     public static void BadCuid(string paramName, int expected, int actual) =>
         throw GetBadCuidExn(paramName, expected, actual);
 
@@ -362,11 +355,6 @@ internal partial class ThrowHelpers // ArgumentException
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static ArgumentException GetBadSchemaProfileExn(string paramName, CalendricalProfile expected, CalendricalProfile actual) =>
         new($"The schema profile should be equal to \"{expected}\" but it is equal to \"{actual}\".",
-            paramName);
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    private static ArgumentException GetBadCuidExn(string paramName, Cuid expected, Cuid actual) =>
-        new($"The calendar ID should be equal to \"{expected}\" but it is equal to \"{actual}\".",
             paramName);
 
     [MethodImpl(MethodImplOptions.NoInlining)]

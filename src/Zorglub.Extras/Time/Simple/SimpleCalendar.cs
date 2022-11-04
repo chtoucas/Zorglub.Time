@@ -413,7 +413,7 @@ public partial class SimpleCalendar : ICalendar
     /// <exception cref="ArgumentException">The validation failed.</exception>
     private protected void ValidateCuid(Cuid cuid, string paramName)
     {
-        if (cuid != Id) Throw.BadCuid(paramName, Id, cuid);
+        if (cuid != Id) ThrowHelpers.BadCuid(paramName, Id, cuid);
     }
 }
 

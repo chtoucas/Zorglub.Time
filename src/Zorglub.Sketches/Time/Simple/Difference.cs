@@ -221,6 +221,6 @@ public static class Difference
 
     private static void ValidateCuid(Cuid start, Cuid end)
     {
-        if (start != end) Throw.BadCuid(nameof(end), start, end);
+        if (start != end) ThrowHelpers.BadCuid(nameof(end), start, end);
     }
 }

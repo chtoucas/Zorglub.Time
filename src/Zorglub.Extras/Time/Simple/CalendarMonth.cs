@@ -303,7 +303,7 @@ public partial struct CalendarMonth // Factories, infos, adjustments
     [Pure]
     internal bool Contains(CalendarDate date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         _bin.Unpack(out int y, out int m);
         return date.Year == y && date.Month == m;
@@ -317,7 +317,7 @@ public partial struct CalendarMonth // Factories, infos, adjustments
     [Pure]
     internal bool Contains(CalendarDay date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         _bin.Unpack(out int y, out int m);
         return date.Year == y && date.Month == m;
@@ -331,7 +331,7 @@ public partial struct CalendarMonth // Factories, infos, adjustments
     [Pure]
     internal bool Contains(OrdinalDate date)
     {
-        if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+        if (date.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(date), Cuid, date.Cuid);
 
         _bin.Unpack(out int y, out int m);
         return date.Year == y && date.Month == m;
@@ -468,7 +468,7 @@ public partial struct CalendarMonth // IComparable
     [Pure]
     public int CompareTo(CalendarMonth other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         return Parts.CompareTo(other.Parts);
     }
@@ -545,7 +545,7 @@ public partial struct CalendarMonth // Math ops
     [Pure]
     public int CountMonthsSince(CalendarMonth other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         ref readonly var chr = ref CalendarRef;
         return chr.Arithmetic.CountMonthsBetween(other.Parts, Parts);
@@ -598,7 +598,7 @@ public partial struct CalendarMonth // Math ops
     [Pure]
     public int CountYearsSince(CalendarMonth other)
     {
-        if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+        if (other.Cuid != Cuid) ThrowHelpers.BadCuid(nameof(other), Cuid, other.Cuid);
 
         ref readonly var chr = ref CalendarRef;
         return chr.Math.CountYearsBetweenCore(other, this, out _);
