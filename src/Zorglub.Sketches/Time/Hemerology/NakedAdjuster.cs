@@ -11,7 +11,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // Not convinced that this class is useful at all.
 
 // Moyennant quelques changements, cette classe pourrait fonctionner avec
-// n'importe quel type date implémentant IFixedDay (c-à-d un IDate puisqu'on
+// n'importe quel type date implémentant IFixedDate (c-à-d un IDate puisqu'on
 // demande aussi IDateable), mais à la seule condition que celui-ci ne soit
 // pas lié à un système de calendriers pluriel. En effet, on serait amener à
 // utiliser TDate.FromDayNumber() qui ne peut créer des nouvelles dates que

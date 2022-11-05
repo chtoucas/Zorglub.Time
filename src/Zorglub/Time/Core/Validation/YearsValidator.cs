@@ -5,15 +5,11 @@ namespace Zorglub.Time.Core.Validation;
 
 using Zorglub.Time.Core.Intervals;
 
-/// <summary>
-/// Represents a validator for a range of years.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Represents a validator for a range of years.
+/// <para>This class cannot be inherited.</para></summary>
 public sealed class YearsValidator : IYearsValidator
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="YearsValidator"/> class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="YearsValidator"/> class.</summary>
     public YearsValidator(Range<int> range)
     {
         Range = range;
@@ -23,19 +19,13 @@ public sealed class YearsValidator : IYearsValidator
     /// <inheritdoc/>
     public Range<int> Range { get; }
 
-    /// <summary>
-    /// Gets the ealiest supported year.
-    /// </summary>
+    /// <summary>Gets the ealiest supported year.</summary>
     public int MinYear { get; }
 
-    /// <summary>
-    /// Gets the latest supported year.
-    /// </summary>
+    /// <summary>Gets the latest supported year.</summary>
     public int MaxYear { get; }
 
-    /// <summary>
-    /// Returns a culture-independent string representation of the current instance.
-    /// </summary>
+    /// <summary>Returns a culture-independent string representation of the current instance.</summary>
     [Pure]
     public sealed override string ToString() => Range.ToString();
 
@@ -51,11 +41,10 @@ public sealed class YearsValidator : IYearsValidator
         if (year < MinYear || year > MaxYear) Throw.DateOverflow();
     }
 
-    /// <summary>
-    /// Checks whether the specified year is outside the range of supported values or not.
+    /// <summary>Checks whether the specified year is outside the range of supported values or not.
     /// </summary>
-    /// <exception cref="OverflowException"><paramref name="year"/> is outside the range of
-    /// supported values.</exception>
+    /// <exception cref="OverflowException"><paramref name="year"/> is outside the range of supported
+    /// values.</exception>
     internal void CheckForMonth(int year)
     {
         if (year < MinYear || year > MaxYear) Throw.MonthOverflow();

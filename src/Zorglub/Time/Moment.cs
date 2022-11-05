@@ -7,7 +7,7 @@ using System.Numerics;
 
 using static Zorglub.Time.Core.TemporalConstants;
 
-// REVIEW(api): implement IFixedDay? Math ops? etc.
+// REVIEW(api): implement IFixedDate? Math ops? etc.
 
 /// <summary>Represents a moment with millisecond precision.
 /// <para><see cref="Moment"/> is an immutable struct.</para></summary>

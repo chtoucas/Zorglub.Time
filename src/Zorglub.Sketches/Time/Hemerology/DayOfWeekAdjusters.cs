@@ -31,7 +31,7 @@ public static class DayOfWeekAdjusters
 
     //[Pure]
     //public static T Nearest<T>(T self, DayOfWeek dayOfWeek)
-    //    where T : IFixedDay, IAdditionOperators<T, int, T>
+    //    where T : IFixedDate, IAdditionOperators<T, int, T>
     //{
     //    Requires.NotNull(self);
     //    Requires.Defined(dayOfWeek);
