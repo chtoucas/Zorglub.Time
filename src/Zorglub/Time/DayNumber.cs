@@ -329,7 +329,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
     /// <exception cref="AoorException" />
     private static void ValidateYear(int year)
     {
-        if (year < MinSupportedYear || year > MaxSupportedYear) Throw.YearOutOfRange(year);
+        if (year < MinSupportedYear || year > MaxSupportedYear) { Throw.YearOutOfRange(year); }
     }
 
     /// <summary>Checks that the operation does not overflow the range of supported Gregorian values.
@@ -338,7 +338,9 @@ public partial struct DayNumber // Gregorian/Julian conversions
     private void CheckGregorianOverflow()
     {
         if (_daysSinceZero < MinGregorianDaysSinceZero || _daysSinceZero > MaxGregorianDaysSinceZero)
+        {
             Throw.DateOverflow();
+        }
     }
 
     /// <summary>Checks that the operation does not overflow the range of supported Julian values.
@@ -347,7 +349,9 @@ public partial struct DayNumber // Gregorian/Julian conversions
     private void CheckJulianOverflow()
     {
         if (_daysSinceZero < MinJulianDaysSinceZero || _daysSinceZero > MaxJulianDaysSinceZero)
+        {
             Throw.DateOverflow();
+        }
     }
 
     #endregion
@@ -541,7 +545,9 @@ public partial struct DayNumber // Math ops
     {
         int newDays = checked(value._daysSinceZero + days);
         if (newDays == MinDaysSinceZero - 1 || newDays == MaxDaysSinceZero + 1)
+        {
             Throw.DayNumberOverflow();
+        }
         return new DayNumber(newDays);
     }
 
@@ -553,7 +559,9 @@ public partial struct DayNumber // Math ops
     {
         int newDays = checked(value._daysSinceZero - days);
         if (newDays == MinDaysSinceZero - 1 || newDays == MaxDaysSinceZero + 1)
+        {
             Throw.DayNumberOverflow();
+        }
         return new DayNumber(newDays);
     }
 

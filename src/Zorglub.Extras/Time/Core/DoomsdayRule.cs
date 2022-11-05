@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core;
 
 // Doomsday rule, adapted by Keith & Craver.
 //
-// Algorithm by Conway:
+// Conway algorithm:
 //   given a reference doomsday in the year:
 //     Twosday + y + (y >> 2) - c + (c >> 2)
 //   where c = y/100 and Twosday = 2!

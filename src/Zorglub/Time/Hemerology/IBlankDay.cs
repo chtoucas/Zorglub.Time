@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-/// <summary>Defines methods specific to calendars featuring epagomenal days.</summary>
-/// <remarks>The epagomenal days are usually found in descendants of the Egyptian calendar.</remarks>
 public interface IBlankDay : IDateable
 {
     /// <summary>Returns true if the current instance is a blank day; otherwise returns false.
