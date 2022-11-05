@@ -608,15 +608,6 @@ Zorglub.Time.AdditionRuleset.MonthRule.get -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset.MonthRule.init -> void
 Zorglub.Time.AdditionRuleset.OrdinalRule.get -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset.OrdinalRule.init -> void
-Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Armenian = 3 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Civil = 2 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Coptic = 4 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Ethiopic = 5 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Gregorian = 0 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Julian = 1 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.TabularIslamic = 6 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Zoroastrian = 7 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.CalendricalAdjustments.Days = 1 -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.CalendricalAdjustments.DaysAndMonths = Zorglub.Time.CalendricalAdjustments.Days | Zorglub.Time.CalendricalAdjustments.Months -> Zorglub.Time.CalendricalAdjustments
@@ -909,9 +900,9 @@ Zorglub.Time.Core.Utilities.IComparisonOperators<TSelf, TOther>
 Zorglub.Time.Core.Utilities.IDifferenceOperators<TSelf, TResult>
 Zorglub.Time.Core.Utilities.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
 Zorglub.Time.Core.Utilities.IEqualityOperators<TSelf, TOther>
-Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>
-Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>.Max(TSelf x, TSelf y) -> TSelf
-Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>.Min(TSelf x, TSelf y) -> TSelf
+Zorglub.Time.Core.Utilities.IMinMaxFunction<TSelf>
+Zorglub.Time.Core.Utilities.IMinMaxFunction<TSelf>.Max(TSelf x, TSelf y) -> TSelf
+Zorglub.Time.Core.Utilities.IMinMaxFunction<TSelf>.Min(TSelf x, TSelf y) -> TSelf
 Zorglub.Time.Core.Utilities.ISerializable<TBinary>
 Zorglub.Time.Core.Utilities.ISerializable<TBinary>.ToBinary() -> TBinary
 Zorglub.Time.Core.Utilities.ISerializable<TSelf, TBinary>
@@ -1106,6 +1097,10 @@ Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinDateParts.get -> Zorglub.Ti
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinMonthParts.get -> Zorglub.Time.MonthParts
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinOrdinalParts.get -> Zorglub.Time.OrdinalParts
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinYear.get -> int
+Zorglub.Time.Hemerology.IAffineDate
+Zorglub.Time.Hemerology.IAffineDate.DaysSinceEpoch.get -> int
+Zorglub.Time.Hemerology.IAffineDate<TSelf>
+Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Hemerology.IBlankDay
 Zorglub.Time.Hemerology.IBlankDay.IsBlank.get -> bool
 Zorglub.Time.Hemerology.ICalendar
@@ -1155,16 +1150,16 @@ Zorglub.Time.Hemerology.IDateProvider<TDate>.GetStartOfMonth(int year, int month
 Zorglub.Time.Hemerology.IDateProvider<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.IEpagomenalDay
 Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
-Zorglub.Time.Hemerology.IFixedDay
-Zorglub.Time.Hemerology.IFixedDay.DayNumber.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.IFixedDay.DayOfWeek.get -> System.DayOfWeek
-Zorglub.Time.Hemerology.IFixedDay.DaysSinceEpoch.get -> int
-Zorglub.Time.Hemerology.IFixedDay<TSelf>
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.NextOrSame(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.Previous(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.PreviousOrSame(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDate
+Zorglub.Time.Hemerology.IFixedDate.DayNumber.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.IFixedDate.DayOfWeek.get -> System.DayOfWeek
+Zorglub.Time.Hemerology.IFixedDate.DaysSinceEpoch.get -> int
+Zorglub.Time.Hemerology.IFixedDate<TSelf>
+Zorglub.Time.Hemerology.IFixedDate<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDate<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDate<TSelf>.NextOrSame(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDate<TSelf>.Previous(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDate<TSelf>.PreviousOrSame(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.CountDaysSince(TSelf other) -> int
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf

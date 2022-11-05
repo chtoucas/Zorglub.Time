@@ -19,7 +19,7 @@ public readonly partial struct Duration32 :
     // Comparison
     IComparisonOperators<Duration32, Duration32>,
     IMinMaxValue<Duration32>,
-    IMinMaxFunctions<Duration32>
+    IMinMaxFunction<Duration32>
 {
     /// <summary>
     /// Represents the number of fractional seconds in one second.

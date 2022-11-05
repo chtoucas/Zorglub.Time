@@ -22,16 +22,16 @@ using System.Numerics;
 // - (dayNumber)
 
 /// <summary>Defines a date.</summary>
-public interface IDate : IFixedDay, IDateable { }
+public interface IDate : IFixedDate, IDateable { }
 
 /// <summary>Defines a date type.</summary>
 /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
 public interface IDate<TSelf> :
     IDate,
-    IFixedDay<TSelf>,
+    IFixedDate<TSelf>,
     // Comparison
     IComparisonOperators<TSelf, TSelf>,
-    IMinMaxFunctions<TSelf>,
+    IMinMaxFunction<TSelf>,
     // Arithmetic
     IStandardArithmetic<TSelf>,
     IAdditionOperators<TSelf, int, TSelf>,

@@ -640,6 +640,15 @@ static Zorglub.Time.Specialized.ZoroastrianDate.operator ==(Zorglub.Time.Special
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >=(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 virtual Zorglub.Time.Simple.SimpleCalendar.GetClock(Zorglub.Time.Horology.IClock! clock) -> Zorglub.Time.Simple.SimpleClock!
+Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Armenian = 3 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Civil = 2 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Coptic = 4 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Ethiopic = 5 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Gregorian = 0 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Julian = 1 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.TabularIslamic = 6 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Zoroastrian = 7 -> Zorglub.Time.CalendarId
 Zorglub.Time.Core.Schemas.Coptic12Schema
 Zorglub.Time.Core.Schemas.Coptic12Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.Coptic13Schema
@@ -677,10 +686,6 @@ Zorglub.Time.Core.Schemas.TropicalistaSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.Schemas.WorldSchema
 Zorglub.Time.Core.Schemas.WorldSchema.IsBlankDay(int y, int m, int d) -> bool
 Zorglub.Time.Core.Schemas.WorldSchema.MonthsInYear.get -> int
-Zorglub.Time.Hemerology.IAffineDate
-Zorglub.Time.Hemerology.IAffineDate.DaysSinceEpoch.get -> int
-Zorglub.Time.Hemerology.IAffineDate<TSelf>
-Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Simple.BoxExtensions
 Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDate.Calendar.get -> Zorglub.Time.Simple.SimpleCalendar!

@@ -61,11 +61,11 @@ using Zorglub.Time.Hemerology;
 /// 1st of January, 1 CE within the Gregorian calendar.
 /// <para><see cref="DayNumber"/> is an immutable struct.</para></summary>
 public readonly partial struct DayNumber :
-    IFixedDay<DayNumber>,
+    IFixedDate<DayNumber>,
     // Comparison
     IComparisonOperators<DayNumber, DayNumber>,
     IMinMaxValue<DayNumber>,
-    IMinMaxFunctions<DayNumber>,
+    IMinMaxFunction<DayNumber>,
     // Arithmetic
     IStandardArithmetic<DayNumber>,
     IAdditionOperators<DayNumber, int, DayNumber>,
@@ -120,7 +120,7 @@ public readonly partial struct DayNumber :
     /// <remarks>This static property is thread-safe.</remarks>
     public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
 
-    DayNumber IFixedDay.DayNumber => this;
+    DayNumber IFixedDate.DayNumber => this;
 
     /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.
     /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
@@ -130,7 +130,7 @@ public readonly partial struct DayNumber :
     /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.
     /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
     /// <see cref="MaxDaysSinceZero"/>.</para></summary>
-    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
+    int IFixedDate.DaysSinceEpoch => _daysSinceZero;
 
     /// <summary>Gets the ordinal numeral from this instance.</summary>
     public Ord Ordinal => Ord.First + _daysSinceZero;

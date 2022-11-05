@@ -9,7 +9,7 @@ public static class DayOfWeekAdjusters
 {
     [Pure]
     public static T Previous<T>(T self, DayOfWeek dayOfWeek)
-        where T : IFixedDay, IAdditionOperators<T, int, T>
+        where T : IFixedDate, IAdditionOperators<T, int, T>
     {
         Requires.NotNull(self);
         Requires.Defined(dayOfWeek);
@@ -20,7 +20,7 @@ public static class DayOfWeekAdjusters
 
     [Pure]
     public static T PreviousOrSame<T>(T self, DayOfWeek dayOfWeek)
-        where T : IFixedDay, IAdditionOperators<T, int, T>
+        where T : IFixedDate, IAdditionOperators<T, int, T>
     {
         Requires.NotNull(self);
         Requires.Defined(dayOfWeek);
@@ -42,7 +42,7 @@ public static class DayOfWeekAdjusters
 
     [Pure]
     public static T NextOrSame<T>(T self, DayOfWeek dayOfWeek)
-        where T : IFixedDay, IAdditionOperators<T, int, T>
+        where T : IFixedDate, IAdditionOperators<T, int, T>
     {
         Requires.NotNull(self);
         Requires.Defined(dayOfWeek);
@@ -53,7 +53,7 @@ public static class DayOfWeekAdjusters
 
     [Pure]
     public static T Next<T>(T self, DayOfWeek dayOfWeek)
-        where T : IFixedDay, IAdditionOperators<T, int, T>
+        where T : IFixedDate, IAdditionOperators<T, int, T>
     {
         Requires.NotNull(self);
         Requires.Defined(dayOfWeek);

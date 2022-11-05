@@ -29,7 +29,7 @@ public interface IAffineDate<TSelf> :
     IAffineDate,
     // Comparison
     IComparisonOperators<TSelf, TSelf>,
-    IMinMaxFunctions<TSelf>,
+    IMinMaxFunction<TSelf>,
     // Arithmetic
     IStandardArithmetic<TSelf>,
     IAdditionOperators<TSelf, int, TSelf>,

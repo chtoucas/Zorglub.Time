@@ -133,10 +133,10 @@ namespace Zorglub.Time.Hemerology;
 
 #endregion
 
-/// <summary>Defines a fixed day.
-/// <para>A day is said to be <i>fixed</i> if it's attached to a timeline. In this project, it means
-/// that it has a day number.</para></summary>
-public interface IFixedDay
+/// <summary>Defines a fixed date.
+/// <para>A date is said to be <i>fixed</i> if it's attached to a timeline. In this project, it can
+/// be mapped to a day number.</para></summary>
+public interface IFixedDate
 {
     /// <summary>Gets the day number.</summary>
     DayNumber DayNumber { get; }
@@ -149,10 +149,10 @@ public interface IFixedDay
     DayOfWeek DayOfWeek { get; }
 }
 
-/// <summary>Defines a fixed day type.</summary>
+/// <summary>Defines a fixed date type.</summary>
 /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-public interface IFixedDay<TSelf> : IFixedDay
-    where TSelf : IFixedDay<TSelf>
+public interface IFixedDate<TSelf> : IFixedDate
+    where TSelf : IFixedDate<TSelf>
 {
     //
     // Adjust the day of the week

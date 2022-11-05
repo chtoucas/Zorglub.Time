@@ -106,7 +106,7 @@ module Prelude =
 
     [<Property>]
     let ``Property DaysSinceEpoch`` (i: DaysSinceZero) =
-        let dayNumber = DayNumber.Zero + i.Value :> IFixedDay
+        let dayNumber = DayNumber.Zero + i.Value :> IFixedDate
 
         dayNumber.DaysSinceEpoch = i.Value
 
@@ -123,7 +123,7 @@ module Prelude =
 module Conversions =
     [<Property>]
     let ``Property DayNumber`` (x: DayNumber) =
-        (x :> IFixedDay).DayNumber = x
+        (x :> IFixedDate).DayNumber = x
 
 module GregorianConversion =
     let private dataSet = GregorianDataSet.Instance

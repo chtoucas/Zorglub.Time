@@ -43,7 +43,7 @@ public readonly partial struct Timestamp64 :
     // Comparison
     IComparisonOperators<Timestamp64, Timestamp64>,
     IMinMaxValue<Timestamp64>,
-    IMinMaxFunctions<Timestamp64>,
+    IMinMaxFunction<Timestamp64>,
     // Arithmetic
     ISubtractionOperators<Timestamp64, Timestamp64, Duration64>
 {

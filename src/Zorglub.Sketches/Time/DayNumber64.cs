@@ -18,11 +18,11 @@ using Zorglub.Time.Hemerology;
 /// <para><see cref="DayNumber64"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct DayNumber64 :
-    IFixedDay<DayNumber64>,
+    IFixedDate<DayNumber64>,
     // Comparison
     IComparisonOperators<DayNumber64, DayNumber64>,
     IMinMaxValue<DayNumber64>,
-    IMinMaxFunctions<DayNumber64>,
+    IMinMaxFunction<DayNumber64>,
     // Arithmetic
     IStandardArithmetic<DayNumber64>,
     IAdditionOperators<DayNumber64, int, DayNumber64>,
@@ -84,12 +84,12 @@ public readonly partial struct DayNumber64 :
     public static DayNumber64 MaxValue { get; } = new(MaxDaysSinceZero);
 
     // Explicit impl., conversion is not guaranteed.
-    DayNumber IFixedDay.DayNumber => ToDayNumber();
+    DayNumber IFixedDate.DayNumber => ToDayNumber();
 
     public long DaysSinceZero => _daysSinceZero;
 
     // May overflow.
-    int IFixedDay.DaysSinceEpoch => (int)_daysSinceZero;
+    int IFixedDate.DaysSinceEpoch => (int)_daysSinceZero;
 
     public Ord64 Ordinal => Ord64.First + _daysSinceZero;
 

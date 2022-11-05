@@ -20,7 +20,7 @@ public readonly partial struct Duration64 :
     // Comparison
     IComparisonOperators<Duration64, Duration64>,
     IMinMaxValue<Duration64>,
-    IMinMaxFunctions<Duration64>,
+    IMinMaxFunction<Duration64>,
     // Arithmetic
     IAdditionOperators<Duration64, Duration64, Duration64>,
     ISubtractionOperators<Duration64, Duration64, Duration64>,

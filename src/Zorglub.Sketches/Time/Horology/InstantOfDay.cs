@@ -18,7 +18,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 public readonly partial struct InstantOfDay :
     IComparisonOperators<InstantOfDay, InstantOfDay>,
     IMinMaxValue<InstantOfDay>,
-    IMinMaxFunctions<InstantOfDay>
+    IMinMaxFunction<InstantOfDay>
 {
     /// <summary>
     /// Represents the number of elapsed nanoseconds since midnight.

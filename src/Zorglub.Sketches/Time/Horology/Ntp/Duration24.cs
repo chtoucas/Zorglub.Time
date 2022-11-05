@@ -18,7 +18,7 @@ public readonly partial struct Duration24 :
     // Comparison
     IComparisonOperators<Duration24, Duration24>,
     IMinMaxValue<Duration24>,
-    IMinMaxFunctions<Duration24>
+    IMinMaxFunction<Duration24>
 {
     /// <summary>
     /// Represents the minimum value of <see cref="Seconds"/>.

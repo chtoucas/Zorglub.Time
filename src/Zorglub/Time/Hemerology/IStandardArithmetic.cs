@@ -3,7 +3,8 @@
 
 namespace Zorglub.Time.Hemerology;
 
-/// <summary>Defines the standard mathematical operations, those related to the day unit.</summary>
+/// <summary>Defines the standard mathematical operations on a date, those related to the day unit.
+/// </summary>
 /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
 public interface IStandardArithmetic<TSelf>
     where TSelf : IStandardArithmetic<TSelf>

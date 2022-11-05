@@ -77,7 +77,7 @@ public partial struct CivilDate
     /// <summary>Gets the count of days since the Gregorian epoch.</summary>
     public int DaysSinceZero => _daysSinceZero;
 
-    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
+    int IFixedDate.DaysSinceEpoch => _daysSinceZero;
 
     /// <inheritdoc />
     public Ord CenturyOfEra => Ord.FromInt32(Century);

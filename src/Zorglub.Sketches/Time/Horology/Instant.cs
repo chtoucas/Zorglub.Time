@@ -23,7 +23,7 @@ public readonly partial struct Instant :
     // Comparison
     IComparisonOperators<Instant, Instant>,
     IMinMaxValue<Instant>,
-    IMinMaxFunctions<Instant>
+    IMinMaxFunction<Instant>
 {
     /// <summary>
     /// Represents the number of elapsed nanoseconds since 1970-01-01T00:00:00Z (UTC).

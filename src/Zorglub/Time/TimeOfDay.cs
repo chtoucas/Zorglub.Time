@@ -38,7 +38,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 public readonly partial struct TimeOfDay :
     IComparisonOperators<TimeOfDay, TimeOfDay>,
     IMinMaxValue<TimeOfDay>,
-    IMinMaxFunctions<TimeOfDay>
+    IMinMaxFunction<TimeOfDay>
 {
     #region Bit settings
 
