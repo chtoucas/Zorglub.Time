@@ -135,7 +135,7 @@ namespace Zorglub.Time.Hemerology;
 
 /// <summary>Defines a fixed date.
 /// <para>A date is said to be <i>fixed</i> if it's attached to a timeline. In this project, it can
-/// be mapped to a day number.</para></summary>
+/// be mapped to a <see cref="DayNumber"/>.</para></summary>
 public interface IFixedDate
 {
     /// <summary>Gets the day number.</summary>

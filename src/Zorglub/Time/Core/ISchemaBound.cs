@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core;
 // REVIEW(api): which type needs to implement ISchemaBound? segments,
 // validators and scopes.
 
-// This interface is only meant to be implemented explicitely.
+// This interface is only meant to be implemented __explicitely__.
 
 public interface ISchemaBound
 {
