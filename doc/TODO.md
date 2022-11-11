@@ -30,13 +30,9 @@ only a bit slower than Standard (> 0).
   https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
-  D.B.props: LangVersion
-  D.B.targets: disable preview features (ENABLE_PREVIEW_FEATURES).
   NET7_0_OR_GREATER (generic constraint: Range & tests)
   Remove unnecessary `#pragma warning disable`.
-  Remove Future.cs
   Github action: test on Ubuntu and MacOS.
-  C# 11
   - checked ops.
   - required for props.
   https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11

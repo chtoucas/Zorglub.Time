@@ -7,7 +7,7 @@
     <ContinuousIntegrationBuild Condition=" '$(TF_BUILD)' == 'true' ">true</ContinuousIntegrationBuild>
 
     <!-- WARNING: keep "ZorglubDefaultFramework" in sync with "global.json" -->
-    <ZorglubDefaultFramework>net6.0</ZorglubDefaultFramework>
+    <ZorglubDefaultFramework>net7.0</ZorglubDefaultFramework>
     <ZorglubLibraryFrameworks>$(ZorglubDefaultFramework)</ZorglubLibraryFrameworks>
     <ZorglubTestFrameworks>$(ZorglubDefaultFramework)</ZorglubTestFrameworks>
 
@@ -22,9 +22,9 @@
         "GenerateRequiresPreviewFeaturesAttribute" (this is the default behaviour,
         but I prefer to be explicit about this), and for all projects.
     -->
-    <LangVersion>preview</LangVersion>
-    <EnablePreviewFeatures>true</EnablePreviewFeatures>
-    <GenerateRequiresPreviewFeaturesAttribute>true</GenerateRequiresPreviewFeaturesAttribute>
+    <LangVersion>latest</LangVersion>
+    <EnablePreviewFeatures>false</EnablePreviewFeatures>
+    <GenerateRequiresPreviewFeaturesAttribute>false</GenerateRequiresPreviewFeaturesAttribute>
   </PropertyGroup>
 
   <!-- Common properties -->
