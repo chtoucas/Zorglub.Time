@@ -153,15 +153,11 @@ public partial record struct CivilParts // IComparable
 
 public partial record struct CivilParts // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     public static int operator -(CivilParts left, CivilParts right) => left.CountDaysSince(right);
     public static CivilParts operator +(CivilParts value, int days) => value.PlusDays(days);
     public static CivilParts operator -(CivilParts value, int days) => value.PlusDays(-days);
     public static CivilParts operator ++(CivilParts value) => value.NextDay();
     public static CivilParts operator --(CivilParts value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     [Pure]
     public int CountDaysSince(CivilParts other) =>

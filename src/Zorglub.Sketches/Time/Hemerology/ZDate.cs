@@ -469,9 +469,6 @@ public partial struct ZDate // IComparable
 
 public partial struct ZDate // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
-    // Friendly alternates do exist but use domain-specific names.
-
     /// <summary>
     /// Subtracts the two specified dates and returns the number of days between them.
     /// </summary>
@@ -496,8 +493,6 @@ public partial struct ZDate // Math ops
     /// Subtracts one day to the specified date, yielding a new date.
     /// </summary>
     public static ZDate operator --(ZDate value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     /// <inheritdoc />
     [Pure]

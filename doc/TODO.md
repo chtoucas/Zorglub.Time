@@ -30,11 +30,14 @@ only a bit slower than Standard (> 0).
   https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
-  NET7_0_OR_GREATER (generic constraint: Range & tests)
-  Remove unnecessary `#pragma warning disable`.
-  Github action: test on Ubuntu and MacOS.
-  - checked ops.
-  - required for props.
+  - ManagePackageVersionsCentrally
+  - checked ops
+  - required for props
+  - Github action: test on Ubuntu and MacOS
+  https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/
+  https://devblogs.microsoft.com/dotnet/announcing-fsharp-7/
+  https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11
+  https://learn.microsoft.com/en-us/dotnet/standard/generics/math
   https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11
   https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
   https://docs.microsoft.com/en-us/dotnet/standard/generics/math

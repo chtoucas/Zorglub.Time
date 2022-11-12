@@ -123,13 +123,9 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
         (y, m, d) = Yemoda;
     }
 
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     public static DayNumberInfo operator +(DayNumberInfo x, int value) => new(x.DayNumber + value, x.Yemoda);
 
     public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) => new(x.DayNumber - epoch, x.Yemoda);
-
-#pragma warning restore CA2225
 }
 
 // REVIEW(data): use Yeweda, does not exist yet... idem with DayNumberYewedaInfo
@@ -284,7 +280,6 @@ public readonly record struct YemoPairAnd<T>(Yemo First, Yemo Second, T Value) w
 
 #endregion
 #region Parts
-#pragma warning disable CA2225 // Operator overloads have named alternates
 
 // Too big to be a struct (24 bytes).
 public sealed record DatePartsPair(DateParts First, DateParts Second)
@@ -359,7 +354,6 @@ public sealed record MonthPartsPairAnd<T>(MonthParts First, MonthParts Second, T
     }
 }
 
-#pragma warning restore CA2225
 #endregion
 #region Math models
 

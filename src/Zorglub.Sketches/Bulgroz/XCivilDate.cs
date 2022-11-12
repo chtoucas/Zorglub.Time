@@ -1013,8 +1013,6 @@ public partial struct XCivilDate // IComparable
 // Standard math ops, those based on the day, the base unit of a calendar.
 public partial struct XCivilDate // Standard math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     /// <summary>
     /// Subtracts the two specified dates and returns the number of days
     /// between them at midnight (0h).
@@ -1051,8 +1049,6 @@ public partial struct XCivilDate // Standard math ops
     /// <exception cref="OverflowException">The operation would overflow
     /// the earliest supported date.</exception>
     public static XCivilDate operator --(XCivilDate value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     /// <inheritdoc />
     [Pure]

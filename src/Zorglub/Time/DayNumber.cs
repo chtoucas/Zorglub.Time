@@ -527,9 +527,6 @@ public partial struct DayNumber // IComparable
 
 public partial struct DayNumber // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
-    // Friendly alternates do exist but use domain-specific names.
-
     /// <summary>Subtracts the two specified day numbers and returns the number of days between them.
     /// </summary>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
@@ -574,8 +571,6 @@ public partial struct DayNumber // Math ops
     /// <exception cref="OverflowException">The operation would overflow the earliest supported day
     /// number.</exception>
     public static DayNumber operator --(DayNumber value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     /// <summary>Subtracts the specified day number from this instance and returns the number of days
     /// between them.</summary>

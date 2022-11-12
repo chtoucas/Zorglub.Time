@@ -265,15 +265,11 @@ public partial struct MyCivilDate // IComparable
 
 public partial struct MyCivilDate // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     public static int operator -(MyCivilDate left, MyCivilDate right) => left.CountDaysSince(right);
     public static MyCivilDate operator +(MyCivilDate value, int days) => value.PlusDays(days);
     public static MyCivilDate operator -(MyCivilDate value, int days) => value.PlusDays(-days);
     public static MyCivilDate operator ++(MyCivilDate value) => value.NextDay();
     public static MyCivilDate operator --(MyCivilDate value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     [Pure]
     public int CountDaysSince(MyCivilDate other) =>

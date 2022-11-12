@@ -184,13 +184,9 @@ public partial struct Duration64 // Arithmetic
     public static Duration64 operator -(Duration64 left, Duration64 right) =>
         new(checked(left._totalFractionalSeconds - right._totalFractionalSeconds));
 
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     /// <inheritdoc />
     public static Duration64 operator /(Duration64 left, int right) =>
         new(left._totalFractionalSeconds / right);
-
-#pragma warning restore CA2225 // Operator overloads have named alternates
 
     /// <summary>
     /// Adds a duration to the current instance, yielding a new duration.

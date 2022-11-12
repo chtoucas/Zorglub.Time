@@ -207,15 +207,11 @@ public partial struct CivilTriple // IComparable
 
 public partial struct CivilTriple // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     public static int operator -(CivilTriple left, CivilTriple right) => left.CountDaysSince(right);
     public static CivilTriple operator +(CivilTriple value, int days) => value.PlusDays(days);
     public static CivilTriple operator -(CivilTriple value, int days) => value.PlusDays(-days);
     public static CivilTriple operator ++(CivilTriple value) => value.NextDay();
     public static CivilTriple operator --(CivilTriple value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     [Pure]
     public int CountDaysSince(CivilTriple other) => s_Arithmetic.CountDaysBetween(other._bin, _bin);

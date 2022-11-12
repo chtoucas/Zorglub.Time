@@ -357,9 +357,6 @@ public partial struct TabularIslamicDate // IComparable
 
 public partial struct TabularIslamicDate // Math
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
-    // Friendly alternates do exist but use domain-specific names.
-
     /// <summary>Subtracts the two specified dates and returns the number of days between them.</summary>
     public static int operator -(TabularIslamicDate left, TabularIslamicDate right) => left.CountDaysSince(right);
 
@@ -380,8 +377,6 @@ public partial struct TabularIslamicDate // Math
     /// <summary>Subtracts one day to the specified date, yielding a new date.</summary>
     /// <exception cref="OverflowException">The operation would overflow the earliest supported date.</exception>
     public static TabularIslamicDate operator --(TabularIslamicDate value) => value.PreviousDay();
-
-#pragma warning restore CA2225
 
     /// <inheritdoc />
     [Pure]

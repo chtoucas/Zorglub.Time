@@ -628,9 +628,6 @@ public partial struct CalendarYear // IComparable
 
 public partial struct CalendarYear // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
-    // Friendly alternates do exist but use domain-specific names.
-
     /// <summary>
     /// Subtracts the two specified years and returns the number of years between them.
     /// </summary>
@@ -668,8 +665,6 @@ public partial struct CalendarYear // Math ops
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// years.</exception>
     public static CalendarYear operator --(CalendarYear value) => value.PlusYears(-1);
-
-#pragma warning restore CA2225
 
     /// <summary>
     /// Counts the number of years elapsed since the specified year.

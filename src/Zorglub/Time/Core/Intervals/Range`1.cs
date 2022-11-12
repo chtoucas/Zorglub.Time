@@ -190,7 +190,6 @@ public partial struct Range<T> // Strict partial order
 {
     // REVIEW(api): strict partial order. For other types too. External comparer?
 #if false
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
     /// <summary>
     /// Compares the two specified instances to see if the left one is before the right one.
@@ -224,6 +223,5 @@ public partial struct Range<T> // Strict partial order
     /// </summary>
     public static bool operator >(T left, Range<T> right) => left.CompareTo(right.Max) > 0;
 
-#pragma warning restore CA2225
 #endif
 }

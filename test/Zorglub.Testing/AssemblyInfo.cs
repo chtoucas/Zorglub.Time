@@ -4,8 +4,8 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: InternalsVisibleTo("Zorglub.Tests" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
-[assembly: InternalsVisibleTo("Zorglub.Tests.CSharp" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
+[assembly: InternalsVisibleTo("Zorglub.Tests" + Zorglub.AssemblyInfo.PublicKeySuffix)]
+[assembly: InternalsVisibleTo("Zorglub.Tests.CSharp" + Zorglub.AssemblyInfo.PublicKeySuffix)]
 
 [assembly: CLSCompliant(false)] // Xunit Data Theory
 [assembly: ComVisible(false)]

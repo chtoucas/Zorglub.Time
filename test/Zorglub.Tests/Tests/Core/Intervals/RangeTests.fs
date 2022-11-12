@@ -124,8 +124,6 @@ module Factories =
         let other = new Range<int>(i, i)
         v === other
 
-#if NET7_0_OR_GREATER
-
     [<Property>]
     let ``Range.Maximal()`` () =
         // We test this method w/ int16. For int, see Maximal32 below.
@@ -151,8 +149,6 @@ module Factories =
         let other = new Range<int16>(Int16.MinValue, Int16.MaxValue)
         v === other
 
-#endif
-
     [<Property>]
     let ``Range.StartingAt()`` (i: int) =
         let v = Range.StartingAt(i)
@@ -176,8 +172,6 @@ module Factories =
         // Constructor
         let other = new Range<int>(i, Int32.MaxValue)
         v === other
-
-#if NET7_0_OR_GREATER
 
     [<Property>]
     let ``Range.StartingAt(length)`` (i: int) =
@@ -205,8 +199,6 @@ module Factories =
         let other = new Range<int>(i, j)
         v === other
 
-#endif
-
     [<Property>]
     let ``Range.EndingAt()`` (i: int) =
         let v = Range.EndingAt(i)
@@ -230,8 +222,6 @@ module Factories =
         // Constructor
         let other = new Range<int>(Int32.MinValue, i)
         v === other
-
-#if NET7_0_OR_GREATER
 
     [<Property>]
     let ``Range.EndingAt(length)`` (i: int) =
@@ -258,8 +248,6 @@ module Factories =
         // Constructor
         let other = new Range<int>(j, i)
         v === other
-
-#endif
 
     [<Property>]
     let ``Range.FromEndpoints()`` (x: OrderedPair<int>) =

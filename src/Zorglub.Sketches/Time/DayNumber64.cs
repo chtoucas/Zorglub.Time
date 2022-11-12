@@ -410,8 +410,6 @@ public partial struct DayNumber64 // IComparable
 
 public partial struct DayNumber64 // Math ops
 {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
-
     public static long operator -(DayNumber64 left, DayNumber64 right) =>
         checked(left._daysSinceZero - right._daysSinceZero);
 
@@ -445,8 +443,6 @@ public partial struct DayNumber64 // Math ops
 
     static int IDifferenceOperators<DayNumber64, int>.operator -(DayNumber64 left, DayNumber64 right) =>
         checked((int)(left - right));
-
-#pragma warning restore CA2225
 
     [Pure]
     public long CountDaysSince(DayNumber64 other) => this - other;
