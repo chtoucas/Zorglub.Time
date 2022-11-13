@@ -31,7 +31,7 @@ only a bit slower than Standard (> 0).
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   - ManagePackageVersionsCentrally
-  - checked ops
+  - checked/unchecked ops
   - required for props
   - Github action: test on Ubuntu and MacOS
   https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/

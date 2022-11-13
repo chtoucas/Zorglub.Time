@@ -12,8 +12,7 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 
-// TODO(api): .NET 7.0 unchecked ops.
-// Explain why DayNumber does not keep track of the underlying time scale.
+// TODO(doc): explain why DayNumber does not keep track of the underlying time scale.
 // REVIEW(perf): make _daysSinceZero internal to remove an extra get method call?
 // but it should not be for arithmetic ops, they may overflow.
 

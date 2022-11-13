@@ -506,8 +506,6 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
         Assert.False(range1 != range2);
     }
 
-#pragma warning disable CA1508 // Avoid dead conditional code (Maintainability) 👈 Tests
-
     [Fact]
     public void Equality_Null()
     {
@@ -537,6 +535,4 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
         Assert.False(nullRange != nullRange1);
 #nullable restore
     }
-
-#pragma warning restore CA1508
 }

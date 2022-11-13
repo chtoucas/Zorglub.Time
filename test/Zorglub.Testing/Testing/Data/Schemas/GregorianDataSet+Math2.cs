@@ -362,10 +362,6 @@ public class GregorianMathDataSetNext : IAdvancedMathDataSet, ISingleton<Gregori
         new(new(8, 2, 29), new(1, 3, 1), -7),
     };
 
-#pragma warning disable CA1065 // Do not raise exceptions in unexpected locations (Design)
-
     public DataGroup<YemodaPairAnd<int>> AddMonthsData => throw new NotImplementedException();
     public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => throw new NotImplementedException();
-
-#pragma warning restore CA1065
 }

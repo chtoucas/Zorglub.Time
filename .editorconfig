@@ -383,9 +383,11 @@ dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = p
 [src/{Zorglub,Zorglub.Extras}/**/*.cs]
 dotnet_analyzer_diagnostic.category-Style.severity = warning
 
-[src/Zorglub.Extras/Time/Specialized/*.g.cs]
-# Enable Code Analysis on generated files.
+[src/{Zorglub,Zorglub.Extras}/Time/Specialized/*.g.cs]
+# To enable Code Analysis on generated files, we pretend that they are not...
 generated_code = false
+# Remove redundant nullable directive
+dotnet_diagnostic.IDE0240.severity = none
 
 #[src/Zorglub.Sketches/_Extras/**/*.cs]
 #dotnet_style_namespace_match_folder = true

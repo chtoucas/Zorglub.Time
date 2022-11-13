@@ -15,82 +15,60 @@ public abstract class GJBenchmarkBase : BenchmarkBase
     protected BenchmarkOption Option { get; init; }
 
     /// <summary>Gets the Gregorian/Julian year.</summary>
-    protected int Year
+    protected int Year => Option switch
     {
-        get =>
-            Option switch
-            {
-                BenchmarkOption.Now => Now.Year,
-                BenchmarkOption.Fixed => Fixed.Year,
-                BenchmarkOption.Slow => Slow.Year,
-                BenchmarkOption.Random => Random.Year,
-                _ => Now.Year,
-            };
-    }
+        BenchmarkOption.Now => Now.Year,
+        BenchmarkOption.Fixed => Fixed.Year,
+        BenchmarkOption.Slow => Slow.Year,
+        BenchmarkOption.Random => Random.Year,
+        _ => Now.Year,
+    };
 
     /// <summary>Gets the Gregorian/Julian month.</summary>
-    protected int Month
+    protected int Month => Option switch
     {
-        get =>
-            Option switch
-            {
-                BenchmarkOption.Now => Now.Month,
-                BenchmarkOption.Fixed => Fixed.Month,
-                BenchmarkOption.Slow => Slow.Month,
-                BenchmarkOption.Random => Random.Month,
-                _ => Now.Month,
-            };
-    }
+        BenchmarkOption.Now => Now.Month,
+        BenchmarkOption.Fixed => Fixed.Month,
+        BenchmarkOption.Slow => Slow.Month,
+        BenchmarkOption.Random => Random.Month,
+        _ => Now.Month,
+    };
 
     /// <summary>Gets the Gregorian/Julian day.</summary>
-    protected int Day
+    protected int Day => Option switch
     {
-        get =>
-            Option switch
-            {
-                BenchmarkOption.Now => Now.Day,
-                BenchmarkOption.Fixed => Fixed.Day,
-                BenchmarkOption.Slow => Slow.Day,
-                BenchmarkOption.Random => Random.Day,
-                _ => Now.Day,
-            };
-    }
+        BenchmarkOption.Now => Now.Day,
+        BenchmarkOption.Fixed => Fixed.Day,
+        BenchmarkOption.Slow => Slow.Day,
+        BenchmarkOption.Random => Random.Day,
+        _ => Now.Day,
+    };
 
     /// <summary>Gets the Gregorian day of the year.</summary>
-    protected int DayOfYear
+    protected int DayOfYear => Option switch
     {
-        get =>
-            Option switch
-            {
-                BenchmarkOption.Now => Now.DayOfYear,
-                BenchmarkOption.Fixed => Fixed.DayOfYear,
-                BenchmarkOption.Slow => Slow.DayOfYear,
-                BenchmarkOption.Random => Random.DayOfYear,
-                _ => Now.DayOfYear,
-            };
-    }
+        BenchmarkOption.Now => Now.DayOfYear,
+        BenchmarkOption.Fixed => Fixed.DayOfYear,
+        BenchmarkOption.Slow => Slow.DayOfYear,
+        BenchmarkOption.Random => Random.DayOfYear,
+        _ => Now.DayOfYear,
+    };
 
     /// <summary>Gets the Gregorian value for daysSinceEpoch.</summary>
-    protected int DaysSinceEpoch
+    protected int DaysSinceEpoch => Option switch
     {
-        get =>
-            Option switch
-            {
-                BenchmarkOption.Now => Now.DaysSinceEpoch,
-                BenchmarkOption.Fixed => Fixed.DaysSinceEpoch,
-                BenchmarkOption.Slow => Slow.DaysSinceEpoch,
-                BenchmarkOption.Random => Random.DaysSinceEpoch,
-                _ => Now.DaysSinceEpoch,
-            };
-    }
+        BenchmarkOption.Now => Now.DaysSinceEpoch,
+        BenchmarkOption.Fixed => Fixed.DaysSinceEpoch,
+        BenchmarkOption.Slow => Slow.DaysSinceEpoch,
+        BenchmarkOption.Random => Random.DaysSinceEpoch,
+        _ => Now.DaysSinceEpoch,
+    };
 
     /// <summary>Gets the Gregorian day number.</summary>
     protected DayNumber DayNumber => DayZero.NewStyle + DaysSinceEpoch;
 
     protected Yemoda Ymd => new(Year, Month, Day);
     protected Yemo Ym => new(Year, Month);
-
-#pragma warning disable CA1810 // Initialize reference type static fields inline (Performance)
 
     private static class Now
     {
@@ -158,6 +136,4 @@ public abstract class GJBenchmarkBase : BenchmarkBase
             DaysSinceEpoch = RandomNumberGenerator.GetInt32(600_000, 800_000);
         }
     }
-
-#pragma warning restore CA1810
 }

@@ -7,7 +7,6 @@ using Zorglub.Time.Core.Schemas;
 
 public class GregorianSchema_GetYear : GregorianSchemaBenchmark
 {
-#pragma warning disable CA1721 // Property names should not match get methods (Naming)
     [Benchmark(Baseline = true)]
     public int GetYear()
     {
@@ -15,7 +14,6 @@ public class GregorianSchema_GetYear : GregorianSchemaBenchmark
         Consume(in n);
         return n;
     }
-#pragma warning restore CA1721
 
     [Benchmark]
     public int GetYear_Formulae()

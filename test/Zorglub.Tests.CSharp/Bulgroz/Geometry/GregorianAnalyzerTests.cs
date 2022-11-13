@@ -20,8 +20,6 @@ public sealed partial class GregorianCenturyFormTests : AnalyzerFacts
     public static readonly TheoryData<int, int> CenturyLengths;
     public static readonly TheoryData<int, int> StartOfCenturyList;
 
-#pragma warning disable CA1810 // Initialize reference type static fields inline (Performance) 👈 Tests
-
     static GregorianCenturyFormTests()
     {
         int[] lens = ReadOnlySpanHelpers.Rotate(GregorianSchema.DaysIn4CenturyCycle, 1);
@@ -30,8 +28,6 @@ public sealed partial class GregorianCenturyFormTests : AnalyzerFacts
         CenturyLengths = TheoryDataHelpers.ConvertToArrayData(lens);
         StartOfCenturyList = TheoryDataHelpers.ConvertToArrayData(ArrayHelpers.ConvertToCumulativeArray(lens));
     }
-
-#pragma warning restore CA1810
 
     public GregorianCenturyFormTests() : base(s_CenturyLengths) { }
 

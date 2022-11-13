@@ -141,7 +141,7 @@ public partial struct UniversalTime
     [Pure]
     public TerrestrialTime ToTerrestrialTime(double deltaT) => new(_splitJD + deltaT / SecondsPerDay);
 
-#pragma warning disable CA1822
+#pragma warning disable CA1822 // Mark members as static (Performance)
 
     /// <summary>
     /// Converts this instance to a UTC Time.

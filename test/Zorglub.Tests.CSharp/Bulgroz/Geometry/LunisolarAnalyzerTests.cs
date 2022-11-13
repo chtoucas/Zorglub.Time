@@ -61,8 +61,6 @@ public class LunisolarYearMonthFormTests
     public static readonly TheoryData<int, int> YearLengthData;
     public static readonly TheoryData<int, int> StartOfYearData;
 
-#pragma warning disable CA1810 // Initialize reference type static fields inline (Performance) 👈 Tests
-
     static LunisolarYearMonthFormTests()
     {
         int[] lens = {
@@ -73,8 +71,6 @@ public class LunisolarYearMonthFormTests
         YearLengthData = TheoryDataHelpers.ConvertToArrayData(lens);
         StartOfYearData = TheoryDataHelpers.ConvertToArrayData(ArrayHelpers.ConvertToCumulativeArray(lens));
     }
-
-#pragma warning restore CA1810
 
     // Forme encondant le nombre de mois par année.
     [Fact]

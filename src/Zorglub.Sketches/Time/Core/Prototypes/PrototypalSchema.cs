@@ -125,8 +125,6 @@ public abstract partial class PrototypalSchema :
 
 public partial class PrototypalSchema // ICalendricalKernel
 {
-#pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
-
     CalendricalAlgorithm ICalendricalKernel.Algorithm => _kernel.Algorithm;
 
     CalendricalFamily ICalendricalKernel.Family => _kernel.Family;
@@ -135,8 +133,6 @@ public partial class PrototypalSchema // ICalendricalKernel
 
     [Pure]
     bool ICalendricalKernel.IsRegular(out int monthsInYear) => _kernel.IsRegular(out monthsInYear);
-
-#pragma warning restore CA1033
 
     /// <inheritdoc />
     [Pure]
@@ -386,8 +382,6 @@ public partial class PrototypalSchema // ICalendricalSchema (2)
     /// <inheritdoc />
     public abstract ICalendricalPreValidator PreValidator { get; }
 
-#pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
-
     [Pure]
     int ICalendricalSchema.CountMonthsSinceEpoch(int y, int m) =>
         GetStartOfYearInMonths(y) + m - 1;
@@ -425,14 +419,10 @@ public partial class PrototypalSchema // ICalendricalSchema (2)
     [Pure]
     int ICalendricalSchema.GetEndOfMonth(int y, int m) =>
         GetStartOfYear(y) + CountDaysInYearBeforeMonth(y, m) + CountDaysInMonth(y, m) - 1;
-
-#pragma warning restore CA1033
 }
 
 public partial class PrototypalSchema // ICalendricalSchemaPlus
 {
-#pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
-
     [Pure]
     int ICalendricalSchemaPlus.CountDaysInYearAfterMonth(int y, int m) =>
         CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
@@ -550,6 +540,4 @@ public partial class PrototypalSchema // ICalendricalSchemaPlus
     private int CountDaysInMonthAfterImpl(int y, int m, int d) => CountDaysInMonth(y, m) - d;
 
     #endregion
-
-#pragma warning restore CA1033
 }

@@ -447,7 +447,6 @@ public partial class SimpleCalendar // Year or month infos
     /// <exception cref="AoorException">The year is outside the range of supported years.
     /// </exception>
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.IsLeap.")]
     bool ICalendricalKernel.IsLeapYear(int year)
     {
         YearsValidator.Validate(year);
@@ -458,7 +457,6 @@ public partial class SimpleCalendar // Year or month infos
     /// <exception cref="AoorException">The month is either invalid or outside the range of
     /// supported months.</exception>
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarMonth.IsIntercalary.")]
     bool ICalendricalKernel.IsIntercalaryMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
@@ -467,7 +465,6 @@ public partial class SimpleCalendar // Year or month infos
 
     /// <inheritdoc />
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See {Date}.IsIntercalary.")]
     bool ICalendricalKernel.IsIntercalaryDay(int year, int month, int day)
     {
         Scope.ValidateYearMonthDay(year, month, day);
@@ -476,7 +473,6 @@ public partial class SimpleCalendar // Year or month infos
 
     /// <inheritdoc />
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See {Date}.IsSupplementaryDay.")]
     bool ICalendricalKernel.IsSupplementaryDay(int year, int month, int day)
     {
         Scope.ValidateYearMonthDay(year, month, day);
@@ -487,7 +483,6 @@ public partial class SimpleCalendar // Year or month infos
     /// <exception cref="AoorException">The year is outside the range of supported years.
     /// </exception>
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountMonthsInYear().")]
     int ICalendricalKernel.CountMonthsInYear(int year)
     {
         YearsValidator.Validate(year);
@@ -498,7 +493,6 @@ public partial class SimpleCalendar // Year or month infos
     /// <exception cref="AoorException">The year is outside the range of supported years.
     /// </exception>
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountDaysInYear().")]
     int ICalendricalKernel.CountDaysInYear(int year)
     {
         YearsValidator.Validate(year);
@@ -509,7 +503,6 @@ public partial class SimpleCalendar // Year or month infos
     /// <exception cref="AoorException">The month is either invalid or outside the range of
     /// supported months.</exception>
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarMonth.CountDaysInMonth().")]
     int ICalendricalKernel.CountDaysInMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
@@ -640,7 +633,6 @@ public partial class SimpleCalendar // Conversions
     // GetCalendarDay(DayNumber dayNumber) -> see the factory method above.
 
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetDate() then the prop DayNumber, or better ToCalendarDay().")]
     DayNumber ICalendar.GetDayNumber(int year, int month, int day)
     {
         // Hidden since we have a custom day object (CalendarDay).
@@ -651,7 +643,6 @@ public partial class SimpleCalendar // Conversions
     }
 
     [Pure]
-    [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetDate() then the prop DayNumber, or better ToCalendarDay().")]
     DayNumber ICalendar.GetDayNumber(int year, int dayOfYear)
     {
         // Hidden since we have a custom day object (CalendarDay).

@@ -22,8 +22,6 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
     public static readonly TheoryData<int, int> YearLengths;
     public static readonly TheoryData<int, int> StartOfYearList;
 
-#pragma warning disable CA1810 // Initialize reference type static fields inline (Performance) 👈 Tests
-
     static GJYearFormTests()
     {
         int[] lens = ReadOnlySpanHelpers.Rotate(GJSchema.DaysIn4YearCycle, 1);
@@ -32,8 +30,6 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
         YearLengths = TheoryDataHelpers.ConvertToArrayData(lens);
         StartOfYearList = TheoryDataHelpers.ConvertToArrayData(ArrayHelpers.ConvertToCumulativeArray(lens));
     }
-
-#pragma warning restore CA1810
 
     public GJYearFormTests() : base(s_YearLengths) { }
 
@@ -155,8 +151,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
 
     public static readonly TheoryData<int, int> MonthLengths;
 
-#pragma warning disable CA1810 // Initialize reference type static fields inline (Performance) 👈 Tests
-
     static GJMonthFormTests()
     {
         s_MonthLengths_CommonYear = ArrayHelpers.Rotate(SchemaHelpers.GetDaysInMonthArray<GJSchema>(false), 2);
@@ -167,8 +161,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
 
         MonthLengths = TheoryDataHelpers.ConvertToArrayData(lens);
     }
-
-#pragma warning restore CA1810
 
     public GJMonthFormTests() : base(s_MonthLengths) { }
 

@@ -61,10 +61,7 @@ public partial class CalendarTemplate : CSharpTemplate
     protected void EmitPragmas()
     {
 #>
-#pragma warning disable IDE0240 // Remove redundant nullable directive ✓
-// Public API, fix RS0041 "Public members should not use oblivious types".
 #nullable enable
-#pragma warning restore IDE0240
 <#+
     } // T4: End of EmitPragmas()
 

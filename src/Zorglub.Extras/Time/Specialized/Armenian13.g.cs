@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-#pragma warning disable IDE0240 // Remove redundant nullable directive ✓
-// Public API, fix RS0041 "Public members should not use oblivious types".
 #nullable enable
-#pragma warning restore IDE0240
 
 namespace Zorglub.Time.Specialized;
 

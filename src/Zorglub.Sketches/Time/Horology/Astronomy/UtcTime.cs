@@ -123,7 +123,7 @@ public partial struct UtcTime
         ToClockTime(int decimalPlaces)
         => _quasiJD.ToClockTime(decimalPlaces);
 
-#pragma warning disable CA1822
+#pragma warning disable CA1822 // Mark members as static (Performance)
 
     /// <summary>
     /// Converts this instance to an Atomic Time.
