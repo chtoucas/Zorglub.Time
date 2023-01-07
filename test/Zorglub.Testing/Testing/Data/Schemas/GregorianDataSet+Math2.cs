@@ -362,6 +362,6 @@ public class GregorianMathDataSetNext : IAdvancedMathDataSet, ISingleton<Gregori
         new(new(8, 2, 29), new(1, 3, 1), -7),
     };
 
-    public DataGroup<YemodaPairAnd<int>> AddMonthsData => throw new NotImplementedException();
-    public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => throw new NotImplementedException();
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => throw new NotSupportedException();
+    public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => throw new NotSupportedException();
 }

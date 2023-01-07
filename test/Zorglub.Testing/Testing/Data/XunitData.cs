@@ -6,6 +6,7 @@ namespace Zorglub.Testing.Data;
 using System.Collections;
 using System.Linq;
 
+[SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
 public sealed class XunitData<T> : IReadOnlyCollection<object?[]>
 {
     private readonly IEnumerable<object?[]> _values;

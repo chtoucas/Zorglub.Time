@@ -1,6 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
+
 namespace Zorglub.Time.Core.Prototypes;
 
 using Zorglub.Time.Core.Intervals;

@@ -3,6 +3,7 @@
 
 namespace Zorglub.Bulgroz.Geometry;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time.Core;
@@ -61,6 +62,7 @@ public class LunisolarYearMonthFormTests
     public static readonly TheoryData<int, int> YearLengthData;
     public static readonly TheoryData<int, int> StartOfYearData;
 
+    [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
     static LunisolarYearMonthFormTests()
     {
         int[] lens = {

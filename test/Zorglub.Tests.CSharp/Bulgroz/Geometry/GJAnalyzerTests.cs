@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Geometry;
 
+using System.Diagnostics.CodeAnalysis;
+
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
@@ -22,6 +24,7 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
     public static readonly TheoryData<int, int> YearLengths;
     public static readonly TheoryData<int, int> StartOfYearList;
 
+    [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
     static GJYearFormTests()
     {
         int[] lens = ReadOnlySpanHelpers.Rotate(GJSchema.DaysIn4YearCycle, 1);
@@ -151,6 +154,7 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
 
     public static readonly TheoryData<int, int> MonthLengths;
 
+    [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
     static GJMonthFormTests()
     {
         s_MonthLengths_CommonYear = ArrayHelpers.Rotate(SchemaHelpers.GetDaysInMonthArray<GJSchema>(false), 2);

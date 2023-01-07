@@ -169,11 +169,12 @@ public partial class INakedCalendarFacts<TCalendar, TDataSet> // IDateProvider<D
             select startOfYear + i;
         // Act
         IEnumerable<DayNumber> actual = CalendarUT.GetDaysInYear(y);
+        var arr = actual.ToArray();
         // Assert
         Assert.Equal(exp, actual);
-        Assert.Equal(info.DaysInYear, actual.Count());
-        Assert.Equal(startOfYear, actual.First());
-        Assert.Equal(endOfYear, actual.Last());
+        Assert.Equal(info.DaysInYear, arr.Length);
+        Assert.Equal(startOfYear, arr.First());
+        Assert.Equal(endOfYear, arr.Last());
     }
 
     #endregion
@@ -194,11 +195,12 @@ public partial class INakedCalendarFacts<TCalendar, TDataSet> // IDateProvider<D
             select startofMonth + i;
         // Act
         IEnumerable<DayNumber> actual = CalendarUT.GetDaysInMonth(y, m);
+        var arr = actual.ToArray();
         // Assert
         Assert.Equal(exp, actual);
-        Assert.Equal(info.DaysInMonth, actual.Count());
-        Assert.Equal(startofMonth, actual.First());
-        Assert.Equal(endOfMonth, actual.Last());
+        Assert.Equal(info.DaysInMonth, arr.Length);
+        Assert.Equal(startofMonth, arr.First());
+        Assert.Equal(endOfMonth, arr.Last());
     }
 
     #endregion

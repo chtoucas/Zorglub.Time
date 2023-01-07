@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Geometry;
 
+using System.Diagnostics.CodeAnalysis;
+
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
@@ -20,6 +22,7 @@ public sealed partial class GregorianCenturyFormTests : AnalyzerFacts
     public static readonly TheoryData<int, int> CenturyLengths;
     public static readonly TheoryData<int, int> StartOfCenturyList;
 
+    [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
     static GregorianCenturyFormTests()
     {
         int[] lens = ReadOnlySpanHelpers.Rotate(GregorianSchema.DaysIn4CenturyCycle, 1);

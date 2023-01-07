@@ -93,11 +93,12 @@ public sealed class GregorianBoundedBelowCalendarTests :
             select startOfYear + i;
         // Act
         IEnumerable<DayNumber> actual = CalendarUT.GetDaysInYear(FirstYear);
+        var arr = actual.ToArray();
         // Assert
         Assert.Equal(list, actual);
-        Assert.Equal(daysInFirstYear, actual.Count());
-        Assert.Equal(startOfYear, actual.First());
-        Assert.Equal(endOfYear, actual.Last());
+        Assert.Equal(daysInFirstYear, arr.Length);
+        Assert.Equal(startOfYear, arr.First());
+        Assert.Equal(endOfYear, arr.Last());
     }
 
     [Fact]
@@ -111,11 +112,12 @@ public sealed class GregorianBoundedBelowCalendarTests :
             select startofMonth + i;
         // Act
         IEnumerable<DayNumber> actual = CalendarUT.GetDaysInMonth(FirstYear, FirstMonth);
+        var arr = actual.ToArray();
         // Assert
         Assert.Equal(list, actual);
-        Assert.Equal(daysInFirstMonth, actual.Count());
-        Assert.Equal(startofMonth, actual.First());
-        Assert.Equal(endOfMonth, actual.Last());
+        Assert.Equal(daysInFirstMonth, arr.Length);
+        Assert.Equal(startofMonth, arr.First());
+        Assert.Equal(endOfMonth, arr.Last());
     }
 
     [Fact]

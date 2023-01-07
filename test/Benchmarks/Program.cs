@@ -134,9 +134,7 @@ public static class Program
 
             try
             {
-                var color = s_ColorScheme.ContainsKey(logKind)
-                    ? s_ColorScheme[logKind]
-                    : DefaultColor;
+                var color = s_ColorScheme.TryGetValue(logKind, out var value) ? value : DefaultColor;
 
                 if (color != colorBefore
                     && color != Console.BackgroundColor)

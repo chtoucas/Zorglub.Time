@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes (Performance)
+#pragma warning disable CA1852
 
 using System;
 

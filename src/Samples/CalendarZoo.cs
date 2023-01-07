@@ -241,16 +241,16 @@ public partial class CalendarZoo
     /// </summary>
     public static SimpleCalendar World => RetropolatedCalendars.World;
 
-    private sealed class RetropolatedCalendars
+    private static class RetropolatedCalendars
     {
-        // Static constructor to remove the "BeforeFieldInit" flag, but I'm not
-        // sure that it's necessary here (only affects laziness).
-        // With the flag (default), type initialization may be deferred or not.
-        //   "Specifies that calling static methods of the type does not force the system to initialize the type."
-        //   https://docs.microsoft.com/en-us/dotnet/api/system.reflection.typeattributes?view=net-6.0#system-reflection-typeattributes-beforefieldinit
-        // Without the flag, the CLR is required to call the type initializer
-        // before any member on the class is touched.
-        static RetropolatedCalendars() { }
+        //// Static constructor to remove the "BeforeFieldInit" flag, but I'm not
+        //// sure that it's necessary here (only affects laziness).
+        //// With the flag (default), type initialization may be deferred or not.
+        ////   "Specifies that calling static methods of the type does not force the system to initialize the type."
+        ////   https://docs.microsoft.com/en-us/dotnet/api/system.reflection.typeattributes?view=net-6.0#system-reflection-typeattributes-beforefieldinit
+        //// Without the flag, the CLR is required to call the type initializer
+        //// before any member on the class is touched.
+        //static RetropolatedCalendars() { }
 
         internal static readonly SimpleCalendar Egyptian =
             Egyptian12Schema.GetInstance().CreateCalendar(

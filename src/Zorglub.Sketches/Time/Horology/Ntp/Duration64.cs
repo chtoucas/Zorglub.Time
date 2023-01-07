@@ -205,4 +205,8 @@ public partial struct Duration64 // Arithmetic
     [Pure]
     public Duration64 Subtract(Duration64 other) =>
         new(checked(_totalFractionalSeconds - other._totalFractionalSeconds));
+
+    [Pure]
+    public Duration64 Divide(int value) =>
+        new(_totalFractionalSeconds / value);
 }

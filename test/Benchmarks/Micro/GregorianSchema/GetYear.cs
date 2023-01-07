@@ -8,7 +8,7 @@ using Zorglub.Time.Core.Schemas;
 public class GregorianSchema_GetYear : GregorianSchemaBenchmark
 {
     [Benchmark(Baseline = true)]
-    public int GetYear()
+    public int GetYear_Instance()
     {
         int n = CurrentSchema.GetYear(DaysSinceEpoch);
         Consume(in n);

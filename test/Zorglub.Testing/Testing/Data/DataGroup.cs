@@ -107,6 +107,7 @@ public static class DataGroup
 /// <summary>
 /// Represents a group of data for a theory.
 /// </summary>
+[SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
 public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 {
     /// <summary>

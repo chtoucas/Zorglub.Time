@@ -3,6 +3,7 @@
 
 namespace Benchmarks;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
 using Zorglub.Time;
@@ -78,6 +79,7 @@ public abstract class GJBenchmarkBase : BenchmarkBase
         internal static readonly int DayOfYear;
         internal static readonly int DaysSinceEpoch;
 
+        [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
         static Now()
         {
             var now = DateTime.Now;
@@ -125,6 +127,7 @@ public abstract class GJBenchmarkBase : BenchmarkBase
         internal static readonly int DayOfYear;
         internal static readonly int DaysSinceEpoch;
 
+        [SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
         static Random()
         {
             Year = RandomNumberGenerator.GetInt32(2000, 2100);
