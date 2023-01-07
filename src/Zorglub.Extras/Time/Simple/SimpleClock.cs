@@ -103,6 +103,7 @@ public abstract class SimpleClock
     // without the validation part for system calendars as we know for sure
     // that today is always admissible.
 
+#pragma warning disable CA1024 // Use properties where appropriate (Design) ✓
     // These methods SHOULD NOT be properties.
     // Let's not repeat the mistake of DateTime.Now.
 
@@ -126,6 +127,8 @@ public abstract class SimpleClock
     /// <exception cref="AoorException">Today is outside the range of values supported by the
     /// underlying calendar.</exception>
     [Pure] public abstract CalendarDay GetCurrentDay();
+
+#pragma warning restore CA1024
 
     // Requirements:
     // - System calendar (no validation)

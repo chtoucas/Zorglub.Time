@@ -66,6 +66,8 @@ public abstract partial class BasicCalendar<TScope> : ICalendar
 
 public partial class BasicCalendar<TScope> // Year, month, day infos
 {
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+
     /// <inheritdoc />
     /// <exception cref="AoorException"><paramref name="year"/> is outside the range of supported
     /// years.</exception>
@@ -118,6 +120,8 @@ public partial class BasicCalendar<TScope> // Year, month, day infos
     /// <exception cref="AoorException">The month is either invalid or outside the range of
     /// supported months.</exception>
     [Pure] public abstract int CountDaysInMonth(int year, int month);
+
+#pragma warning restore CA1725
 }
 
 public partial class BasicCalendar<TScope> // Conversions

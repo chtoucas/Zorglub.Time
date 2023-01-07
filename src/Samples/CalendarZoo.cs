@@ -241,7 +241,7 @@ public partial class CalendarZoo
     /// </summary>
     public static SimpleCalendar World => RetropolatedCalendars.World;
 
-    private class RetropolatedCalendars
+    private sealed class RetropolatedCalendars
     {
         // Static constructor to remove the "BeforeFieldInit" flag, but I'm not
         // sure that it's necessary here (only affects laziness).

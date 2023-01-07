@@ -282,11 +282,15 @@ public partial struct MyDate // IComparable
 
 public partial struct MyDate // Math ops
 {
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+
     public static int operator -(MyDate left, MyDate right) => left.CountDaysSince(right);
     public static MyDate operator +(MyDate value, int days) => value.PlusDays(days);
     public static MyDate operator -(MyDate value, int days) => value.PlusDays(-days);
     public static MyDate operator ++(MyDate value) => value.NextDay();
     public static MyDate operator --(MyDate value) => value.PreviousDay();
+
+#pragma warning restore CA2225
 
     [Pure]
     public int CountDaysSince(MyDate other) => s_Arithmetic.CountDaysBetween(other._bin, _bin);

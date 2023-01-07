@@ -494,6 +494,9 @@ public partial struct CalendarMonth // IComparable
 
 public partial struct CalendarMonth // Math ops
 {
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
+    // Friendly alternates do exist but use domain-specific names.
+
     /// <summary>
     /// Subtracts the two specified months and returns the number of months between them.
     /// </summary>
@@ -531,6 +534,8 @@ public partial struct CalendarMonth // Math ops
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// months.</exception>
     public static CalendarMonth operator --(CalendarMonth value) => value.PreviousMonth();
+
+#pragma warning restore CA2225
 
     /// <summary>
     /// Counts the number of months elapsed since the specified month.

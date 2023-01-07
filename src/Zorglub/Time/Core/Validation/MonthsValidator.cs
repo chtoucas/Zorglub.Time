@@ -30,6 +30,8 @@ public sealed class MonthsValidator : IRangeValidator<int>
     [Pure]
     public sealed override string ToString() => Range.ToString();
 
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+
     /// <summary>Validates the specified number of consecutive months from the epoch.</summary>
     /// <exception cref="AoorException">The validation failed.</exception>
     public void Validate(int monthsSinceEpoch, string? paramName = null)
@@ -69,4 +71,6 @@ public sealed class MonthsValidator : IRangeValidator<int>
     {
         if (monthsSinceEpoch < MinMonthsSinceEpoch) Throw.MonthOverflow();
     }
+
+#pragma warning restore CA1725
 }

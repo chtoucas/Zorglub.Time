@@ -30,6 +30,8 @@ public sealed class DaysValidator : IRangeValidator<int>
     [Pure]
     public sealed override string ToString() => Range.ToString();
 
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+
     /// <summary>Validates the specified number of consecutive days from the epoch.</summary>
     /// <exception cref="AoorException">The validation failed.</exception>
     public void Validate(int daysSinceEpoch, string? paramName = null)
@@ -69,4 +71,6 @@ public sealed class DaysValidator : IRangeValidator<int>
     {
         if (daysSinceEpoch < MinDaysSinceEpoch) Throw.DateOverflow();
     }
+
+#pragma warning restore CA1725
 }
