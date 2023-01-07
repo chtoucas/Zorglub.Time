@@ -2,7 +2,7 @@
 
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.targets" />
 
-  <!-- SHOULD only be imported by Xunit-test projects -->
+  <!-- SHOULD only be imported by Xunit projects -->
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json">
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageReference Include="coverlet.msbuild" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
