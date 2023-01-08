@@ -560,8 +560,8 @@ virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
 Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Exact = 2 -> Zorglub.Time.AdditionRule
+Zorglub.Time.AdditionRule.Overflow = 3 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Overspill = 1 -> Zorglub.Time.AdditionRule
-Zorglub.Time.AdditionRule.Throw = 3 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Truncate = 0 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset
 Zorglub.Time.AdditionRuleset.AdditionRuleset() -> void

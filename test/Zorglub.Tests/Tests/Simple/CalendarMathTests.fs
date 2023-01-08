@@ -32,7 +32,7 @@ module Prelude =
         let ruleset = AdditionRuleset(
             DateRule    = AdditionRule.Overspill,
             OrdinalRule = AdditionRule.Exact,
-            MonthRule   = AdditionRule.Throw)
+            MonthRule   = AdditionRule.Overflow)
         let math = new FauxCalendarMath(ruleset)
 
         math.AdditionRuleset === ruleset
@@ -96,7 +96,7 @@ module Factories =
         let ruleset = new AdditionRuleset(
             DateRule    = AdditionRule.Overspill,
             OrdinalRule = AdditionRule.Exact,
-            MonthRule   = AdditionRule.Throw)
+            MonthRule   = AdditionRule.Overflow)
         let math = CalendarMath.Create(chr, ruleset)
 
         math |> is<PowerMath>

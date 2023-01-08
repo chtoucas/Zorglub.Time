@@ -70,7 +70,7 @@ internal static class Requires
         AdditionRule rule,
         [CallerArgumentExpression("rule")] string paramName = "")
     {
-        if (AdditionRule.Truncate <= rule && rule <= AdditionRule.Throw) return;
+        if (AdditionRule.Truncate <= rule && rule <= AdditionRule.Overflow) return;
 
         Throw.AdditionRuleOutOfRange(rule, paramName);
     }

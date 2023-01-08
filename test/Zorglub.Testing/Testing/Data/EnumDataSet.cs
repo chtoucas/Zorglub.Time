@@ -48,7 +48,7 @@ public static class EnumDataSet
     public static TheoryData<AdditionRule> InvalidAdditionRuleData { get; } = new()
     {
         (AdditionRule)(-1),
-        AdditionRule.Throw + 1,
+        AdditionRule.Overflow + 1,
     };
 
     public static TheoryData<AdditionRule> AdditionRuleData { get; } = new()
@@ -56,7 +56,7 @@ public static class EnumDataSet
         AdditionRule.Truncate,
         AdditionRule.Overspill,
         AdditionRule.Exact,
-        AdditionRule.Throw,
+        AdditionRule.Overflow,
     };
 
     public static TheoryData<CalendricalAlgorithm> InvalidCalendricalAlgorithmData { get; } = new()

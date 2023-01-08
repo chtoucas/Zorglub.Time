@@ -88,7 +88,7 @@ public sealed class PowerMath : CalendarMath
             AdditionRule.Truncate => ymd,
             AdditionRule.Overspill => Arithmetic.AddDays(ymd, 1),
             AdditionRule.Exact => Arithmetic.AddDays(ymd, roundoff),
-            AdditionRule.Throw => Throw.DateOverflow<Yemoda>(),
+            AdditionRule.Overflow => Throw.DateOverflow<Yemoda>(),
 
             _ => Throw.InvalidOperation<Yemoda>(),
         };
@@ -107,7 +107,7 @@ public sealed class PowerMath : CalendarMath
             AdditionRule.Truncate => ydoy,
             AdditionRule.Overspill => Arithmetic.AddDays(ydoy, 1),
             AdditionRule.Exact => Arithmetic.AddDays(ydoy, roundoff),
-            AdditionRule.Throw => Throw.DateOverflow<Yedoy>(),
+            AdditionRule.Overflow => Throw.DateOverflow<Yedoy>(),
 
             _ => Throw.InvalidOperation<Yedoy>(),
         };
@@ -126,7 +126,7 @@ public sealed class PowerMath : CalendarMath
             AdditionRule.Truncate => ym,
             AdditionRule.Overspill => Arithmetic.AddMonths(ym, 1),
             AdditionRule.Exact => Arithmetic.AddMonths(ym, roundoff),
-            AdditionRule.Throw => Throw.MonthOverflow<Yemo>(),
+            AdditionRule.Overflow => Throw.MonthOverflow<Yemo>(),
 
             _ => Throw.InvalidOperation<Yemo>(),
         };

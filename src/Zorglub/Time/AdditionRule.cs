@@ -64,5 +64,5 @@ public enum AdditionRule
 
     /// <summary>When the result is not a valid day (resp. month), throw an exception of type
     /// <see cref="OverflowException"/>.</summary>
-    Throw,
+    Overflow,
 }
