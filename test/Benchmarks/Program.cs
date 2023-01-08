@@ -35,15 +35,15 @@ public static class Program
             //.With(new EtwProfiler())Zorglub.Benchmarks.GregorianSchema.Impl
             ;
 
-        //BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
 
-        BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
-        //BenchmarkRunner.Run<Other.CalendarDayBenchmark>(config);
-        //BenchmarkRunner.Run<Other.InterconversionBenchmark>(config);
-        //BenchmarkRunner.Run<Other.JulianBenchmark>(config);
-        //BenchmarkRunner.Run<Other.QuickBenchmark>(config);
-        //BenchmarkRunner.Run<Other.TodayBenchmark>(config);
-        //BenchmarkRunner.Run<Other.UtcTodayBenchmark>(config);
+        _ = BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.CalendarDayBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.InterconversionBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.JulianBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.QuickBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.TodayBenchmark>(config);
+        //_ = BenchmarkRunner.Run<Other.UtcTodayBenchmark>(config);
     }
 #endif
 
@@ -81,7 +81,7 @@ public static class Program
 
         if (shortRunJob)
         {
-            config.AddJob(Job.ShortRun);
+            _ = config.AddJob(Job.ShortRun);
         }
 
         return config.AddLogger(new ConsoleLogger_());
