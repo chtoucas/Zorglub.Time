@@ -21,7 +21,7 @@ internal static class Requires
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void NotNull<T>(
         [NotNull] T? obj,
-        [CallerArgumentExpression("obj")] string paramName = "")
+        [CallerArgumentExpression(nameof(obj))] string paramName = "")
         where T : notnull
     {
         // NB: there is also ArgumentNullException.ThrowIfNull().
@@ -38,7 +38,7 @@ internal static class Requires
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Defined(
         DayOfWeek dayOfWeek,
-        [CallerArgumentExpression("dayOfWeek")] string paramName = "")
+        [CallerArgumentExpression(nameof(dayOfWeek))] string paramName = "")
     {
         if (DayOfWeek.Sunday <= dayOfWeek && dayOfWeek <= DayOfWeek.Saturday) return;
 
@@ -53,7 +53,7 @@ internal static class Requires
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Defined(
         IsoWeekday weekday,
-        [CallerArgumentExpression("weekday")] string paramName = "")
+        [CallerArgumentExpression(nameof(weekday))] string paramName = "")
     {
         if (IsoWeekday.Monday <= weekday && weekday <= IsoWeekday.Sunday) return;
 
@@ -68,7 +68,7 @@ internal static class Requires
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Defined(
         AdditionRule rule,
-        [CallerArgumentExpression("rule")] string paramName = "")
+        [CallerArgumentExpression(nameof(rule))] string paramName = "")
     {
         if (AdditionRule.Truncate <= rule && rule <= AdditionRule.Overflow) return;
 
@@ -82,7 +82,7 @@ internal static class Requires
     public static void Profile(
         CalendricalSchema schema,
         CalendricalProfile expected,
-        [CallerArgumentExpression("schema")] string paramName = "")
+        [CallerArgumentExpression(nameof(schema))] string paramName = "")
     {
         Debug.Assert(schema != null);
 
