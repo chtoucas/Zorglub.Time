@@ -4,12 +4,12 @@
     ".NETFramework,Version=v4.8": {
       "Microsoft.VisualStudio.TextTemplating": {
         "type": "Direct",
-        "requested": "[17.3.32803.143, )",
-        "resolved": "17.3.32803.143",
-        "contentHash": "BQGtvdzlrsck7qtMPfm+80W6SDckaUsufCxhqKmXNSxLa/B0TNEiPxtD+RYZ59/SxFjuPiu9PiEehSh9s3y3AQ==",
+        "requested": "[17.5.33428.366, )",
+        "resolved": "17.5.33428.366",
+        "contentHash": "FfucOxZXMHKYrD/qn+KxlrBmMeinRucgkGHCpJgB9SQJwtMA4Tqf06rI7rF0Wkv+IlaVUWtY4DLBfPAulFCslw==",
         "dependencies": {
-          "Microsoft.VisualStudio.Telemetry": "16.4.137",
-          "Microsoft.VisualStudio.TextTemplating.Interfaces": "17.3.32803.143",
+          "Microsoft.VisualStudio.Telemetry": "16.6.21",
+          "Microsoft.VisualStudio.TextTemplating.Interfaces": "17.5.33428.366",
           "System.Collections.Immutable": "6.0.0",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
@@ -29,20 +29,20 @@
       },
       "Microsoft.VisualStudio.Telemetry": {
         "type": "Transitive",
-        "resolved": "16.4.137",
-        "contentHash": "2Ly1GlVAkvMc4k01BlVmf4DAEpSv82Xa9Sw/6WAYRD+2ScmySuem3DM+8lfCb+t3v9cc1tN/qz22MHiIMJ8GCg==",
+        "resolved": "16.6.21",
+        "contentHash": "SBopQMyWZNrU5qOqdfYvtVv+/TCkddPGFMN1fszq+X1aGhlGUa3lPypekmvkKX/95DgFbBbtFhQhCWC1RdgYgw==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
           "Microsoft.VisualStudio.RemoteControl": "16.3.44",
-          "Microsoft.VisualStudio.Utilities.Internal": "16.3.36",
+          "Microsoft.VisualStudio.Utilities.Internal": "16.3.38",
           "Newtonsoft.Json": "13.0.1",
           "System.Runtime.CompilerServices.Unsafe": "5.0.0"
         }
       },
       "Microsoft.VisualStudio.TextTemplating.Interfaces": {
         "type": "Transitive",
-        "resolved": "17.3.32803.143",
-        "contentHash": "F43ItrxUaEuyIrCGYGRv6bBKyb+jA1IGWg+1kUrMk679xunzkwxY5WShMNY18B6qABD2z6hI5iKT3oCosHVx0g==",
+        "resolved": "17.5.33428.366",
+        "contentHash": "v38ksG16cNcstamKtpxaXVEtmr9FqSEQ2eg/R8aS5YGECfQm4s4cLbc+Xm3B94qttjwed4Fneouq7vbB4ipjJA==",
         "dependencies": {
           "Microsoft.VisualStudio.TextTemplating.Interfaces.11.0": "17.0.31902.203"
         }
@@ -62,8 +62,8 @@
       },
       "Microsoft.VisualStudio.Utilities.Internal": {
         "type": "Transitive",
-        "resolved": "16.3.36",
-        "contentHash": "tVOE9DJbd4PETSgBW+9448jvRdhm/hNHJFaGyCq6Gtlg+ElELBmfMFxgp2rsrqzUkLjehwnrw6uX4Yj9krOfJQ=="
+        "resolved": "16.3.38",
+        "contentHash": "r3rat8qW+oHLxEhiABvXM7pbGRuOgmhSFT20t0PIbXOtGMCE5KwrQrW7qiRqkI338VH58bPytfYEqrD7M/sfWw=="
       },
       "Newtonsoft.Json": {
         "type": "Transitive",
