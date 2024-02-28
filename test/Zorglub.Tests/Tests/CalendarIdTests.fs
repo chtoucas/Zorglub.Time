@@ -33,7 +33,7 @@ let ``IdToStringData is exhaustive`` () =
     let data = new IdToStringData()
     let count = Enum.GetValues(typeof<CalendarId>).Length
 
-    data.Count() === count
+    data.Count === count
 
 [<Fact>]
 let ``Default value of CalendarId is CalendarId.Gregorian`` () =

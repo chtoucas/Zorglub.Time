@@ -141,8 +141,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Interval.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Interval.Coalesce(w, v) |> isnull
+            Interval.Coalesce(v, w) |> Assert.Null
+            Interval.Coalesce(w, v) |> Assert.Null
 
     [<Theory; MemberData(nameof(rangeRangeInfoData))>]
     let ``(Range, Range) for DayNumber's`` (data: RangeRangeInfo) =
@@ -174,8 +174,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Interval.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Interval.Coalesce(w, v) |> isnull
+            Interval.Coalesce(w, v) |> Assert.Null
+            Interval.Coalesce(v, w) |> Assert.Null
 
     //
     // Range and LowerRay
@@ -211,8 +211,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Lavretni.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
+            Interval.Coalesce(v, w) |> Assert.Null
+            Lavretni.Coalesce(w, v) |> Assert.Null
 
     [<Theory; MemberData(nameof(lowerRayRangeInfoData))>]
     let ``(Range, LowerRay) for DayNumber's`` (data: LowerRayRangeInfo) =
@@ -244,8 +244,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Lavretni.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
+            Interval.Coalesce(v, w) |> Assert.Null
+            Lavretni.Coalesce(w, v) |> Assert.Null
 
     //
     // Range and UpperRay
@@ -281,8 +281,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Lavretni.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
+            Interval.Coalesce(v, w) |> Assert.Null
+            Lavretni.Coalesce(w, v) |> Assert.Null
 
     [<Theory; MemberData(nameof(upperRayRangeInfoData))>]
     let ``(Range, UpperRay) for DayNumber's`` (data: UpperRayRangeInfo) =
@@ -314,8 +314,8 @@ module SetOps =
             Interval.Coalesce(v, w).Value === span
             Lavretni.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
+            Interval.Coalesce(v, w) |> Assert.Null
+            Lavretni.Coalesce(w, v) |> Assert.Null
 
     //
     // LowerRay and UpperRay

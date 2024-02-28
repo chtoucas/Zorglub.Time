@@ -32,10 +32,10 @@ let inline nok condition = Assert.False(condition)
 let inline is<'a> object = Assert.IsType<'a>(object) |> ignore
 
 /// Verifies that an object reference is null.
-let inline isnull object = Assert.Null(object)
+let inline isnull (object: 'a when 'a: not struct) = Assert.Null(object)
 
 /// Verifies that an object reference is null.
-let inline isnotnull object = Assert.NotNull(object)
+let inline isnotnull (object: 'a when 'a: not struct) = Assert.NotNull(object)
 
 /// Verifies that the exact exception is thrown (and not a derived exception type).
 let inline throws<'a when 'a :> exn> (testCode: unit -> obj) = Assert.Throws<'a>(testCode) |> ignore

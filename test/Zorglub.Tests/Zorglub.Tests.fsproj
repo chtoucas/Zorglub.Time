@@ -148,8 +148,8 @@
 
   <ItemGroup>
     <!--<PackageReference Update="FSharp.Core" Version="6.0.6" />-->
-    <PackageReference Include="FsCheck.Xunit" Version="2.16.5" />
-    <PackageReference Include="Unquote" Version="6.1.0" />
+    <PackageReference Include="FsCheck.Xunit" Version="2.16.6" />
+    <PackageReference Include="Unquote" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

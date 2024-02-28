@@ -7,7 +7,7 @@
     <ContinuousIntegrationBuild Condition=" '$(TF_BUILD)' == 'true' ">true</ContinuousIntegrationBuild>
 
     <!-- WARNING: keep "ZorglubDefaultFramework" in sync with "global.json" -->
-    <ZorglubDefaultFramework>net7.0</ZorglubDefaultFramework>
+    <ZorglubDefaultFramework>net8.0</ZorglubDefaultFramework>
     <ZorglubLibraryFrameworks>$(ZorglubDefaultFramework)</ZorglubLibraryFrameworks>
     <ZorglubTestFrameworks>$(ZorglubDefaultFramework)</ZorglubTestFrameworks>
 
