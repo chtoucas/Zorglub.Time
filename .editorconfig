@@ -49,6 +49,7 @@ insert_final_newline = true
 # Severity                    #
 ###############################
 
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-options#severity-level
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 
 # Rules enforced at __build time__
@@ -83,6 +84,10 @@ dotnet_diagnostic.IDE0080.severity = warning
 dotnet_diagnostic.IDE0082.severity = warning
 dotnet_diagnostic.IDE0100.severity = warning
 dotnet_diagnostic.IDE0110.severity = warning
+dotnet_diagnostic.IDE0120.severity = warning
+dotnet_diagnostic.IDE0240.severity = warning
+dotnet_diagnostic.IDE0241.severity = warning
+dotnet_diagnostic.IDE0280.severity = warning
 dotnet_diagnostic.IDE1006.severity = warning
 
 ###############################
@@ -90,8 +95,8 @@ dotnet_diagnostic.IDE1006.severity = warning
 # Undocumented Rules          #
 ###############################
 
-csharp_style_prefer_method_group_conversion = true
-csharp_style_prefer_top_level_statements = true
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
 
 #### New line preferences ####
 # IDE2000 & IDE2003
@@ -158,7 +163,7 @@ csharp_style_unused_value_assignment_preference = discard_variable
 csharp_style_unused_value_expression_statement_preference = discard_variable
 
 #### Namespace declaration preferences ####
-csharp_style_namespace_declarations = file_scoped
+csharp_style_namespace_declarations = file_scoped:silent
 
 #### Null-checking preferences ####
 dotnet_style_coalesce_expression = true
@@ -175,14 +180,14 @@ csharp_style_var_for_built_in_types = false
 csharp_style_var_when_type_is_apparent = true
 
 #### Expression-bodied members ####
-csharp_style_expression_bodied_accessors = true
-csharp_style_expression_bodied_constructors = false
-csharp_style_expression_bodied_indexers = true
-csharp_style_expression_bodied_lambdas = true
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = when_on_single_line:none
 csharp_style_expression_bodied_methods = when_on_single_line:none
-csharp_style_expression_bodied_operators = true
-csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_operators = true:silent
+csharp_style_expression_bodied_properties = true:silent
 
 #### Pattern matching preferences ####
 csharp_style_pattern_matching_over_as_with_null_check = true
@@ -193,11 +198,12 @@ csharp_style_prefer_pattern_matching = false
 csharp_style_prefer_switch_expression = true
 
 #### Code-block preferences ####
-csharp_prefer_braces = false
-csharp_prefer_simple_using_statement = true
+csharp_prefer_braces = false:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_prefer_primary_constructors = false:suggestion
 
 #### 'using' directive preferences ####
-csharp_using_directive_placement = inside_namespace
+csharp_using_directive_placement = inside_namespace:silent
 
 #### File header preferences ####
 file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) 2020 Narvalo.Org. All rights reserved.
@@ -276,9 +282,9 @@ dotnet_naming_style.CamelCaseStyle.capitalization = camel_case
 #### Types ####
 
 #### Interfaces are PascalCase and start with I
-dotnet_naming_rule.InterfaceRule.severity = warning
+dotnet_naming_rule.interfacerule.severity = warning
 dotnet_naming_rule.InterfaceRule.symbols = InterfaceSym
-dotnet_naming_rule.InterfaceRule.style = InterfaceStyle
+dotnet_naming_rule.interfacerule.style = InterfaceStyle
 # Symbol specification
 dotnet_naming_symbols.InterfaceSym.applicable_kinds = interface
 dotnet_naming_symbols.InterfaceSym.applicable_accessibilities = private, public, internal, protected, protected_internal, private_protected
@@ -287,9 +293,9 @@ dotnet_naming_style.InterfaceStyle.required_prefix = I
 dotnet_naming_style.InterfaceStyle.capitalization = pascal_case
 
 #### Types are PascalCase
-dotnet_naming_rule.TypeRule.severity = warning
+dotnet_naming_rule.typerule.severity = warning
 dotnet_naming_rule.TypeRule.symbols = TypeSym
-dotnet_naming_rule.TypeRule.style = PascalCaseStyle
+dotnet_naming_rule.typerule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.TypeSym.applicable_kinds = class, struct, enum
 dotnet_naming_symbols.TypeSym.applicable_accessibilities = private, public, internal, protected, protected_internal, private_protected
@@ -297,27 +303,27 @@ dotnet_naming_symbols.TypeSym.applicable_accessibilities = private, public, inte
 #### Fields ####
 
 #### Non-private static fields are PascalCase
-dotnet_naming_rule.NonPrivateStaticFieldRule.severity = warning
+dotnet_naming_rule.nonprivatestaticfieldrule.severity = warning
 dotnet_naming_rule.NonPrivateStaticFieldRule.symbols = NonPrivateStaticFieldSym
-dotnet_naming_rule.NonPrivateStaticFieldRule.style = PascalCaseStyle
+dotnet_naming_rule.nonprivatestaticfieldrule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateStaticFieldSym.applicable_kinds = field
 dotnet_naming_symbols.NonPrivateStaticFieldSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
 dotnet_naming_symbols.NonPrivateStaticFieldSym.required_modifiers = static
 
 #### Non-private read-only fields are PascalCase
-dotnet_naming_rule.NonPrivateReadOnlyFieldRule.severity = warning
+dotnet_naming_rule.nonprivatereadonlyfieldrule.severity = warning
 dotnet_naming_rule.NonPrivateReadOnlyFieldRule.symbols = NonPrivateReadOnlyFieldSym
-dotnet_naming_rule.NonPrivateReadOnlyFieldRule.style = PascalCaseStyle
+dotnet_naming_rule.nonprivatereadonlyfieldrule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.applicable_kinds = field
 dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
 dotnet_naming_symbols.NonPrivateReadOnlyFieldSym.required_modifiers = readonly
 
 #### Private static fields are PascalCase and start with s_
-dotnet_naming_rule.PrivateStaticFieldRule.severity = warning
+dotnet_naming_rule.privatestaticfieldrule.severity = warning
 dotnet_naming_rule.PrivateStaticFieldRule.symbols = PrivateStaticFieldSym
-dotnet_naming_rule.PrivateStaticFieldRule.style = PrivateStaticFieldStyle
+dotnet_naming_rule.privatestaticfieldrule.style = PrivateStaticFieldStyle
 # Symbol specification
 dotnet_naming_symbols.PrivateStaticFieldSym.applicable_kinds = field
 dotnet_naming_symbols.PrivateStaticFieldSym.applicable_accessibilities = private
@@ -327,9 +333,9 @@ dotnet_naming_style.PrivateStaticFieldStyle.capitalization = pascal_case
 dotnet_naming_style.PrivateStaticFieldStyle.required_prefix = s_
 
 #### Instance fields are camelCase and start with _
-dotnet_naming_rule.InstanceFieldRule.severity = warning
+dotnet_naming_rule.instancefieldrule.severity = warning
 dotnet_naming_rule.InstanceFieldRule.symbols = InstanceFieldSym
-dotnet_naming_rule.InstanceFieldRule.style = InstanceFieldStyle
+dotnet_naming_rule.instancefieldrule.style = InstanceFieldStyle
 # Symbol specification
 dotnet_naming_symbols.InstanceFieldSym.applicable_kinds = field
 # Style
@@ -339,9 +345,9 @@ dotnet_naming_style.InstanceFieldStyle.required_prefix = _
 #### Others ####
 
 #### Constants are PascalCase
-dotnet_naming_rule.ConstantRule.severity = warning
+dotnet_naming_rule.constantrule.severity = warning
 dotnet_naming_rule.ConstantRule.symbols = ConstantSym
-dotnet_naming_rule.ConstantRule.style = PascalCaseStyle
+dotnet_naming_rule.constantrule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.ConstantSym.applicable_kinds = field, local
 dotnet_naming_symbols.ConstantSym.required_modifiers = const
@@ -354,23 +360,23 @@ dotnet_naming_symbols.ConstantSym.required_modifiers = const
 #dotnet_naming_symbols.LocalSym.applicable_kinds = local
 
 #### Parameters are camelCase
-dotnet_naming_rule.ParamRule.severity = warning
+dotnet_naming_rule.paramrule.severity = warning
 dotnet_naming_rule.ParamRule.symbols = ParamSym
-dotnet_naming_rule.ParamRule.style = CamelCaseStyle
+dotnet_naming_rule.paramrule.style = CamelCaseStyle
 # Symbol specification
 dotnet_naming_symbols.ParamSym.applicable_kinds = parameter
 
 #### Local functions are camelCase
-dotnet_naming_rule.LocalFunRule.severity = warning
+dotnet_naming_rule.localfunrule.severity = warning
 dotnet_naming_rule.LocalFunRule.symbols = LocalFunSym
-dotnet_naming_rule.LocalFunRule.style = CamelCaseStyle
+dotnet_naming_rule.localfunrule.style = CamelCaseStyle
 # Symbol specification
 dotnet_naming_symbols.LocalFunSym.applicable_kinds = local_function
 
 #### Non-private non-field members are PascalCase
-dotnet_naming_rule.NonPrivateNonFieldMemberRule.severity = warning
+dotnet_naming_rule.nonprivatenonfieldmemberrule.severity = warning
 dotnet_naming_rule.NonPrivateNonFieldMemberRule.symbols = NonPrivateNonFieldMemberSym
-dotnet_naming_rule.NonPrivateNonFieldMemberRule.style = PascalCaseStyle
+dotnet_naming_rule.nonprivatenonfieldmemberrule.style = PascalCaseStyle
 # Symbol specification
 dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_kinds = property, event, method
 dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
@@ -403,3 +409,18 @@ dotnet_diagnostic.IDE0130.severity = none
 [test/{Zorglub.Testing,Zorglub.Tests.CSharp}/**/*.cs]
 # IDE0002: Simplify member access
 dotnet_diagnostic.IDE0002.severity = none
+
+[*.{cs,vb}]
+tab_width = 4
+indent_size = 4
+end_of_line = crlf
+
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = false:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
