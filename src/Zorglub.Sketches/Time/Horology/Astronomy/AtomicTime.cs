@@ -83,10 +83,7 @@ public partial struct AtomicTime
     [Pure]
     public static AtomicTime FromClockTime(ClockTime0 clockTime)
     {
-        if (clockTime is null)
-        {
-            throw new ArgumentNullException(nameof(clockTime));
-        }
+        Requires.NotNull(clockTime);
 
         // REVIEW: SOFA construit le SplitJD différemment :
         // > long mjdn = ModifiedJulianDate.FromGregorianDate(clockTime.Yemoda);
