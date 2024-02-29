@@ -190,7 +190,8 @@ internal sealed class ZRegistry
             tmpCalendar.Scope,
             userDefined: true);
 
-        return _calendarsById[id] = chr;
+        _calendarsById[id] = chr;
+        return chr;
     }
 
     internal sealed class TmpCalendar : ZCalendar
