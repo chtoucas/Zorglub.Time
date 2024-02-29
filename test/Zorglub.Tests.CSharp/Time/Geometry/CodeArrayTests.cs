@@ -13,7 +13,7 @@ public static partial class CodeArrayTests
 
     [Fact]
     public static void Constructor_EmptyArr() =>
-        Assert.Throws<ArgumentException>("codes", () => new CodeArray(Array.Empty<int>()));
+        Assert.Throws<ArgumentException>("codes", () => new CodeArray([]));
 
     [Theory]
     [InlineData(0)]
@@ -32,7 +32,7 @@ public static partial class CodeArrayTests
         Assert.False(code.StrictlyReducible);
         Assert.Equal(n, code.Min);
         Assert.Equal(n, code.Max);
-        Assert.Single(code);
+        _ = Assert.Single(code);
         Assert.Equal(barr, code.ToBoolArray());
     }
 
@@ -44,7 +44,7 @@ public static partial class CodeArrayTests
     [InlineData(999, 345)]
     public static void Pair_NotSegment(int m, int n)
     {
-        var code = new CodeArray(new[] { m, n });
+        var code = new CodeArray([m, n]);
         // Act & Assert
         Assert.False(code.Constant);
         Assert.False(code.Reducible);
@@ -52,7 +52,7 @@ public static partial class CodeArrayTests
         Assert.Equal(Math.Min(m, n), code.Min);
         Assert.Equal(Math.Max(m, n), code.Max);
         Assert.Equal(2, code.Count);
-        Assert.Throws<InvalidOperationException>(() => code.ToBoolArray());
+        _ = Assert.Throws<InvalidOperationException>(code.ToBoolArray);
     }
 
     [Theory]
@@ -64,9 +64,9 @@ public static partial class CodeArrayTests
     [InlineData(98, 99)]
     public static void Pair_ConsecutiveElements(int m, int n)
     {
-        var code = new CodeArray(new[] { m, n });
-        var barr = m > n ? new BoolArray(new[] { true, false })
-            : new BoolArray(new[] { false, true });
+        var code = new CodeArray([m, n]);
+        var barr = m > n ? new BoolArray([true, false])
+            : new BoolArray([false, true]);
         // Act & Assert
         Assert.False(code.Constant);
         Assert.True(code.Reducible);
@@ -86,8 +86,8 @@ public static partial class CodeArrayTests
     [InlineData(999, 999)]
     public static void Pair_SameElements(int m, int n)
     {
-        var code = new CodeArray(new[] { m, n });
-        var barr = new BoolArray(new[] { false, false });
+        var code = new CodeArray([m, n]);
+        var barr = new BoolArray([false, false]);
         // Act & Assert
         Assert.True(code.Constant);
         Assert.True(code.Reducible);
@@ -126,10 +126,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_NonReduciblePair()
     {
-        var code = new CodeArray(new[] { 5, 1 });
-        var exp = new CodeArray(new[] { 5 });
+        var code = new CodeArray([5, 1]);
+        var exp = new CodeArray([5]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -141,10 +141,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxAtStart()
     {
-        var code = new CodeArray(new[] { 6, 2, 3, 3, 2 });
-        var exp = new CodeArray(new[] { 2, 3, 3, 2 });
+        var code = new CodeArray([6, 2, 3, 3, 2]);
+        var exp = new CodeArray([2, 3, 3, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -157,10 +157,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxInTheMiddle()
     {
-        var code = new CodeArray(new[] { 2, 3, 6, 3, 2 });
-        var exp = new CodeArray(new[] { 3, 2, 2, 3 });
+        var code = new CodeArray([2, 3, 6, 3, 2]);
+        var exp = new CodeArray([3, 2, 2, 3]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -173,10 +173,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxAtEnd()
     {
-        var code = new CodeArray(new[] { 2, 3, 3, 2, 6 });
-        var exp = new CodeArray(new[] { 2, 3, 3, 2 });
+        var code = new CodeArray([2, 3, 3, 2, 6]);
+        var exp = new CodeArray([2, 3, 3, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -188,10 +188,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinAtStart()
     {
-        var code = new CodeArray(new[] { 1, 2, 3, 3, 2 });
-        var exp = new CodeArray(new[] { 2, 3, 3, 2 });
+        var code = new CodeArray([1, 2, 3, 3, 2]);
+        var exp = new CodeArray([2, 3, 3, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -204,10 +204,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinInTheMiddle()
     {
-        var code = new CodeArray(new[] { 2, 3, 1, 3, 2 });
-        var exp = new CodeArray(new[] { 3, 2, 2, 3 });
+        var code = new CodeArray([2, 3, 1, 3, 2]);
+        var exp = new CodeArray([3, 2, 2, 3]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -220,10 +220,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinAtEnd()
     {
-        var code = new CodeArray(new[] { 2, 3, 3, 2, 1 });
-        var exp = new CodeArray(new[] { 2, 3, 3, 2 });
+        var code = new CodeArray([2, 3, 3, 2, 1]);
+        var exp = new CodeArray([2, 3, 3, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -235,10 +235,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant_AtStart()
     {
-        var code = new CodeArray(new[] { 7, 2, 2, 2, 2, 2 });
-        var exp = new CodeArray(new[] { 2, 2, 2, 2, 2 });
+        var code = new CodeArray([7, 2, 2, 2, 2, 2]);
+        var exp = new CodeArray([2, 2, 2, 2, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -251,10 +251,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant()
     {
-        var code = new CodeArray(new[] { 2, 2, 2, 2, 7, 2 });
-        var exp = new CodeArray(new[] { 2, 2, 2, 2, 2 });
+        var code = new CodeArray([2, 2, 2, 2, 7, 2]);
+        var exp = new CodeArray([2, 2, 2, 2, 2]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -267,10 +267,10 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant_AtEnd()
     {
-        var code = new CodeArray(new[] { 3, 3, 3, 3, 3, 1 });
-        var exp = new CodeArray(new[] { 3, 3, 3, 3, 3 });
+        var code = new CodeArray([3, 3, 3, 3, 3, 1]);
+        var exp = new CodeArray([3, 3, 3, 3, 3]);
         // Act
-        var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+        bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
         // Assert
         Assert.True(isAlmostReducible);
         Assert.Equal(exp, newCode);
@@ -283,22 +283,22 @@ public partial class CodeArrayTests
     public static void IsAlmostReducible_KO()
     {
         // Reducible
-        test(new[] { 2 });
-        test(new[] { 2, 2 });
-        test(new[] { 2, 3 });
-        test(new[] { 2, 2, 2, 2, 2, 2 });
-        test(new[] { 2, 3, 3, 2, 2, 3 });
+        test([2]);
+        test([2, 2]);
+        test([2, 3]);
+        test([2, 2, 2, 2, 2, 2]);
+        test([2, 3, 3, 2, 2, 3]);
 
         // Other non-reducible codes.
-        test(new[] { 1, 3, 5 });
-        test(new[] { 1, 2, 3, 4 });
-        test(new[] { 2, 3, 5, 3, 2, 6 });
+        test([1, 3, 5]);
+        test([1, 2, 3, 4]);
+        test([2, 3, 5, 3, 2, 6]);
 
         static void test(int[] arr)
         {
             var code = new CodeArray(arr);
             // Act
-            var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
+            bool isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);
             // Assert
             Assert.False(isAlmostReducible);
             Assert.Null(newCode);

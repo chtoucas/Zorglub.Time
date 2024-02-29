@@ -9,9 +9,9 @@ using Zorglub.Time.Geometry.Discrete;
 public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
 {
     private static readonly int[] s_LeapYears =
-        new int[14] {
+        [
             3, 3, 2, 3, 3, 3, 2, /* Next cycle */
-            3, 3, 2, 3, 3, 3, 2 };
+            3, 3, 2, 3, 3, 3, 2 ];
 
     public HebrewLeapYearFormTests() : base(s_LeapYears) { }
 
@@ -38,7 +38,7 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
         get
         {
             yield return CodeArray;
-            yield return new(new[] { 4, 3, 4 });
+            yield return new([4, 3, 4]);
             yield return CodeArray0;
         }
     }
@@ -52,7 +52,7 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
         }
     }
 
-    private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[14] {
+    private QuasiAffineForm[] RotatedForms => [
         Form,
         new(19, 7, 3),
         new(19, 7, 1),
@@ -68,7 +68,7 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
         new(19, 7, 4),
         new(19, 7, 2),
         new(19, 7, 0),
-    };
+    ];
 
     [Fact]
     public override void TryConvertCodeToForm_RotatedCode() =>
@@ -77,7 +77,7 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
     [Fact]
     public void TryConvertCodeToForm_SingleCycle()
     {
-        var code = new CodeArray(new[] { 3, 3, 2, 3, 3, 3, 2 });
+        var code = new CodeArray([3, 3, 2, 3, 3, 3, 2]);
         // Act & Assert
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var formA));
         Assert.Equal(new(11, 4, 2), formA);
@@ -102,7 +102,7 @@ public static class HebrewMonthFormTests
     public sealed class DeficientCommonYear : AnalyzerFacts
     {
         private static readonly int[] s_MonthLengths =
-            new int[12] { /*Tebeth*/29, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 29 };
+            [/*Tebeth*/29, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 29];
 
         public DeficientCommonYear() : base(s_MonthLengths) { }
 
@@ -128,7 +128,7 @@ public static class HebrewMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 2, 2, 2, 2, 3 });
+                yield return new([2, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -142,7 +142,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[12] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form), // Tebeth
             (false, null),
             (false, null),
@@ -155,7 +155,7 @@ public static class HebrewMonthFormTests
             (false, null), // Tsiri
             (false, null),
             (true, new(324, 11, 0)), // Elloul
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -165,7 +165,7 @@ public static class HebrewMonthFormTests
     public sealed class DeficientEmbolismicYear : AnalyzerFacts
     {
         private static readonly int[] s_MonthLengths =
-            new int[13] { /*Tebeth*/29, 30, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 29 };
+            [/*Tebeth*/29, 30, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 29];
 
         public DeficientEmbolismicYear() : base(s_MonthLengths[0..^1]) { }
 
@@ -192,7 +192,7 @@ public static class HebrewMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 3, 2, 2, 2, 2 });
+                yield return new([3, 2, 2, 2, 2]);
                 yield return CodeArray0;
             }
         }
@@ -206,7 +206,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[12] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form), // Tebeth
             (false, null),
             (true, new(324, 11, 10)), // Adar
@@ -219,7 +219,7 @@ public static class HebrewMonthFormTests
             (false, null),
             (false, null),
             (false, null),
-        };
+        ];
 
         // On examine aussi les autres combinaisons même si, ici, cela ne sert
         // pas à grand chose puisqu'on travaille sur un tableau tronqué et donc
@@ -265,7 +265,7 @@ public static class HebrewMonthFormTests
     public sealed class RegularCommonYear : AnalyzerFacts
     {
         private static readonly int[] s_MonthLengths =
-            new int[12] { /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 30, 29, 30, 29 };
+            [/*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 30, 29, 30, 29];
 
         public RegularCommonYear() : base(s_MonthLengths) { }
 
@@ -301,7 +301,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[12] {
+        private QuasiAffineForm[] RotatedForms => [
             Form, // Nissan
             new(59, 2, 0),
             new(59, 2, 1),
@@ -314,7 +314,7 @@ public static class HebrewMonthFormTests
             new(59, 2, 0),
             new(59, 2, 1),
             new(59, 2, 0),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -325,7 +325,7 @@ public static class HebrewMonthFormTests
     {
         // NB: The first twelve elements are identical to the Tabular Islamic ones.
         private static readonly int[] s_MonthLengths =
-            new int[13] { /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 30, 29, 30, 30, 29 };
+            [/*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 29, 30, 29, 30, 30, 29];
 
         public RegularEmbolimiscYear() : base(s_MonthLengths) { }
 
@@ -352,7 +352,7 @@ public static class HebrewMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 2, 2, 2, 2, 3 });
+                yield return new([2, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -366,7 +366,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[13] {
+        private QuasiAffineForm[] RotatedForms => [
             Form, // Nissan
             new(325, 11, 0),
             new(266, 9, 4),
@@ -380,7 +380,7 @@ public static class HebrewMonthFormTests
             new(384, 13, 12),
             new(59, 2, 1),
             new(384, 13, 0),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -390,7 +390,7 @@ public static class HebrewMonthFormTests
     public sealed class AbundantCommonYear : AnalyzerFacts
     {
         private static readonly int[] s_MonthLengths =
-            new int[12] { /*Kislev*/30, 29, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 30 };
+            [/*Kislev*/30, 29, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 30];
 
         public AbundantCommonYear() : base(s_MonthLengths) { }
 
@@ -417,7 +417,7 @@ public static class HebrewMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 2, 2, 2, 2, 3 });
+                yield return new([2, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -431,7 +431,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[12] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form), // Kislev
             (false, null),
             (false, null),
@@ -444,7 +444,7 @@ public static class HebrewMonthFormTests
             (false, null),
             (false, null),
             (true, new(325, 11, 10)), // Heswan
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -454,7 +454,7 @@ public static class HebrewMonthFormTests
     public sealed class AbundantEmbolismicYear : AnalyzerFacts
     {
         private static readonly int[] s_MonthLengths =
-            new int[13] { /*Kislev*/30, 29, 30, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 30 };
+            [/*Kislev*/30, 29, 30, 30, 29, /*Nissan*/30, 29, 30, 29, 30, 29, /*Tsiri*/30, 30];
 
         public AbundantEmbolismicYear() : base(s_MonthLengths) { }
 
@@ -481,7 +481,7 @@ public static class HebrewMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 3, 2, 2, 2, 3 });
+                yield return new([3, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -495,7 +495,7 @@ public static class HebrewMonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[13] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form), // Kislev
             (false, null),
             (false, null),
@@ -509,7 +509,7 @@ public static class HebrewMonthFormTests
             (false, null),
             (false, null),
             (false, null),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>

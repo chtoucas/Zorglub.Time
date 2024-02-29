@@ -40,7 +40,7 @@ public static class Tropicalia3031MonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 2, 2, 2, 2, 3 });
+                yield return new([2, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -54,7 +54,7 @@ public static class Tropicalia3031MonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[12] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form),
             (false, null),
             (false, null),
@@ -67,7 +67,7 @@ public static class Tropicalia3031MonthFormTests
             (false, null),
             (false, null),
             (true, new(335, 11, 0)),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -130,7 +130,7 @@ public static class Tropicalia3031MonthFormTests
             }
         }
 
-        private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[12] {
+        private QuasiAffineForm[] RotatedForms => [
             Form,
             new(61, 2, 1),
             new(61, 2, 0),
@@ -143,7 +143,7 @@ public static class Tropicalia3031MonthFormTests
             new(61, 2, 1),
             new(61, 2, 0),
             new(61, 2, 1),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>

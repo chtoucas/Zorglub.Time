@@ -13,8 +13,8 @@ public partial class SliceArrayTests
     [Fact]
     public static void RemoveMinorExternals1()
     {
-        var list = new SliceArray(new int[] { 2, 3, 4 }, true);
-        var exp = new CodeArray(new int[] { 3, 4 });
+        var list = new SliceArray([2, 3, 4], true);
+        var exp = new CodeArray([3, 4]);
         // Act
         var actual = list.RemoveMinorExternals(out int g);
         // Assert
@@ -27,8 +27,8 @@ public partial class SliceArrayTests
     [Fact]
     public static void RemoveMinorExternals2()
     {
-        var list = new SliceArray(new int[] { 2, 3, 5 }, false);
-        var exp = new CodeArray(new int[] { 3, 5 });
+        var list = new SliceArray([2, 3, 5], false);
+        var exp = new CodeArray([3, 5]);
         // Act
         var actual = list.RemoveMinorExternals(out int g);
         // Assert
@@ -40,8 +40,8 @@ public partial class SliceArrayTests
     [Fact]
     public static void RemoveMinorExternals3()
     {
-        var list = new SliceArray(new int[] { 3, 2, 4 }, true);
-        var exp = new CodeArray(new int[] { 3, 2, 4 });
+        var list = new SliceArray([3, 2, 4], true);
+        var exp = new CodeArray([3, 2, 4]);
         // Act
         var actual = list.RemoveMinorExternals(out int g);
         // Assert

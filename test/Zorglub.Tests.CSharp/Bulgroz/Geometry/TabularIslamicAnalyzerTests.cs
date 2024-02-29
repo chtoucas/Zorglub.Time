@@ -12,10 +12,10 @@ using Zorglub.Time.Geometry.Forms;
 public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
 {
     private static readonly int[] s_LeapYears =
-        new int[22] {
+        [
             3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3,
             /* Next cycle */
-            3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3 };
+            3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3 ];
 
     public TabularIslamicLeapYearFormTests() : base(s_LeapYears) { }
 
@@ -43,7 +43,7 @@ public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
         get
         {
             yield return CodeArray;
-            yield return new(new[] { 4, 3, 4, 4, 3 });
+            yield return new([4, 3, 4, 4, 3]);
             yield return CodeArray0;
         }
     }
@@ -57,7 +57,7 @@ public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
         }
     }
 
-    private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[22] {
+    private QuasiAffineForm[] RotatedForms => [
         Form,
         new(30, 11, 1),
         new(30, 11, 9),
@@ -82,7 +82,7 @@ public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
         new(30, 11, 2),
         new(30, 11, 10),
         new(30, 11, 7),
-    };
+    ];
 
     [Fact]
     public override void TryConvertCodeToForm_RotatedCode() =>
@@ -91,7 +91,7 @@ public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
     [Fact]
     public void TryConvertCodeToForm_SingleCycle()
     {
-        var code = new CodeArray(new[] { 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3 });
+        var code = new CodeArray([3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3]);
         // Act & Assert
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var formA));
         Assert.Equal(new(19, 7, 3), formA);
@@ -103,7 +103,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
 {
     // Years = 0 to 59.
     private static readonly int[] s_YearLengths =
-        new int[60] {
+        [
             /* First 30-year cycle */
             354, 354, 355,
             354, 354, 355,
@@ -128,7 +128,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
             354, 354, 355,
             354, 355,
             354, 354, 355,
-        };
+        ];
 
     public TabularIslamicYearFormTests() : base(s_YearLengths) { }
 
@@ -158,8 +158,8 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
         get
         {
             yield return CodeArray;
-            yield return new(new[] { 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3 });
-            yield return new(new[] { 4, 3, 4, 4, 3 });
+            yield return new([3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3]);
+            yield return new([4, 3, 4, 4, 3]);
             yield return CodeArray0;
         }
     }
@@ -174,7 +174,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
         }
     }
 
-    private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[60] {
+    private QuasiAffineForm[] RotatedForms => [
         Form,
         new(10_631, 30, 14),
         new(10_631, 30, 25),
@@ -237,7 +237,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
         new(10_631, 30, 0),
         new(10_631, 30, 11),
         new(10_631, 30, 22),
-    };
+    ];
 
     [Fact]
     public override void TryConvertCodeToForm_RotatedCode() =>
@@ -247,7 +247,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
     public void TryConvertCodeToForm_SingleCycle()
     {
         // Years = 0 to 29.
-        var codes = new int[30] {
+        int[] codes = [
             354, 354, 355,
             354, 354, 355,
             354, 355,
@@ -259,7 +259,7 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
             354, 354, 355,
             354, 355,
             354, 354, 355
-        };
+        ];
         var code = new CodeArray(codes);
         // Act & Assert
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var formA));
@@ -334,7 +334,7 @@ public static class TabularIslamicMonthFormTests
             }
         }
 
-        private QuasiAffineForm[] RotatedForms => new QuasiAffineForm[12] {
+        private QuasiAffineForm[] RotatedForms => [
             Form,
             new(59, 2, 0),
             new(59, 2, 1),
@@ -347,7 +347,7 @@ public static class TabularIslamicMonthFormTests
             new(59, 2, 0),
             new(59, 2, 1),
             new(59, 2, 0),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>
@@ -385,7 +385,7 @@ public static class TabularIslamicMonthFormTests
             get
             {
                 yield return CodeArray;
-                yield return new(new[] { 2, 2, 2, 2, 3 });
+                yield return new([2, 2, 2, 2, 3]);
                 yield return CodeArray0;
             }
         }
@@ -399,7 +399,7 @@ public static class TabularIslamicMonthFormTests
             }
         }
 
-        private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[12] {
+        private (bool, QuasiAffineForm?)[] RotatedForms => [
             (true, Form),
             (false, null),
             (false, null),
@@ -412,7 +412,7 @@ public static class TabularIslamicMonthFormTests
             (false, null),
             (false, null),
             (true, new(325, 11, 10)),
-        };
+        ];
 
         [Fact]
         public override void TryConvertCodeToForm_RotatedCode() =>

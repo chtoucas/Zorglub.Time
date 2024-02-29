@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology.Scopes;
 
@@ -16,7 +15,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     private const int FirstMonth = 4;
     private const int FirstDay = 5;
 
-    private static readonly ICalendricalSchema s_Schema = new GregorianSchema();
+    private static readonly GregorianSchema s_Schema = new();
 
     [Fact]
     public static void Create_NullSchema() =>

@@ -25,7 +25,7 @@ public static class TroeschAnalyzerTests
     {
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => analyzer.Analysis);
+        _ = Assert.Throws<InvalidOperationException>(() => analyzer.Analysis);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public static class TroeschAnalyzerTests
     {
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => analyzer.MakeForm());
+        _ = Assert.Throws<InvalidOperationException>(analyzer.MakeForm);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public static class TroeschAnalyzerTests
     {
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => analyzer.ReverseAnalysis());
+        _ = Assert.Throws<InvalidOperationException>(analyzer.ReverseAnalysis);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public static class TroeschAnalyzerTests
     {
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => analyzer.Transformer);
+        _ = Assert.Throws<InvalidOperationException>(() => analyzer.Transformer);
     }
 
     [Fact]
@@ -74,17 +74,17 @@ public static class TroeschAnalyzerTests
         Assert.Equal(input, analysis.Output);
 
         var codes = analysis.Codes;
-        Assert.Equal(1, codes.Count);
-        Assert.Equal(input, codes[0]);
+        var code = Assert.Single(codes);
+        Assert.Equal(input, code);
 
         var transformations = analysis.Transformations;
-        Assert.Equal(0, transformations.Count);
+        Assert.Empty(transformations);
     }
 
     [Fact]
     public static void Analyze_IrreducibleCode()
     {
-        var input = new CodeArray(new int[] { 1, 3 });
+        var input = new CodeArray([1, 3]);
         var analyzer = new TroeschAnalyzer(input);
 
         // Act & Assert
@@ -103,10 +103,10 @@ public static class TroeschAnalyzerTests
         Assert.Equal(input, analysis.Output);
 
         var codes = analysis.Codes;
-        Assert.Equal(1, codes.Count);
-        Assert.Equal(input, codes[0]);
+        var code = Assert.Single(codes);
+        Assert.Equal(input, code);
 
         var transformations = analysis.Transformations;
-        Assert.Equal(0, transformations.Count);
+        Assert.Empty(transformations);
     }
 }
