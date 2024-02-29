@@ -80,8 +80,8 @@ public sealed partial class TabularIslamicSchema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[12] { 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30 }
-        : new byte[12] { 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29 };
+        ? [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30]
+        : [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
 }
 
 public partial class TabularIslamicSchema // Year, month or day infos

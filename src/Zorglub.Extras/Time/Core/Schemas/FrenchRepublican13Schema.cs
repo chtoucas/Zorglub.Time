@@ -47,8 +47,8 @@ public sealed partial class FrenchRepublican13Schema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[13] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 6 }
-        : new byte[13] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5 };
+        ? [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 6]
+        : [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5];
 }
 
 public partial class FrenchRepublican13Schema // Year, month or day infos

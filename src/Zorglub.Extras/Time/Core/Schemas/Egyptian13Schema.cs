@@ -50,7 +50,7 @@ public sealed partial class Egyptian13Schema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         // No leap years.
-        new byte[13] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5 };
+        [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5];
 }
 
 public partial class Egyptian13Schema // Year, month or day infos

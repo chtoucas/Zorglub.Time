@@ -90,8 +90,8 @@ public sealed partial class InternationalFixedSchema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[13] { 28, 28, 28, 28, 28, 29, 28, 28, 28, 28, 28, 28, 29 }
-        : new byte[13] { 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 29 };
+        ? [28, 28, 28, 28, 28, 29, 28, 28, 28, 28, 28, 28, 29]
+        : [28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 29];
 }
 
 public partial class InternationalFixedSchema // Year, month or day infos

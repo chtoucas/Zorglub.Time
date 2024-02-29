@@ -68,7 +68,7 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
         }
     }
 
-    private QuasiAffineForm[] RotatedForms => new[] {
+    private QuasiAffineForm[] RotatedForms => [
         Form,
         // Remark: 1096 = 3 * 365 + 1 (two common years and a leap one).
         // The two following forms are not year forms, they don't have the
@@ -77,7 +77,7 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
         new(1096, 3, 0),
         new(1096, 3, 1),
         new(1461, 4, 3),
-    };
+    ];
 
     [Fact]
     public override void TryConvertCodeToForm_RotatedCode() =>
@@ -191,7 +191,7 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
         get
         {
             yield return CodeArray;
-            yield return new(new[] { 2, 3, 2, 3 });
+            yield return new([2, 3, 2, 3]);
             yield return CodeArray0;
         }
     }
@@ -205,7 +205,7 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
         }
     }
 
-    private (bool, QuasiAffineForm?)[] RotatedForms => new (bool, QuasiAffineForm?)[11] {
+    private (bool, QuasiAffineForm?)[] RotatedForms => [
         (true, Form),
         (false, null),
         (false, null),
@@ -217,7 +217,7 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
         (false, null),
         (false, null),
         (true, new(153, 5, 4)),
-    };
+    ];
 
     // On examine aussi les autres combinaisons même si, ici, cela ne sert
     // pas à grand chose puisqu'on travaille sur un tableau tronqué et donc

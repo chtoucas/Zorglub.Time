@@ -124,8 +124,8 @@ public sealed partial class Persian2820Schema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[12] { 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 30 }
-        : new byte[12] { 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29 };
+        ? [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 30]
+        : [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
 }
 
 public partial class Persian2820Schema // Year, month or day infos

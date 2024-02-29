@@ -34,8 +34,8 @@ public sealed partial class Coptic12Schema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[12] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 36 }
-        : new byte[12] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 35 };
+        ? [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 36]
+        : [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 35];
 }
 
 public partial class Coptic12Schema // Year, month or day infos

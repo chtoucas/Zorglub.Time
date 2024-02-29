@@ -67,15 +67,14 @@ public abstract partial class GJSchema :
     /// <para>The span index matches the year number (0 to 3).</para>
     /// </summary>
     [Pure]
-    internal static ReadOnlySpan<ushort> DaysIn4YearCycle =>
-        new ushort[4] { 366, 365, 365, 365 };
+    internal static ReadOnlySpan<ushort> DaysIn4YearCycle => [366, 365, 365, 365];
 
     /// <inheritdoc />
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[12] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
-        : new byte[12] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        ? [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 }
 
 public partial class GJSchema // Year, month or day infos

@@ -38,8 +38,8 @@ public sealed partial class TropicaliaSchema :
     [Pure]
     static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>
         leap
-        ? new byte[12] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
-        : new byte[12] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        ? [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 }
 
 public partial class TropicaliaSchema // Year, month or day infos

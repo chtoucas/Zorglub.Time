@@ -63,8 +63,7 @@ public sealed partial class GregorianSchema : GJSchema, IBoxable<GregorianSchema
     /// <para>The span index matches the century number (0 to 3).</para>
     /// </summary>
     [Pure]
-    internal static ReadOnlySpan<ushort> DaysIn4CenturyCycle =>
-        new ushort[4] { 36_525, 36_524, 36_524, 36_524 };
+    internal static ReadOnlySpan<ushort> DaysIn4CenturyCycle => [36_525, 36_524, 36_524, 36_524];
 }
 
 public partial class GregorianSchema // Year, month or day infos
