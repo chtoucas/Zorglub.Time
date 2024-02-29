@@ -200,7 +200,7 @@ csharp_style_prefer_switch_expression = true
 #### Code-block preferences ####
 csharp_prefer_braces = false:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_prefer_primary_constructors = false:suggestion
+csharp_style_prefer_primary_constructors = true:silent
 
 #### 'using' directive preferences ####
 csharp_using_directive_placement = inside_namespace:silent
@@ -416,11 +416,11 @@ indent_size = 4
 end_of_line = crlf
 
 dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_auto_properties = false:silent
-dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
-dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
-dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_object_initializer = true:suggestion
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_prefer_auto_properties = false:silent
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion

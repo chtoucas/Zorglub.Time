@@ -91,7 +91,7 @@
           IDE0049 Use language keywords instead of framework type names for type references
                   No warning or error should appear when
                     dotnet_style_predefined_type_for_locals_parameters_members = true
-                  and, for instance, we write "GetXXX(int)" in an XML doc.
+                  For instance, we write "GetXXX(int)" in an XML doc.
                   Adding IDE0049 to WarningsNotAsErrors fixes this in the sense
                   that VS no longer displays an error (normal) but also discards
                   the warning (weird)!
