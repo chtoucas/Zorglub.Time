@@ -249,7 +249,7 @@ public partial class BoxExtensions // Monad
     /// <returns>The current box if it isn't empty; otherwise the other box.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
     [Pure]
-    [return: NotNullIfNotNull("other")]
+    [return: NotNullIfNotNull(nameof(other))]
     public static Box<T>? Otherwise<T>(this Box<T> box, Box<T>? other)
         where T : class
     {

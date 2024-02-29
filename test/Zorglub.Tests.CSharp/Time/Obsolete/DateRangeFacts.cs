@@ -510,7 +510,7 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
     [Fact]
     public void Equality_Null()
     {
-#nullable disable
+//#nullable disable
         var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 29);
         var nullRange = (DateRangeV0)null!;
@@ -534,7 +534,7 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
 
         Assert.True(nullRange == nullRange1);
         Assert.False(nullRange != nullRange1);
-#nullable restore
+//#nullable restore
     }
 #endif
 }

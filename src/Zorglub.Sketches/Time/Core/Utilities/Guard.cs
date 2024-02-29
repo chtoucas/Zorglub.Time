@@ -11,7 +11,7 @@ internal static class Guard
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T NotNull<T>(
         T? value,
-        [CallerArgumentExpression("value")] string paramName = "")
+        [CallerArgumentExpression(nameof(value))] string paramName = "")
         where T : class
     {
         return value ?? throw new ArgumentNullException(paramName);

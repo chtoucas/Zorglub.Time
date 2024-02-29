@@ -294,7 +294,9 @@ public partial class ZCatalog // Lookup
         return s_CalendarsById[(int)ident] ?? GetSystemCalendarUncached(ident);
     }
 
+#pragma warning disable IDE0240 // Remove redundant nullable directive
 #nullable disable warnings
+#pragma warning restore IDE0240
 
     [Pure]
     internal static ZCalendar GetCalendarUnchecked(int cuid)
@@ -321,7 +323,9 @@ public partial class ZCatalog // Lookup
         return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
     }
 
+#pragma warning disable IDE0240 // Remove redundant nullable directive
 #nullable restore warnings
+#pragma warning restore IDE0240
 
     [Pure]
     internal static ZCalendar GetSystemCalendarUncached(CalendarId id) =>
