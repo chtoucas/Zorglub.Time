@@ -17,7 +17,7 @@ Current status:
 - Alpha: unstable API
 - Well tested
 - Results regarding performance are rather promising
-- Targets the future .NET 7
+- Targets .NET 8
 
 Features
 --------
