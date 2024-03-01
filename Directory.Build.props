@@ -96,6 +96,7 @@
                   that VS no longer displays an error (normal) but also discards
                   the warning (weird)!
                   https://github.com/dotnet/roslyn/issues/57764
+                  Update: we now use dotnet_diagnostic.IDE0049.severity = suggestion
         -->
         <WarningsNotAsErrors>CS1030;CS1591;IDE0049</WarningsNotAsErrors>
         <NoWarn />

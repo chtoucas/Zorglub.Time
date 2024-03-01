@@ -60,6 +60,8 @@ dotnet_analyzer_diagnostic.category-Style.severity = suggestion
 #   rule ID-based severity configuration syntax for analyzers instead.
 # See https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/language-rules#option-format
 
+# IDE0049: Use language keywords instead of framework type names for type references
+dotnet_diagnostic.IDE0049.severity = suggestion
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = warning
 
