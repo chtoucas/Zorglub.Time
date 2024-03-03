@@ -2,22 +2,24 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-  <!-- TODO: use GlobalPackageReference? -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
-    <!-- Tools -->
     <PackageVersion Include="Microsoft.VisualStudio.TextTemplating" Version="17.5.33428.366" />
     <!-- Tests -->
-    <PackageVersion Include="coverlet.msbuild" Version="6.0.1" />
-    <PackageVersion Include="FsCheck.Xunit" Version="2.16.6" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageVersion Include="Unquote" Version="7.0.0" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.1" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.assert" Version="2.7.0" />
     <PackageVersion Include="xunit.extensibility.core" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <!-- Tests (F#) -->
+    <PackageVersion Include="FSharp.Core" Version="8.0.200" />
+    <PackageVersion Include="FsCheck" Version="2.16.6" />
+    <PackageVersion Include="FsCheck.Xunit" Version="2.16.6" />
+    <PackageVersion Include="Unquote" Version="7.0.0" />
     <!-- Benchmarks -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
     <PackageVersion Include="NodaTime" Version="3.1.11" />
