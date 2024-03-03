@@ -3,8 +3,8 @@
 [![test](https://github.com/chtoucas/Zorglub.Time/workflows/test/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Atest)
 [![Coverlet](./test/coverage.svg)](./test/coverage.md)
 
-An experimental calendar library with a focus on calendrical calculations,
-extensibility and performance.
+An experimental calendar library with a focus on calendrical calculations and
+extensibility.
 
 _This project is heavily inspired by NodaTime and JodaTime._
 
