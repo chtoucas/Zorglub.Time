@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.VisualStudio.TextTemplating" Version="17.5.33428.366" />
+  </ItemGroup>
+</Project>
