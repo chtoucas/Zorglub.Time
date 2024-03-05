@@ -18,6 +18,4 @@
     <ProjectReference Include="..\Zorglub.Testing\Zorglub.Testing.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\src\Samples\Samples.projitems" Label="Shared" />
-
 </Project>

@@ -3,8 +3,7 @@
 
 namespace Benchmarks.Other;
 
-using Samples;
-
+using Zorglub.Samples;
 using Zorglub.Time.Specialized;
 
 /*

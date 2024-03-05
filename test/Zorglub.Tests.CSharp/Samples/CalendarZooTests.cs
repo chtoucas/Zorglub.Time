@@ -3,8 +3,6 @@
 
 namespace Zorglub.Samples;
 
-using global::Samples;
-
 using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Hemerology.Scopes;

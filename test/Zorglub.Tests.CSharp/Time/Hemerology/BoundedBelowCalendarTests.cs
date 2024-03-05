@@ -5,8 +5,7 @@ namespace Zorglub.Time.Hemerology;
 
 using System.Linq;
 
-using global::Samples;
-
+using Zorglub.Samples;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology.Scopes;

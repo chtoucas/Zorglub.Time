@@ -5,9 +5,8 @@ namespace Benchmarks.Other;
 
 using NodaTime;
 
-using Samples;
-
 using Zorglub.Bulgroz;
+using Zorglub.Samples;
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;

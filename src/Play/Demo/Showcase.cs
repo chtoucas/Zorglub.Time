@@ -3,8 +3,7 @@
 
 namespace Play.Demo;
 
-using Samples;
-
+using Zorglub.Samples;
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;

@@ -5,8 +5,6 @@ namespace Zorglub.Samples;
 
 using System.Runtime.InteropServices;
 
-using global::Samples;
-
 // Value types not visible to the F# test project.
 public static class ValueTypeTests
 {
