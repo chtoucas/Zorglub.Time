@@ -14,31 +14,31 @@ using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
 /*
-BenchmarkDotNet=v0.13.2, OS=Windows 10 (10.0.19044.2006/21H2/November2021Update)
+BenchmarkDotNet v0.13.12, Windows 10 (10.0.19045.4046/22H2/2022Update)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.401
-  [Host]     : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
-  DefaultJob : .NET 6.0.9 (6.0.922.41905), X64 RyuJIT AVX2
+.NET SDK 8.0.200
+  [Host]     : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT AVX2
 
-|                 Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
-|----------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|     'CivilDate   (g)+' |  38.29 ns | 0.219 ns | 0.183 ns |  1.00 |    0.00 |    I |
-|   'DayNumber64   (g) ' |  43.54 ns | 0.144 ns | 0.134 ns |  1.14 |    0.01 |   II |
-|     'DayNumber   (g) ' |  44.63 ns | 0.127 ns | 0.119 ns |  1.17 |    0.01 |  III |
-| 'GregorianDate   (g) ' |  49.77 ns | 0.185 ns | 0.173 ns |  1.30 |    0.01 |   IV |
-|   'MyCivilDate      +' |  50.73 ns | 0.091 ns | 0.081 ns |  1.32 |    0.01 |    V |
-|      'DateTime *    +' |  52.57 ns | 0.184 ns | 0.163 ns |  1.37 |    0.01 |   VI |
-|      'DateOnly *    +' |  53.44 ns | 0.150 ns | 0.133 ns |  1.40 |    0.01 |  VII |
-|    'XCivilDate  (Yg)+' |  63.52 ns | 0.173 ns | 0.154 ns |  1.66 |    0.01 | VIII |
-|   'Naked Civil      +' |  64.33 ns | 0.352 ns | 0.330 ns |  1.68 |    0.01 | VIII |
-|         'ZDate       ' |  65.34 ns | 0.118 ns | 0.092 ns |  1.71 |    0.01 |   IX |
-|   'CalendarDay       ' |  65.78 ns | 0.608 ns | 0.539 ns |  1.72 |    0.02 |   IX |
-|   'OrdinalDate  (O)  ' |  75.95 ns | 0.769 ns | 0.682 ns |  1.98 |    0.02 |    X |
-|   'CivilTriple  (Y) +' |  85.76 ns | 0.481 ns | 0.426 ns |  2.24 |    0.02 |   XI |
-|        'MyDate  (Y) +' |  88.27 ns | 0.493 ns | 0.461 ns |  2.31 |    0.01 |  XII |
-|  'CalendarDate  (Y)  ' |  92.48 ns | 0.664 ns | 0.621 ns |  2.42 |    0.02 | XIII |
-|    'CivilParts  (Y) +' | 100.70 ns | 0.893 ns | 0.835 ns |  2.63 |    0.03 |  XIV |
-|     'LocalDate *(Y)  ' | 117.53 ns | 0.480 ns | 0.449 ns |  3.07 |    0.02 |   XV |
+| Method                 | Mean     | Error    | StdDev   | Ratio | RatioSD | Rank |
+|----------------------- |---------:|---------:|---------:|------:|--------:|-----:|
+| 'DateOnly *         +' | 29.82 ns | 0.154 ns | 0.144 ns |  0.86 |    0.01 |    I |
+| 'DateTime *         +' | 31.49 ns | 0.141 ns | 0.132 ns |  0.91 |    0.01 |   II |
+| 'CivilDate       (g)+' | 34.73 ns | 0.219 ns | 0.205 ns |  1.00 |    0.00 |  III |
+| 'DayNumber64     (g) ' | 38.73 ns | 0.119 ns | 0.105 ns |  1.11 |    0.01 |   IV |
+| 'MyCivilDate        +' | 38.99 ns | 0.186 ns | 0.174 ns |  1.12 |    0.01 |   IV |
+| 'Naked Civil        +' | 40.45 ns | 0.199 ns | 0.186 ns |  1.16 |    0.01 |    V |
+| 'GregorianDate   (g) ' | 41.12 ns | 0.275 ns | 0.257 ns |  1.18 |    0.01 |   VI |
+| 'DayNumber       (g) ' | 41.58 ns | 0.217 ns | 0.203 ns |  1.20 |    0.01 |   VI |
+| 'CalendarDay         ' | 55.79 ns | 0.295 ns | 0.261 ns |  1.61 |    0.01 |  VII |
+| 'ZDate               ' | 57.29 ns | 0.295 ns | 0.276 ns |  1.65 |    0.01 | VIII |
+| 'OrdinalDate    (O)  ' | 59.51 ns | 0.202 ns | 0.189 ns |  1.71 |    0.01 |   IX |
+| 'XCivilDate     (Yg)+' | 62.67 ns | 0.236 ns | 0.221 ns |  1.80 |    0.01 |    X |
+| 'CivilTriple    (Y) +' | 71.57 ns | 0.263 ns | 0.246 ns |  2.06 |    0.02 |   XI |
+| 'MyDate         (Y) +' | 72.58 ns | 0.328 ns | 0.256 ns |  2.09 |    0.01 |  XII |
+| 'CalendarDate   (Y)  ' | 77.77 ns | 0.416 ns | 0.347 ns |  2.24 |    0.01 | XIII |
+| 'CivilParts     (Y) +' | 90.48 ns | 0.454 ns | 0.425 ns |  2.61 |    0.02 |  XIV |
+| 'LocalDate *    (Y)  ' | 91.42 ns | 0.646 ns | 0.605 ns |  2.63 |    0.03 |  XIV |
 
 BenchmarkDotNet=v0.13.2, OS=Windows 10 (10.0.19044.2251/21H2/November2021Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
@@ -93,7 +93,7 @@ public class GregorianBenchmark : GJBenchmarkBase
 
     public GregorianBenchmark() { Option = BenchmarkOption.Fixed; }
 
-    [Benchmark(Description = "CalendarDate  (Y)  ")]
+    [Benchmark(Description = "CalendarDate   (Y)  ")]
     public void WithCalendarDate()
     {
         CalendarDate start = new(Year, Month, Day);
@@ -110,7 +110,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "CalendarDay       ")]
+    [Benchmark(Description = "CalendarDay         ")]
     public void WithCalendarDay()
     {
         CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
@@ -127,7 +127,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "OrdinalDate  (O)  ")]
+    [Benchmark(Description = "OrdinalDate    (O)  ")]
     public void WithOrdinalDate()
     {
         OrdinalDate start = new CalendarDate(Year, Month, Day).ToOrdinalDate();
@@ -144,7 +144,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "ZDate       ")]
+    [Benchmark(Description = "ZDate               ")]
     public void WithZDate()
     {
         ZDate start = new(Year, Month, Day);
@@ -163,7 +163,7 @@ public class GregorianBenchmark : GJBenchmarkBase
 
     #region DayNumber
 
-    [Benchmark(Description = "DayNumber   (g) ")]
+    [Benchmark(Description = "DayNumber       (g) ")]
     public void WithDayNumber()
     {
         DayNumber start = DayNumber.FromGregorianParts(Year, Month, Day);
@@ -182,7 +182,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayNumber64   (g) ")]
+    [Benchmark(Description = "DayNumber64     (g) ")]
     public void WithDayNumber64()
     {
         DayNumber64 start = DayNumber64.FromGregorianParts(Year, Month, Day);
@@ -199,7 +199,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "Naked Civil      +")]
+    [Benchmark(Description = "Naked Civil        +")]
     public void WithNakedCivil()
     {
         var chr = My.NakedCivil;
@@ -222,7 +222,7 @@ public class GregorianBenchmark : GJBenchmarkBase
     #endregion
     #region Affine date types
 
-    [Benchmark(Description = "CivilParts  (Y) +")]
+    [Benchmark(Description = "CivilParts     (Y) +")]
     public void WithCivilParts()
     {
         CivilParts start = new(Year, Month, Day);
@@ -240,7 +240,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "CivilTriple  (Y) +")]
+    [Benchmark(Description = "CivilTriple    (Y) +")]
     public void WithCivilTriple()
     {
         CivilTriple start = new(Year, Month, Day);
@@ -261,7 +261,7 @@ public class GregorianBenchmark : GJBenchmarkBase
     #endregion
     #region Specialized date types
 
-    [Benchmark(Description = "XCivilDate  (Yg)+")]
+    [Benchmark(Description = "XCivilDate     (Yg)+")]
     public void WithXCivilDate()
     {
         XCivilDate start = new(Year, Month, Day);
@@ -278,7 +278,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "CivilDate   (g)+", Baseline = true)]
+    [Benchmark(Description = "CivilDate       (g)+", Baseline = true)]
     public void WithCivilDate()
     {
         CivilDate start = new(Year, Month, Day);
@@ -295,7 +295,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "MyDate  (Y) +")]
+    [Benchmark(Description = "MyDate  (Y)        +")]
     public void WithMyDate()
     {
         MyDate start = new(Year, Month, Day);
@@ -329,7 +329,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "MyCivilDate      +")]
+    [Benchmark(Description = "MyCivilDate        +")]
     public void WithMyCivilDate()
     {
         MyCivilDate start = new(Year, Month, Day);
@@ -349,7 +349,7 @@ public class GregorianBenchmark : GJBenchmarkBase
     #endregion
     #region External date types
 
-    [Benchmark(Description = "LocalDate *(Y)  ")]
+    [Benchmark(Description = "LocalDate *     (Y) ")]
     public void WithLocalDate()
     {
         LocalDate start = new(Year, Month, Day);
@@ -366,7 +366,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DateOnly *    +")]
+    [Benchmark(Description = "DateOnly *         +")]
     public void WithDateOnly()
     {
         DateOnly start = new(Year, Month, Day);
@@ -385,7 +385,7 @@ public class GregorianBenchmark : GJBenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DateTime *    +")]
+    [Benchmark(Description = "DateTime *         +")]
     public void WithDateTime()
     {
         DateTime start = new(Year, Month, Day);
