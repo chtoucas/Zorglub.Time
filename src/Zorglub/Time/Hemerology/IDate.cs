@@ -46,7 +46,7 @@ public interface IDate<TSelf> :
 // seul calendrier, d'où le fait d'avoir choisi des propriétés et méthodes
 // __statiques__.
 // Pour des dates fonctionnant avec un calendrier "pluriel", on utilisera
-// plutôt une propriété non-statique Calendar et on ajoutera une méthode pour
+// plutôt une propriété non-statique Calendar et on ajoutera une méthode
 // WithCalendar(newCalendar) pour l'interconversion; voir p.ex. ZDate et
 // ISimpleDate.
 
@@ -66,7 +66,7 @@ public interface IDate<TSelf, out TCalendar> :
     where TCalendar : ICalendar<TSelf>
     where TSelf : IDate<TSelf, TCalendar>
 {
-    /// <summary>Gets the calendar to which belongs the current instance.
+    /// <summary>Gets the calendar to which belongs the current type.
     /// <para>This static property is thread-safe.</para></summary>
     static abstract TCalendar Calendar { get; }
 }
