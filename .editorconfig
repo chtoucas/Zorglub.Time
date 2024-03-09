@@ -208,7 +208,7 @@ csharp_style_prefer_primary_constructors = true:silent
 csharp_using_directive_placement = inside_namespace:silent
 
 #### File header preferences ####
-file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) 2020 Narvalo.Org. All rights reserved.
+file_header_template = SPDX-License-Identifier: BSD-3-Clause\nCopyright (c) Tran Ngoc Bich. All rights reserved.
 
 ###############################
 # Unnecessary Code Rules      #

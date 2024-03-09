@@ -36,10 +36,10 @@
 
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)eng\Narvalo.snk</AssemblyOriginatorKeyFile>
 
-    <Authors>chtoucas</Authors>
-    <Company>Narvalo.Org</Company>
+    <Authors>Tran Ngoc Bich</Authors>
+    <!--<Company>Narvalo.Org</Company>-->
     <Product>Zorglub</Product>
-    <Copyright>Copyright (c) 2020 Narvalo.Org.</Copyright>
+    <Copyright>Copyright (c) 2020 Tran Ngoc Bich</Copyright>
 
     <!-- Fake version -->
     <VersionPrefix>0.0.0</VersionPrefix>
