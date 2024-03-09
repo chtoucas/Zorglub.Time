@@ -30,7 +30,6 @@ only a bit slower than Standard (> 0).
   https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
-  - ManagePackageVersionsCentrally
   - checked/unchecked ops
   - required for props
   - Github action: test on Ubuntu and MacOS
