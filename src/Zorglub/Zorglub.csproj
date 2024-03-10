@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <!-- T4 templates -->
     <None Update="Time\Specialized\Gregorian.tt">
       <LastGenOutput>Gregorian.g.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -32,6 +33,7 @@
       <LastGenOutput>Julian.g.cs</LastGenOutput>
     </None>
   </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Time\Specialized\Gregorian.g.cs">
       <DependentUpon>Gregorian.tt</DependentUpon>
@@ -49,6 +51,7 @@
       <DependentUpon>Julian.tt</DependentUpon>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
     <!-- T4 service -->
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
