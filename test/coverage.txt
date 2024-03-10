@@ -1,24 +1,23 @@
-﻿Summary
-  Generated on: 04/11/2022 - 09:24:17
+Summary
+  Generated on: 10/03/2024 - 08:07:31
   Parser: OpenCover
   Assemblies: 2
   Classes: 181
-  Files: 151
-  Line coverage: 93.6%
-  Covered lines: 8354
-  Uncovered lines: 563
-  Coverable lines: 8917
-  Total lines: 30651
+  Files: 150
+  Line coverage: 93.8%
+  Covered lines: 8367
+  Uncovered lines: 551
+  Coverable lines: 8918
+  Total lines: 30494
   Branch coverage: 91.8% (2181 of 2374)
   Covered branches: 2181
   Total branches: 2374
-  Method coverage: 95.5% (2827 of 2960)
-  Covered methods: 2827
+  Method coverage: 95.6% (2831 of 2960)
+  Covered methods: 2831
   Total methods: 2960
 
-Zorglub.Time                                               91.4%
+Zorglub.Time                                               94.0%
   Zorglub.Time.AdditionRuleset                            100.0%
-  Zorglub.Time.CalendarIdExtensions                       100.0%
   Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic  100.0%
   Zorglub.Time.Core.Arithmetic.LunarSystemArithmetic       80.6%
   Zorglub.Time.Core.Arithmetic.LunisolarSystemArithmetic   74.1%
@@ -30,12 +29,11 @@ Zorglub.Time                                               91.4%
   Zorglub.Time.Core.CalendricalSchema                     100.0%
   Zorglub.Time.Core.CalendricalSegment                    100.0%
   Zorglub.Time.Core.CalendricalSegmentBuilder             100.0%
-  Zorglub.Time.Core.DoomsdayRule                          100.0%
   Zorglub.Time.Core.ICalendricalPreValidator               93.3%
   Zorglub.Time.Core.Intervals.Interval                    100.0%
   Zorglub.Time.Core.Intervals.LowerRay                    100.0%
   Zorglub.Time.Core.Intervals.LowerRay<T>                 100.0%
-  Zorglub.Time.Core.Intervals.Range                        70.4%
+  Zorglub.Time.Core.Intervals.Range                       100.0%
   Zorglub.Time.Core.Intervals.Range<T>                    100.0%
   Zorglub.Time.Core.Intervals.RangeSet                    100.0%
   Zorglub.Time.Core.Intervals.RangeSet<T>                 100.0%
@@ -45,11 +43,30 @@ Zorglub.Time                                               91.4%
   Zorglub.Time.Core.PartsAdapter                          100.0%
   Zorglub.Time.Core.Schemas.CivilFormulae                 100.0%
   Zorglub.Time.Core.Schemas.CivilSchema                   100.0%
+  Zorglub.Time.Core.Schemas.Coptic12Schema                100.0%
+  Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
+  Zorglub.Time.Core.Schemas.CopticSchema                  100.0%
+  Zorglub.Time.Core.Schemas.Egyptian12Schema              100.0%
+  Zorglub.Time.Core.Schemas.Egyptian13Schema              100.0%
+  Zorglub.Time.Core.Schemas.EgyptianSchema                100.0%
+  Zorglub.Time.Core.Schemas.FrenchRepublican12Schema      100.0%
+  Zorglub.Time.Core.Schemas.FrenchRepublican13Schema      100.0%
+  Zorglub.Time.Core.Schemas.FrenchRepublicanSchema        100.0%
   Zorglub.Time.Core.Schemas.GJSchema                      100.0%
   Zorglub.Time.Core.Schemas.GregorianFormulae             100.0%
   Zorglub.Time.Core.Schemas.GregorianSchema               100.0%
+  Zorglub.Time.Core.Schemas.InternationalFixedSchema      100.0%
   Zorglub.Time.Core.Schemas.JulianFormulae                100.0%
   Zorglub.Time.Core.Schemas.JulianSchema                  100.0%
+  Zorglub.Time.Core.Schemas.Persian2820Schema             100.0%
+  Zorglub.Time.Core.Schemas.PositivistSchema              100.0%
+  Zorglub.Time.Core.Schemas.PtolemaicSchema               100.0%
+  Zorglub.Time.Core.Schemas.TabularIslamicSchema          100.0%
+  Zorglub.Time.Core.Schemas.Tropicalia3031Schema          100.0%
+  Zorglub.Time.Core.Schemas.Tropicalia3130Schema          100.0%
+  Zorglub.Time.Core.Schemas.TropicaliaSchema              100.0%
+  Zorglub.Time.Core.Schemas.TropicalistaSchema            100.0%
+  Zorglub.Time.Core.Schemas.WorldSchema                   100.0%
   Zorglub.Time.Core.SystemArithmetic                       98.3%
   Zorglub.Time.Core.SystemSchema                          100.0%
   Zorglub.Time.Core.SystemSegment                         100.0%
@@ -62,7 +79,7 @@ Zorglub.Time                                               91.4%
   Zorglub.Time.Core.Utilities.MathZ                       100.0%
   Zorglub.Time.Core.Utilities.OrderedPair                 100.0%
   Zorglub.Time.Core.Utilities.OrderedPair<T>              100.0%
-  Zorglub.Time.Core.Utilities.ReadOnlySet<T>              100.0%
+  Zorglub.Time.Core.Utilities.ReadOnlySet<T>               94.4%
   Zorglub.Time.Core.Utilities.Requires                    100.0%
   Zorglub.Time.Core.Utilities.ThrowHelpers                100.0%
   Zorglub.Time.Core.Validation.DaysValidator              100.0%
@@ -105,10 +122,28 @@ Zorglub.Time                                               91.4%
   Zorglub.Time.MonthParts                                 100.0%
   Zorglub.Time.Ord                                        100.0%
   Zorglub.Time.OrdinalParts                               100.0%
+  Zorglub.Time.Specialized.Armenian13Adjuster             100.0%
+  Zorglub.Time.Specialized.Armenian13Calendar             100.0%
+  Zorglub.Time.Specialized.Armenian13Date                 100.0%
+  Zorglub.Time.Specialized.ArmenianAdjuster               100.0%
+  Zorglub.Time.Specialized.ArmenianCalendar               100.0%
+  Zorglub.Time.Specialized.ArmenianDate                   100.0%
   Zorglub.Time.Specialized.CivilAdjuster                  100.0%
   Zorglub.Time.Specialized.CivilCalendar                  100.0%
   Zorglub.Time.Specialized.CivilClock                       0.0%
   Zorglub.Time.Specialized.CivilDate                      100.0%
+  Zorglub.Time.Specialized.Coptic13Adjuster               100.0%
+  Zorglub.Time.Specialized.Coptic13Calendar               100.0%
+  Zorglub.Time.Specialized.Coptic13Date                   100.0%
+  Zorglub.Time.Specialized.CopticAdjuster                 100.0%
+  Zorglub.Time.Specialized.CopticCalendar                 100.0%
+  Zorglub.Time.Specialized.CopticDate                     100.0%
+  Zorglub.Time.Specialized.Ethiopic13Adjuster             100.0%
+  Zorglub.Time.Specialized.Ethiopic13Calendar             100.0%
+  Zorglub.Time.Specialized.Ethiopic13Date                 100.0%
+  Zorglub.Time.Specialized.EthiopicAdjuster               100.0%
+  Zorglub.Time.Specialized.EthiopicCalendar               100.0%
+  Zorglub.Time.Specialized.EthiopicDate                   100.0%
   Zorglub.Time.Specialized.GregorianAdjuster              100.0%
   Zorglub.Time.Specialized.GregorianCalendar              100.0%
   Zorglub.Time.Specialized.GregorianDate                  100.0%
@@ -117,28 +152,23 @@ Zorglub.Time                                               91.4%
   Zorglub.Time.Specialized.JulianDate                     100.0%
   Zorglub.Time.Specialized.SpecialAdjuster<T>             100.0%
   Zorglub.Time.Specialized.SpecialCalendar<T>             100.0%
+  Zorglub.Time.Specialized.TabularIslamicAdjuster         100.0%
+  Zorglub.Time.Specialized.TabularIslamicCalendar         100.0%
+  Zorglub.Time.Specialized.TabularIslamicDate             100.0%
+  Zorglub.Time.Specialized.WorldAdjuster                  100.0%
+  Zorglub.Time.Specialized.WorldCalendar                  100.0%
+  Zorglub.Time.Specialized.WorldDate                      100.0%
+  Zorglub.Time.Specialized.Zoroastrian13Adjuster          100.0%
+  Zorglub.Time.Specialized.Zoroastrian13Calendar          100.0%
+  Zorglub.Time.Specialized.Zoroastrian13Date              100.0%
+  Zorglub.Time.Specialized.ZoroastrianAdjuster            100.0%
+  Zorglub.Time.Specialized.ZoroastrianCalendar            100.0%
+  Zorglub.Time.Specialized.ZoroastrianDate                100.0%
   Zorglub.Time.TimeOfDay                                   41.7%
 
-Zorglub.Time.Extras                                        96.4%
-  Zorglub.Time.Core.Schemas.Coptic12Schema                100.0%
-  Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
-  Zorglub.Time.Core.Schemas.CopticSchema                  100.0%
-  Zorglub.Time.Core.Schemas.Egyptian12Schema              100.0%
-  Zorglub.Time.Core.Schemas.Egyptian13Schema              100.0%
-  Zorglub.Time.Core.Schemas.EgyptianSchema                100.0%
-  Zorglub.Time.Core.Schemas.FrenchRepublican12Schema      100.0%
-  Zorglub.Time.Core.Schemas.FrenchRepublican13Schema      100.0%
-  Zorglub.Time.Core.Schemas.FrenchRepublicanSchema        100.0%
-  Zorglub.Time.Core.Schemas.InternationalFixedSchema      100.0%
-  Zorglub.Time.Core.Schemas.Persian2820Schema             100.0%
-  Zorglub.Time.Core.Schemas.PositivistSchema              100.0%
-  Zorglub.Time.Core.Schemas.PtolemaicSchema               100.0%
-  Zorglub.Time.Core.Schemas.TabularIslamicSchema          100.0%
-  Zorglub.Time.Core.Schemas.Tropicalia3031Schema          100.0%
-  Zorglub.Time.Core.Schemas.Tropicalia3130Schema          100.0%
-  Zorglub.Time.Core.Schemas.TropicaliaSchema              100.0%
-  Zorglub.Time.Core.Schemas.TropicalistaSchema            100.0%
-  Zorglub.Time.Core.Schemas.WorldSchema                   100.0%
+Zorglub.Time.Extras                                        93.1%
+  Zorglub.Time.CalendarIdExtensions                       100.0%
+  Zorglub.Time.Core.DoomsdayRule                          100.0%
   Zorglub.Time.Simple.ArmenianSimpleCalendar               88.8%
   Zorglub.Time.Simple.BoxExtensions                       100.0%
   Zorglub.Time.Simple.CalendarDate                        100.0%
@@ -170,33 +200,3 @@ Zorglub.Time.Extras                                        96.4%
   Zorglub.Time.Simple.TabularIslamicSimpleCalendar         87.5%
   Zorglub.Time.Simple.ThrowHelpers                        100.0%
   Zorglub.Time.Simple.ZoroastrianSimpleCalendar            88.8%
-  Zorglub.Time.Specialized.Armenian13Adjuster             100.0%
-  Zorglub.Time.Specialized.Armenian13Calendar             100.0%
-  Zorglub.Time.Specialized.Armenian13Date                 100.0%
-  Zorglub.Time.Specialized.ArmenianAdjuster               100.0%
-  Zorglub.Time.Specialized.ArmenianCalendar               100.0%
-  Zorglub.Time.Specialized.ArmenianDate                   100.0%
-  Zorglub.Time.Specialized.Coptic13Adjuster               100.0%
-  Zorglub.Time.Specialized.Coptic13Calendar               100.0%
-  Zorglub.Time.Specialized.Coptic13Date                   100.0%
-  Zorglub.Time.Specialized.CopticAdjuster                 100.0%
-  Zorglub.Time.Specialized.CopticCalendar                 100.0%
-  Zorglub.Time.Specialized.CopticDate                     100.0%
-  Zorglub.Time.Specialized.Ethiopic13Adjuster             100.0%
-  Zorglub.Time.Specialized.Ethiopic13Calendar             100.0%
-  Zorglub.Time.Specialized.Ethiopic13Date                 100.0%
-  Zorglub.Time.Specialized.EthiopicAdjuster               100.0%
-  Zorglub.Time.Specialized.EthiopicCalendar               100.0%
-  Zorglub.Time.Specialized.EthiopicDate                   100.0%
-  Zorglub.Time.Specialized.TabularIslamicAdjuster         100.0%
-  Zorglub.Time.Specialized.TabularIslamicCalendar         100.0%
-  Zorglub.Time.Specialized.TabularIslamicDate             100.0%
-  Zorglub.Time.Specialized.WorldAdjuster                  100.0%
-  Zorglub.Time.Specialized.WorldCalendar                  100.0%
-  Zorglub.Time.Specialized.WorldDate                      100.0%
-  Zorglub.Time.Specialized.Zoroastrian13Adjuster          100.0%
-  Zorglub.Time.Specialized.Zoroastrian13Calendar          100.0%
-  Zorglub.Time.Specialized.Zoroastrian13Date              100.0%
-  Zorglub.Time.Specialized.ZoroastrianAdjuster            100.0%
-  Zorglub.Time.Specialized.ZoroastrianCalendar            100.0%
-  Zorglub.Time.Specialized.ZoroastrianDate                100.0%
