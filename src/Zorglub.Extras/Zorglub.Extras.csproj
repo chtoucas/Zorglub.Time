@@ -19,69 +19,6 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
-    <!-- T4 templates -->
-    <None Update="**\*.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>%(Filename).g.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Time\Specialized\Armenian.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Armenian.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Armenian13.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Armenian13.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Coptic.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Coptic.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Coptic13.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Coptic13.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Ethiopic.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Ethiopic.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Ethiopic13.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Ethiopic13.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\TabularIslamic.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TabularIslamic.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\World.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>World.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Zoroastrian.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Zoroastrian.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Time\Specialized\Zoroastrian13.g.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Zoroastrian13.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- T4 service -->
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>
