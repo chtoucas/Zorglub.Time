@@ -13,6 +13,32 @@ using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
 /*
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.2861/23H2/2023Update/SunValley3)
+13th Gen Intel Core i5-13400F, 1 CPU, 16 logical and 10 physical cores
+.NET SDK 8.0.202
+  [Host]     : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.3 (8.0.324.11423), X64 RyuJIT AVX2
+
+| Method                 | Mean     | Error    | StdDev   | Ratio | RatioSD | Rank |
+|----------------------- |---------:|---------:|---------:|------:|--------:|-----:|
+| 'DateOnly *         +' | 11.63 ns | 0.241 ns | 0.225 ns |  0.83 |    0.02 |    I |
+| 'DateTime *         +' | 13.10 ns | 0.213 ns | 0.189 ns |  0.94 |    0.02 |   II |
+| 'DayNumber64     (g) ' | 13.90 ns | 0.089 ns | 0.074 ns |  0.99 |    0.01 |  III |
+| 'CivilDate       (g)+' | 14.00 ns | 0.177 ns | 0.165 ns |  1.00 |    0.00 |  III |
+| 'DayNumber       (g) ' | 14.10 ns | 0.126 ns | 0.112 ns |  1.01 |    0.01 |  III |
+| 'MyCivilDate        +' | 15.28 ns | 0.138 ns | 0.122 ns |  1.09 |    0.02 |   IV |
+| 'Naked Civil        +' | 15.61 ns | 0.110 ns | 0.103 ns |  1.12 |    0.02 |    V |
+| 'GregorianDate   (g) ' | 16.93 ns | 0.165 ns | 0.146 ns |  1.21 |    0.02 |   VI |
+| 'CalendarDay         ' | 19.66 ns | 0.171 ns | 0.143 ns |  1.41 |    0.02 |  VII |
+| 'XCivilDate     (Yg)+' | 22.31 ns | 0.072 ns | 0.064 ns |  1.60 |    0.02 | VIII |
+| 'ZDate               ' | 24.13 ns | 0.051 ns | 0.048 ns |  1.72 |    0.02 |   IX |
+| 'OrdinalDate    (O)  ' | 25.98 ns | 0.089 ns | 0.083 ns |  1.86 |    0.02 |    X |
+| 'CivilTriple    (Y) +' | 27.70 ns | 0.171 ns | 0.160 ns |  1.98 |    0.02 |   XI |
+| 'MyDate  (Y)        +' | 29.77 ns | 0.176 ns | 0.165 ns |  2.13 |    0.02 |  XII |
+| 'CalendarDate   (Y)  ' | 33.50 ns | 0.506 ns | 0.449 ns |  2.40 |    0.03 | XIII |
+| 'LocalDate *    (Y)  ' | 34.39 ns | 0.253 ns | 0.225 ns |  2.46 |    0.03 |  XIV |
+| 'CivilParts     (Y) +' | 41.20 ns | 0.082 ns | 0.069 ns |  2.95 |    0.03 |   XV |
+
 BenchmarkDotNet v0.13.12, Windows 10 (10.0.19045.4046/22H2/2022Update)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 .NET SDK 8.0.200
@@ -348,7 +374,7 @@ public class GregorianBenchmark : GJBenchmarkBase
     #endregion
     #region External date types
 
-    [Benchmark(Description = "LocalDate *     (Y) ")]
+    [Benchmark(Description = "LocalDate *    (Y)  ")]
     public void WithLocalDate()
     {
         LocalDate start = new(Year, Month, Day);
