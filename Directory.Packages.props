@@ -10,7 +10,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
     <!-- Tests -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageVersion Include="coverlet.msbuild" Version="6.0.1" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.assert" Version="2.7.0" />
     <PackageVersion Include="xunit.extensibility.core" Version="2.7.0" />
