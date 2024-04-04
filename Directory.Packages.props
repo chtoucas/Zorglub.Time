@@ -5,6 +5,10 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <!-- See https://github.com/microsoft/MSBuildSdks/tree/main/src/CopyOnWrite -->
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.315" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageVersion Include="FSharp.Core" Version="8.0.200" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />

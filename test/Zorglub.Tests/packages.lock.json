@@ -24,6 +24,12 @@
         "resolved": "8.0.200",
         "contentHash": "qnxoF3Fu0HzfOeYdrwmQOsLP1v+OtOMSIYkNVUwf6nGqWzL03Hh4r6VFCvCb54jlsgtt3WADVYkKkrgdeY5kiQ=="
       },
+      "Microsoft.Build.CopyOnWrite": {
+        "type": "Direct",
+        "requested": "[1.0.315, )",
+        "resolved": "1.0.315",
+        "contentHash": "z0WkyvnBFWCzgLJ1ORD9t6R5nvQSlTl7ernOPq2a6bdfJEGWRQbgiew4TFD18hQjBE8JGRDtWAkFDzhkRK8LNg=="
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.9.0, )",
