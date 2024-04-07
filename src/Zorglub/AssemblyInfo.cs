@@ -1,8 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) Tran Ngoc Bich. All rights reserved.
 
-[assembly: InternalsVisibleTo("Zorglub.Time.Extras" + Zorglub.AssemblyInfo.PublicKeySuffix)]
-
 #if !__HIDE_INTERNALS__
 [assembly: InternalsVisibleTo("Benchmarks" + Zorglub.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Sketches" + Zorglub.AssemblyInfo.PublicKeySuffix)]
