@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Zorglub.Extras\Zorglub.Extras.csproj" />
     <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
     <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
     <ProjectReference Include="..\Zorglub.Testing\Zorglub.Testing.csproj" />

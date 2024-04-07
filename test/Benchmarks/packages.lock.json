@@ -248,18 +248,11 @@
       "zorglub.sketches": {
         "type": "Project",
         "dependencies": {
-          "Zorglub.Time": "[0.0.0-DUMMY, )",
-          "Zorglub.Time.Extras": "[0.0.0-DUMMY, )"
+          "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       },
       "Zorglub.Time": {
         "type": "Project"
-      },
-      "Zorglub.Time.Extras": {
-        "type": "Project",
-        "dependencies": {
-          "Zorglub.Time": "[0.0.0-DUMMY, )"
-        }
       },
       "Microsoft.CodeAnalysis.CSharp": {
         "type": "CentralTransitive",

@@ -136,8 +136,7 @@
       "zorglub.sketches": {
         "type": "Project",
         "dependencies": {
-          "Zorglub.Time": "[0.0.0-DUMMY, )",
-          "Zorglub.Time.Extras": "[0.0.0-DUMMY, )"
+          "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       },
       "zorglub.testing": {
@@ -145,19 +144,12 @@
         "dependencies": {
           "Zorglub.Sketches": "[0.0.0-DUMMY, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )",
-          "Zorglub.Time.Extras": "[0.0.0-DUMMY, )",
           "xunit.assert": "[2.7.0, )",
           "xunit.extensibility.core": "[2.7.0, )"
         }
       },
       "Zorglub.Time": {
         "type": "Project"
-      },
-      "Zorglub.Time.Extras": {
-        "type": "Project",
-        "dependencies": {
-          "Zorglub.Time": "[0.0.0-DUMMY, )"
-        }
       },
       "xunit.assert": {
         "type": "CentralTransitive",

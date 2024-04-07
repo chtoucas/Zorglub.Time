@@ -22,7 +22,6 @@
       <OutputItemType>Analyzer</OutputItemType>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\Zorglub.Extras\Zorglub.Extras.csproj" />
     <ProjectReference Include="..\Zorglub.Sketches\Zorglub.Sketches.csproj" />
     <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
   </ItemGroup>

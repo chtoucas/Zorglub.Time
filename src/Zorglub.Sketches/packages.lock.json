@@ -10,12 +10,6 @@
       },
       "Zorglub.Time": {
         "type": "Project"
-      },
-      "Zorglub.Time.Extras": {
-        "type": "Project",
-        "dependencies": {
-          "Zorglub.Time": "[0.0.0-DUMMY, )"
-        }
       }
     }
   }

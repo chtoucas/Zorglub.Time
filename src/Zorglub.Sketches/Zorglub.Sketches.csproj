@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zorglub.Extras\Zorglub.Extras.csproj" />
     <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
   </ItemGroup>
 
