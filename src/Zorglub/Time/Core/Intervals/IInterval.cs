@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core.Intervals;
 /// <summary>Defines an interval.</summary>
 /// <remarks>Discrete intervals SHOULD always be represented using their normal (closed) form.
 /// Roughly speaking, an interval is said to be discrete if all of its members are isolated which,
-/// being a topological property, is hard to define in computer terms. Anyway, for our purposes, we
+/// being a topological property, is hard to define in computer words. Anyway, for our purposes, we
 /// only need to know that intervals of integers or date-like types are discrete, while intervals of
 /// time-like types are not.</remarks>
 /// <typeparam name="T">The type of the interval elements.</typeparam>
