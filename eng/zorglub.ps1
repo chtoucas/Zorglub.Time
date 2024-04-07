@@ -11,4 +11,4 @@ New-Variable PackagesDir  (Join-Path $ArtifactsDir 'packages')   -Scope Script -
 
 New-Alias "say" Write-Host
 
-function die([string] $message) { say "`n$message" -Foreground Magenta ; exit 1 }
+function die([string] $message) { Write-Error "`n$message" ; exit 1 }

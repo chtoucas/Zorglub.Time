@@ -4,7 +4,8 @@
 
 [CmdletBinding()]
 param(
-                 [switch] $NoExtras,
+                 # Do NOT pack Zorglub.Time.Extras?
+                 #[switch] $NoExtras,
 
     [Alias('h')] [switch] $Help
 )
@@ -19,7 +20,6 @@ function Print-Help {
 Packaging script.
 
 Usage: pack.ps1 [arguments]
-     -NoExtras       do NOT pack Zorglub.Time.Extras?
   -h|-Help           print this help then exit
 
 "@
@@ -38,17 +38,18 @@ try {
         "/p:PrintSettings=true"
 
     $ZorglubTime       = Join-Path $SrcDir 'Zorglub' -Resolve
-    $ZorglubTimeExtras = Join-Path $SrcDir 'Zorglub.Extras' -Resolve
+    #$ZorglubTimeExtras = Join-Path $SrcDir 'Zorglub.Extras' -Resolve
 
     say 'Cleaning solution...' -Foreground Magenta
     & dotnet clean -c Release -v minimal
 
-    say "`nBuilding project Zorglub.Extras..." -Foreground Magenta
+    say "`nBuilding project Zorglub..." -Foreground Magenta
     # Safety measures:
     # - Always build Zorglub.Extras, not just Zorglub
     #   This is to ensure that HideInternals=true does not break Zorglub.Extras
     # - Delete project.assets.json (--force)
-    & dotnet build $ZorglubTimeExtras $args --force
+    & dotnet build $ZorglubTime $args --force
+    #& dotnet build $ZorglubTimeExtras $args --force
 
     # Pack Zorglub.Time
     say "`nPackaging Zorglub.Time..." -Foreground Magenta
@@ -56,12 +57,12 @@ try {
         || die "Failed to pack '$ZorglubTime'."
 
     # Pack Zorglub.Time.Extras
-    if (-not $NoExtras) {
-        say "`nPackaging Zorglub.Time.Extras..." -Foreground Magenta
-
-        & dotnet pack $ZorglubTimeExtras $args --no-build --output $PackagesDir `
-            || die "Failed to pack '$ZorglubTimeExtras'."
-    }
+    #if (-not $NoExtras) {
+    #    say "`nPackaging Zorglub.Time.Extras..." -Foreground Magenta
+    #
+    #    & dotnet pack $ZorglubTimeExtras $args --no-build --output $PackagesDir `
+    #        || die "Failed to pack '$ZorglubTimeExtras'."
+    #}
 
     say "`nPackaging completed successfully" -Foreground Green
 }

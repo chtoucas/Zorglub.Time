@@ -10,7 +10,8 @@ param(
 
                  [switch] $Smoke,
 
-                 [switch] $NoExtras,
+                 # Do NOT include Zorglub.Time.Extras in the reports?
+                 #[switch] $NoExtras,
                  [switch] $NoBuild,
                  [switch] $NoTest,
                  [switch] $NoReport,
@@ -31,7 +32,6 @@ Code coverage script.
 Usage: cover.ps1 [arguments]
   -c|-Configuration  the configuration to test the solution for. Default = "Debug".
      -Smoke          use the test plan "smoke"
-     -NoExtras       do NOT include Zorglub.Time.Extras in the reports?
      -NoBuild        do NOT build the test suite?
      -NoTest         do NOT execute the test suite? Implies -NoBuild
      -NoReport       do NOT run ReportGenerator?
@@ -56,11 +56,11 @@ try {
     pushd $RootDir
 
     $assemblyName = 'Zorglub.Time'
-    $extrasAssemblyName = 'Zorglub.Time.Extras'
+    #$extrasAssemblyName = 'Zorglub.Time.Extras'
     $format   = 'opencover'
 
     $outName  = "cover-Zorglub"
-    if (-not $NoExtras) { $outName += "-extras" }
+    #if (-not $NoExtras) { $outName += "-extras" }
     if ($Smoke) { $outName += "-smoke" }
     $outName += "-$configuration"
     $outDir   = Join-Path $ArtifactsDir $outName.ToLowerInvariant()
@@ -71,10 +71,10 @@ try {
     # Filters: https://github.com/Microsoft/vstest-docs/blob/main/docs/filter.md
     $includes = @("[$assemblyName]*")
     $excludes = @("[$assemblyName]System.*")
-    if (-not $NoExtras) {
-        $includes += "[$extrasAssemblyName]*"
-        $excludes += "[$extrasAssemblyName]System.*"
-    }
+    #if (-not $NoExtras) {
+    #    $includes += "[$extrasAssemblyName]*"
+    #    $excludes += "[$extrasAssemblyName]System.*"
+    #}
     $include  = '"' + ($includes -join '%2c') + '"'
     $exclude  = '"' + ($excludes -join '%2c') + '"'
 
