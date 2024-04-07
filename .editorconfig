@@ -388,10 +388,12 @@ dotnet_naming_symbols.NonPrivateNonFieldMemberSym.applicable_accessibilities = p
 ################################################################################
 # NB: Release builds turn warnings into errors!
 
-[src/{Zorglub,Zorglub.Extras}/**/*.cs]
+[src/Zorglub/**/*.cs]
+#[src/{Zorglub,Zorglub.Extras}/**/*.cs]
 dotnet_analyzer_diagnostic.category-Style.severity = warning
 
-[src/{Zorglub,Zorglub.Extras}/Time/Specialized/*.g.cs]
+[src/Zorglub/Time/Specialized/*.g.cs]
+#[src/{Zorglub,Zorglub.Extras}/Time/Specialized/*.g.cs]
 # To enable Code Analysis on generated files, we pretend that they are not...
 generated_code = false
 # Remove redundant nullable directive
