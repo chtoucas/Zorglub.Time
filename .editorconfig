@@ -84,7 +84,7 @@ dotnet_diagnostic.IDE0077.severity = warning
 dotnet_diagnostic.IDE0080.severity = warning
 # IDE0081: Remove ByVal (VB-only rule)
 dotnet_diagnostic.IDE0082.severity = warning
-dotnet_diagnostic.IDE0100.severity = warning
+dotnet_diagnostic.IDE0100.severity = suggestion
 dotnet_diagnostic.IDE0110.severity = warning
 dotnet_diagnostic.IDE0120.severity = warning
 dotnet_diagnostic.IDE0240.severity = warning
