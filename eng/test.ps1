@@ -66,7 +66,7 @@ Rough numbers.
 > test.ps1 smoke                # ~36 thousand tests (FAST)
 > test.ps1 regular              # ~83 thousand tests
 > test.ps1 more                 # ~90 thousand tests
-> test.ps1 most                 # ~288 thousand tests (SLOW)
+> test.ps1 most                 # ~345 thousand tests (SLOW)
 Extra plans.
 > test.ps1 redundant-slow       # ~83 thousand tests
 > test.ps1 redundant-not-slow   # ~115 thousand tests
