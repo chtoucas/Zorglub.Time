@@ -6,10 +6,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- See https://github.com/microsoft/MSBuildSdks/tree/main/src/CopyOnWrite -->
-    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.322" />
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.330" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="FSharp.Core" Version="8.0.400" />
+    <PackageVersion Include="FSharp.Core" Version="8.0.401" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
     <!-- Tests -->
@@ -24,6 +24,6 @@
     <PackageVersion Include="Unquote" Version="7.0.0" />
     <!-- Benchmarks -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageVersion Include="NodaTime" Version="3.1.12" />
+    <PackageVersion Include="NodaTime" Version="3.2.0" />
   </ItemGroup>
 </Project>

@@ -20,15 +20,15 @@
       },
       "FSharp.Core": {
         "type": "Direct",
-        "requested": "[8.0.400, )",
-        "resolved": "8.0.400",
-        "contentHash": "kHMdDDmlZl98tujgHCmL8/HNH9VKbxsRMC9s7wbwr4noR40SSa5D4d00yF8cMK52s8jabVuiLLcrUw9r+PkKDQ=="
+        "requested": "[8.0.401, )",
+        "resolved": "8.0.401",
+        "contentHash": "pvmquLrs82m8WqWB49Gj+hsmnWURkUbc++pJ0P2NdrEv1ZVVrhDNjSiFNP4wW4HiTowwaRhjiBc5IKNV35Vf/A=="
       },
       "Microsoft.Build.CopyOnWrite": {
         "type": "Direct",
-        "requested": "[1.0.322, )",
-        "resolved": "1.0.322",
-        "contentHash": "Er5Ku4HJNDdRJD6qmV/Zposwvikvof37h6cFHNZ0Vmz1g+esSLKXd79g6fdJpfoNuOzl8w/q6vSpD3M3zihmAQ=="
+        "requested": "[1.0.330, )",
+        "resolved": "1.0.330",
+        "contentHash": "SKmVWJSZ/n7ouZVln70/tgW9EoSZflsHAmOaGMJQ+3GmUSQUGfUd9/gjMry/sDBEn3Wbv53Pl0VzDQsmJVDO/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",

@@ -10,9 +10,9 @@
       },
       "Microsoft.Build.CopyOnWrite": {
         "type": "Direct",
-        "requested": "[1.0.322, )",
-        "resolved": "1.0.322",
-        "contentHash": "Er5Ku4HJNDdRJD6qmV/Zposwvikvof37h6cFHNZ0Vmz1g+esSLKXd79g6fdJpfoNuOzl8w/q6vSpD3M3zihmAQ=="
+        "requested": "[1.0.330, )",
+        "resolved": "1.0.330",
+        "contentHash": "SKmVWJSZ/n7ouZVln70/tgW9EoSZflsHAmOaGMJQ+3GmUSQUGfUd9/gjMry/sDBEn3Wbv53Pl0VzDQsmJVDO/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
