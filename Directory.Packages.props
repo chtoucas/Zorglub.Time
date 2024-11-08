@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- See https://github.com/microsoft/MSBuildSdks/tree/main/src/CopyOnWrite -->
-    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.330" />
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.334" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="FSharp.Core" Version="8.0.401" />

@@ -4,9 +4,9 @@
     "net8.0": {
       "Microsoft.Build.CopyOnWrite": {
         "type": "Direct",
-        "requested": "[1.0.330, )",
-        "resolved": "1.0.330",
-        "contentHash": "SKmVWJSZ/n7ouZVln70/tgW9EoSZflsHAmOaGMJQ+3GmUSQUGfUd9/gjMry/sDBEn3Wbv53Pl0VzDQsmJVDO/Q=="
+        "requested": "[1.0.334, )",
+        "resolved": "1.0.334",
+        "contentHash": "Bi/e5guuwmyPL7Kp1G+PbcDvZFKsZxuHmc39IpYHAhWOvV8I/uIHPwAZ++Fa8k/w6pEqPdHCIrxSCelMNmu0dQ=="
       },
       "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
         "type": "Direct",
